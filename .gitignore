@@ -1,0 +1,11 @@
+# npm package folder
+node_modules/
+
+# gedit files
+*~
+
+# webpack build-folder
+dist/
+
+# npm debug log
+npm-debug.log
