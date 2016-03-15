@@ -22,6 +22,4 @@ This part should be the same on both OSes:
 
 Go to the root of the repository and type "npm install". This should install all the dependecies.
 
-To build the app you need to globally install webpack so type "npm install -g webpack".
-
-Now you can build the project into "dist"-folder by typing "webpack". To start the server type "node index.js" and it should be running on port 8080 (localhost:8080).
+Then write "npm start". This should start the server type "node index.js" and it should be running on port 8080 (localhost:8080).
