@@ -23,3 +23,5 @@ This part should be the same on both OSes:
 Go to the root of the repository and type "npm install". This should install all the dependecies.
 
 Then write "npm start". This should start the server type "node index.js" and it should be running on port 8080 (localhost:8080).
+
+To stop the process, press "ctrl + c".
