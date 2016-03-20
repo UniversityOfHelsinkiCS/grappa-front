@@ -5,6 +5,7 @@ import TestiItem from "../testi-item/TestiItem.smart";
 export class TestiItemList extends Component {
 
   getItems(event) {
+    console.log("this.props: ", this.props);
     event.preventDefault();
     const { getTestiItems } = this.props;
     getTestiItems();
@@ -15,7 +16,7 @@ export class TestiItemList extends Component {
     return (
       <div>
         <h2>Tämä on TestiItemList komponentti</h2>
-        <button onClick={this.getItems()}>getTestiItems</button>
+        <button onClick={this.getItems}>getTestiItems</button>
         <ul>
           { lista.map(itemi =>
             <li>

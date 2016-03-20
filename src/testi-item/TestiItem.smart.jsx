@@ -20,7 +20,7 @@ export class TestiItem extends Component {
         <h3>Olen TestiItem id: { id }</h3>
         <p>nimeltä: { name }</p>
         <p>ja statukseni on { status }</p>
-        <button onClick={this.saveItem()}>addTestiItem</button>
+        <button onClick={this.saveItem}>addTestiItem</button>
       </div>
     );
   }

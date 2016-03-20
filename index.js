@@ -11,7 +11,7 @@ if (process.env.NODE_ENV === "production") {
   app.use(express.static(root));
 
 } else {
-
+  console.log("NODE_ENV = DEV");
   const webpack = require("webpack");
   const config = require("./webpack.config");
   const compiler = webpack(config);
