@@ -36,7 +36,7 @@ TestiItem.propTypes = {
 
 import { connect } from "react-redux";
 
-import { addTestiItem } from "../actions/TestiItem.actions";
+import { addTestiItem } from "./TestiItem.actions";
 
 const mapStateToProps = (state) => ({});
 

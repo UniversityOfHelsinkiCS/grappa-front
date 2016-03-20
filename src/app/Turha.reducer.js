@@ -3,7 +3,7 @@ import { fromJS } from "immutable";
 import {
   TURHA_REQUEST,
   TURHA_SUCCESS,
-} from "../actions/Turha.actions";
+} from "./Turha.actions";
 
 const INITIAL_STATE =  fromJS({
   turhalista: [1, 2, 3],

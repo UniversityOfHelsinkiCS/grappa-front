@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from "react";
 
-// import TestiItem from "../containers/TestiItem.container";
-import TestiItem from "./TestiItem.smartcomponent";
+import TestiItem from "../testi-item/TestiItem.smart";
 
 export class TestiItemList extends Component {
 
@@ -42,7 +41,7 @@ TestiItemList.propTypes = {
 
 import { connect } from "react-redux";
 
-import { getTestiItems } from "../actions/TestiItem.actions";
+import { getTestiItems } from "../testi-item/TestiItem.actions";
 
 const mapDispatchToProps = (dispatch) => ({
   getTestiItems() {

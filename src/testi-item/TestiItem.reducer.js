@@ -8,7 +8,7 @@ import {
   TESTIITEM_SAVE_ONE_SUCCESS,
   TESTIITEM_SAVE_ONE_FAILURE,
   TESTIITEM_REFRESH_ONE,
-} from "../actions/TestiItem.actions";
+} from "./TestiItem.actions";
 
 const INITIAL_STATE =  fromJS({
   listani: [

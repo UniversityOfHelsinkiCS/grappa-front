@@ -1,24 +1,12 @@
 import React, { Component } from "react";
 
-import TestiItemList from "./TestiItemList.smartcomponent";
+import TestiItemList from "../testi-item-list/TestiItemList.smart";
 
 export class App extends Component {
 
-  componentDidMount() {
-    console.log("componentDidMount called in TestiItemList");
-    // console.log("testi on ", testi);
-  }
-
   render() {
-    console.log("props: ", this.props)
-    const { turhalista } = this.props;
-    console.log("turhalista: ", turhalista);
-    // const state = store.getState();
-    // const lista = state.testi.listani;
     const { listani } = this.props;
     const lista = listani.toJS();
-    console.log("lista: ", lista);
-    // console.log("state:", state)
     return (
       <div>
         <h1>Hei olen App komponentti, minun sisälläni on kaikki!</h1>
