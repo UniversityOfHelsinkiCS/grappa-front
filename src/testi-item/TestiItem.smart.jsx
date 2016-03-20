@@ -7,6 +7,7 @@ export class TestiItem extends Component {
 
   	const { addTestiItem } = this.props;
     const newItem = {
+      id: this.props.id+1,
       name: this.props.name,
       status: this.props.status,
     }
@@ -15,7 +16,7 @@ export class TestiItem extends Component {
   }
 
   render() {
-  	const { id, name, status, actions } = this.props;
+  	const { id, name, status } = this.props;
 		return (
 			<div>
 	      <h3>Olen TestiItem id: { id }</h3>
@@ -31,7 +32,6 @@ TestiItem.propTypes = {
   id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   status: PropTypes.string.isRequired,
-  actions: PropTypes.object.isRequired,
 }
 
 import { connect } from "react-redux";

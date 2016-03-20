@@ -35,7 +35,7 @@ export default function(state = INITIAL_STATE, action) {
     case TESTIITEM_SAVE_ONE_REQUEST:
       return state.merge({
         listani: state.get("listani").push(
-          { id: 3, name: "kolmas", status: "unsaved"}
+          action.body
         ),
       });
     default:

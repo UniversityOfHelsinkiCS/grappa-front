@@ -11,7 +11,7 @@ export class TestiItemList extends Component {
   }
 
   render() {
-  	const { lista, actions } = this.props;
+  	const { lista } = this.props;
 		return (
 			<div>
 	      <h2>Tämä on TestiItemList komponentti</h2>
@@ -23,7 +23,6 @@ export class TestiItemList extends Component {
                 id = { itemi.id }
 		        	  name = { itemi.name }
                 status = { itemi.status }
-		        	  actions = { actions }
               />
 	        	</li>
 	        )}
@@ -33,10 +32,8 @@ export class TestiItemList extends Component {
   }
 }
 
-
 TestiItemList.propTypes = {
 	lista: PropTypes.array.isRequired,
-	actions: PropTypes.object.isRequired,
 }
 
 import { connect } from "react-redux";
