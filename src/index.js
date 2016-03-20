@@ -1,34 +1,25 @@
 import React from "react";
-import ReactDOM from 'react-dom';
+import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
 
-import TestiItemList from "./components/TestiItemList.component";
+import App from "./smart/App.smartcomponent";
 
-import makeStore from "./store";
-
-import { doActionSomething } from "./actions/testi.actions";
-
+import { makeStore } from "./store";
 const store = makeStore();
 
-const doSomething = function() {
-	console.log("did stuff!");
-	//debugger;
-	store.dispatch(doActionSomething());
-	console.log(store.getState())
-}
+// console.log("index.js store:", store);
+// console.log("index.js store.getState():", store.getState());
+// console.log("index.js store.getState().get('turha'):", store.getState().get('turha'));
+// console.log("index.js store.getState().get('turha').turhastatus:", store.getState().get('turha').turhastatus);
+// console.log("index.js store.getState().get('turha').get('turhastatus'):", store.getState().get('turha').get('turhastatus'));
+// console.log("index.js store.getState().getIn('turhastatus'):", store.getState().getIn('turhastatus'));
+// console.log("index.js store.getState().get('turhastatus'):", store.getState().get('turhastatus'));
 
-const MyComponent = React.createClass({
-  render: function(){
-		return (
-			<div>
-	      <h1>Hello, {this.props.name}!</h1>
-	      <button onClick={() => doSomething()}>Do stuff!</button>
-	      <TestiItemList lista={[ { name: "eka" }, { name: "toka" } ]}/>
-	    </div>
-		);
-  }
-});
+const container = document.getElementById("app");
+const Root = (
+	<Provider store={store}>
+	  <App />
+	</Provider>
+);
 
-const root = document.getElementById('app');
-
-ReactDOM.render(<MyComponent name="Handsome" />, root);
-//ReactDOM.render(<TestiList listani={[1, 2, 3]} />, root);
+ReactDOM.render(Root, container);

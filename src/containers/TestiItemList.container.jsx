@@ -1,15 +1,19 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import * as testiListActions from '../actions/testiList.actions';
-import ExercisesPage from '../components/ExercisesPage';
-
+import { getTestiItems } from '../actions/TestiItem.actions';
+import TestiItemList from '../components/TestiItemList.component';
+/*
 const mapStateToProps = (state) => ({
   exercises: state.getIn(['exercises', 'entries']),
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  exercisesActions: bindActionCreators(exercisesActions, dispatch),
+  getTestiItems() {
+    dispatch(getTestiItems())
+  },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ExercisesPage);
+export default connect(mapStateToProps, mapDispatchToProps)(TestiItemList);
+*/
+export default connect()(TestiItemList);

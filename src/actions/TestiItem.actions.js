@@ -1,4 +1,4 @@
-import { CALL_API } from '../api/TestiItemAPI';
+import { CALL_API } from "../api/TestiItemAPI";
 
 export const TESTIITEM_GET_ALL_REQUEST = "TESTIITEM_GET_ALL_REQUEST";
 export const TESTIITEM_GET_ALL_SUCCESS = "TESTIITEM_GET_ALL_SUCCESS";
@@ -15,8 +15,8 @@ export const addExercise = (exercise) => ({
       EXERCISES_ADD_SUCCESS,
       EXERCISES_ADD_FAILURE,
     ],
-    endpoint: '/exercises',
-    method: 'post',
+    endpoint: "/exercises",
+    method: "post",
     body: exercise,
     validate: validateExercise,
   },
@@ -24,15 +24,17 @@ export const addExercise = (exercise) => ({
 */
 
 export const getTestiItems = () => {
+  console.log("getTestiItems-action called!");
   return {
-    type: TESTIITEM_GET_ALL_REQUEST
+    type: TESTIITEM_GET_ALL_REQUEST,
   }
 }
 
 export const addTestiItem = (TestiItem) => {
+  console.log("addTestiItem-action called!");
   return {
     type: TESTIITEM_SAVE_ONE_REQUEST,
-    payload: TestiItem
+    body: TestiItem,
   }
 }
 
@@ -43,8 +45,8 @@ export const getTestiItemsAPI = () => ({
       TESTIITEM_GET_ALL_SUCCESS,
       TESTIITEM_GET_ALL_FAILURE,
     ],
-    endpoint: '/testiItem',
-    method: 'get'
+    endpoint: "/testiItem",
+    method: "get"
   },
 });
 
@@ -55,8 +57,8 @@ export const addTestiItemAPI = (testiItem) => ({
       TESTIITEM_SAVE_ONE_SUCCESS,
       TESTIITEM_SAVE_ONE_FAILURE,
     ],
-    endpoint: '/testiItem',
-    method: 'post',
+    endpoint: "/testiItem",
+    method: "post",
     body: testiItem
   },
 });

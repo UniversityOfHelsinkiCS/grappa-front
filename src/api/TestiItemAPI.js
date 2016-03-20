@@ -1,6 +1,6 @@
 export const CALL_API = Symbol('CALL_API');
 
-export const function getTheses() {
+export const getTheses = () => {
 	const theses = [
     {
     	id: 1,

@@ -1,6 +1,14 @@
-import {createStore} from "redux";
-import test_reducer from "./reducers/test.reducer";
+// import { createStore, combineReducers } from "redux";
+import { createStore } from "redux";
+import { combineReducers } from "redux-immutablejs";
+import testi from "./reducers/TestiItem.reducer";
+import turha from "./reducers/Turha.reducer";
 
-export default function makeStore() {
-  return createStore(test_reducer);
+const combinedReducers = combineReducers({
+  testi,
+  turha,
+});
+
+export const makeStore = () => {
+  return createStore(combinedReducers);
 }

@@ -1,30 +1,30 @@
-const path = require('path');
-const express = require('express');
+const path = require("path");
+const express = require("express");
 
-const root = path.join(__dirname, 'dist');
+const root = path.join(__dirname, "dist");
 const port = process.env.PORT || 8080;
 
 const app = express();
 
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === "production") {
 
   app.use(express.static(root));
 
 } else {
 
-  const webpack = require('webpack');
-  const config = require('./webpack.config');
+  const webpack = require("webpack");
+  const config = require("./webpack.config");
   const compiler = webpack(config);
 
-  app.use(require('webpack-dev-middleware')(compiler, {
+  app.use(require("webpack-dev-middleware")(compiler, {
     noInfo: true,
   }));
-  app.use(require('webpack-hot-middleware')(compiler));
+  app.use(require("webpack-hot-middleware")(compiler));
 
 }
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "index.html"));
 });
 
 if (!module.parent) {
