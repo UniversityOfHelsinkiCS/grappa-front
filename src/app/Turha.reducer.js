@@ -5,19 +5,19 @@ import {
   TURHA_SUCCESS,
 } from "./Turha.actions";
 
-const INITIAL_STATE =  fromJS({
+const INITIAL_STATE = fromJS({
   turhalista: [1, 2, 3],
   turhaseuraava: 4,
   turhastatus: "init",
 });
 
-export default function(state = INITIAL_STATE, action) {
-  switch(action.type) {
+export default function (state = INITIAL_STATE, action) {
+  switch (action.type) {
     case TURHA_REQUEST:
       return state.merge({
-        turhaseuraava: state.get('turhaseuraava')+1,
+        turhaseuraava: state.get("turhaseuraava") + 1,
         turhalista: [
-          state.get('turhaseuraava')+1,
+          state.get("turhaseuraava") + 1,
         ],
         turhastatus: "request",
       });
@@ -26,6 +26,6 @@ export default function(state = INITIAL_STATE, action) {
         turhastatus: "success",
       });
     default:
-     return state;
+      return state;
   }
 }

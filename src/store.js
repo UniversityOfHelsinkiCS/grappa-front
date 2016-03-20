@@ -9,6 +9,6 @@ const combinedReducers = combineReducers({
   turha,
 });
 
-export const makeStore = () => {
-  return createStore(combinedReducers);
-}
+export const makeStore = () => ({
+  reducers: createStore(combinedReducers),
+});

@@ -12,7 +12,7 @@ export class App extends Component {
         <h1>Hei olen App komponentti, minun sisälläni on kaikki!</h1>
         <TestiItemList lista={ lista }/>
       </div>
-    )
+    );
   }
 }
 
@@ -25,9 +25,7 @@ const mapStateToProps = (state) => {
     turhalista: turha.get("turhalista"),
     turhastatus: turha.get("turhastatus"),
     listani: testi.get("listani"),
-  }
+  };
 };
 
-const mapDispatchToProps = (dispatch) => ({})
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps, null)(App);

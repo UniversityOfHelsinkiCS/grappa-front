@@ -11,30 +11,30 @@ export class TestiItemList extends Component {
   }
 
   render() {
-  	const { lista } = this.props;
-		return (
-			<div>
-	      <h2>Tämä on TestiItemList komponentti</h2>
-        <button onClick={(event) => this.getItems(event) }>getTestiItems</button>
-	      <ul>
-	        { lista.map( itemi =>
-	        	<li>
-		        	<TestiItem
+    const { lista } = this.props;
+    return (
+      <div>
+        <h2>Tämä on TestiItemList komponentti</h2>
+        <button onClick={this.getItems()}>getTestiItems</button>
+        <ul>
+          { lista.map(itemi =>
+            <li>
+              <TestiItem
                 id = { itemi.id }
-		        	  name = { itemi.name }
+                name = { itemi.name }
                 status = { itemi.status }
               />
-	        	</li>
-	        )}
-	      </ul>
-	    </div>
-		);
+            </li>
+          )}
+        </ul>
+      </div>
+    );
   }
 }
 
 TestiItemList.propTypes = {
-	lista: PropTypes.array.isRequired,
-}
+  lista: PropTypes.array.isRequired,
+};
 
 import { connect } from "react-redux";
 
@@ -42,7 +42,7 @@ import { getTestiItems } from "../testi-item/TestiItem.actions";
 
 const mapDispatchToProps = (dispatch) => ({
   getTestiItems() {
-    dispatch(getTestiItems())
+    dispatch(getTestiItems());
   },
 });
 
