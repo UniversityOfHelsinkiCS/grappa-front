@@ -8,8 +8,10 @@ But basically you just add React components to the src-folder and then they are 
 
 [Heroku](https://grappa-app.herokuapp.com/)
 
+[Heroku(dev version)](https://grappa-app-dev.herokuapp.com/)
+
 [Travis](https://travis-ci.org/ultra-hyper-storm-ohtuprojekti/grappa-front)
 
-[Trello]()
+[Trello](https://trello.com/ultrahyperstormohtuprojekti)
 
 [First read the installation guide.](https://github.com/ultra-hyper-storm-ohtuprojekti/grappa-front/blob/master/INSTALLATION.md)

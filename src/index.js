@@ -5,7 +5,7 @@ import { Provider } from "react-redux";
 import App from "./app/App.smart";
 
 import { makeStore } from "./store";
-const store = makeStore();
+const store = makeStore;
 
 const container = document.getElementById("app");
 const Root = (
