@@ -4,8 +4,12 @@ import TestiItem from "../testi-item/TestiItem.smart";
 
 export class TestiItemList extends Component {
 
+  constructor() {
+    super();
+    this.getItems = this.getItems.bind(this);
+  }
+
   getItems(event) {
-    console.log("this.props: ", this.props);
     event.preventDefault();
     const { getTestiItems } = this.props;
     getTestiItems();

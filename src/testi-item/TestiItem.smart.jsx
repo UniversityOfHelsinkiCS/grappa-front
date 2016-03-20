@@ -2,6 +2,11 @@ import React, { Component, PropTypes } from "react";
 
 export class TestiItem extends Component {
 
+  constructor() {
+    super();
+    this.saveItem = this.saveItem.bind(this);
+  }
+
   saveItem(event) {
     event.preventDefault();
     const { addTestiItem } = this.props;

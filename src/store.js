@@ -13,6 +13,4 @@ const combinedReducers = combineReducers({
 //   reducers: createStore(combinedReducers),
 // });
 
-export const makeStore = () => {
-  return createStore(combinedReducers);
-};
+export const makeStore = createStore(combinedReducers);
