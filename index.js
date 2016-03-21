@@ -7,20 +7,15 @@ const port = process.env.PORT || 8080;
 const app = express();
 
 if (process.env.NODE_ENV === "production") {
-
   app.use(express.static(root));
-
 } else {
-  console.log("NODE_ENV = DEV");
   const webpack = require("webpack");
   const config = require("./webpack.config");
   const compiler = webpack(config);
-
   app.use(require("webpack-dev-middleware")(compiler, {
     noInfo: true,
   }));
   app.use(require("webpack-hot-middleware")(compiler));
-
 }
 
 app.get("*", (req, res) => {
