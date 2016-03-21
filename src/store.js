@@ -1,11 +1,11 @@
 // import { createStore, combineReducers } from "redux";
 import { createStore } from "redux";
 import { combineReducers } from "redux-immutablejs";
-import testi from "./testi-item/TestiItem.reducer";
+import theses from "./thesis/Thesis.reducer";
 import turha from "./app/Turha.reducer";
 
 const combinedReducers = combineReducers({
-  testi,
+  theses,
   turha,
 });
 
