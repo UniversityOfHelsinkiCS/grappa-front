@@ -1,15 +1,17 @@
 import React from "react";
-import ReactDOM from 'react-dom';
+import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
 
-var MyComponent = React.createClass({
-    render: function(){
-	return (
-	    <h1>Hello, {this.props.name}!</h1>
-	);
-    }
-});
+import App from "./app/App.smart";
 
-ReactDOM.render(<MyComponent name="Handsome" />, document.getElementById('app'));
+import { makeStore } from "./store";
+const store = makeStore;
 
-console.log("hei");
+const container = document.getElementById("app");
+const Root = (
+  <Provider store={store}>
+    <App />
+  </Provider>
+);
 
+ReactDOM.render(Root, container);

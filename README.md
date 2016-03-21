@@ -6,10 +6,14 @@ The front-end is made with React + Redux + Webpack + coffee. It builds into "dis
 
 But basically you just add React components to the src-folder and then they are automatically rendered onto your view on localhost:8080.
 
-[Heroku]()
+[Heroku](https://grappa-app.herokuapp.com/)
 
-[Travis]()
+[Heroku(dev version)](https://grappa-app-dev.herokuapp.com/)
 
-[Trello]()
+[![Build Status](https://travis-ci.org/ultra-hyper-storm-ohtuprojekti/grappa-front.svg?branch=master)](https://travis-ci.org/ultra-hyper-storm-ohtuprojekti/grappa-front)
+
+[Travis](https://travis-ci.org/ultra-hyper-storm-ohtuprojekti/grappa-front)
+
+[Trello](https://trello.com/ultrahyperstormohtuprojekti)
 
 [First read the installation guide.](https://github.com/ultra-hyper-storm-ohtuprojekti/grappa-front/blob/master/INSTALLATION.md)

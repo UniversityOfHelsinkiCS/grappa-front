@@ -13,7 +13,7 @@ For Windows:
 For Linux:
 
 
-1. In case build-essential package isnt installed, enter "apt-get install build-essential libssl-dev" on command prompt.
+1. In case build-essential package isn't installed, enter "apt-get install build-essential libssl-dev" on command prompt.
 
 2. Enter "curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.0/install.sh | bash" on command prompt.
 
@@ -22,6 +22,6 @@ This part should be the same on both OSes:
 
 Go to the root of the repository and type "npm install". This should install all the dependecies.
 
-Then write "npm start". This should start the server type "node index.js" and it should be running on port 8080 (localhost:8080).
+Then write "npm start" or "node index.js". This should start the server and it should be running on port 8080 (localhost:8080).
 
-To stop the process, press "ctrl + c".
+To stop the process, press "ctrl + c" on your shell client.
