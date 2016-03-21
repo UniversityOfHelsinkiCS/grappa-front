@@ -9,7 +9,7 @@ export class App extends Component {
     const lista = listani.toJS();
     return (
       <div>
-        <h1>Hei olen App komponentti, minun sisälläni on kaikki!</h1>
+        <h1>Hei olen App komponentti, kkminun sisälläni on kaikki!</h1>
         <TestiItemList lista={ lista }/>
       </div>
     );
