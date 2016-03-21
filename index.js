@@ -18,11 +18,22 @@ if (process.env.NODE_ENV === "production") {
   app.use(require("webpack-hot-middleware")(compiler));
 }
 
-app.use(express.static(__dirname + '/public/'));
+app.use(express.static(__dirname + "/public/"));
 
-// app.get("*", (req, res) => {
-  // res.sendFile(path.join(__dirname, ["pubindex.html"]));
-// });
+app.get("/theses", (req, res) => {
+  res.send([
+    { 
+      id: 4, 
+      author: "pekka himanen", 
+      email: "peksi@gmail.com",
+      title: "konna",
+      urkund: "http://peksi.com",
+      ethesis: "https://ethesis.com/peksi",
+      abstract: "peksi tutkii sut miljoonalla",
+      grade: "I",
+    },
+  ]);
+});
 
 if (!module.parent) {
   app.listen(port, (err) => {

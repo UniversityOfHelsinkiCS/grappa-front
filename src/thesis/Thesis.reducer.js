@@ -10,6 +10,8 @@ import {
   // THESIS_SAVE_ONE_FAILURE,
 } from "./Thesis.actions";
 
+import { requestTest } from "../api/ThesisAPI";
+
 const INITIAL_STATE = fromJS({
   theseslist: [
     { 
@@ -45,16 +47,10 @@ const INITIAL_STATE = fromJS({
   ],
 });
 
-// return state.merge({
-//   theses: [
-//     state.get("theses"),
-//     { id: 3, name: "kolmas", status: "unsaved"},
-//   ]
-// });
-
 export default function (state = INITIAL_STATE, action) {
   switch (action.type) {
     case THESIS_GET_ALL_REQUEST:
+      requestTest();
       return state.merge({
         theseslist: [
           { 
