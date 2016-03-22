@@ -21,16 +21,16 @@ export class App extends Component {
         <div className="thesis-listings-container">
           <BootstrapTable data={these} striped={true} hover={true} columnFilter={true} pagination={true}>
             <TableHeaderColumn dataField="id" isKey={true} hidden={true}>Thesis ID</TableHeaderColumn>
-            <TableHeaderColumn dataField="author" dataSort={true} dataAlign="center" width="200">Author</TableHeaderColumn>
-            <TableHeaderColumn dataField="title" dataSort={true} dataAlign="center" width="400">Thesis Title</TableHeaderColumn>
-            <TableHeaderColumn dataField="instructor" dataSort={true} dataAlign="center" width="200">Instructor</TableHeaderColumn>
+            <TableHeaderColumn dataField="author" dataSort={true}  width="200">Author</TableHeaderColumn>
+            <TableHeaderColumn dataField="title" dataSort={true}  width="400">Thesis Title</TableHeaderColumn>
+            <TableHeaderColumn dataField="instructor" dataSort={true}  width="200">Instructor</TableHeaderColumn>
             <TableHeaderColumn dataField="email" hidden={true}>Email</TableHeaderColumn>
             <TableHeaderColumn dataField="urkund" hidden={true}>Urkund</TableHeaderColumn>
             <TableHeaderColumn dataField="ethesis" hidden={true}>Ethesis</TableHeaderColumn>
             <TableHeaderColumn dataField="abstract" hidden={true}>Abstract</TableHeaderColumn>
             <TableHeaderColumn dataField="grade" hidden={true}>Grade</TableHeaderColumn>
-            <TableHeaderColumn dataField="field" dataSort={true} dataAlign="center"width="200">Field</TableHeaderColumn>
-            <TableHeaderColumn dataField="deadline" dataSort={true} dataAlign="center" width="200">Deadline</TableHeaderColumn>
+            <TableHeaderColumn dataField="field" dataSort={true} width="200">Field</TableHeaderColumn>
+            <TableHeaderColumn dataField="deadline" dataSort={true} width="200">Deadline</TableHeaderColumn>
           </BootstrapTable>,
         </div>
       </div>
