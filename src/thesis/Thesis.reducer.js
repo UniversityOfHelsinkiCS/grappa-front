@@ -1,8 +1,7 @@
 import { fromJS } from "immutable";
 
 import {
-  THESIS_GET_ALL_REQUEST,
-  // THESIS_GET_ALL_SUCCESS,
+  THESIS_GET_ALL_SUCCESS,
   // THESIS_GET_ALL_FAILURE,
   THESIS_RESET_ALL_REQUEST,
   THESIS_SAVE_ONE_REQUEST,
@@ -10,13 +9,11 @@ import {
   // THESIS_SAVE_ONE_FAILURE,
 } from "./Thesis.actions";
 
-import { requestTest } from "../api/ThesisAPI";
-
 const INITIAL_STATE = fromJS({
   theseslist: [
-    { 
-      id: 1, 
-      author: "matti meikäläinen", 
+    {
+      id: 1,
+      author: "matti meikäläinen",
       email: "matti@gmail.com",
       title: "päällikkö",
       urkund: "http://matti.com",
@@ -24,9 +21,9 @@ const INITIAL_STATE = fromJS({
       abstract: "matti on mies",
       grade: "L",
     },
-    { 
-      id: 2, 
-      author: "vesa keskinen", 
+    {
+      id: 2,
+      author: "vesa keskinen",
       email: "vesa@gmail.com",
       title: "kyläkauppias",
       urkund: "http://vesa.com",
@@ -34,9 +31,9 @@ const INITIAL_STATE = fromJS({
       abstract: "Vesalla on ferrari",
       grade: "A",
     },
-    { 
-      id: 3, 
-      author: "urho kekkonen", 
+    {
+      id: 3,
+      author: "urho kekkonen",
       email: "urkki@gmail.com",
       title: "presidentt",
       urkund: "http://urkki.com",
@@ -49,21 +46,9 @@ const INITIAL_STATE = fromJS({
 
 export default function (state = INITIAL_STATE, action) {
   switch (action.type) {
-    case THESIS_GET_ALL_REQUEST:
-      requestTest();
+    case THESIS_GET_ALL_SUCCESS:
       return state.merge({
-        theseslist: [
-          { 
-            id: 1, 
-            author: "matti meikäläinen", 
-            email: "matti@gmail.com",
-            title: "päällikkö",
-            urkund: "http://matti.com",
-            ethesis: "https://ethesis.com/matti",
-            abstract: "matti on mies",
-            grade: "L",
-          },
-        ],
+        theseslist: action.payload,
       });
     case THESIS_RESET_ALL_REQUEST:
       return state.merge(INITIAL_STATE);

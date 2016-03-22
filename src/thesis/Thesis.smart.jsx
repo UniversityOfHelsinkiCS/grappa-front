@@ -4,7 +4,7 @@ export class Thesis extends Component {
 
   constructor() {
     super();
-    this.saveThesis= this.saveThesis.bind(this);
+    this.saveThesis = this.saveThesis.bind(this);
   }
 
   saveThesis(event) {
@@ -40,13 +40,18 @@ export class Thesis extends Component {
     );
   }
 }
-/*
+
 Thesis.propTypes = {
   id: PropTypes.number.isRequired,
   author: PropTypes.string.isRequired,
   email: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  urkund: PropTypes.string.isRequired,
+  ethesis: PropTypes.string.isRequired,
+  abstract: PropTypes.string.isRequired,
+  grade: PropTypes.string.isRequired,
 };
-*/
+
 import { connect } from "react-redux";
 
 import { addThesis } from "./Thesis.actions";

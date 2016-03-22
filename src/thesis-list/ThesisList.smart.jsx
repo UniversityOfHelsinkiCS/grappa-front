@@ -6,11 +6,11 @@ export class ThesisList extends Component {
 
   constructor() {
     super();
-    this.getTheses = this.getTheses.bind(this);
+    this.getThesesAPI = this.getThesesAPI.bind(this);
     this.resetTheses = this.resetTheses.bind(this);
   }
 
-  getTheses(event) {
+  getThesesAPI(event) {
     event.preventDefault();
     const { getTheses } = this.props;
     getTheses();
@@ -28,7 +28,7 @@ export class ThesisList extends Component {
       <div>
         <h2>Tämä on ThesisList komponentti</h2>
         <div>
-          <button onClick={this.getTheses}>getTheses (from mock api)</button>
+          <button onClick={this.getThesesAPI}>getTheses (from mock api)</button>
           <button onClick={this.resetTheses}>resetTheses</button>
         </div>
         <ul>
