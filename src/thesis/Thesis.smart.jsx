@@ -15,10 +15,13 @@ export class Thesis extends Component {
       author: this.props.author,
       email: this.props.email,
       title: this.props.title,
+      instructor: this.props.instructor,
       urkund: this.props.urkund,
       ethesis: this.props.ethesis,
       abstract: this.props.abstract,
+      field: this.field.field,
       grade: this.props.grade,
+      deadline: this.props.deadline,
     };
     addThesis(newItem);
   }
