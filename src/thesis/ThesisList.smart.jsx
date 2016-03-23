@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from "react";
 
-import Thesis from "../thesis/Thesis.smart";
+import Thesis from "./Thesis.smart";
 
 export class ThesisList extends Component {
 
@@ -24,6 +24,7 @@ export class ThesisList extends Component {
 
   render() {
     const { theses } = this.props;
+    const theseslist = theses.toJS();
     return (
       <div>
         <h2>Tämä on ThesisList komponentti</h2>
@@ -32,7 +33,7 @@ export class ThesisList extends Component {
           <button onClick={this.resetTheses}>resetTheses</button>
         </div>
         <ul>
-          { theses.map(itemi =>
+          { theseslist.map(itemi =>
             <li>
               <Thesis
                 id = { itemi.id }
@@ -52,13 +53,16 @@ export class ThesisList extends Component {
   }
 }
 
-ThesisList.propTypes = {
-  theses: PropTypes.array.isRequired,
-};
-
 import { connect } from "react-redux";
 
 import { getTheses, resetTheses } from "../thesis/Thesis.actions";
+
+const mapStateToProps = (state) => {
+  const theses = state.get("theses");
+  return {
+    theses: theses.get("theseslist"),
+  };
+};
 
 const mapDispatchToProps = (dispatch) => ({
   getTheses() {
@@ -69,4 +73,4 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
-export default connect(null, mapDispatchToProps)(ThesisList);
+export default connect(mapStateToProps, mapDispatchToProps)(ThesisList);

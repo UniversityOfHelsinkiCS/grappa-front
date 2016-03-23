@@ -1,4 +1,4 @@
-import { CALL_API } from "../middleware/GrappaAPI";
+import { CALL_API } from "../middleware/grappaAPI";
 
 export const THESIS_GET_ALL_SUCCESS = "THESIS_GET_ALL_SUCCESS";
 export const THESIS_GET_ALL_FAILURE = "THESIS_GET_ALL_FAILURE";
@@ -13,6 +13,8 @@ export const getTheses = () => {
   console.log("getTheses-action called!");
   return {
     type: CALL_API,
+    success: THESIS_GET_ALL_SUCCESS,
+    failure: THESIS_GET_ALL_FAILURE,
     method: "get",
     url: "/theses",
     data: {},

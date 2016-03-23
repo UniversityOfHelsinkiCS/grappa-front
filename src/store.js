@@ -2,15 +2,9 @@
 import { createStore, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 import { combineReducers } from "redux-immutablejs";
-import { handleCallApi } from "./middleware/GrappaAPI";
+import logger from "./middleware/logger";
+import { handleCallApi } from "./middleware/grappaAPI";
 import theses from "./thesis/Thesis.reducer";
-
-const logger = store => next => action => {
-  console.log("dispatching", action);
-  let result = next(action);
-  console.log("next state", store.getState());
-  return result;
-}
 
 const combinedReducers = combineReducers({
   theses,

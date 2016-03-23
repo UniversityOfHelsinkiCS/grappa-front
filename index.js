@@ -20,19 +20,8 @@ if (process.env.NODE_ENV === "production") {
 
 app.use(express.static(__dirname + "/public/"));
 
-app.get("/theses", (req, res) => {
-  res.send([
-    { 
-      id: 4, 
-      author: "pekka himanen", 
-      email: "peksi@gmail.com",
-      title: "konna",
-      urkund: "http://peksi.com",
-      ethesis: "https://ethesis.com/peksi",
-      abstract: "peksi tutkii sut miljoonalla",
-      grade: "I",
-    },
-  ]);
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 if (!module.parent) {
