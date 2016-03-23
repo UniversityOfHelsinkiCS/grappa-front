@@ -1,0 +1,146 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Grappa</title>
+        <link rel="stylesheet" href="./semantic.min.css">
+        <link rel="stylesheet" href="./styles.css">
+    </head>
+    <body>
+
+        <header>
+            <h1 id="sign">Sign in as USER</h1>
+
+
+    	       <div id="nav" class="ui vertical pointing menu">
+  			   <a class="item">Home</a>
+  			   <a class="item active">Add new thesis</a>
+  			   <a class="item">View all theses</a>
+               </div>
+               <script>
+    </script>
+        </header>
+
+    <main id="app" class="main-container">
+
+	    <form class="ui form">
+            <h4 class="ui dividing header">Made by</h4>
+            <div class="field">
+                <div class="two fields">
+                    <div class="field">
+                        <input type="text" name="madeby[first-name]" placeholder="First Name">
+                    </div>
+                    <div class="field">
+                        <input type="text" name="madeby[last-name]" placeholder="Last Name">
+                    </div>
+                </div>
+            </div>
+
+            <div class="field">
+                <div class="ten wide field">
+                    <input type="text" name="madeby[email]" placeholder="Email Address">
+                </div>
+            </div>
+
+            <h4 class="ui dividing header">Thesis Information</h4>
+
+            <div class="field">
+                <div class="three fields">
+                    <div class="field">
+                        <input type="text" name="thesis[title]" placeholder="Title">
+                    </div>
+                    <div class="three wide field">
+                        <div class="field">
+                            <select class="ui fluid search dropdown" name="thesis[field]">
+                            <option value="">Field</option>
+                            <option value="1">Algorithmic Bioinformatics</option>
+                            <option value="2">Algorithms, Data Analytics and Machine Learning</option>
+                            <option value="3">Networking and Services</option>
+                            <option value="4">Software Systems</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="five wide field">
+                        <div class="field">
+                            <select class="ui fluid search dropdown" name="thesis[grade]">
+                            <option value="">Grade</option>
+                            <option value="1">Approbatur</option>
+                            <option value="2">Lubenter Approbatur</option>
+                            <option value="3">Non Sine Laude Approbatur</option>
+                            <option value="4">Cum Laude Approbatur</option>
+                            <option value="5">Magna Cum Laude Approbatur</option>
+                            <option value="6">Eximia Cum Laude Approbatur</option>
+                            <option value="7">Laudatur</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="two fields">
+                <div class="field">
+                    <input type="text" name="thesis[ethesis]" placeholder="Link to E-thesis">
+                </div>
+                <div class="field">
+                    <input type="text" name="thesis[urkund]" placeholder="Link to Urkund">
+                </div>
+            </div>
+
+            <h4 class="ui dividing header">Instructors</h4>
+            <div class="field">
+                <div class="three fields">
+                    <div class="field">
+                        <input type="text" name="1instructor[name]" placeholder="Name">
+                    </div>
+                    <div class="four wide field">
+                        <div class="field">
+                        <select class="ui fluid search dropdown" name="1instructor[field]">
+                        <option value="">Rank</option>
+                        <option value="1">Adjunct Professor</option>
+                        <option value="2">Professor</option>
+                        <option value="3">Doctor</option>
+                        </select>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <input type="text" name="1instructor[email]" placeholder="Email">
+                    </div>
+                </div>
+            </div>
+
+            <div class="field">
+                <div class="three fields">
+                    <div class="field">
+                        <input type="text" name="2instructor[name]" placeholder="Name">
+                    </div>
+                    <div class="four wide field">
+                        <div class="field">
+                            <select class="ui fluid search dropdown" name="2instructor[field]">
+                            <option value="">Rank</option>
+                            <option value="1">Adjunct Professor</option>
+                            <option value="2">Professor</option>
+                            <option value="3">Doctor</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <input type="text" name="2instructor[email]" placeholder="Email">
+                    </div>
+                </div>
+            </div>
+
+            <button class="ui primary button">Add instructors</button>
+
+            <h4 class="ui dividing header">Choose the date for the Department Council meeting</h4>
+
+        </form>
+
+        <button class="ui primary button">Submit</button>
+        <button class="ui primary button">Cancel</button>
+
+    </main>
+
+    <script src="./jquery-2.2.1.min.js"></script>
+    <script src="./semantic.min.js"></script>
+  </body>
+</html>

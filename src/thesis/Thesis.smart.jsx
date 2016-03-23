@@ -1,10 +1,10 @@
-import React, { Component, PropTypes } from "react";
+import React, { Component } from "react";
 
 export class Thesis extends Component {
 
   constructor() {
     super();
-    this.saveThesis= this.saveThesis.bind(this);
+    this.saveThesis = this.saveThesis.bind(this);
   }
 
   saveThesis(event) {
