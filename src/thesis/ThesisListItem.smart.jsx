@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from "react";
 
-export class Thesis extends Component {
+export class ThesisListItem extends Component {
 
   constructor() {
     super();
@@ -54,7 +54,7 @@ export class Thesis extends Component {
 
 import { connect } from "react-redux";
 
-import { addThesis } from "./Thesis.actions";
+import { addThesis } from "./thesis.actions";
 
 const mapDispatchToProps = (dispatch) => ({
   addThesis(newItem) {
@@ -62,4 +62,4 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
-export default connect(null, mapDispatchToProps)(Thesis);
+export default connect(null, mapDispatchToProps)(ThesisListItem);

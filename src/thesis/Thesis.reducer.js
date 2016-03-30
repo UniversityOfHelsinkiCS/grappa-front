@@ -5,9 +5,9 @@ import {
   // THESIS_GET_ALL_FAILURE,
   THESIS_RESET_ALL_REQUEST,
   THESIS_SAVE_ONE_REQUEST,
-  // THESIS_SAVE_ONE_SUCCESS,
-  // THESIS_SAVE_ONE_FAILURE,
-} from "./Thesis.actions";
+  THESIS_SAVE_ONE_SUCCESS,
+  THESIS_SAVE_ONE_FAILURE,
+} from "./thesis.actions";
 
 const INITIAL_STATE = fromJS({
   theseslist: [
@@ -58,6 +58,8 @@ export default function (state = INITIAL_STATE, action) {
           action.body
         ),
       });
+    case THESIS_SAVE_ONE_SUCCESS:
+      return state.merge().theseslist.push(action.payload);
     default:
       return state;
   }

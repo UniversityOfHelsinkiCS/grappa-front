@@ -5,9 +5,9 @@ export const THESIS_GET_ALL_FAILURE = "THESIS_GET_ALL_FAILURE";
 
 export const THESIS_RESET_ALL_REQUEST = "THESIS_RESET_ALL_REQUEST";
 
-export const THESIS_SAVE_ONE_REQUEST = "THESIS_SAVE_ONE_REQUEST";
-// export const THESIS_SAVE_ONE_SUCCESS = "THESIS_SAVE_ONE_SUCCESS";
-// export const THESIS_SAVE_ONE_FAILURE = "THESIS_SAVE_ONE_FAILURE";
+// export const THESIS_SAVE_ONE_REQUEST = "THESIS_SAVE_ONE_REQUEST";
+export const THESIS_SAVE_ONE_SUCCESS = "THESIS_SAVE_ONE_SUCCESS";
+export const THESIS_SAVE_ONE_FAILURE = "THESIS_SAVE_ONE_FAILURE";
 
 export const getTheses = () => {
   console.log("getTheses-action called!");
@@ -31,7 +31,11 @@ export const resetTheses = () => {
 export const addThesis = (Thesis) => {
   console.log("addThesis-action called!");
   return {
-    type: THESIS_SAVE_ONE_REQUEST,
-    body: Thesis,
+    type: CALL_API,
+    success: THESIS_SAVE_ONE_SUCCESS,
+    failure: THESIS_SAVE_ONE_FAILURE,
+    method: "post",
+    url: "/theses",
+    data: { thesis: Thesis },
   };
 };

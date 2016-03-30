@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from "react";
 
-import Thesis from "./Thesis.smart";
+import ThesisListItem from "./ThesisListItem.smart";
 
 export class ThesisList extends Component {
 
@@ -26,16 +26,16 @@ export class ThesisList extends Component {
     const { theses } = this.props;
     const theseslist = theses.toJS();
     return (
-      <div>
+      <div className="thesis-container">
         <h2>Tämä on ThesisList komponentti</h2>
         <div>
-          <button onClick={this.getThesesAPI}>getTheses (from mock api)</button>
+          <button onClick={this.getThesesAPI}>getTheses from api</button>
           <button onClick={this.resetTheses}>resetTheses</button>
         </div>
         <ul>
           { theseslist.map(itemi =>
             <li>
-              <Thesis
+              <ThesisListItem
                 id = { itemi.id }
                 author = { itemi.author }
                 email = { itemi.email }
@@ -55,7 +55,7 @@ export class ThesisList extends Component {
 
 import { connect } from "react-redux";
 
-import { getTheses, resetTheses } from "../thesis/Thesis.actions";
+import { getTheses, resetTheses } from "../thesis/thesis.actions";
 
 const mapStateToProps = (state) => {
   const theses = state.get("theses");
