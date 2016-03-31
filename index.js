@@ -18,7 +18,11 @@ if (process.env.NODE_ENV === "production") {
   app.use(require("webpack-hot-middleware")(compiler));
 }
 
+<<<<<<< HEAD
 app.use(express.static(__dirname + "/public/"));
+=======
+app.use(express.static(__dirname + '/public/'));
+>>>>>>> thesislistings
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
