@@ -1,3 +1,4 @@
+/**
 import expect from 'chai'
 import * as actions from '../../src/councilmeeting/Councilmeeting.actions'
 //import * as types from '../../constants/ActionTypes'
@@ -12,3 +13,4 @@ describe('actions', () => {
     expect(actions.addCouncilmeeting(text)).toEqual(expectedAction)
   })
 })
+*/
