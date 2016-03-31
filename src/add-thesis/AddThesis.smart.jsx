@@ -1,8 +1,34 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { addThesis } from "../thesis/Thesis.actions";
 
 export class addThesis extends Component {
+
+  constructor() {
+      super();
+      this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+    const newThesis = {
+      id: this.props.id + 1,
+      author: this.props.author,
+      email: this.props.email,
+      title: this.props.title,
+      instructor: this.props.instructor,
+      urkund: this.props.urkund,
+      ethesis: this.props.ethesis,
+      abstract: this.props.abstract,
+      field: this.field.field,
+      grade: this.props.grade,
+      deadline: this.props.deadline,
+    };
+    addThesis(newThesis);
+  }
+
   render() {
+
     return (
       <div>
         <body>
@@ -21,7 +47,7 @@ export class addThesis extends Component {
               <div className="field">
                 <div className="two fields">
                   <div className="field">
-                    <input type="text" name="madeby[first-name]" placeholder="First Name"/>
+                    <input type="text" name="madeby[first-name]" onChange={this.handleSubmit} placeholder="First Name"/>
                   </div>
                   <div className="field">
                     <input type="text" name="madeby[last-name]" placeholder="Last Name"/>
@@ -120,13 +146,19 @@ export class addThesis extends Component {
               <h4 className="ui dividing header">Choose the date for the Department
               Council meeting</h4>
             </form>
-            <button className="ui primary button">Submit</button>
+            {/*<button className="ui primary button" onClick={handleSubmit}>Submit</button>*/}
             <button className="ui primary button">Cancel</button>
           </main>
         </body>
       </div>
-    );
+    )
   }
 }
 
-export default connect()(addThesis);
+const mapDispatchToProps = (dispatch) => ({
+  addThesis(newThesis) {
+    dispatch(addThesis(newThesis));
+  },
+});
+
+export default connect(null, mapDispatchToProps)(addThesis);

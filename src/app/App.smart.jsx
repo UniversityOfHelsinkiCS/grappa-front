@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import ThesisList from "../thesis-list/ThesisList.smart";
-// import AddThesis from "../add-thesis/AddThesis.smart";
+import AddThesis from "../add-thesis/AddThesis.smart";
 export class App extends Component {
 
   render() {
@@ -8,7 +8,7 @@ export class App extends Component {
     const these = theses.toJS();
     return (
       <div>
-        <ThesisList theses={these} />
+        <AddThesis />
       </div>
     );
   }
