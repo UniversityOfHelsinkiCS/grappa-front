@@ -1,16 +1,16 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
+// import { Router } from "react-router";
+import { Router, browserHistory } from "react-router";
 
-import App from "./app/App.smart";
-
-import { makeStore } from "./store";
-const store = makeStore;
+import store from "./store";
+import routes from "./routes";
 
 const container = document.getElementById("app");
 const Root = (
   <Provider store={store}>
-    <App />
+    <Router routes={routes} history={browserHistory}/>
   </Provider>
 );
 
