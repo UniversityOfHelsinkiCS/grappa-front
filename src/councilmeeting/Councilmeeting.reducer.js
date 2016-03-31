@@ -30,11 +30,10 @@ const INITIAL_STATE = fromJS({
 export default function (state = INITIAL_STATE, action) {
 	switch (action.type) {
 		case COUNCILMEETING_SAVE_ONE_SUCCESS: 
-		return state.merge().councilmeetinglist.push(action.payload);
+            return state.merge().councilmeetinglist.push(action.payload);
+        case COUNCIL_MEETING_GET_ALL_SUCCESS:
+            return state.merge().councilmeetinglist.push(action.payload);
 		default: 
-		return state;
+            return state;
 	};
 }
-
-
-

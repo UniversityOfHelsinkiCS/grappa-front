@@ -15,6 +15,18 @@ export const addCouncilmeeting = (Councilmeeting) => {
 		failure: COUNCILMEETING_SAVE_ONE_FAILURE,
 		method: "post",
 		url: "/councilmeetings",
-		data: { councilmeeting: Councilmeeting },
+		data: Councilmeeting
+	};
+};
+
+export const listCouncilmeetings = (filterParams) => {
+	console.log("listCouncilmeetings-action called :)");
+	return {
+		type: CALL_API,
+		success: COUNCILMEETING_GET_ALL_SUCCESS,
+		failure: COUNCILMEETING_GET_ALL_FAILURE,
+		method: "get",
+		url: "/councilmeetings",
+		data: filterParams
 	};
 };
