@@ -1,32 +1,27 @@
-import React, { Component } from "react";
+import React, { Component, PropTypes } from "react";
+import { Link } from "react-router";
 
-import TestiItemList from "../testi-item-list/TestiItemList.smart";
-
-export class App extends Component {
+export default class App extends Component {
 
   render() {
-    const { listani } = this.props;
-    const lista = listani.toJS();
     return (
       <div>
         <h1>Hei olen App komponentti, minun sisälläni on kaikki!</h1>
-        <TestiItemList lista={ lista }/>
+        <Link to="/theses">ThesesList</Link>
+        <Link to="/theses/1">ThesesShow</Link>
+        {this.props.children}
+        {/*<ThesisList />*/}
+        {/*<ThesisShow />*/}
       </div>
     );
   }
 }
 
-import { connect } from "react-redux";
-
-const mapStateToProps = (state) => {
-  const turha = state.get("turha");
-  const testi = state.get("testi");
-  return {
-    turhalista: turha.get("turhalista"),
-    turhastatus: turha.get("turhastatus"),
-    listani: testi.get("listani"),
-  };
+App.propTypes = {
+  children: PropTypes.node,
 };
 
+// import { connect } from "react-redux";
+
 // export default connect(mapStateToProps, mapDispatchToProps)(App);
-export default connect(mapStateToProps, null)(App);
+// export default connect()(App);

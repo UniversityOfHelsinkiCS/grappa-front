@@ -1,16 +1,18 @@
 // import { createStore, combineReducers } from "redux";
-import { createStore } from "redux";
+import { createStore, applyMiddleware } from "redux";
+import thunk from "redux-thunk";
 import { combineReducers } from "redux-immutablejs";
-import testi from "./testi-item/TestiItem.reducer";
-import turha from "./app/Turha.reducer";
+import logger from "./middleware/logger";
+import { handleCallApi } from "./middleware/grappaAPI";
+import theses from "./thesis/thesis.reducer";
 
 const combinedReducers = combineReducers({
-  testi,
-  turha,
+  theses,
 });
 
-// export const makeStore = () => ({
-//   reducers: createStore(combinedReducers),
-// });
+// const createStoreWithMiddleware = applyMiddleware(thunk, thesisapi)(createStore)
 
-export const makeStore = createStore(combinedReducers);
+const store = createStore(combinedReducers, applyMiddleware(logger, handleCallApi));
+// const store = createStore(combinedReducers, applyMiddleware(logger));
+
+export default store;
