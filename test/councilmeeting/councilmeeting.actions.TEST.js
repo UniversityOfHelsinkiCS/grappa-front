@@ -1,16 +1,21 @@
-/**
-import expect from 'chai'
-import * as actions from '../../src/councilmeeting/Councilmeeting.actions'
-//import * as types from '../../constants/ActionTypes'
+import { expect } from "chai";
+import { COUNCILMEETING_SAVE_ONE_SUCCESS } from "../../src/councilmeeting/Councilmeeting.actions";
+import { COUNCILMEETING_SAVE_ONE_FAILURE } from "../../src/councilmeeting/Councilmeeting.actions";
 
-describe('actions', () => {
-  it('should create an action to add a councilmeeting', () => {
-    const date = '22.22.22.21010'
+import { addCouncilmeeting } from "../../src/councilmeeting/Councilmeeting.actions";
+import { CALL_API } from "../../src/middleware/grappaAPI";
+
+describe("actions", () => {
+  it("should create an action to add a councilmeeting", () => {
+    const date = "jokupaivamaara";
     const expectedAction = {
-      type: types.ADD_TODO,
-      text
-    }
-    expect(actions.addCouncilmeeting(text)).toEqual(expectedAction)
-  })
-})
-*/
+      type: CALL_API,
+      success: COUNCILMEETING_SAVE_ONE_SUCCESS,
+      failure: COUNCILMEETING_SAVE_ONE_FAILURE,
+      method: "post",
+      url: "/councilmeetings",
+      data: date,
+    };
+    expect(expectedAction).to.deep.equal(addCouncilmeeting(date));
+  });
+});
