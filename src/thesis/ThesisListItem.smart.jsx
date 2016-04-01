@@ -30,7 +30,7 @@ export class ThesisListItem extends Component {
     const { id, author, email, title, urkund, ethesis, abstract, grade } = this.props;
     return (
       <div>
-        <h3>Olen Thesis id: { id }</h3>
+        <h3>Olen khhsggThesis id: { id }</h3>
         <p>author: { author }</p>
         <p>email: { email }</p>
         <p>title: { title }</p>

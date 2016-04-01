@@ -1,5 +1,9 @@
-import { expect } from "chai";
+import chai, { expect } from "chai";
+import jsxChai from "jsx-chai";
+chai.use(jsxChai)
 // import { ThesesList } from "../../src/thesis/ThesisList.smart";
+import tlist from "../../src/thesis/ThesisList.smart";
+// import reducer from "../../src/thesis/thesis.reducer";
 
 describe("ThesisList", () => {
   it("should call the correct action when getting theses", () => {
