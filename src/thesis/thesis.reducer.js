@@ -11,13 +11,11 @@ import {
 
 const INITIAL_STATE = fromJS({
   theseslist: [
-    {
+    {},
+    /*{
       id: 1,
-<<<<<<< HEAD
-      author: "matti meikäläinen",
-=======
+
       author: "Matti Meikäläinen",
->>>>>>> thesislistings
       email: "matti@gmail.com",
       title: "Matoalgebra",
       instructor: "Pekka Pouta",
@@ -30,11 +28,9 @@ const INITIAL_STATE = fromJS({
     },
     {
       id: 2,
-<<<<<<< HEAD
-      author: "vesa keskinen",
-=======
+
       author: "Vesa Keskinen",
->>>>>>> thesislistings
+
       email: "vesa@gmail.com",
       title: "Lumen sulaminen",
       instructor: "Ilmari Suomalainen",
@@ -47,9 +43,9 @@ const INITIAL_STATE = fromJS({
     },
     {
       id: 3,
-<<<<<<< HEAD
+
       author: "urho kekkonen",
-=======
+
       author: "Batman",
       email: "bat@lair.com",
       title: "Im BATMAN",
@@ -63,18 +59,17 @@ const INITIAL_STATE = fromJS({
     },
     {
       id: 4,
-      author: "Urho Kekkonen",
->>>>>>> thesislistings
+      author: "Urho Kalevi",
+
       email: "urkki@gmail.com",
       title: "Kekkosen vanhuus",
       instructor: "Kyösti Kallio",
       urkund: "http://urkki.com",
       ethesis: "https://ethesis.com/urkki",
       abstract: "Urkki on jo kuollut heh",
-      field: "Alg",
       grade: "E",
       deadline: "09.12.2016",
-    },
+    }, */
   ],
 });
 
@@ -82,22 +77,7 @@ export default function (state = INITIAL_STATE, action) {
   switch (action.type) {
     case THESIS_GET_ALL_SUCCESS:
       return state.merge({
-<<<<<<< HEAD
         theseslist: action.payload,
-=======
-        theseslist: [
-          {
-            id: 1,
-            author: "matti meikäläinen",
-            email: "matti@gmail.com",
-            title: "päällikkö",
-            urkund: "http://matti.com",
-            ethesis: "https://ethesis.com/matti",
-            abstract: "matti on mies",
-            grade: "L",
-          },
-        ],
->>>>>>> thesislistings
       });
     case THESIS_RESET_ALL_REQUEST:
       return state.merge(INITIAL_STATE);

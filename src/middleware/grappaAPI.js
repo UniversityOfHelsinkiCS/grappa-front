@@ -8,7 +8,7 @@ import {
   // THESIS_SAVE_ONE_REQUEST,
   // THESIS_SAVE_ONE_SUCCESS,
   // THESIS_SAVE_ONE_FAILURE,
-} from "../thesis/Thesis.actions";
+} from "../thesis/thesis.actions";
 
 export const CALL_API = "CALL_API";
 export const API_PATH = "http://tktl-grappa.herokuapp.com";
