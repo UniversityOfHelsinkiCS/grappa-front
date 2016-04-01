@@ -17,3 +17,15 @@ export const addCouncilmeeting = (Councilmeeting) => {
     data: Councilmeeting,
   };
 };
+
+export const listCouncilmeetings = (filterParams) => {
+  console.log("listCouncilmeetings-action called :)");
+  return {
+    type: CALL_API,
+    success: COUNCILMEETING_GET_ALL_SUCCESS,
+    failure: COUNCILMEETING_GET_ALL_FAILURE,
+    method: "get",
+    url: "/councilmeetings",
+    data: filterParams,
+  };
+};

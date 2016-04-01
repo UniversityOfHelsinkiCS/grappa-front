@@ -1,7 +1,7 @@
 import { fromJS } from "immutable";
 
 import {
-  // COUNCILMEETING_GET_ALL_SUCCESS,
+   COUNCILMEETING_GET_ALL_SUCCESS,
   // COUNCILMEETING_GET_ALL_FAILURE,
 
   COUNCILMEETING_SAVE_ONE_SUCCESS,
@@ -29,6 +29,8 @@ const INITIAL_STATE = fromJS({
 export default function (state = INITIAL_STATE, action) {
   switch (action.type) {
     case COUNCILMEETING_SAVE_ONE_SUCCESS:
+      return state.merge().councilmeetinglist.push(action.payload);
+    case COUNCILMEETING_GET_ALL_SUCCESS:
       return state.merge().councilmeetinglist.push(action.payload);
     default:
       return state;
