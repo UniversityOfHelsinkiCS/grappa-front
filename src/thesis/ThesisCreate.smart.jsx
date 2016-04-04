@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { addThesis } from "./thesis.actions";
-
+import { addThesis, /*getDates*/ } from "./thesis.actions";
+import DatePicker from "react-datepicker";
+import moment from "moment";
 export class ThesisCreate extends Component {
-
   constructor() {
       super();
       this.state={
@@ -22,10 +22,16 @@ export class ThesisCreate extends Component {
         abstract: "",
         field: "",
         grade: "",
-        deadline: "",
+        deadline: moment(),
       };
       this.handleSubmit = this.handleSubmit.bind(this);
       this.handleChange = this.handleChange.bind(this);
+      this.handleDateChange = this.handleDateChange.bind(this);
+  }
+
+  componenDidMount(){
+    const { getDates } = this.props;
+    /*getDates();*/
   }
 
   handleChange(name, event) {
@@ -35,6 +41,9 @@ export class ThesisCreate extends Component {
     this.setState(change);
   }
 
+  handleDateChange(event) {
+    this.setState({deadline: event});
+  }
 
   handleSubmit(event) {
     event.preventDefault();
@@ -173,10 +182,10 @@ export class ThesisCreate extends Component {
                 </div>
               </div>
               <button className="ui primary button">Add Graders</button>
-              <h4 className="ui dividing header">Choose the date for the Department
-              Council meeting</h4>
+              <h4 className="ui dividing header">Choose the date for the Department Council meeting</h4>
+              <DatePicker selected={this.state.deadline} onChange={this.handleDateChange} />
             </form>
-            <button className="ui primary button" onClick={this.handleSubmit}>Submit</button>
+            <button className="ui primary button" onClick={this.handleSubmit} includeDates={[moment()]} placeholder="Click to choose date">Submit</button>
             <button className="ui primary button">Cancel</button>
           </main>
         </body>
