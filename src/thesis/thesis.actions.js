@@ -1,4 +1,4 @@
-import { CALL_API } from "../middleware/grappaAPI";
+import { CALL_API } from "../middleware/grappaAPI";
 
 export const THESIS_GET_ALL_SUCCESS = "THESIS_GET_ALL_SUCCESS";
 export const THESIS_GET_ALL_FAILURE = "THESIS_GET_ALL_FAILURE";

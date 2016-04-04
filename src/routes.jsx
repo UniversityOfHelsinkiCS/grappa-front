@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, IndexRedirect, IndexRoute } from "react-router";
+import { Route, IndexRedirect } from "react-router";
 import App from "./app/App.smart";
 import ThesisList from "./thesis/ThesisList.smart";
 import ThesisShow from "./thesis/ThesisShow.smart";
