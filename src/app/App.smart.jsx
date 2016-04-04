@@ -1,26 +1,26 @@
-import React, { Component } from "react";
-import ThesisList from "../thesis-list/ThesisList.smart";
-import AddThesis from "../add-thesis/AddThesis.smart";
-export class App extends Component {
+import React, { Component, PropTypes } from "react";
+import { Link } from "react-router";
+
+export default class App extends Component {
 
   render() {
-    const { theses } = this.props;
-    const these = theses.toJS();
     return (
       <div>
-        <AddThesis />
+        <h1>Hei olen App komponentti, minun sisälläni on kaikki!</h1>
+        <Link to="/theses">ThesesList</Link>
+        <Link to="/theses/1">ThesesShow</Link>
+        <Link to="/thesis/new">AddThesis</Link>
+        {this.props.children}
       </div>
     );
   }
 }
 
-import { connect } from "react-redux";
-
-const mapStateToProps = (state) => {
-  const theses = state.get("theses");
-  return {
-    theses: theses.get("theseslist"),
-  };
+App.propTypes = {
+  children: PropTypes.node,
 };
 
-export default connect(mapStateToProps, null)(App);
+// import { connect } from "react-redux";
+
+// export default connect(mapStateToProps, mapDispatchToProps)(App);
+// export default connect()(App);

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { addThesis } from "../thesis/Thesis.actions";
+import { addThesis } from "./thesis.actions";
 
 export class ThesisCreate extends Component {
 

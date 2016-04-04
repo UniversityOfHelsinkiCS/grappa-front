@@ -1,16 +1,16 @@
-import React, { Component, PropTypes } from "react";
+import React, { Component } from "react";
 
-import Thesis from "../thesis/Thesis.smart";
+import ThesisListItem from "./ThesisListItem.smart";
 
 export class ThesisList extends Component {
 
   constructor() {
     super();
-    this.getTheses = this.getTheses.bind(this);
+    this.getThesesAPI = this.getThesesAPI.bind(this);
     this.resetTheses = this.resetTheses.bind(this);
   }
 
-  getTheses(event) {
+  getThesesAPI(event) {
     event.preventDefault();
     const { getTheses } = this.props;
     getTheses();
@@ -24,17 +24,18 @@ export class ThesisList extends Component {
 
   render() {
     const { theses } = this.props;
+    const theseslist = theses.toJS();
     return (
-      <div>
+      <div className="thesis-container">
         <h2>Tämä on ThesisList komponentti</h2>
         <div>
-          <button onClick={this.getTheses}>getTheses (from mock api)</button>
+          <button onClick={this.getThesesAPI}>getTheses from api</button>
           <button onClick={this.resetTheses}>resetTheses</button>
         </div>
         <ul>
-          { theses.map(itemi =>
+          { theseslist.map(itemi =>
             <li>
-              <Thesis
+              <ThesisListItem
                 id = { itemi.id }
                 author = { itemi.author }
                 email = { itemi.email }
@@ -52,13 +53,16 @@ export class ThesisList extends Component {
   }
 }
 
-ThesisList.propTypes = {
-  theses: PropTypes.array.isRequired,
-};
-
 import { connect } from "react-redux";
 
-import { getTheses, resetTheses } from "../thesis/Thesis.actions";
+import { getTheses, resetTheses } from "../thesis/thesis.actions";
+
+const mapStateToProps = (state) => {
+  const theses = state.get("theses");
+  return {
+    theses: theses.get("theseslist"),
+  };
+};
 
 const mapDispatchToProps = (dispatch) => ({
   getTheses() {
@@ -69,4 +73,4 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
-export default connect(null, mapDispatchToProps)(ThesisList);
+export default connect(mapStateToProps, mapDispatchToProps)(ThesisList);
