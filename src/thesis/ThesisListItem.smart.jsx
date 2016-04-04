@@ -15,13 +15,10 @@ export class ThesisListItem extends Component {
       author: this.props.author,
       email: this.props.email,
       title: this.props.title,
-      instructor: this.props.instructor,
       urkund: this.props.urkund,
       ethesis: this.props.ethesis,
       abstract: this.props.abstract,
-      field: this.field.field,
       grade: this.props.grade,
-      deadline: this.props.deadline,
     };
     addThesis(newItem);
   }
@@ -44,7 +41,7 @@ export class ThesisListItem extends Component {
   }
 }
 
-// Thesis.propTypes = {
+// ThesisListItem.propTypes = {
 //   id: PropTypes.number.isRequired,
 //   author: PropTypes.string.isRequired,
 //   email: PropTypes.string.isRequired,
@@ -65,4 +62,4 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
-export default connect(null, mapDispatchToProps)(ThesisListItem);
+export default connect(mapDispatchToProps)(ThesisListItem);

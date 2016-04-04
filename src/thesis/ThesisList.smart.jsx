@@ -6,20 +6,12 @@ export class ThesisList extends Component {
 
   constructor() {
     super();
-    this.getThesesAPI = this.getThesesAPI.bind(this);
   }
 
   componentDidMount() {
     const { getTheses } = this.props;
     getTheses();
   }
-
-  getThesesAPI(event) {
-    event.preventDefault();
-    const { getTheses } = this.props;
-  }
-
-
 
   render() {
     const { theses } = this.props;

@@ -7,21 +7,21 @@ import {
   COUNCILMEETING_SAVE_ONE_SUCCESS,
   // COUNCILMEETING_SAVE_ONE_FAILURE,
 
-} from "./councilmeeting.actions";
+} from "./Councilmeeting.actions";
 
 const INITIAL_STATE = fromJS({
   councilmeetinglist: [
     {
       id: 1,
-      date: Date.now(),
+      date: "date1",
     },
     {
       id: 2,
-      date: Date.now(),
+      date: "date2",
     },
     {
       id: 3,
-      date: Date.now(),
+      date: "date3",
     },
   ],
 });
@@ -29,9 +29,9 @@ const INITIAL_STATE = fromJS({
 export default function (state = INITIAL_STATE, action) {
   switch (action.type) {
     case COUNCILMEETING_SAVE_ONE_SUCCESS:
-      return state.merge().councilmeetinglist.push(action.payload);
+      return state.updateIn(["councilmeetinglist"], list => list.concat(fromJS(action.payload)));
     case COUNCILMEETING_GET_ALL_SUCCESS:
-      return state.merge().councilmeetinglist.push(action.payload);
+      return state.updateIn(["councilmeetinglist"], list => list.concat(fromJS(action.payload)));
     default:
       return state;
   }
