@@ -17,13 +17,12 @@ export class ThesisList extends Component {
   getThesesAPI(event) {
     event.preventDefault();
     const { getTheses } = this.props;
-    getTheses();
   }
+
+
 
   render() {
     const { theses } = this.props;
-    const theseslist = theses.toJS();
-
     return (
       <div>
         <header>
@@ -35,7 +34,8 @@ export class ThesisList extends Component {
           </div>
         </header>
         <div>
-          <BootstrapTable data={theseslist} search bordered={false}>
+          <h2>Theses</h2>
+          <BootstrapTable data={theses} search bordered={false}>
             <TableHeaderColumn filter= {{ type: "TextFilter" }} dataField="id" isKey hidden>
             Thesis ID</TableHeaderColumn>
             <TableHeaderColumn dataField="author" dataSort width="200">Author</TableHeaderColumn>
@@ -61,7 +61,7 @@ import { getTheses } from "./thesis.actions";
 const mapStateToProps = (state) => {
   const theses = state.get("theses");
   return {
-    theses: theses.get("theseslist"),
+    theses: theses.get("theseslist").toJS(),
   };
 };
 
