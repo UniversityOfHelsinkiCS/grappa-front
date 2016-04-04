@@ -1,69 +1,61 @@
 import { expect } from "chai";
 import { fromJS } from "immutable";
 import reducer from "../../src/councilmeeting/councilmeeting.reducer";
-import { COUNCILMEETING_SAVE_ONE_SUCCESS } from "../../src/councilmeeting/councilmeeting.actions";
+import {
+  // COUNCILMEETING_SAVE_ONE_SUCCESS,
+  COUNCILMEETING_GET_ALL_SUCCESS,
+  // COUNCILMEETING_GET_ALL_FAILURE,
+}
+from "../../src/councilmeeting/councilmeeting.actions";
+
+
+const initialState = fromJS({
+  councilmeetinglist: [
+    {
+      id: 1,
+      date: "date1",
+    },
+    {
+      id: 2,
+      date: "date2",
+    },
+    {
+      id: 3,
+      date: "date3",
+    },
+  ],
+});
 
 describe("councilmeeting reducer", () => {
   it("should return the initial state", () => {
     expect(
       reducer(undefined, {})
-      ).to.equal(fromJS({
-        councilmeetinglist: [
-          {
-            id: 1,
-            date: "date1",
-          },
-          {
-            id: 2,
-            date: "date2",
-          },
-          {
-            id: 3,
-            date: "date3",
-          },
-        ],
-      }));
+      ).to.equal(initialState);
   });
-    it("should handle COUNCILMEETING_SAVE_ONE_SUCCESS", () => {
-      expect(
-        reducer([], {
-          type: COUNCILMEETING_SAVE_ONE_SUCCESS,
-          date: "date1"
-        })
-        ).toEqual([
-        {
-          id: 2,
-          date: "date1",
-        }
-        ])
 
-   /* expect(
-      reducer(
-        [
-          {
-            text: "Use Redux",
-            completed: false,
-            id: 0
-          }
-        ],
-        {
-          type: types.ADD_TODO,
-          text: 'Run the tests'
-        }
-      )
-    ).toEqual(
-      [
-        {
-          text: "Run the tests",
-          completed: false,
-          id: 1
-        },
-        {
-          text: "Use Redux",
-          completed: false,
-          id: 0
-        }
-      ]
-      )*/
-    })
-  })
+
+  it("should change meetinglist when receiving dates", () => {
+    const mockDatesFromAPI = [
+      {
+        id: 1,
+        date: "date1",
+      },
+      {
+        id: 2,
+        date: "date2",
+      },
+      {
+        id: 3,
+        date: "date3",
+      },
+    ];
+    const expectedState = initialState.updateIn(["councilmeetinglist"],
+      list => list.concat(fromJS(mockDatesFromAPI))
+      );
+    const newState = reducer(initialState, {
+      type: COUNCILMEETING_GET_ALL_SUCCESS,
+      payload: mockDatesFromAPI,
+    });
+    expect(newState).to.equal(expectedState);
+  });
+});
