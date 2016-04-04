@@ -10,8 +10,6 @@ export default class App extends Component {
         <Link to="/theses">ThesesList</Link>
         <Link to="/theses/1">ThesesShow</Link>
         {this.props.children}
-        {/*<ThesisList />*/}
-        {/*<ThesisShow />*/}
       </div>
     );
   }

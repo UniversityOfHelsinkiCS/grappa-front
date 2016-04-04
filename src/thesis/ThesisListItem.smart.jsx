@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from "react";
+// import React, { Component, PropTypes } from "react";
+import React, { Component } from "react";
 
 export class ThesisListItem extends Component {
 
@@ -41,7 +42,7 @@ export class ThesisListItem extends Component {
   }
 }
 
-// Thesis.propTypes = {
+// ThesisListItem.propTypes = {
 //   id: PropTypes.number.isRequired,
 //   author: PropTypes.string.isRequired,
 //   email: PropTypes.string.isRequired,
@@ -62,4 +63,4 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
-export default connect(null, mapDispatchToProps)(ThesisListItem);
+export default connect(mapDispatchToProps)(ThesisListItem);
