@@ -56,6 +56,8 @@
     "jsdom": "^8.3.0",
     "jsx-chai": "^2.0.0",
     "mocha": "^2.4.5",
+    "react-addons-test-utils": "^0.14.8",
+    "sinon": "^1.17.3",
     "webpack-dev-middleware": "^1.5.1",
     "webpack-hot-middleware": "^2.6.4"
   }
