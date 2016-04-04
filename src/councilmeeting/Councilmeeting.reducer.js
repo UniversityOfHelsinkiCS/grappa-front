@@ -1,13 +1,13 @@
 import { fromJS } from "immutable";
 
 import {
- COUNCILMEETING_GET_ALL_SUCCESS,
+   COUNCILMEETING_GET_ALL_SUCCESS,
   // COUNCILMEETING_GET_ALL_FAILURE,
 
   COUNCILMEETING_SAVE_ONE_SUCCESS,
   // COUNCILMEETING_SAVE_ONE_FAILURE,
 
-} from "./councilmeeting.actions";
+} from "./Councilmeeting.actions";
 
 const INITIAL_STATE = fromJS({
   councilmeetinglist: [
