@@ -29,7 +29,7 @@ describe("actions", () => {
       success: COUNCILMEETING_GET_ALL_SUCCESS,
       failure: COUNCILMEETING_GET_ALL_FAILURE,
       method: "get",
-      url: "/councilmeetings",
+      url: "/councilmeeting",
       data: date,
     };
     expect(expectedAction).to.deep.equal(listCouncilmeetings(date));
