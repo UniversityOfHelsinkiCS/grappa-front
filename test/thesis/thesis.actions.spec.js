@@ -14,7 +14,7 @@ describe("thesis.actions", () => {
       success: THESIS_GET_ALL_SUCCESS,
       failure: THESIS_GET_ALL_FAILURE,
       method: "get",
-      url: "/theses",
+      url: "/thesis",
       data: {},
     };
     expect(createdAction).to.deep.equal(expectedAction);

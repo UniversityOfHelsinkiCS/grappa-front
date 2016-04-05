@@ -1,26 +1,17 @@
-import { fromJS } from "immutable";
+import { Map, fromJS } from "immutable";
 
 import {
   THESIS_GET_ALL_SUCCESS,
-  // THESIS_GET_ALL_FAILURE,
+  THESIS_GET_ALL_FAILURE,
   THESIS_RESET_ALL_REQUEST,
   // THESIS_SAVE_ONE_REQUEST,
-  // THESIS_SAVE_ONE_SUCCESS,
-  // THESIS_SAVE_ONE_FAILURE,
+  THESIS_SAVE_ONE_SUCCESS,
+  THESIS_SAVE_ONE_FAILURE,
 } from "./thesis.actions";
 
 const INITIAL_STATE = fromJS({
   theseslist: [
-    {
-      id: 0,
-      author: "matti meikäläinen",
-      email: "matti@gmail.com",
-      title: "päällikkö",
-      urkund: "http://matti.com",
-      ethesis: "https://ethesis.com/matti",
-      abstract: "matti on mies",
-      grade: "L",
-    },
+    {},
   ],
 });
 
@@ -28,10 +19,16 @@ export default function (state = INITIAL_STATE, action) {
   switch (action.type) {
     case THESIS_GET_ALL_SUCCESS:
       return state.updateIn(["theseslist"], list => list.concat(fromJS(action.payload)));
+    case THESIS_GET_ALL_FAILURE:
+    // probably should display error message?
+      return state;
     case THESIS_RESET_ALL_REQUEST:
       return state.merge(INITIAL_STATE);
-    // case THESIS_SAVE_ONE_SUCCESS:
-    //   return state.updateIn(["theseslist"], list => list.push(Map(...action.payload)));
+    case THESIS_SAVE_ONE_SUCCESS:
+      return state.updateIn(["theseslist"], list => list.push(new Map(...action.payload)));
+    case THESIS_SAVE_ONE_FAILURE:
+    // probably should display error message?
+      return state;
     default:
       return state;
   }
