@@ -16,7 +16,7 @@ export const getTheses = () => {
     success: THESIS_GET_ALL_SUCCESS,
     failure: THESIS_GET_ALL_FAILURE,
     method: "get",
-    url: "/theses",
+    url: "/thesis",
     data: {},
   };
 };
@@ -28,14 +28,14 @@ export const resetTheses = () => {
   };
 };
 
-export const addThesis = (Thesis) => {
-  console.log("addThesis-action called!");
+export const saveThesis = (thesis) => {
+  console.log("saveThesis-action called!");
   return {
     type: CALL_API,
     success: THESIS_SAVE_ONE_SUCCESS,
     failure: THESIS_SAVE_ONE_FAILURE,
     method: "post",
-    url: "/theses",
-    data: { thesis: Thesis },
+    url: "/thesis",
+    data: thesis,
   };
 };
