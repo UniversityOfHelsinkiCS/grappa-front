@@ -12,7 +12,7 @@
     "test:watch": "npm run test -- --watch"
   },
   "engines": {
-    "node": "5.4"
+    "node": "5.9"
   },
   "repository": {
     "type": "git",
