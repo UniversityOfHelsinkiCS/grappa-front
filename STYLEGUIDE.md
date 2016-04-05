@@ -1,7 +1,9 @@
 Naming conventions
 ------------------
 Constant values in capitals, words separated by underscores: GRAPPA_CONSTANT_VALUE
+
 Variables in lowerCamelCase: grappaVariable
+
 File names in UpperCamelCase: GrappaActions.js
 
 
