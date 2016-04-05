@@ -19,7 +19,7 @@ export const addCouncilmeeting = (Councilmeeting) => {
 };
 
 export const getCouncilmeetings = (filterParams) => {
-  console.log("listCouncilmeetings-action called :)");
+  console.log("getCouncilmeetings-action called :)");
   return {
     type: CALL_API,
     success: COUNCILMEETING_GET_ALL_SUCCESS,

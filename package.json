@@ -9,7 +9,8 @@
     "postinstall": "webpack --config webpack.config.prod.js --progress --colors",
     "start": "node index.js",
     "test": "export NODE_ENV=testing|| set NODE_ENV=testing&& mocha --compilers js:babel-core/register --require ./test/testhelper.js \"test/**/*@(.js|.jsx)\"",
-    "test:watch": "npm run test -- --watch"
+    "test:watch": "npm run test -- --watch",
+    "check": "npm run lint && npm test && npm start"
   },
   "engines": {
     "node": "5.9"

@@ -7,18 +7,7 @@ import {
 import reducer from "../../src/thesis/thesis.reducer";
 
 const initialState = fromJS({
-  theseslist: [
-    {
-      id: 0,
-      author: "tyhja",
-      email: "jonkaEiPitaisi@gmail.com",
-      title: "kadota",
-      urkund: "http://matti.com",
-      ethesis: "https://ethesis.com/matti",
-      abstract: "asdf",
-      grade: "I",
-    },
-  ],
+  theseslist: [],
 });
 
 describe("thesis.reducer", () => {
@@ -58,25 +47,11 @@ describe("thesis.reducer", () => {
   });
 
   it("shouldn't change theseslist when receiving theses produces an error", () => {
-    const expectedState = fromJS({
-      theseslist: [
-        {
-          id: 0,
-          author: "tyhja",
-          email: "jonkaEiPitaisi@gmail.com",
-          title: "kadota",
-          urkund: "http://matti.com",
-          ethesis: "https://ethesis.com/matti",
-          abstract: "asdf",
-          grade: "I",
-        },
-      ],
-    });
     const newState = reducer(initialState, {
       type: THESIS_GET_ALL_FAILURE,
       message: "Error message",
       error: "An error",
     });
-    expect(newState).to.equal(expectedState);
+    expect(newState).to.equal(initialState);
   });
 });
