@@ -1,54 +1,57 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { addThesis, /*getDates*/ } from "./thesis.actions";
-import DatePicker from "react-datepicker";
-import moment from "moment";
+import { addThesis } from "./thesis.actions";
+import { getCouncilmeetings } from "../councilmeeting/councilmeeting.actions";
+import Dropdown from "../ui/Dropdown.component";
+
 export class ThesisCreate extends Component {
   constructor() {
-      super();
-      this.state={
-        fname: "",
-        lname: "",
-        email: "",
-        title: "",
-        grader: "",
-        grader2: "",
-        graderemail: "",
-        grader2email: "",
-        gradertitle: "",
-        grader2title: "",
-        urkund: "",
-        ethesis: "",
-        abstract: "",
-        field: "",
-        grade: "",
-        deadline: moment(),
-      };
-      this.handleSubmit = this.handleSubmit.bind(this);
-      this.handleChange = this.handleChange.bind(this);
-      this.handleDateChange = this.handleDateChange.bind(this);
+    super();
+    this.state = {
+      fname: "",
+      lname: "",
+      email: "",
+      title: "",
+      grader: "",
+      grader2: "",
+      graderemail: "",
+      grader2email: "",
+      gradertitle: "",
+      grader2title: "",
+      urkund: "",
+      ethesis: "",
+      abstract: "",
+      field: "",
+      grade: "",
+      deadline: "",
+    };
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.componentDidMount = this.componentDidMount.bind(this);
+    this.handleDateChange = this.handleDateChange.bind(this);
   }
 
-  componenDidMount(){
-    const { getDates } = this.props;
-    /*getDates();*/
+  componentDidMount() {
+//    const { listCouncilmeetings } = this.props;
+    getCouncilmeetings();
   }
 
   handleChange(name, event) {
+    const change = {};
     event.preventDefault();
-    var change = {};
     change[name] = event.target.value;
     this.setState(change);
   }
 
   handleDateChange(event) {
-    this.setState({deadline: event});
+    event.preventDefault();
+    this.setState({ deadline: event.target.value });
   }
 
   handleSubmit(event) {
     event.preventDefault();
     const newThesis = {
-      author: this.state.fname+" "+this.state.lname,
+      author: this.state.fname + " " + this.state.lname,
       email: this.state.email,
       title: this.state.title,
       grader: this.state.grader,
@@ -68,7 +71,13 @@ export class ThesisCreate extends Component {
     addThesis(newThesis);
   }
 
+  activeDate(event) {
+    event.preventDefault();
+    this.setState({ deadline: event.target.value });
+  }
+
   render() {
+    const { dates } = this.props;
     return (
       <div>
         <body>
@@ -183,14 +192,14 @@ export class ThesisCreate extends Component {
               </div>
               <button className="ui primary button">Add Graders</button>
               <h4 className="ui dividing header">Choose the date for the Department Council meeting</h4>
-              <DatePicker selected={this.state.deadline} onChange={this.handleDateChange} />
+              <Dropdown data={dates} onChange={this.handleDateChange}/>
             </form>
-            <button className="ui primary button" onClick={this.handleSubmit} includeDates={[moment()]} placeholder="Click to choose date">Submit</button>
+            <button className="ui primary button" onClick={this.handleSubmit}>Submit</button>
             <button className="ui primary button">Cancel</button>
           </main>
         </body>
       </div>
-    )
+    );
   }
 }
 
@@ -198,6 +207,17 @@ const mapDispatchToProps = (dispatch) => ({
   addThesis(newThesis) {
     dispatch(addThesis(newThesis));
   },
+  getCouncilmeetings() {
+    dispatch(getCouncilmeetings());
+  },
 });
 
-export default connect(null, mapDispatchToProps)(ThesisCreate);
+const mapStateToProps = (state) => {
+  const reducer = state.get("councilmeetings");
+  return {
+    dates: reducer.get("councilmeetinglist").toJS(),
+  };
+};
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(ThesisCreate);

@@ -36,6 +36,6 @@ export const addThesis = (Thesis) => {
     failure: THESIS_SAVE_ONE_FAILURE,
     method: "post",
     url: "/theses",
-    data: { thesis: Thesis },
+    data: Thesis,
   };
 };
