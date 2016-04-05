@@ -1,6 +1,7 @@
 import axios from "axios";
 
 export const CALL_API = "CALL_API";
+
 export const API_PATH = process.env.API_URL;
 
 export const handleCallApi = store => next => action => {

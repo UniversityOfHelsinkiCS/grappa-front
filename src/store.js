@@ -11,5 +11,4 @@ const combinedReducers = combineReducers({
 });
 
 const store = createStore(combinedReducers, applyMiddleware(logger, handleCallApi));
-
 export default store;
