@@ -18,7 +18,7 @@ export const addCouncilmeeting = (Councilmeeting) => {
   };
 };
 
-export const listCouncilmeetings = (filterParams) => {
+export const getCouncilmeetings = (filterParams) => {
   console.log("listCouncilmeetings-action called :)");
   return {
     type: CALL_API,
