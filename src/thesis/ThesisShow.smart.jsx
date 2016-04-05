@@ -13,7 +13,7 @@ export class ThesisShow extends Component {
     const newThesis = {
       author: "testi",
       title: "hei",
-    }
+    };
     saveThesis(newThesis);
   }
 
