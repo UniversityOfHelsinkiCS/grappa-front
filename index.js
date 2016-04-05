@@ -7,8 +7,10 @@ const port = process.env.PORT || 8080;
 const app = express();
 
 if (process.env.NODE_ENV === "production") {
+  process.env.API_URL = "http://tktl-grappa.herokuapp.com";
   app.use(express.static(root));
 } else {
+  process.env.API_URL = "http://localhost:9876";
   const webpack = require("webpack");
   const config = require("./webpack.config");
   const compiler = webpack(config);
