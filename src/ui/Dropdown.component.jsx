@@ -16,8 +16,6 @@ export default class Dropdown extends Component {
 
   render() {
     const { data } = this.props;
-
-    console.log(data);
     return (
       <select className="ui fluid search dropdown" value={this.active} onChange={this.handleChange}>
         { data.map(function (date, index) {

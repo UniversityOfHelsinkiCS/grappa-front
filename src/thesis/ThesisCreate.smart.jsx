@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { addThesis } from "./thesis.actions";
+import { saveThesis } from "./thesis.actions";
 import { getCouncilmeetings } from "../councilmeeting/councilmeeting.actions";
 import Dropdown from "../ui/Dropdown.component";
 
@@ -68,7 +68,7 @@ export class ThesisCreate extends Component {
       deadline: this.state.deadline,
     };
     console.log(newThesis);
-    addThesis(newThesis);
+    saveThesis(newThesis);
   }
 
   activeDate(event) {
@@ -204,8 +204,8 @@ export class ThesisCreate extends Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  addThesis(newThesis) {
-    dispatch(addThesis(newThesis));
+  saveThesis(newThesis) {
+    dispatch(saveThesis(newThesis));
   },
   getCouncilmeetings() {
     dispatch(getCouncilmeetings());
