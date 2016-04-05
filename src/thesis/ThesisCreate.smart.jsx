@@ -51,7 +51,7 @@ export class ThesisCreate extends Component {
   handleSubmit(event) {
     event.preventDefault();
     const newThesis = {
-      author: this.state.fname + " " + this.state.lname,
+      author: `${this.state.fname} ${this.state.lname}`,
       email: this.state.email,
       title: this.state.title,
       grader: this.state.grader,
