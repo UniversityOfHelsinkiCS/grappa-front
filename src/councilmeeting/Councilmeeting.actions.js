@@ -13,19 +13,19 @@ export const addCouncilmeeting = (Councilmeeting) => {
     success: COUNCILMEETING_SAVE_ONE_SUCCESS,
     failure: COUNCILMEETING_SAVE_ONE_FAILURE,
     method: "post",
-    url: "/councilmeetings",
+    url: "/councilmeeting",
     data: Councilmeeting,
   };
 };
 
-export const listCouncilmeetings = (filterParams) => {
+export const getCouncilmeetings = (filterParams) => {
   console.log("listCouncilmeetings-action called :)");
   return {
     type: CALL_API,
     success: COUNCILMEETING_GET_ALL_SUCCESS,
     failure: COUNCILMEETING_GET_ALL_FAILURE,
     method: "get",
-    url: "/councilmeetings",
+    url: "/councilmeeting",
     data: filterParams,
   };
 };

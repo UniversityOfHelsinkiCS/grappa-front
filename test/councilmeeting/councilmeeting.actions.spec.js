@@ -5,7 +5,7 @@ import { COUNCILMEETING_SAVE_ONE_SUCCESS,
          COUNCILMEETING_GET_ALL_FAILURE } from "../../src/councilmeeting/Councilmeeting.actions";
 
 import { addCouncilmeeting,
-         listCouncilmeetings } from "../../src/councilmeeting/Councilmeeting.actions";
+         getCouncilmeetings } from "../../src/councilmeeting/Councilmeeting.actions";
 import { CALL_API } from "../../src/middleware/grappaAPI";
 
 describe("actions", () => {
@@ -16,7 +16,7 @@ describe("actions", () => {
       success: COUNCILMEETING_SAVE_ONE_SUCCESS,
       failure: COUNCILMEETING_SAVE_ONE_FAILURE,
       method: "post",
-      url: "/councilmeetings",
+      url: "/councilmeeting",
       data: date,
     };
     expect(expectedAction).to.deep.equal(addCouncilmeeting(date));
@@ -29,9 +29,9 @@ describe("actions", () => {
       success: COUNCILMEETING_GET_ALL_SUCCESS,
       failure: COUNCILMEETING_GET_ALL_FAILURE,
       method: "get",
-      url: "/councilmeetings",
+      url: "/councilmeeting",
       data: date,
     };
-    expect(expectedAction).to.deep.equal(listCouncilmeetings(date));
+    expect(expectedAction).to.deep.equal(getCouncilmeetings(date));
   });
 });

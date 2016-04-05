@@ -9,6 +9,7 @@ export default class App extends Component {
         <h1>Hei olen App komponentti, minun sisälläni on kaikki!</h1>
         <Link to="/theses">ThesesList</Link>
         <Link to="/theses/1">ThesesShow</Link>
+        <Link to="/thesis/new">AddThesis</Link>
         {this.props.children}
       </div>
     );
