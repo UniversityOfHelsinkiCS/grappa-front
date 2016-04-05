@@ -13,7 +13,7 @@ describe("actions", () => {
       success: COUNCILMEETING_SAVE_ONE_SUCCESS,
       failure: COUNCILMEETING_SAVE_ONE_FAILURE,
       method: "post",
-      url: "/councilmeetings",
+      url: "/councilmeeting",
       data: date,
     };
     expect(expectedAction).to.deep.equal(addCouncilmeeting(date));

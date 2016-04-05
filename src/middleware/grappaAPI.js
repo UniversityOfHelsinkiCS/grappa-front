@@ -1,6 +1,8 @@
 import axios from "axios";
 
 export const CALL_API = "CALL_API";
+//export const API_PATH = "http://localhost:9876";
+
 export const API_PATH = "http://tktl-grappa.herokuapp.com";
 
 export const handleCallApi = store => next => action => {

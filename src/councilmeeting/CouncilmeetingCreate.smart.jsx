@@ -26,7 +26,7 @@ export class CouncilmeetingCreate extends Component {
     event.preventDefault();
     const { addCouncilmeeting } = this.props;
     const newCouncilmeeting = {
-      date: this.state.date,
+      date: this.state.date.toDate(),
     };
     console.log(newCouncilmeeting);
     addCouncilmeeting(newCouncilmeeting);
