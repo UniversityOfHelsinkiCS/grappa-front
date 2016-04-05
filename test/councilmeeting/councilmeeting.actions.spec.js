@@ -1,11 +1,11 @@
 import { expect } from "chai";
-import { COUNCILMEETING_SAVE_ONE_SUCCESS,
-         COUNCILMEETING_SAVE_ONE_FAILURE,
-         COUNCILMEETING_GET_ALL_SUCCESS,
-         COUNCILMEETING_GET_ALL_FAILURE } from "../../src/councilmeeting/Councilmeeting.actions";
-
-import { addCouncilmeeting,
-         getCouncilmeetings } from "../../src/councilmeeting/Councilmeeting.actions";
+import {
+  COUNCILMEETING_SAVE_ONE_SUCCESS,
+  COUNCILMEETING_SAVE_ONE_FAILURE,
+  COUNCILMEETING_GET_ALL_SUCCESS,
+  COUNCILMEETING_GET_ALL_FAILURE,
+  addCouncilmeeting,
+  getCouncilmeetings } from "../../src/councilmeeting/councilmeeting.actions";
 import { CALL_API } from "../../src/middleware/grappaAPI";
 
 describe("actions", () => {

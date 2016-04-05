@@ -7,7 +7,7 @@ import {
   COUNCILMEETING_SAVE_ONE_SUCCESS,
   // COUNCILMEETING_SAVE_ONE_FAILURE,
 
-} from "./Councilmeeting.actions";
+} from "./councilmeeting.actions";
 
 const INITIAL_STATE = fromJS({
   councilmeetinglist: [

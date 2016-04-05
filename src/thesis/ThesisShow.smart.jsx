@@ -23,6 +23,14 @@ export class ThesisShow extends Component {
         <h1>Thesis show!</h1>
         <p>author: testi, title: hei</p>
         <button onClick={this.addThesis}>addThesis</button>
+        <header>
+          <h1 id="sign">Sign in as USER</h1>
+          <div id="nav" className="ui vertical pointing menu">
+            <a className="item">Home</a>
+            <a className="item active">Add new thesis</a>
+            <a className="item">View all theses</a>
+          </div>
+        </header>
       </div>
     );
   }
@@ -39,11 +47,3 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default connect(null, mapDispatchToProps)(ThesisShow);
-
-// const mapDispatchToProps = (dispatch) => ({
-//   saveThesis(newItem) {
-//     dispatch(saveThesis(newItem));
-//   },
-// });
-//
-// export default connect(mapDispatchToProps)(ThesisShow);
