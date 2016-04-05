@@ -11,16 +11,7 @@ import {
 
 const INITIAL_STATE = fromJS({
   theseslist: [
-    {
-      id: 0,
-      author: "matti meikäläinen",
-      email: "matti@gmail.com",
-      title: "päällikkö",
-      urkund: "http://matti.com",
-      ethesis: "https://ethesis.com/matti",
-      abstract: "matti on mies",
-      grade: "L",
-    },
+    {},
   ],
 });
 

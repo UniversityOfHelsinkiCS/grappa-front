@@ -1,75 +1,65 @@
 import React, { Component } from "react";
-
-import ThesisListItem from "./ThesisListItem.smart";
+import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
+// import Thesis from "../thesis/Thesis.smart";
 
 export class ThesisList extends Component {
 
   constructor() {
     super();
-    this.getThesesAPI = this.getThesesAPI.bind(this);
-    this.resetTheses = this.resetTheses.bind(this);
   }
 
-  getThesesAPI(event) {
-    event.preventDefault();
+  componentDidMount() {
     const { getTheses } = this.props;
     getTheses();
   }
 
-  resetTheses(event) {
-    event.preventDefault();
-    const { resetTheses } = this.props;
-    resetTheses();
-  }
-
   render() {
     const { theses } = this.props;
-    const theseslist = theses.toJS();
     return (
-      <div className="thesis-container">
-        <h2>Tämä on ThesisList komponentti</h2>
+      <div>
+        <header>
+          <h1 id="sign">Sign in as USER</h1>
+          <div id="nav" className="ui vertical pointing menu">
+            <a className="item">Home</a>
+            <a className="item">Add new thesis</a>
+            <a className="item active">View all theses</a>
+          </div>
+        </header>
         <div>
-          <button onClick={this.getThesesAPI}>getTheses from api</button>
-          <button onClick={this.resetTheses}>resetTheses</button>
+          <h2>Theses</h2>
+          <BootstrapTable data={theses} search bordered={false}>
+            <TableHeaderColumn filter= {{ type: "TextFilter" }} dataField="id" isKey hidden>
+            Thesis ID</TableHeaderColumn>
+            <TableHeaderColumn dataField="author" dataSort width="200">Author</TableHeaderColumn>
+            <TableHeaderColumn dataField="title" dataSort width="400">Thesis Title
+            </TableHeaderColumn>
+            <TableHeaderColumn dataField="instructor" dataSort width="200">Instructor
+            </TableHeaderColumn>
+            <TableHeaderColumn dataField="email" dataSort width="400">Email</TableHeaderColumn>
+            <TableHeaderColumn dataField="StudyFieldId" dataSort width="200">Field
+            </TableHeaderColumn>
+            <TableHeaderColumn dataField="deadline" dataSorT width="200">Deadline
+            </TableHeaderColumn>
+          </BootstrapTable>
         </div>
-        <ul>
-          { theseslist.map(itemi =>
-            <li>
-              <ThesisListItem
-                id = { itemi.id }
-                author = { itemi.author }
-                email = { itemi.email }
-                title = { itemi.title }
-                urkund = { itemi.urkund }
-                ethesis = { itemi.ethesis }
-                abstract = { itemi.abstract }
-                grade = { itemi.grade }
-              />
-            </li>
-          )}
-        </ul>
       </div>
     );
   }
 }
-
 import { connect } from "react-redux";
 
-import { getTheses, resetTheses } from "../thesis/thesis.actions";
+import { getTheses } from "./thesis.actions";
 
 const mapStateToProps = (state) => {
   const theses = state.get("theses");
   return {
-    theses: theses.get("theseslist"),
+    theses: theses.get("theseslist").toJS(),
   };
 };
 
 const mapDispatchToProps = (dispatch) => ({
   getTheses() {
     dispatch(getTheses());
-  },
-  resetTheses() {
-    dispatch(resetTheses());
   },
 });
 
