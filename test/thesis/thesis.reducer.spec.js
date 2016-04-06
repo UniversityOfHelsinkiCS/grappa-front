@@ -63,5 +63,5 @@ describe("thesis.reducer", () => {
       error: "error",
     });
     expect(newState).to.equal(initialState);
-  })
+  });
 });

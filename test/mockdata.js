@@ -15,7 +15,7 @@ export const thesis = {
   field: "Data science",
   grade: "Approbatur",
   deadline: "29.2.2020",
-}
+};
 
 export const theses = [
   {
