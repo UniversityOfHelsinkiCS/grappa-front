@@ -27,7 +27,12 @@ export const resetTheses = () => {
     type: THESIS_RESET_ALL_REQUEST,
   };
 };
-
+/*
+ * Method for creating the action for saving thesis to database
+ *
+ * @param {Object} thesis - thesis to be savedThesis
+ * @return {Object} - action to be dispatched
+ */
 export const saveThesis = (thesis) => {
   console.log("saveThesis-action called!");
   return {
