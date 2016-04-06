@@ -31,7 +31,7 @@ export default function (state = INITIAL_STATE, action) {
     case COUNCILMEETING_SAVE_ONE_SUCCESS:
       return state.updateIn(["councilmeetinglist"], list => list.concat(fromJS(action.payload)));
     case COUNCILMEETING_GET_ALL_SUCCESS:
-      return state.updateIn(["councilmeetinglist"], list => list.concat(fromJS(action.payload)));
+      return state.mergeIn(["councilmeetinglist"], fromJS(action.payload));
     default:
       return state;
   }
