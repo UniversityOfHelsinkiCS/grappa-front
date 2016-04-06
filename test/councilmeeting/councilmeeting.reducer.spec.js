@@ -49,9 +49,7 @@ describe("councilmeeting reducer", () => {
         date: "date3",
       },
     ];
-    const expectedState = initialState.updateIn(["councilmeetinglist"],
-      list => list.concat(fromJS(mockDatesFromAPI))
-      );
+    const expectedState = fromJS(initialState);
     const newState = reducer(initialState, {
       type: COUNCILMEETING_GET_ALL_SUCCESS,
       payload: mockDatesFromAPI,
