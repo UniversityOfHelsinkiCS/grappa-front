@@ -6,25 +6,25 @@ import { getCouncilmeetings } from "./councilmeeting.actions";
 export class CouncilmeetingList extends Component {
 
   constructor() {
-    super()
+    super();
   }
 
   componentDidMount() {
     const { getCouncilmeetings } = this.props;
-    getCouncilmeetings();  
-  } 
+    getCouncilmeetings();
+  }
 
   render() {
     const { councilmeetings } = this.props;
     return (
-        <div>
-            <h2>Councilmeetings</h2>
-            <BootstrapTable data={councilmeetings} search bordered={false}>
-              <TableHeaderColumn filter= {{ type: "TextFilter" }} dataField="id" isKey hidden>
-              Councilmeeting ID</TableHeaderColumn>
-              <TableHeaderColumn dataField="date" dataSort width="200">Date</TableHeaderColumn>
-            </BootstrapTable>
-          </div>
+      <div>
+        <h2>Councilmeetings</h2>
+        <BootstrapTable data={councilmeetings} search bordered={false}>
+          <TableHeaderColumn filter= {{ type: "TextFilter" }} dataField="id" isKey hidden>
+          Councilmeeting ID</TableHeaderColumn>
+          <TableHeaderColumn dataField="date" dataSort width="200">Date</TableHeaderColumn>
+        </BootstrapTable>
+      </div>
         );
   }
 
