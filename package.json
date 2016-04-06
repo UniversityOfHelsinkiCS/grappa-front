@@ -9,7 +9,8 @@
     "postinstall": "webpack --config webpack.config.prod.js --progress --colors",
     "start": "node index.js",
     "test": "export NODE_ENV=testing|| set NODE_ENV=testing&& mocha --compilers js:babel-core/register --require ./test/testhelper.js \"test/**/*@(.js|.jsx)\"",
-    "test:watch": "npm run test -- --watch"
+    "test:watch": "npm run test -- --watch",
+    "check": "npm run lint && npm test && npm start"
   },
   "engines": {
     "node": "5.9"
@@ -34,8 +35,9 @@
     "express": "^4.13.4",
     "history": "^1.17.0",
     "immutable": "^3.7.6",
-    "moment": "^2.11.2",
+    "moment": "^2.12.0",
     "react": "^0.14.6",
+    "react-datepicker": "^0.25.0",
     "react-bootstrap-table": "^2.1.0",
     "react-dom": "^0.14.6",
     "react-redux": "^4.0.6",
