@@ -1,12 +1,12 @@
 import { expect } from "chai";
 import { fromJS } from "immutable";
-import reducer from "../../src/councilmeeting/Councilmeeting.reducer";
+import reducer from "../../src/councilmeeting/councilmeeting.reducer";
 import {
   COUNCILMEETING_SAVE_ONE_SUCCESS,
   COUNCILMEETING_GET_ALL_SUCCESS,
   // COUNCILMEETING_GET_ALL_FAILURE,
 }
-from "../../src/councilmeeting/Councilmeeting.actions";
+from "../../src/councilmeeting/councilmeeting.actions";
 
 
 const initialState = fromJS({

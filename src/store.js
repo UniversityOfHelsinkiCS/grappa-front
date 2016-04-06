@@ -4,11 +4,12 @@ import { combineReducers } from "redux-immutablejs";
 import logger from "./middleware/logger";
 import { handleCallApi } from "./middleware/grappaAPI";
 import theses from "./thesis/thesis.reducer";
+import councilmeetings from "./councilmeeting/councilmeeting.reducer";
 
 const combinedReducers = combineReducers({
   theses,
+  councilmeetings,
 });
 
 const store = createStore(combinedReducers, applyMiddleware(logger, handleCallApi));
-
 export default store;
