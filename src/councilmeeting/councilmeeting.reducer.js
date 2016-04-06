@@ -4,30 +4,17 @@
 */
 import { fromJS } from "immutable";
 import {
-   COUNCILMEETING_GET_ALL_SUCCESS,
-  // COUNCILMEETING_GET_ALL_FAILURE,
+  COUNCILMEETING_GET_ALL_SUCCESS,
+  COUNCILMEETING_GET_ALL_FAILURE,
   COUNCILMEETING_SAVE_ONE_SUCCESS,
-  // COUNCILMEETING_SAVE_ONE_FAILURE,
+  COUNCILMEETING_SAVE_ONE_FAILURE,
 } from "./councilmeeting.actions";
 
 /*
 *Defines what the intial state is when no changes have yet been done to the state.
 */
 const INITIAL_STATE = fromJS({
-  councilmeetinglist: [
-    {
-      id: 1,
-      date: "date1",
-    },
-    {
-      id: 2,
-      date: "date2",
-    },
-    {
-      id: 3,
-      date: "date3",
-    },
-  ],
+  councilmeetinglist: [],
 });
 
 /*
@@ -40,12 +27,15 @@ const INITIAL_STATE = fromJS({
 * @return The new state created by the modification of the previous one.
 */
 export default function (state = INITIAL_STATE, action) {
-  console.log("reducer löytyi!");
   switch (action.type) {
     case COUNCILMEETING_SAVE_ONE_SUCCESS:
-      return state.updateIn(["councilmeetinglist"], list => list.concat(fromJS(action.payload)));
+      return state.updateIn(["councilmeetinglist"], list => list.push(fromJS(action.payload)));
+    case COUNCILMEETING_SAVE_ONE_FAILURE:
+      return state;
     case COUNCILMEETING_GET_ALL_SUCCESS:
-      return state.updateIn(["councilmeetinglist"], list => list.concat(fromJS(action.payload)));
+      return state.mergeIn(["councilmeetinglist"], fromJS(action.payload));
+    case COUNCILMEETING_GET_ALL_FAILURE:
+      return state;
     default:
       return state;
   }

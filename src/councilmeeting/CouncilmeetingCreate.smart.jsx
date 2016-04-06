@@ -41,7 +41,6 @@ export class CouncilmeetingCreate extends Component {
     const newCouncilmeeting = {
       date: this.state.date.toDate(),
     };
-    console.log(newCouncilmeeting);
     addCouncilmeeting(newCouncilmeeting);
   }
 
@@ -60,7 +59,7 @@ export class CouncilmeetingCreate extends Component {
           onChange={this.handleChange}
         />
         <button className="ui primary button" onClick={this.handleSubmit}>Submit</button>
-        <button className="ui primary button">Cancel</button>
+        <button className="ui primary button" >Cancel</button>
       </div>
 
       );

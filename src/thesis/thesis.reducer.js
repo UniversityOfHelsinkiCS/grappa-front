@@ -41,7 +41,7 @@ export default function (state = INITIAL_STATE, action) {
     case THESIS_RESET_ALL_REQUEST:
       return state.merge(INITIAL_STATE);
     case THESIS_SAVE_ONE_SUCCESS:
-      return state.updateIn(["theseslist"], list => list.push(new Map(...action.payload)));
+      return state.updateIn(["theseslist"], list => list.push(new Map(action.payload)));
     case THESIS_SAVE_ONE_FAILURE:
     // probably should display error message?
       return state;
