@@ -18,7 +18,8 @@ const INITIAL_STATE = fromJS({
 export default function (state = INITIAL_STATE, action) {
   switch (action.type) {
     case THESIS_GET_ALL_SUCCESS:
-      return state.updateIn(["theseslist"], list => list.concat(fromJS(action.payload)));
+      return state.mergeIn(["theseslist"], fromJS(action.payload));
+      // return state.updateIn(["theseslist"], list => list.concat(fromJS(action.payload)));
     case THESIS_GET_ALL_FAILURE:
     // probably should display error message?
       return state;
