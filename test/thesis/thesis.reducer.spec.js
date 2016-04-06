@@ -3,47 +3,29 @@ import { expect } from "chai";
 import {
   THESIS_GET_ALL_SUCCESS,
   THESIS_GET_ALL_FAILURE,
+  THESIS_SAVE_ONE_SUCCESS,
+  THESIS_SAVE_ONE_FAILURE,
 } from "../../src/thesis/thesis.actions";
 import reducer from "../../src/thesis/thesis.reducer";
+import { thesis, theses } from "../mockdata";
 
 const initialState = fromJS({
   theseslist: [],
 });
+const stateWithTheses = fromJS({
+  theseslist: theses,
+});
+const stateWithMoreTheses = fromJS({
+  theseslist: [...theses, thesis],
+});
 
 describe("thesis.reducer", () => {
   it("should change theseslist when receiving theses", () => {
-    const mockThesesFromAPI = [
-      {
-        id: 1,
-        author: "matti meikäläinen",
-        email: "matti@gmail.com",
-        title: "päällikkö",
-        urkund: "http://matti.com",
-        ethesis: "https://ethesis.com/matti",
-        abstract: "matti on mies",
-        grade: "L",
-      },
-      {
-        id: 2,
-        author: "matti meikäläinen",
-        email: "matti@gmail.com",
-        title: "päällikkö",
-        urkund: "http://matti.com",
-        ethesis: "https://ethesis.com/matti",
-        abstract: "matti on mies",
-        grade: "L",
-      },
-    ];
-    const expectedState = initialState.updateIn(["theseslist"],
-      list => list.concat(fromJS(mockThesesFromAPI))
-    );
     const newState = reducer(initialState, {
       type: THESIS_GET_ALL_SUCCESS,
-      payload: mockThesesFromAPI,
+      payload: theses,
     });
-    // console.log("initial: ", initialState);
-    // console.log("expected: ", expectedState);
-    expect(newState).to.equal(expectedState);
+    expect(newState).to.equal(stateWithTheses);
   });
 
   it("shouldn't change theseslist when receiving theses produces an error", () => {
@@ -54,4 +36,32 @@ describe("thesis.reducer", () => {
     });
     expect(newState).to.equal(initialState);
   });
+
+  it("should add thesis to theseslist when saving thesis is succesfull", () => {
+    const expectedState = initialState.mergeIn(["theseslist"],
+      fromJS([thesis])
+    );
+    const newState = reducer(initialState, {
+      type: THESIS_SAVE_ONE_SUCCESS,
+      payload: thesis,
+    });
+    expect(newState).to.equal(expectedState);
+  });
+
+  it("shouldn't remove old theses when adding thesis", () => {
+    const newState = reducer(stateWithTheses, {
+      type: THESIS_SAVE_ONE_SUCCESS,
+      payload: thesis,
+    });
+    expect(newState).to.equal(stateWithMoreTheses);
+  });
+
+  it("shouldn't change theses when saving is unsuccesfull", () => {
+    const newState = reducer(initialState, {
+      type: THESIS_SAVE_ONE_FAILURE,
+      message: "asdf",
+      error: "error",
+    });
+    expect(newState).to.equal(initialState);
+  })
 });
