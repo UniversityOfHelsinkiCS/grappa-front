@@ -1,18 +1,31 @@
+/*
+* ThesisList.smart for displaying the data relating to all the thesis added to the
+* database. It contains the component for rendering the needed displayable data, and
+* the container containing various functions for handling the connections between the
+* component and Redux.
+*/
+
 import React, { Component } from "react";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
-// import Thesis from "../thesis/Thesis.smart";
 
 export class ThesisList extends Component {
-
   constructor() {
     super();
   }
 
+  /*
+  * Defines what is done at the beginning of the components life before rendering.
+  */
   componentDidMount() {
     const { getTheses } = this.props;
     getTheses();
   }
 
+  /*
+  * The method in charge of rendering the outlook of the page. Contains all the html elements.
+  * Contains a react-bootstrap-table library styled table.
+  * @return <div>-container Container wrapping all the html elements to be rendered.
+  */
   render() {
     const { theses } = this.props;
     return (
@@ -37,9 +50,12 @@ export class ThesisList extends Component {
   }
 }
 import { connect } from "react-redux";
-
 import { getTheses } from "./thesis.actions";
 
+/*
+* A special funciton used to define what the form of the data is that is gotten from the state.
+* @return ListOfThesis A list containing all the thesis listed in the database.
+*/
 const mapStateToProps = (state) => {
   const theses = state.get("theses");
   return {
@@ -47,6 +63,9 @@ const mapStateToProps = (state) => {
   };
 };
 
+/*
+* A special function used to define and dispatch the relevant data to thesis.actions
+*/
 const mapDispatchToProps = (dispatch) => ({
   getTheses() {
     dispatch(getTheses());
