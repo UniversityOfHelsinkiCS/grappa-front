@@ -10,7 +10,7 @@ import {
 } from "react-addons-test-utils";
 import { Provider } from "react-redux";
 import store from "../../src/store";
-import ThesisCreateContainer, { ThesisCreate } from "../../src/thesis/ThesisCreate.smart";
+import ThesisCreateContainer from "../../src/thesis/ThesisCreate.smart";
 import { saveThesis } from "../../src/thesis/thesis.actions";
 
 describe("ThesisCreate.smart", () => {
@@ -31,11 +31,13 @@ describe("ThesisCreate.smart", () => {
         <ThesisCreateContainer />
       </Provider>
     );
-    const button = scryRenderedDOMComponentsWithClass(component, "ui primary button")[1]
+    const button = scryRenderedDOMComponentsWithClass(component, "ui primary button")[1];
 
     const spy = sinon.spy(saveThesis);
     Simulate.click(button);
-    
-    setTimeout( () => { expect(spy.calledOnce).to.equal(true); }, 1);
+
+    setTimeout(() => {
+      expect(spy.calledOnce).to.equal(true);
+    }, 1);
   });
 });
