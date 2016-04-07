@@ -14,7 +14,7 @@ export class ThesisList extends Component {
   }
 
   render() {
-    const { theses } = this.props; 
+    const { theses } = this.props;
     return (
       <div>
         <h2>Theses</h2>
