@@ -6,8 +6,11 @@ import { CALL_API } from "../middleware/grappaAPI";
 
 export const THESIS_GET_ALL_SUCCESS = "THESIS_GET_ALL_SUCCESS";
 export const THESIS_GET_ALL_FAILURE = "THESIS_GET_ALL_FAILURE";
+<<<<<<< HEAD
+=======
 export const THESIS_RESET_ALL_REQUEST = "THESIS_RESET_ALL_REQUEST";
 // export const THESIS_SAVE_ONE_REQUEST = "THESIS_SAVE_ONE_REQUEST";
+>>>>>>> master
 export const THESIS_SAVE_ONE_SUCCESS = "THESIS_SAVE_ONE_SUCCESS";
 export const THESIS_SAVE_ONE_FAILURE = "THESIS_SAVE_ONE_FAILURE";
 
@@ -27,7 +30,9 @@ export const getTheses = () => {
     data: {},
   };
 };
+<<<<<<< HEAD
 
+=======
 /*
 * The action called to reset the state to its INITIAL_STATE.
 * @return resetTheses The object containing the relevant information for the
@@ -39,7 +44,7 @@ export const resetTheses = () => {
     type: THESIS_RESET_ALL_REQUEST,
   };
 };
-
+>>>>>>> master
 /*
 * The action called to save the given data as a new thesis in the database.
 * @param thesis An object cantaining all the relevant data of the new thesis thats
@@ -47,7 +52,11 @@ export const resetTheses = () => {
 * @return saveThesis The object containing the relevant information for the
 * reducer to handle the data accordingly.
 */
+<<<<<<< HEAD
+export const saveThesis = (Thesis) => {
+=======
 export const saveThesis = (thesis) => {
+>>>>>>> master
   console.log("saveThesis-action called!");
   return {
     type: CALL_API,
@@ -55,6 +64,6 @@ export const saveThesis = (thesis) => {
     failure: THESIS_SAVE_ONE_FAILURE,
     method: "post",
     url: "/thesis",
-    data: thesis,
+    data: Thesis,
   };
 };
