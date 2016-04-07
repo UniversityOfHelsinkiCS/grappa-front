@@ -39,3 +39,19 @@ export const theses = [
     grade: "L",
   },
 ];
+
+export const councilmeeting = {
+  id: 1,
+  date: "date1",
+};
+
+export const councilmeetings = [
+  {
+    id: 2,
+    date: "date2",
+  },
+  {
+    id: 3,
+    date: "date3",
+  },
+];
