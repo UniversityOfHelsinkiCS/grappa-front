@@ -59,7 +59,7 @@ export class ThesisCreate extends React.Component {
 * Defines what is done at the beginning of the components life before rendering.
 */
   componentDidMount() {
-//    const { listCouncilmeetings } = this.props;
+    const { getCouncilmeetings } = this.props;
     getCouncilmeetings();
   }
 /*
