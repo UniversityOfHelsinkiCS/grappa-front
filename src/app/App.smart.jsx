@@ -22,8 +22,3 @@ export default class App extends Component {
 App.propTypes = {
   children: PropTypes.node,
 };
-
-// import { connect } from "react-redux";
-
-// export default connect(mapStateToProps, mapDispatchToProps)(App);
-// export default connect()(App);

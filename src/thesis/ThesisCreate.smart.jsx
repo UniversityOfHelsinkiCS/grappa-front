@@ -7,7 +7,7 @@
 
 import React from "react";
 import Validation from "react-validation";
-import weburl from "./urlRegexp";
+import weburl from "../config/urlRegexp";
 import { connect } from "react-redux";
 import Dropdown from "../ui/Dropdown.component";
 import { getCouncilmeetings } from "../councilmeeting/councilmeeting.actions";
