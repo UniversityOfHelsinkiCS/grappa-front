@@ -6,28 +6,11 @@
 */
 
 import React from "react";
-import Validation from "react-validation";
-import weburl from "./urlRegexp";
 import { connect } from "react-redux";
 import Dropdown from "../ui/Dropdown.component";
+import Validation from "./thesisValidation";
 import { getCouncilmeetings } from "../councilmeeting/councilmeeting.actions";
 
-Validation.extendErrors({
-  isEmail: {
-    className: "ui-email-validation-failed",
-    message: "enter valid email address",
-  },
-  isLink: {
-    className: "ui-link-validation-failed",
-    message: "enter valid link",
-    rule: (value) => value.match(weburl),
-  },
-  isRequired: {
-    className: "ui-required-failed",
-    message: "field is required",
-    rule: (value) => Boolean(value),
-  },
-});
 
 export class ThesisCreate extends React.Component {
   constructor() {
@@ -143,10 +126,9 @@ export class ThesisCreate extends React.Component {
           <Validation.Input
             type="text"
             name="madeby[email]"
-            value={this.state.email}
-            onChange={this.handleChange.bind(this, "email")}
-            placeholder="Email Address"
-            validations={[{ rule: "isRequired" }]}
+            value={this.state.email} onChange={this.handleChange.bind(this, "email")} placeholder="Email Address"
+            validations={[{ rule: "isRequired" },
+                          { rule: "isEmail" }]}
           />
         </div>
 
@@ -204,7 +186,7 @@ export class ThesisCreate extends React.Component {
               value={this.state.ethesis}
               onChange={this.handleChange.bind(this, "ethesis")}
               placeholder="Link to E-thesis"
-              validations={[{ rule: "isRequired" }, { rule: "isLink" }]}
+              validations={[{ rule: "isLink" }]}
             />
           </div>
           <div className="field">
@@ -214,7 +196,8 @@ export class ThesisCreate extends React.Component {
               value={this.state.urkund}
               onChange={this.handleChange.bind(this, "urkund")}
               placeholder="Link to Urkund"
-              validations={[{ rule: "isRequired" }, { rule: "isLink" }]}
+              validations={[{ rule: "isRequired" },
+                            { rule: "isLink" }]}
             />
           </div>
         </div>

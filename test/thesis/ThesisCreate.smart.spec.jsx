@@ -26,11 +26,6 @@ describe("ThesisCreate.smart", () => {
   });
 
   it("should call method saveThesis when submit is clicked", () => {
-    const component = renderIntoDocument(
-      <Provider store={store}>
-        <ThesisCreateContainer />
-      </Provider>
-    );
     const button = scryRenderedDOMComponentsWithClass(component, "ui primary button")[1];
 
     const spy = sinon.spy(saveThesis);
@@ -43,7 +38,7 @@ describe("ThesisCreate.smart", () => {
   describe("ThesisCreate form validation", () => {
     const button = scryRenderedDOMComponentsWithClass(component, "ui primary button")[1];
     it("should keep submit button locked until all fields are filled", () => {
-      expect(button.disabled);
+      expect(button.disabled).to.equal(true);
     });
   });
 });
