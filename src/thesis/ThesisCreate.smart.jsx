@@ -6,6 +6,8 @@
 */
 
 import React from "react";
+import Validation from "react-validation";
+import weburl from "../config/urlRegexp";
 import { connect } from "react-redux";
 import Dropdown from "../ui/Dropdown.component";
 import Validation from "./thesisValidation";
@@ -42,7 +44,7 @@ export class ThesisCreate extends React.Component {
 * Defines what is done at the beginning of the components life before rendering.
 */
   componentDidMount() {
-//    const { listCouncilmeetings } = this.props;
+    const { getCouncilmeetings } = this.props;
     getCouncilmeetings();
   }
 /*
