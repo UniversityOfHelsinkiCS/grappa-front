@@ -28,6 +28,7 @@ export class ThesisList extends Component {
   */
   render() {
     const { theses } = this.props;
+    console.log(theses);
     return (
       <div>
         <h2>Theses</h2>
@@ -35,14 +36,14 @@ export class ThesisList extends Component {
           <TableHeaderColumn filter= {{ type: "TextFilter" }} dataField="id" isKey hidden>
           Thesis ID</TableHeaderColumn>
           <TableHeaderColumn dataField="author" dataSort width="200">Author</TableHeaderColumn>
-          <TableHeaderColumn dataField="title" dataSort width="400">Thesis Title
+          <TableHeaderColumn dataField="title" dataSort width="200">Thesis Title
           </TableHeaderColumn>
           <TableHeaderColumn dataField="instructor" dataSort width="200">Instructor
           </TableHeaderColumn>
-          <TableHeaderColumn dataField="email" dataSort width="400">Email</TableHeaderColumn>
+          <TableHeaderColumn dataField="email" dataSort width="200">Email</TableHeaderColumn>
           <TableHeaderColumn dataField="StudyFieldId" dataSort width="200">Field
           </TableHeaderColumn>
-          <TableHeaderColumn dataField="deadline" dataSorT width="200">Deadline
+          <TableHeaderColumn dataField="deadline" dataSort width="200">Deadline
           </TableHeaderColumn>
         </BootstrapTable>
       </div>
