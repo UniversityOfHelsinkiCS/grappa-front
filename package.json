@@ -47,6 +47,7 @@
     "redux-immutablejs": "0.0.8",
     "redux-localstorage": "^0.4.0",
     "redux-thunk": "^1.0.3",
+    "validator": "^5.2.0",
     "webpack": "^1.12.11"
   },
   "devDependencies": {
