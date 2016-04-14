@@ -6,8 +6,6 @@
 */
 
 import React from "react";
-import Validation from "react-validation";
-import weburl from "../config/urlRegexp";
 import { connect } from "react-redux";
 import Dropdown from "../ui/Dropdown.component";
 import Validation from "./thesisValidation";
@@ -110,7 +108,8 @@ export class ThesisCreate extends React.Component {
               value={this.state.fname}
               onChange={this.handleChange.bind(this, "fname")}
               placeholder="First Name"
-              validations={[{ rule: "isRequired" }]}
+              validations={[{ rule: "isRequired" },
+                            { rule: "isAlpha" }]}
             />
           </div>
           <div className="field">
@@ -120,7 +119,8 @@ export class ThesisCreate extends React.Component {
               value={this.state.lname}
               onChange={this.handleChange.bind(this, "lname")}
               placeholder="Last Name"
-              validation={[{ rule: "isRequired" }]}
+              validations={[{ rule: "isRequired" },
+                            { rule: "isAlpha" }]}
             />
           </div>
         </div>

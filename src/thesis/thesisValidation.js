@@ -1,5 +1,6 @@
+import validator from "validator";
 import Validation from "react-validation";
-import weburl from "./urlRegexp";
+import weburl from "../config/urlRegexp";
 
 Validation.extendErrors({
   isEmail: {
