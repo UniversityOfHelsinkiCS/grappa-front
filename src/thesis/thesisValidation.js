@@ -1,4 +1,3 @@
-import validator from "validator";
 import Validation from "react-validation";
 import weburl from "../config/urlRegexp";
 
