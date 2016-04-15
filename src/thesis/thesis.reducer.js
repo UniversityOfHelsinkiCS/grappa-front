@@ -9,6 +9,8 @@ import {
   // THESIS_SAVE_ONE_REQUEST,
   THESIS_SAVE_ONE_SUCCESS,
   THESIS_SAVE_ONE_FAILURE,
+  THESIS_UPDATE_ONE_SUCCESS,
+  THESIS_UPDATE_ONE_FAILURE,
 } from "./thesis.actions";
 
 /*
@@ -42,6 +44,10 @@ export default function (state = INITIAL_STATE, action) {
     case THESIS_SAVE_ONE_FAILURE:
     // probably should display error message?
       return state;
+    case THESIS_UPDATE_ONE_SUCCESS:
+      return state.updateIn(["theseslist"], list => list.push(new Map(action.payload)));
+    case THESIS_UPDATE_ONE_FAILURE:
+    // probably should display error message?
     default:
       return state;
   }

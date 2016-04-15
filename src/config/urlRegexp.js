@@ -1,4 +1,4 @@
-export const reWeburl = new RegExp(
+module.exports.weburl = new RegExp(
   "^" +
   "(?:(?:https?|ftp)://)" +
   // user:pass authentication

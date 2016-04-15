@@ -1,6 +1,7 @@
 import Validation from "../thesis/thesisValidation";
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { updateThesis } from "../thesis/thesis.actions";
 
 export class Ethesis extends Component {
   constructor() {
@@ -21,13 +22,11 @@ export class Ethesis extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    /*
     const thesis = {
       ethesis: this.state.ethesislink,
     };
-    // const { saveThesis this.props;
-    // saveThesis(newThesis);
-    */
+    const { updateThesis } = this.props;
+    updateThesis(thesis);
   }
 
   render() {
@@ -49,23 +48,13 @@ export class Ethesis extends Component {
   }
 }
 
-  /*
-const mapStateToProps = (state) => {
-  const link = state.get("ethesislink");
-  return {
-    theses: theses.get("theseslist").toJS(),
-  };
-};
-
-  */
 /*
-* A special function used to define and dispatch the relevant data to thesis.actions
+* An ordinary function used to define and dispatch the relevant data to thesis.actions
 */
-  /*
 const mapDispatchToProps = (dispatch) => ({
-  getTheses() {
-    dispatch(getTheses());
+  updateThesis() {
+    dispatch(updateThesis());
   },
 });
-  */
-export default connect(null, null)(Ethesis);
+
+export default connect(null, mapDispatchToProps)(Ethesis);
