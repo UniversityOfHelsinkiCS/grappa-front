@@ -25,18 +25,17 @@ describe("Login.smart", () => {
     expect(buttons[0].value).to.equal("Submit");
   });
 
-    it("validation should keep submit button locked until all fields are filled", () => {
-      const button = scryRenderedDOMComponentsWithClass(component, "ui primary button")[0];
-      expect(button.disabled).to.equal(true);
-    });
+  it("validation should keep submit button locked until all fields are filled", () => {
+    const button = scryRenderedDOMComponentsWithClass(component, "ui primary button")[0];
+    expect(button.disabled).to.equal(true);
+  });
 
-    it("should call method saveThesis when submit is clicked", () => {
-      const button = scryRenderedDOMComponentsWithClass(component, "ui primary button")[0];
-
-      const spy = sinon.spy(saveLoginData);
-      Simulate.click(button);
-      setTimeout(() => {
-        expect(spy.calledOnce).to.equal(true);
-      }, 1);
-    });
-})
+  it("should call method saveThesis when submit is clicked", () => {
+    const button = scryRenderedDOMComponentsWithClass(component, "ui primary button")[0];
+    const spy = sinon.spy(saveLoginData);
+    Simulate.click(button);
+    setTimeout(() => {
+      expect(spy.calledOnce).to.equal(true);
+    }, 1);
+  });
+});

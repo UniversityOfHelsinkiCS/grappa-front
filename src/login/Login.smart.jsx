@@ -7,6 +7,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import Validation from "./loginValidation";
+import { saveLoginData } from "./login.actions";
 
 export class Login extends React.Component {
   constructor() {
@@ -19,7 +20,6 @@ export class Login extends React.Component {
       username: "",
       password: "",
     };
-
   }
 /*
 * Handler method to handle the changes to the username input field.
@@ -27,7 +27,7 @@ export class Login extends React.Component {
 */
   handleNameChange(event) {
     event.preventDefault();
-    this.setState({username: event.target.value });
+    this.setState({ username: event.target.value });
   }
 
   /*
@@ -36,7 +36,7 @@ export class Login extends React.Component {
   */
   handlePasswordChange(event) {
     event.preventDefault();
-    this.setState({password: event.target.value });
+    this.setState({ password: event.target.value });
   }
   /*
   * Handler method to handle what to do when the submit button is clicked.
@@ -44,7 +44,7 @@ export class Login extends React.Component {
   */
   handleSubmit(event) {
     event.preventDefault();
-     const loginData = {
+    const loginData = {
       username: this.state.username,
       password: this.state.password,
     };
@@ -59,17 +59,17 @@ export class Login extends React.Component {
       <Validation.Form className="field" onSubmit={this.handleSubmit}>
         <Validation.Input
           type="text"
-          value={this.state.username}
-          onChange={this.handleNameChange.bind(this)}
+          value={ this.state.username }
+          onChange={ this.handleNameChange.bind(this) }
           placeholder="Username"
-          validations={[{ rule: "isRequired" }, {minlength: 3},]}
+          validations={ [{ rule: "isRequired" }, { minlength: 3 }] }
         />
         <Validation.Input
           type="text"
-          value={this.state.password}
-          onChange={this.handlePasswordChange.bind(this)}
+          value={ this.state.password }
+          onChange={ this.handlePasswordChange.bind(this) }
           placeholder="Password"
-          validations={[{ rule: "isRequired" }, {minlength: 3},]}
+          validations={ [{ rule: "isRequired" }, { minlength: 3 }] }
         />
         <Validation.Button className="ui primary button" value="Submit" onClick={this.handleSubmit} />
       </Validation.Form>
@@ -77,16 +77,14 @@ export class Login extends React.Component {
   }
 }
 
-import { saveLoginData } from "./login.actions";
-
 /*
 * A special function used to define and dispatch the relevant data to login.actions.
 */
-  const mapDispatchToProps = (dispatch) => ({
-    saveLoginData(loginData) {
-      dispatch(saveLoginData(loginData));
-    },
-  });
+const mapDispatchToProps = (dispatch) => ({
+  saveLoginData(loginData) {
+    dispatch(saveLoginData(loginData));
+  },
+});
 
 
 export default connect(null, mapDispatchToProps)(Login);
