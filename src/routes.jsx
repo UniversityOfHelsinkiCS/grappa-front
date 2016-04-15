@@ -6,6 +6,7 @@ import ThesisShow from "./thesis/ThesisShow.smart";
 import ThesisCreate from "./thesis/ThesisCreate.smart";
 import CouncilmeetingCreate from "./councilmeeting/CouncilmeetingCreate.smart";
 import CouncilmeetingList from "./councilmeeting/CouncilmeetingList.smart";
+import Login from "./login/Login.smart";
 
 export default (
   <Route path="/" component={App}>
@@ -14,6 +15,7 @@ export default (
     <Route path="thesis/:id" component={ThesisShow} />
     <Route path="councilmeeting/new" component={CouncilmeetingCreate} />
     <Route path="councilmeeting" component={CouncilmeetingList} />
+    <Route path="login" component={Login} />
     <IndexRedirect to="/thesis" />
   </Route>
 );
