@@ -7,7 +7,8 @@ export default class App extends Component {
     return (
       <div>
         <h1>Hei olen App komponentti, minun sisälläni on kaikki!</h1>
-        <Link to="/thesis">ThesesList </Link>
+        <Link to="/login">Login</Link>
+        <Link to="/thesis"> | ThesesList </Link>
         <Link to="/thesis/new"> | ThesesCreate </Link>
         <Link to="/thesis/1"> | ThesesShow </Link>
         <Link to="/councilmeeting"> | Councilmeetings </Link>
