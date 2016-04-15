@@ -2,7 +2,7 @@ const path = require("path");
 const express = require("express");
 
 const root = path.join(__dirname, "dist");
-const port = process.env.PORT || 8088;
+const port = process.env.PORT || 8080;
 
 const app = express();
 
