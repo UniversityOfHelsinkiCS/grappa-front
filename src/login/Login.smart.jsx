@@ -45,10 +45,9 @@ export class Login extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
      const loginData = {
-      username: this.state.link,
-      password: this.state.thesisId,
+      username: this.state.username,
+      password: this.state.password,
     };
-    // console.log("login called");
     saveLoginData(loginData);
   }
   /*
