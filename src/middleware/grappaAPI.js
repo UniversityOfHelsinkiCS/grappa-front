@@ -3,6 +3,16 @@ import axios from "axios";
 export const CALL_API = "CALL_API";
 export const API_PATH = process.env.API_URL;
 
+/*
+ * Method for intercepting CALL_API-type actions before reducers
+ *
+ * This method is being called on every dispatched action and it
+ * checks them for CALL_API -type. Currently it doesn't consume
+ * the action so it always calls next(action) which lets the action
+ * be passed forward to the reducers. Incase the type is CALL_API
+ * this method triggers asynchronous call to the API which once finished
+ * dispatches either SUCCESS or FAILURE type of action.
+ */
 export const handleCallApi = store => next => action => {
   next(action);
   if (action.type === CALL_API) {

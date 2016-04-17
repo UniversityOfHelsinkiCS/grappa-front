@@ -9,3 +9,9 @@ dist/
 
 # npm debug log
 npm-debug.log
+
+# coverage report folder created by Istanbul
+coverage/
+
+# instrument report folder created also by Istanbul
+instrument/

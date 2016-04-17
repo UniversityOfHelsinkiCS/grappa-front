@@ -1,6 +1,9 @@
 import React, { Component, PropTypes } from "react";
 import { Link } from "react-router";
 
+/*
+ * Main component that wraps all other components inside of it
+ */
 export default class App extends Component {
 
   render() {
