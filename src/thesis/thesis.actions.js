@@ -10,6 +10,8 @@ export const THESIS_RESET_ALL_REQUEST = "THESIS_RESET_ALL_REQUEST";
 // export const THESIS_SAVE_ONE_REQUEST = "THESIS_SAVE_ONE_REQUEST";
 export const THESIS_SAVE_ONE_SUCCESS = "THESIS_SAVE_ONE_SUCCESS";
 export const THESIS_SAVE_ONE_FAILURE = "THESIS_SAVE_ONE_FAILURE";
+export const THESIS_UPDATE_ONE_SUCCESS = "THESIS_UPDATE_ONE_SUCCESS";
+export const THESIS_UPDATE_ONE_FAILURE = "THESIS_UPDATE_ONE_FAILURE";
 
 /*
 * The action called to get a list of all the data related to the theses in the database.
@@ -54,6 +56,18 @@ export const saveThesis = (thesis) => {
     success: THESIS_SAVE_ONE_SUCCESS,
     failure: THESIS_SAVE_ONE_FAILURE,
     method: "post",
+    url: "/thesis",
+    data: thesis,
+  };
+};
+
+export const updateThesis = (thesis) => {
+  console.log("");
+  return {
+    type: CALL_API,
+    success: THESIS_UPDATE_ONE_SUCCESS,
+    failure: THESIS_UPDATE_ONE_FAILURE,
+    method: "put",
     url: "/thesis",
     data: thesis,
   };

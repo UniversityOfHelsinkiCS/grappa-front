@@ -27,6 +27,7 @@
   },
   "homepage": "https://github.com/ultra-hyper-storm-ohtuprojekti/grappa-front#readme",
   "dependencies": {
+    "validator": "^3.41.2",
     "axios": "^0.9.1",
     "babel-core": "^6.4.5",
     "babel-loader": "^6.2.1",
@@ -43,8 +44,7 @@
     "react-dom": "^0.14.6",
     "react-redux": "^4.0.6",
     "react-router": "^2.0.1",
-    "react-validation": "^1.5.1",
-    "redux": "^3.0.5",
+    "react-validation": "^1.6.4", "redux": "^3.0.5",
     "redux-immutablejs": "0.0.8",
     "redux-localstorage": "^0.4.0",
     "redux-thunk": "^1.0.3",
