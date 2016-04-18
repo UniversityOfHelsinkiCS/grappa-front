@@ -1,5 +1,4 @@
 import Validation from "react-validation";
-import weburl from "../config/urlRegexp";
 
 Validation.extendErrors({
   isRequired: {

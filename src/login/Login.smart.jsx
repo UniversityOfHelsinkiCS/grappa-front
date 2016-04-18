@@ -62,7 +62,7 @@ export class Login extends React.Component {
           value={ this.state.username }
           onChange={ this.handleNameChange.bind(this) }
           placeholder="Username"
-          validations={ [{ rule: "isEmail"} ] }
+          validations={ [{ rule: "isEmail" }] }
         />
         <Validation.Input
           type="password"

@@ -22,9 +22,9 @@ export default class Nav extends Component {
 * The render method which states what to render onto the view.
 */
   render() {
-    return(
+    return (
       <div id="nav" className="ui vertical pointing menu">
-        <Link className="item" to="../login">Login</Link>
+        <Link className="item" to="/login">Login</Link>
         <a className="item" onClick={ this.handleLogout }>Logout</a>
         <Link className="item" to="/thesis">ThesesList </Link>
         <Link className="item" to="/thesis/new">ThesesCreate </Link>
@@ -32,6 +32,6 @@ export default class Nav extends Component {
         <Link className="item" to="/councilmeeting">Councilmeetings </Link>
         <Link className="item" to="/councilmeeting/new">Add new meetingdate</Link>
       </div>
-    )
+    );
   }
 }

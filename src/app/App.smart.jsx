@@ -2,16 +2,6 @@ import React, { Component, PropTypes } from "react";
 import Navi from "../ui/Navi.component";
 export default class App extends Component {
 
-  constructor(){
-    super();
-    this.handleLogout = this.handleLogout.bind(this);
-  }
-
-  handleLogout(event) {
-    logout();
-    console.log("logout called");
-  }
-
   render() {
     return (
       <div>
