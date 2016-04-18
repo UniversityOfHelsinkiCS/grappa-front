@@ -14,7 +14,7 @@ Validation.extendErrors({
   isRequired: {
     className: "ui-required-failed",
     message: "field is required",
-    rule: (value) => Boolean(Validation.validator.trim(value)),
+    rule: (value) => Boolean(value),
   },
   isAlpha: {
     className: "ui-is-text-failed",
