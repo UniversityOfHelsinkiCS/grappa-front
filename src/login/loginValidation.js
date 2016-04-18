@@ -6,9 +6,9 @@ Validation.extendErrors({
     message: "field is required",
     rule: (value) => Boolean(Validation.validator.trim(value)),
   },
-  isAlpha: {
-    className: "ui-is-text-failed",
-    message: "invalid characters",
+  isEmail: {
+    className: "ui-email-validation-failed",
+    message: "invalid email address",
   },
 });
 

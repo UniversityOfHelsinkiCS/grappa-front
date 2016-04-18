@@ -62,14 +62,14 @@ export class Login extends React.Component {
           value={ this.state.username }
           onChange={ this.handleNameChange.bind(this) }
           placeholder="Username"
-          validations={ [{ rule: "isRequired" }, { minlength: 3 }] }
+          validations={ [{ rule: "isEmail" }] }
         />
         <Validation.Input
-          type="text"
+          type="password"
           value={ this.state.password }
           onChange={ this.handlePasswordChange.bind(this) }
           placeholder="Password"
-          validations={ [{ rule: "isRequired" }, { minlength: 3 }] }
+          validations={ [{ rule: "isRequired" }] }
         />
         <Validation.Button className="ui primary button" value="Submit" onClick={this.handleSubmit} />
       </Validation.Form>
