@@ -65,7 +65,7 @@ export class Login extends React.Component {
           validations={ [{ rule: "isRequired" }, { minlength: 3 }] }
         />
         <Validation.Input
-          type="text"
+          type="password"
           value={ this.state.password }
           onChange={ this.handlePasswordChange.bind(this) }
           placeholder="Password"

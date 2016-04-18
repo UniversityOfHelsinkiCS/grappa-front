@@ -26,13 +26,10 @@ export class ThesisCreate extends React.Component {
       title: "",
       grader: "",
       grader2: "",
-      graderemail: "",
-      grader2email: "",
       gradertitle: "",
       grader2title: "",
       urkund: "",
       ethesis: "",
-      abstract: "",
       field: "",
       grade: "",
       deadline: "",
@@ -75,19 +72,14 @@ export class ThesisCreate extends React.Component {
       author: `${this.state.fname} ${this.state.lname}`,
       email: this.state.email,
       title: this.state.title,
-      grader: this.state.grader,
-      grader2: this.state.grader2,
-      graderemail: this.state.graderemail,
-      grader2email: this.state.grader2email,
-      gradertitle: this.state.gradertitle,
-      grader2title: this.state.grader2title,
+      graders: [this.state.grader, this.state.gradertitle, this.state.grader2, this.state.grader2title],
       urkund: this.state.urkund,
       ethesis: this.state.ethesis,
-      abstract: this.state.abstract,
       field: this.state.field,
       grade: this.state.grade,
       deadline: this.state.deadline,
     };
+    console.log(newThesis);
     const { saveThesis } = this.props;
     saveThesis(newThesis);
   }
@@ -220,17 +212,6 @@ export class ThesisCreate extends React.Component {
               </Validation.Select>
             </div>
           </div>
-          <div className="field">
-            <Validation.Input
-              type="text"
-              name="1grader[email]"
-              value={this.state.graderemail}
-              onChange={this.handleChange.bind(this, "graderemail")}
-              placeholder="Email"
-              validations={[{ rule: "isRequired" },
-                            { rule: "isEmail" }]}
-            />
-          </div>
         </div>
         <div className="three fields">
           <div className="field">
@@ -256,17 +237,6 @@ export class ThesisCreate extends React.Component {
               <option value="Prof">Professor</option>
               <option value="Doc">Doctor</option>
             </Validation.Select>
-          </div>
-          <div className="field">
-            <Validation.Input
-              type="text"
-              name="2grader[email]"
-              value={this.state.grader2email}
-              onChange={this.handleChange.bind(this, "grader2email")}
-              placeholder="Email"
-              validations={[{ rule: "isRequired" },
-                            { rule: "isEmail" }]}
-            />
           </div>
         </div>
         <button className="ui primary button">Add Graders</button>
