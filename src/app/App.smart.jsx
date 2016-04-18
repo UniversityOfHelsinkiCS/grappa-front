@@ -3,14 +3,13 @@ import { Link } from "react-router";
 import { logout } from "../login/login.actions";
 export default class App extends Component {
 
-  constructor(){
+  constructor() {
     super();
     this.handleLogout = this.handleLogout.bind(this);
   }
 
-  handleLogout(event) {
+  handleLogout() {
     logout();
-    console.log("logout called");
   }
 
   render() {
