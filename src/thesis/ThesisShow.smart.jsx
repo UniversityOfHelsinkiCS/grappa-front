@@ -48,7 +48,7 @@ export class ThesisShow extends Component {
     let { ethesisBox } = "false";
     let { grEvalBox } = "false";
     let { docBox } = "false";
-    const thesisID = 2;
+    const thesisID = 1;
     let thesisprog;
     let rightThesis;
     for(var i=0;i<theses.length;i++){
@@ -62,23 +62,23 @@ export class ThesisShow extends Component {
        }
     }
 
-    if(typeof rightThesis !== undefined && typeof thesisprog !== undefined) {
+    if(typeof rightThesis != "undefined" && typeof thesisprog != "undefined") {
       console.log("inside")
       console.log(rightThesis);
       console.log(thesisprog);
-      if(typeof rightThesis.ethesis !== null && typeof rightThesis.ethesis !== undefined) {
-        // this.handleEthesisBox();
-        ethesisBox = "true";
-      }
-      if(thesisprog.gradersStatus === true){
-        console.log("but not here?");
-        // this.handleGrEval();
-        grEvalBox = "true";
-      }
-      if(typeof thesisprog.documentsSent !== undefined && typeof thesisprog == Date) {
-        // this.handleDocSentBox();
-         docBox = "true";
-      }
+      // if(typeof rightThesis.ethesis !== null && typeof rightThesis.ethesis !== undefined) {
+      //   // this.handleEthesisBox();
+      //   ethesisBox = "true";
+      // }
+      // if(thesisprog.gradersStatus === true){
+      //   console.log("but not here?");
+      //   // this.handleGrEval();
+      //   grEvalBox = "true";
+      // // }
+      // if(typeof thesisprog.documentsSent !== undefined && typeof thesisprog == Date) {
+      //   // this.handleDocSentBox();
+      //    docBox = "true";
+      // }
     }
     return (
       <div>
