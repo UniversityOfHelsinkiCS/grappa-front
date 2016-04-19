@@ -12,6 +12,8 @@ export const THESIS_SAVE_ONE_SUCCESS = "THESIS_SAVE_ONE_SUCCESS";
 export const THESIS_SAVE_ONE_FAILURE = "THESIS_SAVE_ONE_FAILURE";
 export const THESIS_UPDATE_ONE_SUCCESS = "THESIS_UPDATE_ONE_SUCCESS";
 export const THESIS_UPDATE_ONE_FAILURE = "THESIS_UPDATE_ONE_FAILURE";
+// export const THESIS_GET_ONE_SUCCESS = "THESIS_GET_ONE_SUCCESS";
+// export const THESIS_GET_ONE_FAILURE = "THESIS_GET_ONE_FAILURE";
 
 /*
 * The action called to get a list of all the data related to the theses in the database.

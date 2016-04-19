@@ -23,7 +23,7 @@ export default class Nav extends Component {
 */
   render() {
     return (
-      <div id="nav" className="ui vertical pointing menu">
+      <div id="nav" className="ui horizontal pointing menu">
         <Link className="item" to="/login">Login</Link>
         <a className="item" onClick={ this.handleLogout }>Logout</a>
         <Link className="item" to="/thesis">ThesesList </Link>
