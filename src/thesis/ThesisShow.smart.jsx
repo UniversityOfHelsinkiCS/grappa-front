@@ -15,27 +15,25 @@ export class ThesisShow extends Component {
     getThesisProgress();
   }
 
-  handleEdit(event){
-    document.getElementsByTagName("textarea")[1].removeAttribute('readOnly');
+  handleEdit() {
+    document.getElementsByTagName("textarea")[1].removeAttribute("readOnly");
   }
 
-  handleSave(event) {
+  handleSave() {
     document.getElementsByTagName("textarea")[1].readOnly = true;
   }
 
   render() {
     // console.log(this.props.params.id);
-    const { theses } = this.props;
     const { thesis } = this.props;
-    const { thesisprogress } = this.props;
-    const { thesisID } = this.props.params.id;
+    // const { thesisprogress } = this.props;
+    // const { thesisID } = this.props.params.id;
 
     // console.log(thesisprogress);
 
     return (
       <div>
         <h3 className="ui dividing header">{thesis.title}</h3>
-        {/*<div style="width: 100%;overflow:auto;">*/}
         <div>
           <form className="ui form">
             <div className="field">
@@ -65,7 +63,7 @@ export class ThesisShow extends Component {
           </form>
         </div>
         <form className="ui form">
-        <h4 className="ui dividing header">Notifications</h4>
+          <h4 className="ui dividing header">Notifications</h4>
           <div className="three fields">
             <div className="field">
               <div className="ui checkbox">
@@ -101,18 +99,18 @@ export class ThesisShow extends Component {
                 <label>Documents sent</label>
               </div>
             </div>
-          <div className="field">
-            <p>"date when sent"</p>
+            <div className="field">
+              <p>"date when sent"</p>
+            </div>
+            <div className="field">
+              <button className="ui blue tiny button">Resend</button>
+            </div>
           </div>
-          <div className="field">
-            <button className="ui blue tiny button">Resend</button>
-          </div>
-        </div>
-      </form>
-      <h3 id="deadlineReminder">Deadline: {thesis.deadline}</h3>
-      <button className="ui primary button" id="editButton" onClick={ this.handleEdit }>Edit</button>
-      <button className="ui primary button" id="saveButton" onClick={ this.handleSave }>Save</button>
-    </div>
+        </form>
+        <h3 id="deadlineReminder">Deadline: {thesis.deadline}</h3>
+        <button className="ui primary button" id="editButton" onClick={ this.handleEdit }>Edit</button>
+        <button className="ui primary button" id="saveButton" onClick={ this.handleSave }>Save</button>
+      </div>
     );
   }
 }
@@ -140,7 +138,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(getTheses());
   },
   getThesisProgress() {
-    dispatch(getThesisProgress({thesisId: 19}));
+    dispatch(getThesisProgress({ thesisId: 19 }));
   },
 });
 

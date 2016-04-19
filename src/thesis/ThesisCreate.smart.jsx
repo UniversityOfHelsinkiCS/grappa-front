@@ -72,14 +72,22 @@ export class ThesisCreate extends React.Component {
       author: `${this.state.fname} ${this.state.lname}`,
       email: this.state.email,
       title: this.state.title,
-      graders: [this.state.grader, this.state.gradertitle, this.state.grader2, this.state.grader2title],
+      graders: [
+        {
+          name: this.state.grader,
+          title: this.state.gradertitle,
+        },
+        {
+          name: this.state.grader2,
+          title: this.state.grader2title,
+        },
+      ],
       urkund: this.state.urkund,
       ethesis: this.state.ethesis,
       field: this.state.field,
       grade: this.state.grade,
       deadline: this.state.deadline,
     };
-    console.log(newThesis);
     const { saveThesis } = this.props;
     saveThesis(newThesis);
   }

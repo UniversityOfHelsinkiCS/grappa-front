@@ -1,4 +1,4 @@
-import { Map, fromJS } from "immutable";
+import { fromJS } from "immutable";
 
 import {
 THESISPROGRESS_GET_ALL_SUCCESS,
