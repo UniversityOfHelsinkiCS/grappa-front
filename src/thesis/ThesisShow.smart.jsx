@@ -6,6 +6,10 @@ export class ThesisShow extends Component {
   constructor() {
     super();
     this.handleEdit = this.handleEdit.bind(this);
+    this.handleSave = this.handleSave.bind(this);
+    this.handleGrEval = this.handleGrEval.bind(this);
+    this.handleEthesisBox = this.handleEthesisBox.bind(this);
+    this.handleDocSentBox = this.handleDocSentBox.bind(this);
   }
 
   componentDidMount() {
@@ -23,14 +27,59 @@ export class ThesisShow extends Component {
     document.getElementsByTagName("textarea")[1].readOnly = true;
   }
 
+  handleEthesisBox(){
+    console.log(document);
+    document.getElementById("ebox").checked = true;
+  }
+
+  handleGrEval(){
+    document.getElementById("grbox").checked = true;
+  }
+
+  handleDocSentBox() {
+    document.getElementById("docbox").checked = true;
+  }
+
   render() {
     // console.log(this.props.params.id);
+    const { theses } = this.props;
     const { thesis } = this.props;
-    // const { thesisprogress } = this.props;
-    // const { thesisID } = this.props.params.id;
+    const { thesisprogress } = this.props;
+    let { ethesisBox } = "false";
+    let { grEvalBox } = "false";
+    let { docBox } = "false";
+    const thesisID = 2;
+    let thesisprog;
+    let rightThesis;
+    for(var i=0;i<theses.length;i++){
+      if(parseInt(theses[i].id) === parseInt(thesisID)) {
+        rightThesis = theses[i];
+      }
+    }
+    for(var i=0;i<thesisprogress.length;i++){
+       if(parseInt(thesisprogress[i].thesisId) === parseInt(thesisID)) {
+         thesisprog = thesisprogress[i];
+       }
+    }
 
-    // console.log(thesisprogress);
-
+    if(typeof rightThesis !== undefined && typeof thesisprog !== undefined) {
+      console.log("inside")
+      console.log(rightThesis);
+      console.log(thesisprog);
+      if(typeof rightThesis.ethesis !== null && typeof rightThesis.ethesis !== undefined) {
+        // this.handleEthesisBox();
+        ethesisBox = "true";
+      }
+      if(thesisprog.gradersStatus === true){
+        console.log("but not here?");
+        // this.handleGrEval();
+        grEvalBox = "true";
+      }
+      if(typeof thesisprog.documentsSent !== undefined && typeof thesisprog == Date) {
+        // this.handleDocSentBox();
+         docBox = "true";
+      }
+    }
     return (
       <div>
         <h3 className="ui dividing header">{thesis.title}</h3>
@@ -66,13 +115,13 @@ export class ThesisShow extends Component {
           <h4 className="ui dividing header">Notifications</h4>
           <div className="three fields">
             <div className="field">
-              <div className="ui checkbox">
-                <input type="checkbox" />
+              <div>
+                <input type="checkbox" disabled checked={ethesisBox} id="ebox" />
                 <label>E-thesis</label>
               </div>
             </div>
             <div className="field">
-              <p>"latest notification sent, date"</p>
+              <p>{thesisprog.ethesisReminder}</p>
             </div>
             <div className="field">
               <button className="ui blue tiny button">Send notification</button>
@@ -80,13 +129,13 @@ export class ThesisShow extends Component {
           </div>
           <div className="three fields">
             <div className="field">
-              <div className="ui checkbox">
-                <input type="checkbox" />
-                <label>Reports</label>
+              <div>
+                <input type="checkbox" disabled checked={grEvalBox} id="grbox"/>
+                <label>Grader Evaluation</label>
               </div>
             </div>
             <div className="field">
-              <p>"latest notification sent, date"</p>
+              <p>{thesisprog.professorReminder}</p>
             </div>
             <div className="field">
               <button className="ui blue tiny button">Send notification</button>
@@ -94,13 +143,13 @@ export class ThesisShow extends Component {
           </div>
           <div className="three fields">
             <div className="field">
-              <div className="ui checkbox">
-                <input type="checkbox" />
+              <div>
+                <input type="checkbox" disabled checked={docBox} id="docbox"/>
                 <label>Documents sent</label>
               </div>
             </div>
             <div className="field">
-              <p>"date when sent"</p>
+              <p>{thesisprog.documentSent}</p>
             </div>
             <div className="field">
               <button className="ui blue tiny button">Resend</button>
@@ -138,7 +187,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(getTheses());
   },
   getThesisProgress() {
-    dispatch(getThesisProgress({ thesisId: 19 }));
+    dispatch(getThesisProgress());
   },
 });
 
