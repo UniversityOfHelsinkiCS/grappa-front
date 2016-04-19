@@ -63,7 +63,7 @@ export const saveThesis = (thesis) => {
   };
 };
 
-export const updateThesis = (thesis) => {
+export const updateThesis = (data) => {
   console.log("");
   return {
     type: CALL_API,
@@ -71,6 +71,6 @@ export const updateThesis = (thesis) => {
     failure: THESIS_UPDATE_ONE_FAILURE,
     method: "put",
     url: "/thesis",
-    data: thesis,
+    data,
   };
 };

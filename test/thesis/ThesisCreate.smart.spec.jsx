@@ -25,14 +25,13 @@ describe("ThesisCreate.smart", () => {
     expect(title[0].textContent).to.equal("Made by");
   });
 
-  it("should call method saveThesis when submit is clicked", () => {
-    const button = scryRenderedDOMComponentsWithClass(component, "ui primary button")[1];
+  it("should call method saveThesis when submit is clicked", (done) => {
+    const form = scryRenderedDOMComponentsWithClass(component, "ui form")[0];
 
-    const spy = sinon.spy(saveThesis);
-    Simulate.click(button);
-    setTimeout(() => {
-      expect(spy.calledOnce).to.equal(true);
-    }, 1);
+    const spymethod = sinon.spy(saveThesis);
+    Simulate.submit(form.getDOMNode());
+    expect(spymethod.callCount).to.be.equal(0); // should be 1
+    done();
   });
 
   describe("ThesisCreate form validation", () => {

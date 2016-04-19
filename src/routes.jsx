@@ -11,7 +11,7 @@ import Login from "./login/Login.smart";
 
 export default (
   <Route>
-    <Route path="/ethesis" component={Ethesis}/>
+    <Route path="/ethesis/:token" component={Ethesis}/>
     <Route path="/" component={App}>
       <Route path="thesis" component={ThesisList} />
       <Route path="thesis/new" component={ThesisCreate} />
