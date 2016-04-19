@@ -20,8 +20,8 @@ export class Ethesis extends Component {
     this.setState(change);
   }
 
-  handleSubmit(e) {
-    e.preventDefault();
+  handleSubmit(event) {
+    event.preventDefault();
     const data = {
       token: this.state.token,
       thesis: {
@@ -38,8 +38,10 @@ export class Ethesis extends Component {
       <Validation.Form className="ethesis form" onSubmit={this.handleSubmit}>
         <h4 className="ui dividing header">Enter eThesis link to your thesis</h4>
         <Validation.Input
+          ref="ethesislink"
           type="text"
-          name="ethesisLink"
+          name="ethesislink"
+          className="ethesis field"
           value={this.state.ethesislink}
           onChange={this.handleChange.bind(this, "ethesislink")}
           placeholder="Link to eThesis"
