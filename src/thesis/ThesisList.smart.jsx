@@ -28,7 +28,7 @@ export class ThesisList extends Component {
   * @return <div>-container Container wrapping all the html elements to be rendered.
   */
   linkFormatter(cell, row) {
-    return "<a href='thesis/" + row.id + "' >" + row.title + "</a>";
+    return `<a href="thesis/${row.id}">${row.title}</a>`;
   }
 
   render() {
