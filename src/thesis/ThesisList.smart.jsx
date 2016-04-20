@@ -11,6 +11,7 @@ import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 export class ThesisList extends Component {
   constructor() {
     super();
+    this.linkFormatter = this.linkFormatter.bind(this);
   }
 
   /*
@@ -26,6 +27,10 @@ export class ThesisList extends Component {
   * Contains a react-bootstrap-table library styled table.
   * @return <div>-container Container wrapping all the html elements to be rendered.
   */
+  linkFormatter(cell, row) {
+    return "<a href='thesis/" + row.id + "' >" + row.title + "</a>";
+  }
+
   render() {
     const { theses } = this.props;
     console.log(theses);
@@ -36,7 +41,7 @@ export class ThesisList extends Component {
           <TableHeaderColumn filter= {{ type: "TextFilter" }} dataField="id" isKey hidden>
           Thesis ID</TableHeaderColumn>
           <TableHeaderColumn dataField="author" dataSort width="200">Author</TableHeaderColumn>
-          <TableHeaderColumn dataField="title" dataSort width="200">Thesis Title
+          <TableHeaderColumn dataField="title" dataFormat={this.linkFormatter} dataSort width="200">Thesis Title
           </TableHeaderColumn>
           <TableHeaderColumn dataField="instructor" dataSort width="200">Instructor
           </TableHeaderColumn>
