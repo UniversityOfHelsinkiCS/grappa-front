@@ -11,15 +11,12 @@ import { thesis, theses } from "../mockdata";
 
 const initialState = fromJS({
   theses: [],
-  fetchingFromAPI: false,
 });
 const stateWithTheses = fromJS({
-  theses: theses,
-  fetchingFromAPI: false,
+  theses,
 });
 const stateWithMoreTheses = fromJS({
   theses: [...theses, thesis],
-  fetchingFromAPI: false,
 });
 
 describe("thesis.reducer", () => {

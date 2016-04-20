@@ -13,7 +13,7 @@ const initialState = fromJS({
   councilmeetings: [],
 });
 const stateWithCMeetings = fromJS({
-  councilmeetings: councilmeetings,
+  councilmeetings,
 });
 const stateWithMoreCMeetings = fromJS({
   councilmeetings: [...councilmeetings, councilmeeting],

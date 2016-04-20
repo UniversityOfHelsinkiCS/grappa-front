@@ -4,11 +4,9 @@
 */
 import { CALL_API } from "../middleware/grappaAPI";
 
-export const THESIS_GET_ALL_REQUEST = "THESIS_GET_ALL_REQUEST";
 export const THESIS_GET_ALL_SUCCESS = "THESIS_GET_ALL_SUCCESS";
 export const THESIS_GET_ALL_FAILURE = "THESIS_GET_ALL_FAILURE";
 
-export const THESIS_SAVE_ONE_REQUEST = "THESIS_SAVE_ONE_REQUEST";
 export const THESIS_SAVE_ONE_SUCCESS = "THESIS_SAVE_ONE_SUCCESS";
 export const THESIS_SAVE_ONE_FAILURE = "THESIS_SAVE_ONE_FAILURE";
 
@@ -26,24 +24,11 @@ export const getTheses = () => {
   console.log("getTheses-action called!");
   return {
     type: CALL_API,
-    // next: THESIS_GET_ALL_REQUEST,
     success: THESIS_GET_ALL_SUCCESS,
     failure: THESIS_GET_ALL_FAILURE,
     method: "get",
     url: "/thesis",
     data: {},
-  };
-};
-
-/*
-* The action called to reset the state to its INITIAL_STATE.
-* @return resetTheses The object containing the relevant information for the
-* reducer to handle the data accordingly.
-*/
-export const resetTheses = () => {
-  console.log("resetTheses-action called!");
-  return {
-    type: THESIS_RESET_ALL_REQUEST,
   };
 };
 

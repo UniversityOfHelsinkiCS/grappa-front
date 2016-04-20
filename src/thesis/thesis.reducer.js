@@ -4,10 +4,8 @@
 */
 import { Map, fromJS } from "immutable";
 import {
-  THESIS_GET_ALL_REQUEST,
   THESIS_GET_ALL_SUCCESS,
   THESIS_GET_ALL_FAILURE,
-  THESIS_SAVE_ONE_REQUEST,
   THESIS_SAVE_ONE_SUCCESS,
   THESIS_SAVE_ONE_FAILURE,
   THESIS_UPDATE_ONE_SUCCESS,
@@ -19,7 +17,6 @@ import {
 */
 const INITIAL_STATE = fromJS({
   theses: [],
-  fetchingFromAPI: false,
 });
 
 /*
@@ -33,12 +30,9 @@ const INITIAL_STATE = fromJS({
 */
 export default function (state = INITIAL_STATE, action) {
   switch (action.type) {
-    case THESIS_GET_ALL_REQUEST:
-      return state.mergeIn(["fetchingFromAPI"], true);
     case THESIS_GET_ALL_SUCCESS:
       return state.merge(fromJS({
         theses: action.payload,
-        fetchingFromAPI: false,
       }));
       // return state.updateIn(["theses"], list => list.concat(fromJS(action.payload)));
     case THESIS_GET_ALL_FAILURE:

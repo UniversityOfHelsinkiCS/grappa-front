@@ -5,7 +5,7 @@ import sinon from "sinon";
 import React from "react";
 import {
   renderIntoDocument,
-  scryRenderedDOMComponentsWithClass,
+  scryRenderedDOMComponentsWithTag,
   Simulate,
 } from "react-addons-test-utils";
 import { Provider } from "react-redux";
@@ -19,8 +19,8 @@ describe("Nav.smart", () => {
       <Nav />
     </Provider>
   );
-  it("should call logout method when proper button is clicked", () => {
-    const button = scryRenderedDOMComponentsWithClass(component, "item")[1];
+  it("should call logout() when logout button is clicked", () => {
+    const button = scryRenderedDOMComponentsWithTag(component, "a")[0];
 
     const spy = sinon.spy(logout);
     Simulate.click(button);

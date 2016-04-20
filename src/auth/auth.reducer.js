@@ -23,7 +23,7 @@ export default function (state = INITIAL_STATE, action) {
         user: action.payload.user,
         loggedIn: true,
         token: action.payload.token,
-      })
+      });
     case LOGIN_USER_FAILURE:
       return state;
     case LOGOUT_USER:

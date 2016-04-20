@@ -18,7 +18,7 @@ export class Nav extends Component {
   handleLogout() {
     const { logout } = this.props;
     logout();
-    browserHistory.replace("/login");
+    browserHistory.push("/login");
   }
 
 /*

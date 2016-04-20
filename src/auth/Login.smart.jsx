@@ -26,13 +26,15 @@ export class Login extends React.Component {
    * Built-in method for React-Component called when its props changes
    *
    * Here it's used for redirecting from /login to /thesis after user has
-   * logged in.
+   * logged in and also for immediatly fetching all the data for better
+   * user experience.
    * @param {Object} nextProps - The new props received from Redux
    */
   componentWillReceiveProps(nextProps) {
     console.log(nextProps);
     if (nextProps.loggedIn) {
       browserHistory.replace("/thesis");
+      this.props.fetchAll();
     }
   }
 /*
@@ -62,8 +64,7 @@ export class Login extends React.Component {
       email: this.state.email,
       password: this.state.password,
     };
-    const { loginUser } = this.props;
-    loginUser(user);
+    this.props.loginUser(user);
   }
   /*
   * The method in charge of rendering the outlook of the page. Contains all the html elements.
@@ -93,7 +94,7 @@ export class Login extends React.Component {
 }
 
 import { loginUser } from "./auth.actions";
-import { getTheses } from "../thesis/thesis.actions";
+// import { getTheses } from "../thesis/thesis.actions";
 import { getCouncilmeetings } from "../councilmeeting/councilmeeting.actions";
 
 const mapStateToProps = (state) => {
@@ -108,9 +109,9 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(loginUser(userData));
   },
   fetchAll() {
-    dispatch(getTheses());
+    // dispatch(getTheses());
     dispatch(getCouncilmeetings());
-  }
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
