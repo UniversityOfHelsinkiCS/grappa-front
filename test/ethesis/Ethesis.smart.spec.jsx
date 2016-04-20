@@ -1,6 +1,4 @@
-import chai, { expect } from "chai";
-import jsxChai from "jsx-chai";
-chai.use(jsxChai);
+import chai, { expect } from "chai"; import jsxChai from "jsx-chai"; chai.use(jsxChai);
 import React from "react";
 import sinon from "sinon";
 import {
