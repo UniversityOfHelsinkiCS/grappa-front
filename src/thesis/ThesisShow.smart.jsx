@@ -26,10 +26,10 @@ export class ThesisShow extends Component {
   render() {
     // console.log(this.props.params.id);
     const { thesis } = this.props;
-    // const { thesisprogress } = this.props;
+    // const { thesisprogresses } = this.props;
     // const { thesisID } = this.props.params.id;
 
-    // console.log(thesisprogress);
+    // console.log(thesisprogresses);
 
     return (
       <div>
@@ -122,11 +122,11 @@ import { connect } from "react-redux";
 */
 const mapStateToProps = (state) => {
   const thesisprogress = state.get("thesisprogress");
-  const theses = state.get("theses");
+  const thesis = state.get("thesis");
   return {
-    theses: theses.get("theseslist").toJS(),
-    thesis: theses.get("theseslist").toJS()[0],
-    thesisprogress: thesisprogress.get("thesesprogresslist").toJS(),
+    theses: thesis.get("theses").toJS(),
+    thesis: thesis.get("theses").toJS()[0],
+    thesisprogresses: thesisprogress.get("thesisprogresses").toJS(),
   };
 };
 

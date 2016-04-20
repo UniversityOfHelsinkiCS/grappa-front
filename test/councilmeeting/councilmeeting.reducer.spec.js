@@ -10,13 +10,13 @@ import {
 import { councilmeeting, councilmeetings } from "../mockdata";
 
 const initialState = fromJS({
-  councilmeetinglist: [],
+  councilmeetings: [],
 });
 const stateWithCMeetings = fromJS({
-  councilmeetinglist: councilmeetings,
+  councilmeetings: councilmeetings,
 });
 const stateWithMoreCMeetings = fromJS({
-  councilmeetinglist: [...councilmeetings, councilmeeting],
+  councilmeetings: [...councilmeetings, councilmeeting],
 });
 
 describe("councilmeeting reducer", () => {
@@ -27,7 +27,7 @@ describe("councilmeeting reducer", () => {
     expect(newState).to.equal(initialState);
   });
 
-  it("should change councilmeetinglist when receiving dates", () => {
+  it("should change councilmeetings when receiving dates", () => {
     const newState = reducer(initialState, {
       type: COUNCILMEETING_GET_ALL_SUCCESS,
       payload: councilmeetings,
@@ -35,7 +35,7 @@ describe("councilmeeting reducer", () => {
     expect(newState).to.equal(stateWithCMeetings);
   });
 
-  it("shouldn't change councilmeetinglist when receiving dates produces an error", () => {
+  it("shouldn't change councilmeetings when receiving dates produces an error", () => {
     const newState = reducer(initialState, {
       type: COUNCILMEETING_GET_ALL_FAILURE,
       message: "vituix men",
@@ -44,8 +44,8 @@ describe("councilmeeting reducer", () => {
     expect(newState).to.equal(initialState);
   });
 
-  it("should add councilmeeting to councilmeetinglist when saving succesfull", () => {
-    const expectedState = initialState.mergeIn(["councilmeetinglist"],
+  it("should add councilmeeting to councilmeetings when saving succesfull", () => {
+    const expectedState = initialState.mergeIn(["councilmeetings"],
       fromJS([councilmeeting])
     );
     const newState = reducer(initialState, {
@@ -63,7 +63,7 @@ describe("councilmeeting reducer", () => {
     expect(newState).to.equal(stateWithMoreCMeetings);
   });
 
-  it("shouldn't change councilmeetinglist when saving councilmeeting fails", () => {
+  it("shouldn't change councilmeetings when saving councilmeeting fails", () => {
     const newState = reducer(initialState, {
       type: COUNCILMEETING_SAVE_ONE_FAILURE,
       message: "heh",

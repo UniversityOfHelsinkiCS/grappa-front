@@ -5,6 +5,7 @@
 * the actual changes to the state.
 */
 import React from "react";
+import { browserHistory } from "react-router";
 import { connect } from "react-redux";
 import Validation from "./loginValidation";
 
@@ -19,6 +20,20 @@ export class Login extends React.Component {
       email: "ohtugrappa@gmail.com",
       password: "asdf",
     };
+  }
+
+  /*
+   * Built-in method for React-Component called when its props changes
+   *
+   * Here it's used for redirecting from /login to /thesis after user has
+   * logged in.
+   * @param {Object} nextProps - The new props received from Redux
+   */
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps);
+    if (nextProps.loggedIn) {
+      browserHistory.replace("/thesis");
+    }
   }
 /*
 * Handler method to handle the changes to the email input field.
@@ -78,14 +93,24 @@ export class Login extends React.Component {
 }
 
 import { loginUser } from "./auth.actions";
+import { getTheses } from "../thesis/thesis.actions";
+import { getCouncilmeetings } from "../councilmeeting/councilmeeting.actions";
 
-/*
-* A special function used to define and dispatch the relevant data to login.actions.
-*/
+const mapStateToProps = (state) => {
+  const auth = state.get("auth");
+  return {
+    loggedIn: auth.get("loggedIn"),
+  };
+};
+
 const mapDispatchToProps = (dispatch) => ({
   loginUser(userData) {
     dispatch(loginUser(userData));
   },
+  fetchAll() {
+    dispatch(getTheses());
+    dispatch(getCouncilmeetings());
+  }
 });
 
-export default connect(null, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

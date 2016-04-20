@@ -19,7 +19,7 @@ export default (
       <Route path="councilmeeting/new" component={CouncilmeetingCreate} />
       <Route path="councilmeeting" component={CouncilmeetingList} />
       <Route path="login" component={Login} />
-      <IndexRedirect to="/thesis" />
+      <IndexRedirect to="/login" />
     </Route>
   </Route>
 );

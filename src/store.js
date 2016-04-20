@@ -4,14 +4,14 @@ import { combineReducers } from "redux-immutablejs";
 import logger from "./middleware/logger";
 import { handleCallApi } from "./middleware/grappaAPI";
 import auth from "./auth/auth.reducer";
-import theses from "./thesis/thesis.reducer";
-import councilmeetings from "./councilmeeting/councilmeeting.reducer";
+import thesis from "./thesis/thesis.reducer";
+import councilmeeting from "./councilmeeting/councilmeeting.reducer";
 import thesisprogress from "./thesisprogress/thesisprogress.reducer";
 
 const combinedReducers = combineReducers({
   auth,
-  theses,
-  councilmeetings,
+  thesis,
+  councilmeeting,
   thesisprogress,
 });
 

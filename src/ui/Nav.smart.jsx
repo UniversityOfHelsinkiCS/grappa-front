@@ -3,7 +3,7 @@
 */
 
 import React, { Component } from "react";
-import { Link } from "react-router";
+import { browserHistory, Link } from "react-router";
 import { logout } from "../auth/auth.actions";
 
 export class Nav extends Component {
@@ -18,6 +18,7 @@ export class Nav extends Component {
   handleLogout() {
     const { logout } = this.props;
     logout();
+    browserHistory.replace("/login");
   }
 
 /*

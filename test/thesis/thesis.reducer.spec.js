@@ -10,17 +10,20 @@ import reducer from "../../src/thesis/thesis.reducer";
 import { thesis, theses } from "../mockdata";
 
 const initialState = fromJS({
-  theseslist: [],
+  theses: [],
+  fetchingFromAPI: false,
 });
 const stateWithTheses = fromJS({
-  theseslist: theses,
+  theses: theses,
+  fetchingFromAPI: false,
 });
 const stateWithMoreTheses = fromJS({
-  theseslist: [...theses, thesis],
+  theses: [...theses, thesis],
+  fetchingFromAPI: false,
 });
 
 describe("thesis.reducer", () => {
-  it("should change theseslist when receiving theses", () => {
+  it("should change theses when receiving theses", () => {
     const newState = reducer(initialState, {
       type: THESIS_GET_ALL_SUCCESS,
       payload: theses,
@@ -28,7 +31,7 @@ describe("thesis.reducer", () => {
     expect(newState).to.equal(stateWithTheses);
   });
 
-  it("shouldn't change theseslist when receiving theses produces an error", () => {
+  it("shouldn't change theses when receiving theses produces an error", () => {
     const newState = reducer(initialState, {
       type: THESIS_GET_ALL_FAILURE,
       message: "Error message",
@@ -37,8 +40,8 @@ describe("thesis.reducer", () => {
     expect(newState).to.equal(initialState);
   });
 
-  it("should add thesis to theseslist when saving thesis is succesfull", () => {
-    const expectedState = initialState.mergeIn(["theseslist"],
+  it("should add thesis to theses when saving thesis is succesfull", () => {
+    const expectedState = initialState.mergeIn(["theses"],
       fromJS([thesis])
     );
     const newState = reducer(initialState, {
