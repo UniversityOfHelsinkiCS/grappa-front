@@ -10,8 +10,8 @@ import {
 } from "react-addons-test-utils";
 import { Provider } from "react-redux";
 import store from "../../src/store";
-import LoginContainer from "../../src/login/Login.smart";
-import { saveLoginData } from "../../src/login/login.actions";
+import LoginContainer from "../../src/auth/Login.smart";
+import { loginUser } from "../../src/auth/auth.actions";
 
 describe("Login.smart", () => {
   const component = renderIntoDocument(
@@ -32,7 +32,7 @@ describe("Login.smart", () => {
 
   it("should call method saveThesis when submit is clicked", () => {
     const button = scryRenderedDOMComponentsWithClass(component, "ui primary button")[0];
-    const spy = sinon.spy(saveLoginData);
+    const spy = sinon.spy(loginUser);
     Simulate.click(button);
     setTimeout(() => {
       expect(spy.calledOnce).to.equal(true);

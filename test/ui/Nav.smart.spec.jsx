@@ -10,13 +10,13 @@ import {
 } from "react-addons-test-utils";
 import { Provider } from "react-redux";
 import store from "../../src/store";
-import { logout } from "../../src/login/login.actions";
-import Navi from "../../src/ui/Navi.component";
+import { logout } from "../../src/auth/auth.actions";
+import Nav from "../../src/ui/Nav.smart";
 
-describe("Navi.component", () => {
+describe("Nav.smart", () => {
   const component = renderIntoDocument(
     <Provider store={store}>
-      <Navi />
+      <Nav />
     </Provider>
   );
   it("should call logout method when proper button is clicked", () => {

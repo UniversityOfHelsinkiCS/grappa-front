@@ -7,27 +7,26 @@
 import React from "react";
 import { connect } from "react-redux";
 import Validation from "./loginValidation";
-import { saveLoginData } from "./login.actions";
 
 export class Login extends React.Component {
   constructor() {
     super();
-    this.handleNamechange = this.handleNameChange.bind(this);
+    this.handleEmailChange = this.handleEmailChange.bind(this);
     this.handlePasswordchange = this.handlePasswordChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
 
     this.state = {
-      username: "",
-      password: "",
+      email: "ohtugrappa@gmail.com",
+      password: "asdf",
     };
   }
 /*
-* Handler method to handle the changes to the username input field.
+* Handler method to handle the changes to the email input field.
 * @param (Event) used to get a hold of what the input of the user was.
 */
-  handleNameChange(event) {
+  handleEmailChange(event) {
     event.preventDefault();
-    this.setState({ username: event.target.value });
+    this.setState({ email: event.target.value });
   }
 
   /*
@@ -44,11 +43,12 @@ export class Login extends React.Component {
   */
   handleSubmit(event) {
     event.preventDefault();
-    const loginData = {
-      username: this.state.username,
+    const user = {
+      email: this.state.email,
       password: this.state.password,
     };
-    saveLoginData(loginData);
+    const { loginUser } = this.props;
+    loginUser(user);
   }
   /*
   * The method in charge of rendering the outlook of the page. Contains all the html elements.
@@ -59,9 +59,9 @@ export class Login extends React.Component {
       <Validation.Form className="field" onSubmit={this.handleSubmit}>
         <Validation.Input
           type="text"
-          value={ this.state.username }
-          onChange={ this.handleNameChange.bind(this) }
-          placeholder="Username"
+          value={ this.state.email }
+          onChange={ this.handleEmailChange.bind(this) }
+          placeholder="email"
           validations={ [{ rule: "isEmail" }] }
         />
         <Validation.Input
@@ -77,14 +77,15 @@ export class Login extends React.Component {
   }
 }
 
+import { loginUser } from "./auth.actions";
+
 /*
 * A special function used to define and dispatch the relevant data to login.actions.
 */
 const mapDispatchToProps = (dispatch) => ({
-  saveLoginData(loginData) {
-    dispatch(saveLoginData(loginData));
+  loginUser(userData) {
+    dispatch(loginUser(userData));
   },
 });
-
 
 export default connect(null, mapDispatchToProps)(Login);

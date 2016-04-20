@@ -1,13 +1,13 @@
 import React from "react";
 import { Route, IndexRedirect } from "react-router";
-import App from "./app/App.smart";
+import App from "./app/App.component";
 import ThesisList from "./thesis/ThesisList.smart";
 import Ethesis from "./ethesis/Ethesis.smart";
 import ThesisShow from "./thesis/ThesisShow.smart";
 import ThesisCreate from "./thesis/ThesisCreate.smart";
 import CouncilmeetingCreate from "./councilmeeting/CouncilmeetingCreate.smart";
 import CouncilmeetingList from "./councilmeeting/CouncilmeetingList.smart";
-import Login from "./login/Login.smart";
+import Login from "./auth/Login.smart";
 
 export default (
   <Route>

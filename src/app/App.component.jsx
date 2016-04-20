@@ -1,12 +1,12 @@
 import React, { Component, PropTypes } from "react";
-import Navi from "../ui/Navi.component";
+import Nav from "../ui/Nav.smart";
 export default class App extends Component {
 
   render() {
     return (
       <div>
         <h1>Gradut Pikaisesti Pakettiin</h1>
-        <Navi />
+        <Nav />
         {this.props.children}
       </div>
     );
