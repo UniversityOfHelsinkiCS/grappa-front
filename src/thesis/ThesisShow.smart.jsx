@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { browserHistory } from "react-router";
 import { getTheses } from "./thesis.actions";
 import { getThesisProgress } from "../thesisprogress/thesisprogress.actions";
 
@@ -6,13 +7,31 @@ export class ThesisShow extends Component {
   constructor() {
     super();
     this.handleEdit = this.handleEdit.bind(this);
+    this.state = {
+      thesis: "",
+    }
   }
 
-  componentDidMount() {
-    const { getTheses } = this.props;
-    const { getThesisProgress } = this.props;
-    getTheses();
-    getThesisProgress();
+  componentWillMount() {
+    this.props.getTheses();
+    this.props.getThesisProgress();
+  }
+
+  componentWillReceiveProps(newProps) {
+    let thesisId;
+    try{
+      thesisId = parseInt(this.props.params.id);
+    } catch(e) {
+      return;
+    }
+    const foundThesis = newProps.theses.find(thesis => {
+      if (thesis.id === thesisId) {
+        return thesis;
+      }
+    })
+    if (typeof foundThesis !== "undefined") {
+      this.state.thesis = foundThesis;
+    }
   }
 
   handleEdit() {
@@ -23,14 +42,8 @@ export class ThesisShow extends Component {
     document.getElementsByTagName("textarea")[1].readOnly = true;
   }
 
-  render() {
-    // console.log(this.props.params.id);
-    const { thesis } = this.props;
-    // const { thesisprogresses } = this.props;
-    // const { thesisID } = this.props.params.id;
-
-    // console.log(thesisprogresses);
-
+  renderContent() {
+    const thesis = this.state.thesis;
     return (
       <div>
         <h3 className="ui dividing header">{thesis.title}</h3>
@@ -111,6 +124,22 @@ export class ThesisShow extends Component {
         <button className="ui primary button" id="editButton" onClick={ this.handleEdit }>Edit</button>
         <button className="ui primary button" id="saveButton" onClick={ this.handleSave }>Save</button>
       </div>
+    )
+  }
+
+  render() {
+    console.log("state is ")
+    console.log(this.state);
+    const isUndefined = typeof this.state.thesis === "undefined" || this.state.thesis === "";
+    return (
+      <div>
+        {
+          isUndefined ?
+            <p>No thesis found with this id.</p>
+            :
+            this.renderContent()
+        }
+      </div>
     );
   }
 }
@@ -122,10 +151,9 @@ import { connect } from "react-redux";
 */
 const mapStateToProps = (state) => {
   const thesisprogress = state.get("thesisprogress");
-  const thesis = state.get("thesis");
+  const thesis = state.get("thesis")
   return {
     theses: thesis.get("theses").toJS(),
-    thesis: thesis.get("theses").toJS()[0],
     thesisprogresses: thesisprogress.get("thesisprogresses").toJS(),
   };
 };
@@ -141,6 +169,5 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(getThesisProgress({ thesisId: 19 }));
   },
 });
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(ThesisShow);
