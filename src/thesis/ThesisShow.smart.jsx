@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { browserHistory } from "react-router";
+// import { browserHistory } from "react-router";
 import { getTheses } from "./thesis.actions";
 import { getThesisProgress } from "../thesisprogress/thesisprogress.actions";
 
@@ -9,7 +9,7 @@ export class ThesisShow extends Component {
     this.handleEdit = this.handleEdit.bind(this);
     this.state = {
       thesis: "",
-    }
+    };
   }
 
   componentWillMount() {
@@ -19,16 +19,16 @@ export class ThesisShow extends Component {
 
   componentWillReceiveProps(newProps) {
     let thesisId;
-    try{
-      thesisId = parseInt(this.props.params.id);
-    } catch(e) {
+    try {
+      thesisId = parseInt(this.props.params.id, 10);
+    } catch (e) {
       return;
     }
     const foundThesis = newProps.theses.find(thesis => {
       if (thesis.id === thesisId) {
         return thesis;
       }
-    })
+    });
     if (typeof foundThesis !== "undefined") {
       this.state.thesis = foundThesis;
     }
@@ -124,12 +124,12 @@ export class ThesisShow extends Component {
         <button className="ui primary button" id="editButton" onClick={ this.handleEdit }>Edit</button>
         <button className="ui primary button" id="saveButton" onClick={ this.handleSave }>Save</button>
       </div>
-    )
+    );
   }
 
   render() {
-    console.log("state is ")
-    console.log(this.state);
+    // console.log("state is ")
+    // console.log(this.state);
     const isUndefined = typeof this.state.thesis === "undefined" || this.state.thesis === "";
     return (
       <div>
@@ -151,7 +151,7 @@ import { connect } from "react-redux";
 */
 const mapStateToProps = (state) => {
   const thesisprogress = state.get("thesisprogress");
-  const thesis = state.get("thesis")
+  const thesis = state.get("thesis");
   return {
     theses: thesis.get("theses").toJS(),
     thesisprogresses: thesisprogress.get("thesisprogresses").toJS(),
