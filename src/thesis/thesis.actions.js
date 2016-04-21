@@ -51,6 +51,16 @@ export const saveThesis = (thesis) => {
   };
 };
 
+/*
+ * The action used change some values in a thesis.
+ * Used by Ethesis component.
+ *
+ * @param data object containing the fields we want to change
+ * @return The object containing the relevant information for the
+ * reducer to handle the data accordingly.
+ *
+ *
+ */
 export const updateThesis = (data) => {
   console.log("");
   return {
