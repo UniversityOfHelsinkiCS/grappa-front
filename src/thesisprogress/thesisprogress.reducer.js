@@ -6,7 +6,7 @@ THESISPROGRESS_GET_ALL_FAILURE,
 } from "./thesisprogress.actions";
 
 const INITIAL_STATE = fromJS({
-  thesesprogresslist: [
+  thesisprogresses: [
     {},
   ],
 });
@@ -14,7 +14,7 @@ const INITIAL_STATE = fromJS({
 export default function (state = INITIAL_STATE, action) {
   switch (action.type) {
     case THESISPROGRESS_GET_ALL_SUCCESS:
-      return state.mergeIn(["thesesprogresslist"], fromJS(action.payload));
+      return state.mergeIn(["thesisprogresses"], fromJS(action.payload));
     case THESISPROGRESS_GET_ALL_FAILURE:
     // probably should display error message?
     default:

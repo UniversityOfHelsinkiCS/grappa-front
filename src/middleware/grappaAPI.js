@@ -16,10 +16,17 @@ export const API_PATH = process.env.API_URL;
 export const handleCallApi = store => next => action => {
   next(action);
   if (action.type === CALL_API) {
+    const user = store.getState().get("auth").get("user").toJS();
+    const token = store.getState().get("auth").get("token");
+    console.log(user);
     axios({
       method: action.method,
       url: API_PATH + action.url,
       data: action.data,
+      headers: {
+        "X-Access-Token": token,
+        "X-Key": user.id,
+      },
     })
     .then(res => {
       store.dispatch({

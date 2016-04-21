@@ -3,13 +3,15 @@ import { createStore, applyMiddleware } from "redux";
 import { combineReducers } from "redux-immutablejs";
 import logger from "./middleware/logger";
 import { handleCallApi } from "./middleware/grappaAPI";
-import theses from "./thesis/thesis.reducer";
-import councilmeetings from "./councilmeeting/councilmeeting.reducer";
+import auth from "./auth/auth.reducer";
+import thesis from "./thesis/thesis.reducer";
+import councilmeeting from "./councilmeeting/councilmeeting.reducer";
 import thesisprogress from "./thesisprogress/thesisprogress.reducer";
 
 const combinedReducers = combineReducers({
-  theses,
-  councilmeetings,
+  auth,
+  thesis,
+  councilmeeting,
   thesisprogress,
 });
 

@@ -14,7 +14,7 @@ import {
 *Defines what the intial state is when no changes have yet been done to the state.
 */
 const INITIAL_STATE = fromJS({
-  councilmeetinglist: [],
+  councilmeetings: [],
 });
 
 /*
@@ -29,11 +29,11 @@ const INITIAL_STATE = fromJS({
 export default function (state = INITIAL_STATE, action) {
   switch (action.type) {
     case COUNCILMEETING_SAVE_ONE_SUCCESS:
-      return state.updateIn(["councilmeetinglist"], list => list.push(fromJS(action.payload)));
+      return state.updateIn(["councilmeetings"], list => list.push(fromJS(action.payload)));
     case COUNCILMEETING_SAVE_ONE_FAILURE:
       return state;
     case COUNCILMEETING_GET_ALL_SUCCESS:
-      return state.mergeIn(["councilmeetinglist"], fromJS(action.payload));
+      return state.mergeIn(["councilmeetings"], fromJS(action.payload));
     case COUNCILMEETING_GET_ALL_FAILURE:
       return state;
     default:
