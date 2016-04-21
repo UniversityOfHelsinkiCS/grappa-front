@@ -8,6 +8,7 @@ import ThesisCreate from "./thesis/ThesisCreate.smart";
 import CouncilmeetingCreate from "./councilmeeting/CouncilmeetingCreate.smart";
 import CouncilmeetingList from "./councilmeeting/CouncilmeetingList.smart";
 import Login from "./login/Login.smart";
+import NewUsersList from "./usermanagement/NewUsersList.smart";
 
 export default (
   <Route>
@@ -19,6 +20,7 @@ export default (
       <Route path="councilmeeting/new" component={CouncilmeetingCreate} />
       <Route path="councilmeeting" component={CouncilmeetingList} />
       <Route path="login" component={Login} />
+      <Route path="users" component={NewUsersList} />
       <IndexRedirect to="/thesis" />
     </Route>
   </Route>

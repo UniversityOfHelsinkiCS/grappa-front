@@ -31,6 +31,7 @@ export default class Nav extends Component {
         <Link className="item" to="/thesis/1">ThesesShow </Link>
         <Link className="item" to="/councilmeeting">Councilmeetings </Link>
         <Link className="item" to="/councilmeeting/new">Add new meetingdate</Link>
+        <Link className="item" to="/users">User Management</Link>
       </div>
     );
   }
