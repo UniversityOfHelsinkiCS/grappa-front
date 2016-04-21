@@ -10,7 +10,6 @@ import { connect } from "react-redux";
 import Dropdown from "../ui/Dropdown.component";
 import Validation from "./thesisValidation";
 import { getCouncilmeetings } from "../councilmeeting/councilmeeting.actions";
-import {}
 
 export class ThesisCreate extends React.Component {
   constructor() {
