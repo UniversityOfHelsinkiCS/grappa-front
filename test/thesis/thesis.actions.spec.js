@@ -5,8 +5,11 @@ import {
   THESIS_GET_ALL_FAILURE,
   THESIS_SAVE_ONE_SUCCESS,
   THESIS_SAVE_ONE_FAILURE,
+  THESIS_UPDATE_ONE_SUCCESS,
+  THESIS_UPDATE_ONE_FAILURE,
   saveThesis,
   getTheses,
+  updateThesis,
 } from "../../src/thesis/thesis.actions";
 
 describe("thesis.actions", () => {
@@ -42,6 +45,22 @@ describe("thesis.actions", () => {
       method: "post",
       url: "/thesis",
       data: newThesis,
+    };
+    expect(createdAction).to.deep.equal(expectedAction);
+  });
+
+  it("updateThesis should return correct object", () => {
+    const updateInfo = {
+      ethesis: "http://google.com",
+    };
+    const createdAction = updateThesis(updateInfo);
+    const expectedAction = {
+      type: CALL_API,
+      success: THESIS_UPDATE_ONE_SUCCESS,
+      failure: THESIS_UPDATE_ONE_FAILURE,
+      method: "put",
+      url: "/thesis",
+      data: updateInfo,
     };
     expect(createdAction).to.deep.equal(expectedAction);
   });

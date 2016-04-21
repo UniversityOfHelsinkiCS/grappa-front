@@ -20,6 +20,8 @@ export class Ethesis extends Component {
     this.setState(change);
   }
 
+  /* Creates data object to pass to updateThesis action */
+
   handleSubmit(event) {
     event.preventDefault();
     const data = {
@@ -31,6 +33,8 @@ export class Ethesis extends Component {
     const { updateThesis } = this.props;
     updateThesis(data);
   }
+
+  /* Grabs url parameter and saves it to state, then renders form */
 
   render() {
     this.state.token = this.props.params.token;
