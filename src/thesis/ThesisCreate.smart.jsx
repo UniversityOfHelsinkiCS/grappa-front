@@ -10,7 +10,7 @@ import { connect } from "react-redux";
 import Dropdown from "../ui/Dropdown.component";
 import Validation from "./thesisValidation";
 import { getCouncilmeetings } from "../councilmeeting/councilmeeting.actions";
-
+import {}
 
 export class ThesisCreate extends React.Component {
   constructor() {
@@ -155,10 +155,10 @@ export class ThesisCreate extends React.Component {
                 name="thesis[field]"
               >
                 <option value="">Field</option>
-                <option value="Bio">Algorithmic Bioinformatics</option>
-                <option value="Alg">Algorithms, Data Analytics and Machine Learning</option>
-                <option value="Net">Networking and Services</option>
-                <option value="Soft">Software Systems</option>
+                <option value="Algorithmic Bioinformatics">Algorithmic Bioinformatics</option>
+                <option value="Algorithms, Data Analytics and Machine Learning">Algorithms, Data Analytics and Machine Learning</option>
+                <option value="Networking and Services">Networking and Services</option>
+                <option value="Software Systems">Software Systems</option>
               </Validation.Select>
             </div>
           </div>
