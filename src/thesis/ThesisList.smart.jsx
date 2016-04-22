@@ -63,9 +63,9 @@ import { getTheses } from "./thesis.actions";
 * @return ListOfThesis A list containing all the thesis listed in the database.
 */
 const mapStateToProps = (state) => {
-  const theses = state.get("theses");
+  const thesis = state.get("thesis");
   return {
-    theses: theses.get("theseslist").toJS(),
+    theses: thesis.get("theses").toJS(),
   };
 };
 

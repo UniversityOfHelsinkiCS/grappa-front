@@ -273,9 +273,9 @@ const mapDispatchToProps = (dispatch) => ({
 * @return ListOfDateObjects A list containing the dates of councilmeetings listed in the database.
 */
 const mapStateToProps = (state) => {
-  const reducer = state.get("councilmeetings");
+  const cmreducer = state.get("councilmeeting");
   return {
-    dates: reducer.get("councilmeetinglist").toJS(),
+    dates: cmreducer.get("councilmeetings").toJS(),
   };
 };
 

@@ -32,9 +32,9 @@ export class CouncilmeetingList extends Component {
 
 
 const mapStateToProps = (state) => {
-  const councilmeetings = state.get("councilmeetings");
+  const councilmeeting = state.get("councilmeeting");
   return {
-    councilmeetings: councilmeetings.get("councilmeetinglist").toJS(),
+    councilmeetings: councilmeeting.get("councilmeetings").toJS(),
   };
 };
 

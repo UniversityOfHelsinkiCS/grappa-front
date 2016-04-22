@@ -5,29 +5,45 @@
 * the actual changes to the state.
 */
 import React from "react";
+import { browserHistory } from "react-router";
 import { connect } from "react-redux";
 import Validation from "./loginValidation";
-import { saveLoginData } from "./login.actions";
 
 export class Login extends React.Component {
   constructor() {
     super();
-    this.handleNamechange = this.handleNameChange.bind(this);
+    this.handleEmailChange = this.handleEmailChange.bind(this);
     this.handlePasswordchange = this.handlePasswordChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
 
     this.state = {
-      username: "",
-      password: "",
+      email: "ohtugrappa@gmail.com",
+      password: "asdf",
     };
   }
+
+  /*
+   * Built-in method for React-Component called when its props changes
+   *
+   * Here it's used for redirecting from /login to /thesis after user has
+   * logged in and also for immediatly fetching all the data for better
+   * user experience.
+   * @param {Object} nextProps - The new props received from Redux
+   */
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps);
+    if (nextProps.loggedIn) {
+      browserHistory.replace("/thesis");
+      this.props.fetchAll();
+    }
+  }
 /*
-* Handler method to handle the changes to the username input field.
+* Handler method to handle the changes to the email input field.
 * @param (Event) used to get a hold of what the input of the user was.
 */
-  handleNameChange(event) {
+  handleEmailChange(event) {
     event.preventDefault();
-    this.setState({ username: event.target.value });
+    this.setState({ email: event.target.value });
   }
 
   /*
@@ -44,11 +60,11 @@ export class Login extends React.Component {
   */
   handleSubmit(event) {
     event.preventDefault();
-    const loginData = {
-      username: this.state.username,
+    const user = {
+      email: this.state.email,
       password: this.state.password,
     };
-    saveLoginData(loginData);
+    this.props.loginUser(user);
   }
   /*
   * The method in charge of rendering the outlook of the page. Contains all the html elements.
@@ -59,9 +75,9 @@ export class Login extends React.Component {
       <Validation.Form className="field" onSubmit={this.handleSubmit}>
         <Validation.Input
           type="text"
-          value={ this.state.username }
-          onChange={ this.handleNameChange.bind(this) }
-          placeholder="Username"
+          value={ this.state.email }
+          onChange={ this.handleEmailChange.bind(this) }
+          placeholder="email"
           validations={ [{ rule: "isEmail" }] }
         />
         <Validation.Input
@@ -77,14 +93,25 @@ export class Login extends React.Component {
   }
 }
 
-/*
-* A special function used to define and dispatch the relevant data to login.actions.
-*/
+import { loginUser } from "./auth.actions";
+// import { getTheses } from "../thesis/thesis.actions";
+import { getCouncilmeetings } from "../councilmeeting/councilmeeting.actions";
+
+const mapStateToProps = (state) => {
+  const auth = state.get("auth");
+  return {
+    loggedIn: auth.get("loggedIn"),
+  };
+};
+
 const mapDispatchToProps = (dispatch) => ({
-  saveLoginData(loginData) {
-    dispatch(saveLoginData(loginData));
+  loginUser(userData) {
+    dispatch(loginUser(userData));
+  },
+  fetchAll() {
+    // dispatch(getTheses());
+    dispatch(getCouncilmeetings());
   },
 });
 
-
-export default connect(null, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
