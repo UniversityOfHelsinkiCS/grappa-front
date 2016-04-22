@@ -27,7 +27,6 @@ export default function (state = INITIAL_STATE, action) {
     case LOGIN_USER_FAILURE:
       return state;
     case LOGOUT_USER:
-      console.log(INITIAL_STATE);
       return INITIAL_STATE;
     default:
       return state;

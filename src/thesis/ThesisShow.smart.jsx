@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-// import { browserHistory } from "react-router";
-import { getTheses } from "./thesis.actions";
+// import { getTheses } from "./thesis.actions";
 import { getThesisProgress } from "../thesisprogress/thesisprogress.actions";
 
 export class ThesisShow extends Component {
@@ -13,7 +12,6 @@ export class ThesisShow extends Component {
   }
 
   componentWillMount() {
-    this.props.getTheses();
     this.props.getThesisProgress();
   }
 
@@ -162,9 +160,6 @@ const mapStateToProps = (state) => {
 * A special function used to define and dispatch the relevant data to thesis.actions
 */
 const mapDispatchToProps = (dispatch) => ({
-  getTheses() {
-    dispatch(getTheses());
-  },
   getThesisProgress() {
     dispatch(getThesisProgress({ thesisId: 19 }));
   },
