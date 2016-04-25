@@ -11,7 +11,7 @@ import {
 import { Provider } from "react-redux";
 import store from "../../src/store";
 import ThesisCreateContainer from "../../src/thesis/ThesisCreate.smart";
-import { saveThesis } from "../../src/thesis/thesis.actions";
+import * as actions from "../../src/thesis/thesis.actions";
 
 describe("ThesisCreate.smart", () => {
   const component = renderIntoDocument(
@@ -25,14 +25,14 @@ describe("ThesisCreate.smart", () => {
     expect(title[0].textContent).to.equal("Made by");
   });
 
-  it("should call method saveThesis when submit is clicked", () => {
-    const button = scryRenderedDOMComponentsWithClass(component, "ui primary button")[1];
+  it("should call method saveThesis when submit is clicked", (done) => {
+    const form = scryRenderedDOMComponentsWithClass(component, "ui form")[0];
 
-    const spy = sinon.spy(saveThesis);
-    Simulate.click(button);
-    setTimeout(() => {
-      expect(spy.calledOnce).to.equal(true);
-    }, 1);
+    const spymethod = sinon.spy(actions, "saveThesis");
+    Simulate.submit(form);
+    expect(spymethod.callCount).to.equal(1); // should be 1
+
+    done();
   });
 
   describe("ThesisCreate form validation", () => {

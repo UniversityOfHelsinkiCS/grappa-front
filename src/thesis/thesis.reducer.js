@@ -6,20 +6,16 @@ import { Map, fromJS } from "immutable";
 import {
   THESIS_GET_ALL_SUCCESS,
   THESIS_GET_ALL_FAILURE,
-  // THESIS_SAVE_ONE_REQUEST,
   THESIS_SAVE_ONE_SUCCESS,
   THESIS_SAVE_ONE_FAILURE,
   THESIS_UPDATE_ONE_SUCCESS,
   THESIS_UPDATE_ONE_FAILURE,
 } from "./thesis.actions";
-
 /*
 *Defines what the intial state is when no changes have yet been done to the state.
 */
 const INITIAL_STATE = fromJS({
-  theseslist: [
-    {},
-  ],
+  theses: [],
 });
 
 /*
@@ -34,21 +30,25 @@ const INITIAL_STATE = fromJS({
 export default function (state = INITIAL_STATE, action) {
   switch (action.type) {
     case THESIS_GET_ALL_SUCCESS:
-      return state.mergeIn(["theseslist"], fromJS(action.payload));
-      // return state.updateIn(["theseslist"], list => list.concat(fromJS(action.payload)));
+      return state.merge(fromJS({
+        theses: action.payload,
+      }));
+      // return state.updateIn(["theses"], list => list.concat(fromJS(action.payload)));
     case THESIS_GET_ALL_FAILURE:
     // probably should display error message?
       return state;
     case THESIS_SAVE_ONE_SUCCESS:
-      return state.updateIn(["theseslist"], list => list.push(new Map(action.payload)));
+      return state.updateIn(["theses"], list => list.push(new Map(action.payload)));
     case THESIS_SAVE_ONE_FAILURE:
     // probably should display error message?
       return state;
     case THESIS_UPDATE_ONE_SUCCESS:
-      return state.updateIn(["theseslist"], list => list.push(new Map(action.payload)));
+      return state.updateIn(["theses"], list => list.push(new Map(action.payload)));
     case THESIS_UPDATE_ONE_FAILURE:
     // probably should display error message?
+      return state;
     default:
+      console.log("returning default state");
       return state;
   }
 }

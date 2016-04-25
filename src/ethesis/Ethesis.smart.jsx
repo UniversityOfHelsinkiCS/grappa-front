@@ -20,22 +20,32 @@ export class Ethesis extends Component {
     this.setState(change);
   }
 
+  /* Creates data object to pass to updateThesis action */
+
   handleSubmit(event) {
     event.preventDefault();
-    const thesis = {
-      ethesis: this.state.ethesislink,
+    const data = {
+      token: this.state.token,
+      thesis: {
+        ethesis: this.state.ethesislink,
+      },
     };
     const { updateThesis } = this.props;
-    updateThesis(thesis);
+    updateThesis(data);
   }
 
+  /* Grabs url parameter and saves it to state, then renders form */
+
   render() {
+    this.state.token = this.props.params.token;
     return (
       <Validation.Form className="ethesis form" onSubmit={this.handleSubmit}>
         <h4 className="ui dividing header">Enter eThesis link to your thesis</h4>
         <Validation.Input
+          ref="ethesislink"
           type="text"
-          name="ethesisLink"
+          name="ethesislink"
+          className="ethesis field"
           value={this.state.ethesislink}
           onChange={this.handleChange.bind(this, "ethesislink")}
           placeholder="Link to eThesis"
@@ -52,8 +62,8 @@ export class Ethesis extends Component {
 * An ordinary function used to define and dispatch the relevant data to thesis.actions
 */
 const mapDispatchToProps = (dispatch) => ({
-  updateThesis() {
-    dispatch(updateThesis());
+  updateThesis(data) {
+    dispatch(updateThesis(data));
   },
 });
 

@@ -6,10 +6,10 @@ import { CALL_API } from "../middleware/grappaAPI";
 
 export const THESIS_GET_ALL_SUCCESS = "THESIS_GET_ALL_SUCCESS";
 export const THESIS_GET_ALL_FAILURE = "THESIS_GET_ALL_FAILURE";
-export const THESIS_RESET_ALL_REQUEST = "THESIS_RESET_ALL_REQUEST";
-// export const THESIS_SAVE_ONE_REQUEST = "THESIS_SAVE_ONE_REQUEST";
+
 export const THESIS_SAVE_ONE_SUCCESS = "THESIS_SAVE_ONE_SUCCESS";
 export const THESIS_SAVE_ONE_FAILURE = "THESIS_SAVE_ONE_FAILURE";
+
 export const THESIS_UPDATE_ONE_SUCCESS = "THESIS_UPDATE_ONE_SUCCESS";
 export const THESIS_UPDATE_ONE_FAILURE = "THESIS_UPDATE_ONE_FAILURE";
 // export const THESIS_GET_ONE_SUCCESS = "THESIS_GET_ONE_SUCCESS";
@@ -45,18 +45,6 @@ export const getTheses = () => {
 // }
 
 /*
-* The action called to reset the state to its INITIAL_STATE.
-* @return resetTheses The object containing the relevant information for the
-* reducer to handle the data accordingly.
-*/
-export const resetTheses = () => {
-  console.log("resetTheses-action called!");
-  return {
-    type: THESIS_RESET_ALL_REQUEST,
-  };
-};
-
-/*
 * The action called to save the given data as a new thesis in the database.
 * @param thesis An object cantaining all the relevant data of the new thesis thats
 * to be added.
@@ -75,7 +63,17 @@ export const saveThesis = (thesis) => {
   };
 };
 
-export const updateThesis = (thesis) => {
+/*
+ * The action used change some values in a thesis.
+ * Used by Ethesis component.
+ *
+ * @param data object containing the fields we want to change
+ * @return The object containing the relevant information for the
+ * reducer to handle the data accordingly.
+ *
+ *
+ */
+export const updateThesis = (data) => {
   console.log("");
   return {
     type: CALL_API,
@@ -83,6 +81,6 @@ export const updateThesis = (thesis) => {
     failure: THESIS_UPDATE_ONE_FAILURE,
     method: "put",
     url: "/thesis",
-    data: thesis,
+    data,
   };
 };

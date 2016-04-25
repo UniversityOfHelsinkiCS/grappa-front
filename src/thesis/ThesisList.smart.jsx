@@ -11,12 +11,13 @@ import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 export class ThesisList extends Component {
   constructor() {
     super();
+    this.linkFormatter = this.linkFormatter.bind(this);
   }
 
   /*
   * Defines what is done at the beginning of the components life before rendering.
   */
-  componentDidMount() {
+  componentWillMount() {
     const { getTheses } = this.props;
     getTheses();
   }
@@ -26,6 +27,10 @@ export class ThesisList extends Component {
   * Contains a react-bootstrap-table library styled table.
   * @return <div>-container Container wrapping all the html elements to be rendered.
   */
+  linkFormatter(cell, row) {
+    return `<a href="thesis/${row.id}">${row.title}</a>`;
+  }
+
   render() {
     const { theses } = this.props;
     console.log(theses);
@@ -36,7 +41,7 @@ export class ThesisList extends Component {
           <TableHeaderColumn filter= {{ type: "TextFilter" }} dataField="id" isKey hidden>
           Thesis ID</TableHeaderColumn>
           <TableHeaderColumn dataField="author" dataSort width="200">Author</TableHeaderColumn>
-          <TableHeaderColumn dataField="title" dataSort width="200">Thesis Title
+          <TableHeaderColumn dataField="title" dataFormat={this.linkFormatter} dataSort width="200">Thesis Title
           </TableHeaderColumn>
           <TableHeaderColumn dataField="instructor" dataSort width="200">Instructor
           </TableHeaderColumn>
@@ -58,9 +63,11 @@ import { getTheses } from "./thesis.actions";
 * @return ListOfThesis A list containing all the thesis listed in the database.
 */
 const mapStateToProps = (state) => {
-  const theses = state.get("theses");
+  const user = state.get("auth").get("user");
+  const thesis = state.get("thesis");
   return {
-    theses: theses.get("theseslist").toJS(),
+    theses: thesis.get("theses").toJS(),
+    user: user.toJS(),
   };
 };
 
