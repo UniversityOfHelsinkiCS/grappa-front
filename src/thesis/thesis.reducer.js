@@ -11,7 +11,6 @@ import {
   THESIS_UPDATE_ONE_SUCCESS,
   THESIS_UPDATE_ONE_FAILURE,
 } from "./thesis.actions";
-
 /*
 *Defines what the intial state is when no changes have yet been done to the state.
 */
@@ -47,7 +46,9 @@ export default function (state = INITIAL_STATE, action) {
       return state.updateIn(["theses"], list => list.push(new Map(action.payload)));
     case THESIS_UPDATE_ONE_FAILURE:
     // probably should display error message?
+      return state;
     default:
+      console.log("returning default state");
       return state;
   }
 }
