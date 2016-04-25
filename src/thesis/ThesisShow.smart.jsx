@@ -1,15 +1,16 @@
 import React, { Component } from "react";
 import { getTheses } from "./thesis.actions";
 import { getThesisProgress } from "../thesisprogress/thesisprogress.actions";
+import { connect } from "react-redux";
 
 export class ThesisShow extends Component {
   constructor() {
     super();
     this.handleEdit = this.handleEdit.bind(this);
     this.handleSave = this.handleSave.bind(this);
-    this.handleGrEval = this.handleGrEval.bind(this);
-    this.handleEthesisBox = this.handleEthesisBox.bind(this);
-    this.handleDocSentBox = this.handleDocSentBox.bind(this);
+    // this.handleGrEval = this.handleGrEval.bind(this);
+    // this.handleEthesisBox = this.handleEthesisBox.bind(this);
+    // this.handleDocSentBox = this.handleDocSentBox.bind(this);
   }
 
   componentDidMount() {
@@ -27,73 +28,57 @@ export class ThesisShow extends Component {
     document.getElementsByTagName("textarea")[1].readOnly = true;
   }
 
-  handleEthesisBox(){
-    console.log(document);
-    document.getElementById("ebox").checked = true;
-  }
-
-  handleGrEval(){
-    document.getElementById("grbox").checked = true;
-  }
-
-  handleDocSentBox() {
-    document.getElementById("docbox").checked = true;
-  }
-
   render() {
-    // console.log(this.props.params.id);
     const { theses } = this.props;
     const { thesis } = this.props;
     const { thesisprogress } = this.props;
     let { ethesisBox } = "false";
     let { grEvalBox } = "false";
     let { docBox } = "false";
-    const thesisID = 1;
-    let thesisprog;
-    let rightThesis;
+    let { thesisprog } = thesisprogress[0];
+    let { rightThesis } = theses[0];
     for(var i=0;i<theses.length;i++){
-      if(parseInt(theses[i].id) === parseInt(thesisID)) {
+      if(parseInt(theses[i].id) === parseInt(this.props.params.id)) {
         rightThesis = theses[i];
       }
     }
     for(var i=0;i<thesisprogress.length;i++){
-       if(parseInt(thesisprogress[i].thesisId) === parseInt(thesisID)) {
+       if(parseInt(thesisprogress[i].thesisId) === parseInt(this.props.params.id)) {
          thesisprog = thesisprogress[i];
        }
     }
 
-    if(typeof rightThesis != "undefined" && typeof thesisprog != "undefined") {
-      console.log("inside")
-      console.log(rightThesis);
-      console.log(thesisprog);
-      // if(typeof rightThesis.ethesis !== null && typeof rightThesis.ethesis !== undefined) {
-      //   // this.handleEthesisBox();
-      //   ethesisBox = "true";
-      // }
-      // if(thesisprog.gradersStatus === true){
-      //   console.log("but not here?");
-      //   // this.handleGrEval();
-      //   grEvalBox = "true";
-      // // }
-      // if(typeof thesisprog.documentsSent !== undefined && typeof thesisprog == Date) {
-      //   // this.handleDocSentBox();
-      //    docBox = "true";
-      // }
+    if(typeof thesisprog === "undefined"){
+      return false;
     }
+    if(typeof rightThesis === "undefined"){
+      return false;
+    }
+
+    if(rightThesis.ethesis !== ""){
+      ethesisBox = "true";
+    }
+    if(thesisprog.gradersStatus){
+      grEvalBox = "true";
+    }
+    if(thesisprog.documentsSent){
+      docBox = "false";
+    }
+
     return (
       <div>
-        <h3 className="ui dividing header">{thesis.title}</h3>
+        <h3 className="ui dividing header">{rightThesis.title}</h3>
         <div>
           <form className="ui form">
             <div className="field">
-              <div>{thesis.author}</div>
+              <div>{rightThesis.author}</div>
               <div>Esimerkki</div>
-              <div>{thesis.grade}</div>
+              <div>{rightThesis.grade}</div>
             </div>
             <div className="field">
-              <div className="field">{ thesis.ethesis }</div>
+              <a href={rightThesis.ethesis}>{rightThesis.ethesis}</a>
             </div>
-            <div className="field">{ thesis.urkund }</div>
+            <a href={rightThesis.urkund}>{rightThesis.urkund}</a>
             <h4 className="ui dividing header">Abstract</h4>
             <textarea className="abstract" readOnly rows="5" cols="30" />
             <div className="field">
@@ -149,21 +134,20 @@ export class ThesisShow extends Component {
               </div>
             </div>
             <div className="field">
-              <p>{thesisprog.documentSent}</p>
+              <p>{thesisprog.documentsSent}</p>
             </div>
             <div className="field">
               <button className="ui blue tiny button">Resend</button>
             </div>
           </div>
         </form>
-        <h3 id="deadlineReminder">Deadline: {thesis.deadline}</h3>
+        <h3 id="deadlineReminder">Deadline: {rightThesis.deadline}</h3>
         <button className="ui primary button" id="editButton" onClick={ this.handleEdit }>Edit</button>
         <button className="ui primary button" id="saveButton" onClick={ this.handleSave }>Save</button>
       </div>
     );
   }
 }
-import { connect } from "react-redux";
 
 /*
 * A special funciton used to define what the form of the data is that is gotten from the state.
@@ -174,7 +158,7 @@ const mapStateToProps = (state) => {
   const theses = state.get("theses");
   return {
     theses: theses.get("theseslist").toJS(),
-    thesis: theses.get("theseslist").toJS()[0],
+    thesis: theses.get("theseslist").toJS()[2],
     thesisprogress: thesisprogress.get("thesesprogresslist").toJS(),
   };
 };

@@ -32,6 +32,18 @@ export const getTheses = () => {
   };
 };
 
+// export const getOneThesis = (id) => {
+//   console.log("getOneThesis-action called!");
+//   return {
+//     type: CALL_API,
+//     success: THESIS_GET_ONE_SUCCESS,
+//     failure: THESIS_GET_ONE_FAILURE,
+//     method: "get",
+//     url: "/thesis/" + id,
+//     data: {id},
+//   }
+// }
+
 /*
 * The action called to reset the state to its INITIAL_STATE.
 * @return resetTheses The object containing the relevant information for the
