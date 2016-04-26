@@ -6,11 +6,10 @@ import { CALL_API } from "../middleware/grappaAPI";
 
 export const USER_GET_ALL_SUCCESS = "USER_GET_ALL_SUCCESS";
 export const USER_GET_ALL_FAILURE = "USER_GET_ALL_FAILURE";
-export const USER_UPDATE_ONE_LOCAL = "USER_GET_ALL_FAILURE";
 export const USER_UPDATE_ONE_SUCCESS = "USER_UPDATE_ONE_SUCCESS";
 export const USER_UPDATE_ONE_FAILURE = "USER_UPDATE_ONE_FAILURE";
-export const USER_DECLINE_SUCCESS = "USER_DECLINE_SUCCESS";
-export const USER_DECLINE_FAILURE = "USER_DECLINE_FAILURE";
+export const USER_DECLINE_ONE_SUCCESS = "USER_DECLINE_ONE_SUCCESS";
+export const USER_DECLINE_ONE_FAILURE = "USER_DECLINE_ONE_FAILURE";
 
 /*
 * The action called to get a list of all new users in the database.
@@ -24,27 +23,19 @@ export const getUsers = () => {
     success: USER_GET_ALL_SUCCESS,
     failure: USER_GET_ALL_FAILURE,
     method: "get",
-    url: "/user/new",
+    url: "/user",
     data: {},
   };
 };
 
-export const updateUserLocally = (user) => {
-  console.log("updateUser-action called!");
-  return {
-    type: USER_UPDATE_ONE_LOCAL,
-    data: user,
-  };
-};
-
 export const updateUser = (user) => {
-  console.log("updateUser-action called!");
+  // console.log("updateUser-action called!");
   return {
     type: CALL_API,
     success: USER_UPDATE_ONE_SUCCESS,
     failure: USER_UPDATE_ONE_FAILURE,
     method: "put",
-    url: "/user/",
+    url: "/user/" + user.id,
     data: user,
   };
 };
@@ -53,10 +44,10 @@ export const declineUser = (user) => {
   console.log("declineUser-action called!");
   return {
     type: CALL_API,
-    success: USER_DECLINE_SUCCESS,
-    failure: USER_DECLINE_FAILURE,
+    success: USER_DECLINE_ONE_SUCCESS,
+    failure: USER_DECLINE_ONE_FAILURE,
     method: "delete",
-    url: "/user/",
+    url: "/user/" + user.id,
     data: user,
   };
 };

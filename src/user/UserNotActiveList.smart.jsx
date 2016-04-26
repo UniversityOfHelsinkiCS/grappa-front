@@ -16,7 +16,7 @@ export class NewUsersList extends Component {
     this.rolesFormatter = this.rolesFormatter.bind(this);
     this.updateUser = this.updateUser.bind(this);
     this.declineUser = this.declineUser.bind(this);
-    this.setRoleUser = this.setRoleUser.bind(this);
+    this.setUserRole = this.setUserRole.bind(this);
     this.state = {};
   }
 
@@ -27,17 +27,15 @@ export class NewUsersList extends Component {
     this.props.getUsers();
   }
 
-  setRoleUser(cell, row, event) {
-    this.state.row = event.target.value
-    console.log(this.state.row)
+  setUserRole(cell, id, event) {
+    this.state[id] = event.target.value;
   }
 
   updateUser(cell, user) {
   	let newUser = Object.assign({}, user);
-    console.log(this.state.user)
-  	newUser.role = this.state.user;
-    console.log(newUser)
-    this.props.updateUser(this.state.user);
+  	newUser.role = this.state[user.id];
+    newUser.isActive = true;
+    this.props.updateUser(newUser);
   }
 
   declineUser(user) {
@@ -50,16 +48,29 @@ export class NewUsersList extends Component {
   * views and actions into the react-bootstrap-table.
   */
   acceptButtonFormatter(cell, row) {
-    return <button className="positive ui button" onClick={this.updateUser.bind(this, cell, row)}>Accept</button>;
+    return (
+      <button className="positive ui button" onClick={
+        this.updateUser.bind(this, cell, row)}>
+        Accept
+      </button>);
   }
 
   declineButtonFormatter(cell, row) {
-    return <button className="negative ui button" onClick={() => {if (confirm("Delete the item?")) {this.declineUser(row)};}}>Decline</button>;
+    return (
+      <button className="negative ui button" onClick={ () =>
+        {
+          if (confirm("Are you sure you want to delete this user?")) {
+            this.declineUser(row);
+          };
+        }
+      }>
+        Decline
+      </button>);
   }
 
   rolesFormatter(cell, row) {
     return (
-      <select className="ui dropdown" onChange={this.setRoleUser.bind(this, cell, row)}>
+      <select className="ui dropdown" onChange={this.setUserRole.bind(this, cell, row.id)}>
         <option value="instructor">Instructor</option>
         <option value="print-person">Print-person</option>
         <option value="professor">Professor</option>
@@ -74,22 +85,30 @@ export class NewUsersList extends Component {
   * @return <div>-container Container wrapping all the html elements to be rendered.
   */
   render() {
-    const { users } = this.props;
-    if (users.length === 0) {
-      return (<div><h2>No new users</h2></div>);
-    }
+    const users = this.props.users.filter(user => {
+      if (!user.isActive) {
+        return user;
+      }
+    });
+    const noUsers = users.length === 0;
     return (
       <div>
-        <h2>New users</h2>
-        <BootstrapTable data={users}>
-          <TableHeaderColumn filter= {{ type: "TextFilter" }} dataField="id" isKey hidden>
-          Thesis ID</TableHeaderColumn>
-          <TableHeaderColumn dataField="name" dataSort width="200">Name</TableHeaderColumn>
-          <TableHeaderColumn dataField="email" dataSort width="200">Email</TableHeaderColumn>
-          <TableHeaderColumn dataFormat={this.rolesFormatter} dataSort width="200">Permission</TableHeaderColumn>
-          <TableHeaderColumn dataFormat={this.acceptButtonFormatter} dataSort width="50"></TableHeaderColumn>
-          <TableHeaderColumn dataFormat={this.declineButtonFormatter} dataSort width="50"></TableHeaderColumn>
-        </BootstrapTable>
+        { noUsers ?
+          <h2>No new users</h2>
+          :
+          <div>
+            <h2>New users</h2>
+            <BootstrapTable data={users}>
+              <TableHeaderColumn filter= {{ type: "TextFilter" }} dataField="id" isKey hidden>
+              Thesis ID</TableHeaderColumn>
+              <TableHeaderColumn dataField="name" dataSort width="200">Name</TableHeaderColumn>
+              <TableHeaderColumn dataField="email" dataSort width="200">Email</TableHeaderColumn>
+              <TableHeaderColumn dataFormat={this.rolesFormatter} dataSort width="200">Permission</TableHeaderColumn>
+              <TableHeaderColumn dataFormat={this.acceptButtonFormatter} dataSort width="50"></TableHeaderColumn>
+              <TableHeaderColumn dataFormat={this.declineButtonFormatter} dataSort width="50"></TableHeaderColumn>
+            </BootstrapTable>
+          </div>
+        }
       </div>
       );
   }

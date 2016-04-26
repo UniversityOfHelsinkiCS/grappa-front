@@ -45,14 +45,14 @@ export class Nav extends Component {
     const { user } = this.props;
     return (
       <div className="ui horizontal pointing menu">
-        <Link className="item" to="/user">{ user.name }</Link>
+        <Link className="item" to="/user/me">{ user.name }</Link>
         <a className="item" onClick={ this.handleLogout }>Logout</a>
         <Link className="item" to="/thesis">Theses</Link>
         <Link className="item" to="/thesis/new">Add new thesis</Link>
         <Link className="item" to="/thesis/1">ThesesShow </Link>
         <Link className="item" to="/councilmeeting">Council meetings </Link>
         <Link className="item" to="/councilmeeting/new">Add new meeting</Link>
-        <Link className="item" to="/users">User Management</Link>
+        <Link className="item" to="/user">Accept new users</Link>
       </div>
     );
   }
