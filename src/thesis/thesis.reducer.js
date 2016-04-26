@@ -13,9 +13,11 @@ import {
 } from "./thesis.actions";
 /*
 *Defines what the intial state is when no changes have yet been done to the state.
+* todo: ethesis should probably have it's own reducer
 */
 const INITIAL_STATE = fromJS({
   theses: [],
+  linkSent: "not_tried",
 });
 
 /*
@@ -43,10 +45,9 @@ export default function (state = INITIAL_STATE, action) {
     // probably should display error message?
       return state;
     case THESIS_UPDATE_ONE_SUCCESS:
-      return state.updateIn(["theses"], list => list.push(new Map(action.payload)));
+      return state.updateIn(["linkSent"], () => "success");
     case THESIS_UPDATE_ONE_FAILURE:
-    // probably should display error message?
-      return state;
+      return state.updateIn(["linkSent"], () => "failed");
     default:
       console.log("returning default state");
       return state;

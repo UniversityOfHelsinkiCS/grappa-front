@@ -38,6 +38,16 @@ export class Ethesis extends Component {
 
   render() {
     this.state.token = this.props.params.token;
+    const link = this.props.linkSent;
+    if (link === "success") {
+      return (
+        <h4>Link successfully saved. You may now safely close the browser window.</h4>
+      );
+    } else if (link === "failed") {
+      return (
+        <h4>There was an error saving your link. Please refresh the page and try again.</h4>
+      );
+    }
     return (
       <Validation.Form className="ethesis form" onSubmit={this.handleSubmit}>
         <h4 className="ui dividing header">Enter eThesis link to your thesis</h4>
@@ -67,4 +77,11 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
-export default connect(null, mapDispatchToProps)(Ethesis);
+const mapStateToProps = (state) => {
+  const ethesis = state.get("thesis");
+  return {
+    linkSent: ethesis.get("linkSent"),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Ethesis);
