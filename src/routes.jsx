@@ -12,19 +12,24 @@ import Login from "./auth/Login.smart";
 
 import store from "./store";
 
-const restrictNonAdmin = (nextState, replace) => {
-  console.log("checking if admin");
+const restrictNonUser = (nextState, replace) => {
+  console.log("checking if user");
   const user = store.getState().get("auth").get("user").toJS();
-  if (user.role !== "admin") {
-    console.log("wasnt admin :/");
+  if (user.role === "") {
+    console.log("wasnt user");
     replace({
       location: {
         pathname: "/login",
       },
     });
-  } else {
-    console.log("was admin!");
-    console.log(nextState);
+  }
+};
+
+const restrictNonAdmin = (nextState, replace) => {
+  console.log("checking if admin");
+  const user = store.getState().get("auth").get("user").toJS();
+  if (user.role !== "admin") {
+    console.log("wasnt admin :/");
     replace({
       location: {
         pathname: "/login",
@@ -37,12 +42,12 @@ export default (
   <Route>
     <Route path="/ethesis/:token" component={Ethesis}/>
     <Route path="/" component={App}>
-      <Route path="thesis" component={ThesisList} />
-      <Route path="thesis/new" component={ThesisCreate} />
-      <Route path="thesis/:id" component={ThesisShow} />
-      <Route path="councilmeeting/new" component={CouncilmeetingCreate} />
-      <Route path="councilmeeting" component={CouncilmeetingList} />
-      <Route path="user" component={UserShow} onEnter={restrictNonAdmin} />
+      <Route path="thesis" component={ThesisList} onEnter={restrictNonUser} />
+      <Route path="thesis/new" component={ThesisCreate} onEnter={restrictNonUser} />
+      <Route path="thesis/:id" component={ThesisShow} onEnter={restrictNonUser} />
+      <Route path="councilmeeting/new" component={CouncilmeetingCreate} onEnter={restrictNonAdmin} />
+      <Route path="councilmeeting" component={CouncilmeetingList} onEnter={restrictNonAdmin} />
+      <Route path="user" component={UserShow} onEnter={restrictNonUser} />
       <Route path="login" component={Login} />
       <IndexRedirect to="/login" />
     </Route>

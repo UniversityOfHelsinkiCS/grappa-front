@@ -21,30 +21,58 @@ export class Nav extends Component {
     browserHistory.push("/login");
   }
 
+  renderNonLoggedNav() {
+    return (
+      <div className="ui horizontal pointing menu">
+        <Link className="item" to="/login">Login</Link>
+      </div>
+    );
+  }
+
+  renderUserNav() {
+    const { user } = this.props;
+    return (
+      <div className="ui horizontal pointing menu">
+        <Link className="item" to="/user">{ user.name }</Link>
+        <a className="item" onClick={ this.handleLogout }>Logout</a>
+        <Link className="item" to="/thesis">Theses</Link>
+        <Link className="item" to="/thesis/new">Add new thesis</Link>
+        <Link className="item" to="/thesis/1">ThesesShow </Link>
+      </div>
+    )
+  }
+
+  renderAdminNav() {
+    const { user } = this.props;
+    return (
+      <div className="ui horizontal pointing menu">
+        <Link className="item" to="/user">{ user.name }</Link>
+        <a className="item" onClick={ this.handleLogout }>Logout</a>
+        <Link className="item" to="/thesis">Theses</Link>
+        <Link className="item" to="/thesis/new">Add new thesis</Link>
+        <Link className="item" to="/thesis/1">ThesesShow </Link>
+        <Link className="item" to="/councilmeeting">Council meetings </Link>
+        <Link className="item" to="/councilmeeting/new">Add new meeting</Link>
+      </div>
+    )
+  }
+
+  renderNav() {
+    const isAdmin = this.props.user.role === "admin";
+    return (
+      <div>
+        { isAdmin ? this.renderAdminNav() : this.renderUserNav() }
+      </div>
+    );
+  }
 /*
 * The render method which states what to render onto the view.
 */
   render() {
-    const { user } = this.props;
     const { loggedIn } = this.props;
     return (
       <div id="nav">
-        {
-          loggedIn ?
-            <div className="ui horizontal pointing menu">
-              <Link className="item" to="/user">{ user.name }</Link>
-              <a className="item" onClick={ this.handleLogout }>Logout</a>
-              <Link className="item" to="/thesis">Theses</Link>
-              <Link className="item" to="/thesis/new">Add new thesis</Link>
-              <Link className="item" to="/thesis/1">ThesesShow </Link>
-              <Link className="item" to="/councilmeeting">Council meetings </Link>
-              <Link className="item" to="/councilmeeting/new">Add new meeting</Link>
-            </div>
-              :
-            <div className="ui horizontal pointing menu">
-              <Link className="item" to="/login">Login</Link>
-            </div>
-        }
+        { loggedIn ? this.renderNav() : this.renderNonLoggedNav() }
       </div>
     );
   }
