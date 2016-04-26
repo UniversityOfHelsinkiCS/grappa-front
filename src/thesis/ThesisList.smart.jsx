@@ -7,11 +7,14 @@
 
 import React, { Component } from "react";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
+import { linkFormatter, studyFieldNameFormatter, dateFormatter } from "../config/helpers";
 
 export class ThesisList extends Component {
   constructor() {
     super();
-    this.linkFormatter = this.linkFormatter.bind(this);
+    this.linkFormatter = linkFormatter.bind(this);
+    this.studyFieldNameFormatter = studyFieldNameFormatter.bind(this);
+    this.dateFormatter = dateFormatter.bind(this);
   }
 
   /*
@@ -27,13 +30,9 @@ export class ThesisList extends Component {
   * Contains a react-bootstrap-table library styled table.
   * @return <div>-container Container wrapping all the html elements to be rendered.
   */
-  linkFormatter(cell, row) {
-    return `<a href="thesis/${row.id}">${row.title}</a>`;
-  }
 
   render() {
     const { theses } = this.props;
-    console.log(theses);
     return (
       <div>
         <h2>Theses</h2>
@@ -46,13 +45,13 @@ export class ThesisList extends Component {
           <TableHeaderColumn dataField="instructor" dataSort width="200">Instructor
           </TableHeaderColumn>
           <TableHeaderColumn dataField="email" dataSort width="200">Email</TableHeaderColumn>
-          <TableHeaderColumn dataField="StudyFieldId" dataSort width="200">Field
+          <TableHeaderColumn dataFormat={this.studyFieldNameFormatter} dataSort width="200">Field
           </TableHeaderColumn>
-          <TableHeaderColumn dataField="deadline" dataSort width="200">Deadline
+          <TableHeaderColumn dataFormat={this.dateFormatter} dataSort width="200">Deadline
           </TableHeaderColumn>
         </BootstrapTable>
       </div>
-    );
+      );
   }
 }
 import { connect } from "react-redux";

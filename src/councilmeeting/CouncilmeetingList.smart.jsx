@@ -7,12 +7,18 @@ export class CouncilmeetingList extends Component {
 
   constructor() {
     super();
+    this.dateFormatter = this.dateFormatter.bind(this);
   }
 
   componentDidMount() {
     const { getCouncilmeetings } = this.props;
     getCouncilmeetings();
   }
+
+dateFormatter(cell, row) {
+  const origDate = new Date(row.date);
+  return `${origDate.getDate()}/${origDate.getMonth()}/${origDate.getFullYear()}`;
+}
 
   render() {
     const { councilmeetings } = this.props;
@@ -22,7 +28,7 @@ export class CouncilmeetingList extends Component {
         <BootstrapTable data={councilmeetings} search bordered={false}>
           <TableHeaderColumn filter= {{ type: "TextFilter" }} dataField="id" isKey hidden>
           Councilmeeting ID</TableHeaderColumn>
-          <TableHeaderColumn dataField="date" dataSort width="200">Date</TableHeaderColumn>
+          <TableHeaderColumn dataFormat={this.dateFormatter} dataSort width="200">Date</TableHeaderColumn>
         </BootstrapTable>
       </div>
         );
