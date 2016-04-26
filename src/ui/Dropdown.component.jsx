@@ -34,9 +34,11 @@ export default class Dropdown extends Component {
     const { data } = this.props;
     return (
       <select className="ui fluid search dropdown" value={this.active} onChange={this.handleChange}>
-        { data.map(function (date, index) {
-          return <option key={ index } value={ date.date }>{ date.date }</option>;
-        }) }
+        { data.map((date, index) =>
+          <option key={ index } value={ date.date }>
+            { date.date }
+          </option>
+        )}
       </select>
     );
   }

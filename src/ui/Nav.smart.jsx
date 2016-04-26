@@ -16,8 +16,7 @@ export class Nav extends Component {
 * The handler method for handling the actions for when the logout button is clicked.
 */
   handleLogout() {
-    const { logout } = this.props;
-    logout();
+    this.props.logout();
     browserHistory.push("/login");
   }
 
@@ -39,7 +38,7 @@ export class Nav extends Component {
         <Link className="item" to="/thesis/new">Add new thesis</Link>
         <Link className="item" to="/thesis/1">ThesesShow </Link>
       </div>
-    )
+    );
   }
 
   renderAdminNav() {
@@ -54,7 +53,7 @@ export class Nav extends Component {
         <Link className="item" to="/councilmeeting">Council meetings </Link>
         <Link className="item" to="/councilmeeting/new">Add new meeting</Link>
       </div>
-    )
+    );
   }
 
   renderNav() {

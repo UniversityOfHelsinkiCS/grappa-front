@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-import { Link } from "react-router";
-// import Authenticated from "../app/Authenticated.component.js";
 
 export class UserShow extends Component {
   constructor() {
