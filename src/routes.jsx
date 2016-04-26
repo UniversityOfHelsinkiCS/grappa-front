@@ -8,6 +8,7 @@ import ThesisCreate from "./thesis/ThesisCreate.smart";
 import CouncilmeetingCreate from "./councilmeeting/CouncilmeetingCreate.smart";
 import CouncilmeetingList from "./councilmeeting/CouncilmeetingList.smart";
 import UserShow from "./user/UserShow.smart";
+import NewUsersList from "./user/NewUsersList.smart";
 import Login from "./auth/Login.smart";
 import NotFound from "./app/NotFound.component";
 
@@ -49,6 +50,7 @@ export default (
       <Route path="councilmeeting/new" component={CouncilmeetingCreate} onEnter={restrictNonAdmin} />
       <Route path="councilmeeting" component={CouncilmeetingList} onEnter={restrictNonAdmin} />
       <Route path="user" component={UserShow} onEnter={restrictNonUser} />
+      <Route path="users" component={NewUsersList} onEnter={restrictNonAdmin} />
       <Route path="login" component={Login} />
       <Route path="*" component={NotFound}/>
     </Route>
