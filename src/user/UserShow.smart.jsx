@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-// import Authenticated from "../app/Authenticated.component.js";
 
 export class UserShow extends Component {
   constructor() {
@@ -7,9 +6,21 @@ export class UserShow extends Component {
   }
 
   render() {
+    const { user } = this.props;
     return (
-      <div>
-        <p>hei olen user</p>
+      <div className="ui list">
+        <div className="item">
+          <i className="users icon"></i>
+          <div className="content">
+            { user.name }
+          </div>
+        </div>
+        <div className="item">
+          <i className="mail icon"></i>
+          <div className="content">
+            { user.email }
+          </div>
+        </div>
       </div>
     );
   }

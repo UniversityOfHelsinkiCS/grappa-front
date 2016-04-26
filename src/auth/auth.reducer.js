@@ -11,7 +11,6 @@ const INITIAL_STATE = fromJS({
     name: "",
     role: "",
   },
-  loggedIn: false,
   token: "",
 });
 
