@@ -17,7 +17,7 @@ export class ThesisList extends Component {
   /*
   * Defines what is done at the beginning of the components life before rendering.
   */
-  componentDidMount() {
+  componentWillMount() {
     const { getTheses } = this.props;
     getTheses();
   }
@@ -63,9 +63,11 @@ import { getTheses } from "./thesis.actions";
 * @return ListOfThesis A list containing all the thesis listed in the database.
 */
 const mapStateToProps = (state) => {
+  const user = state.get("auth").get("user");
   const thesis = state.get("thesis");
   return {
     theses: thesis.get("theses").toJS(),
+    user: user.toJS(),
   };
 };
 

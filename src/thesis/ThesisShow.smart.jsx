@@ -1,7 +1,5 @@
 import React, { Component } from "react";
-// import { browserHistory } from "react-router";
-import { getTheses } from "./thesis.actions";
-import { getThesisProgress } from "../thesisprogress/thesisprogress.actions";
+// import { getTheses } from "./thesis.actions";
 
 export class ThesisShow extends Component {
   constructor() {
@@ -13,26 +11,29 @@ export class ThesisShow extends Component {
   }
 
   componentWillMount() {
-    this.props.getTheses();
-    this.props.getThesisProgress();
+    this.findThesisFromProps(this.props);
   }
 
   componentWillReceiveProps(newProps) {
-    let thesisId;
-    try {
-      thesisId = parseInt(this.props.params.id, 10);
-    } catch (e) {
-      return;
-    }
-    const foundThesis = newProps.theses.find(thesis => {
-      if (thesis.id === thesisId) {
-        return thesis;
-      }
-    });
-    if (typeof foundThesis !== "undefined") {
-      this.state.thesis = foundThesis;
-    }
+    this.findThesisFromProps(newProps);
   }
+
+    findThesisFromProps(props) {
+      let thesisId;
+      try {
+        thesisId = parseInt(props.params.id, 10);
+      } catch (e) {
+        return;
+      }
+      const foundThesis = props.theses.find(thesis => {
+        if (thesis.id === thesisId) {
+          return thesis;
+        }
+      });
+      if (typeof foundThesis !== "undefined") {
+        this.state.thesis = foundThesis;
+      }
+    }
 
   handleEdit() {
     document.getElementsByTagName("textarea")[1].removeAttribute("readOnly");
@@ -46,20 +47,20 @@ export class ThesisShow extends Component {
     const thesis = this.state.thesis;
     return (
       <div>
-        <h3 className="ui dividing header">{thesis.title}</h3>
+        <h3 className="ui dividing header">{ thesis.title }</h3>
         <div>
           <form className="ui form">
             <div className="field">
-              <div>{thesis.author}</div>
-              <div>Esimerkki</div>
-              <div>{thesis.grade}</div>
+              <div>{ thesis.author }</div>
+              <div>Lol</div>
+              <div>{ thesis.grade }</div>
             </div>
             <div className="field">
               <div className="field">{ thesis.ethesis }</div>
             </div>
             <div className="field">{ thesis.urkund }</div>
             <h4 className="ui dividing header">Abstract</h4>
-            <textarea className="abstract" readOnly rows="5" cols="30" />
+            <textarea className="abstract" value={ thesis.abstract } readOnly rows="5" cols="30" />
             <div className="field">
               <h4 className="ui dividing header">Graders</h4>
               <div className="field">
@@ -120,7 +121,7 @@ export class ThesisShow extends Component {
             </div>
           </div>
         </form>
-        <h3 id="deadlineReminder">Deadline: {thesis.deadline}</h3>
+        <h3 id="deadlineReminder">Deadline: { thesis.deadline }</h3>
         <button className="ui primary button" id="editButton" onClick={ this.handleEdit }>Edit</button>
         <button className="ui primary button" id="saveButton" onClick={ this.handleSave }>Save</button>
       </div>
@@ -150,24 +151,10 @@ import { connect } from "react-redux";
 * @return ListOfThesis A list containing all the thesis listed in the database.
 */
 const mapStateToProps = (state) => {
-  const thesisprogress = state.get("thesisprogress");
   const thesis = state.get("thesis");
   return {
     theses: thesis.get("theses").toJS(),
-    thesisprogresses: thesisprogress.get("thesisprogresses").toJS(),
   };
 };
 
-/*
-* A special function used to define and dispatch the relevant data to thesis.actions
-*/
-const mapDispatchToProps = (dispatch) => ({
-  getTheses() {
-    dispatch(getTheses());
-  },
-  getThesisProgress() {
-    dispatch(getThesisProgress({ thesisId: 19 }));
-  },
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(ThesisShow);
+export default connect(mapStateToProps, null)(ThesisShow);
