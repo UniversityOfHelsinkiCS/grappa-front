@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 // import { getTheses } from "./thesis.actions";
-import { getThesisProgress } from "../thesisprogress/thesisprogress.actions";
 
 export class ThesisShow extends Component {
   constructor() {
@@ -11,23 +10,6 @@ export class ThesisShow extends Component {
     };
   }
 
-  findThesisFromProps(props) {
-    let thesisId;
-    try {
-      thesisId = parseInt(props.params.id, 10);
-    } catch (e) {
-      return;
-    }
-    const foundThesis = props.theses.find(thesis => {
-      if (thesis.id === thesisId) {
-        return thesis;
-      }
-    });
-    if (typeof foundThesis !== "undefined") {
-      this.state.thesis = foundThesis;
-    }
-  }
-
   componentWillMount() {
     this.findThesisFromProps(this.props);
   }
@@ -35,6 +17,23 @@ export class ThesisShow extends Component {
   componentWillReceiveProps(newProps) {
     this.findThesisFromProps(newProps);
   }
+
+    findThesisFromProps(props) {
+      let thesisId;
+      try {
+        thesisId = parseInt(props.params.id, 10);
+      } catch (e) {
+        return;
+      }
+      const foundThesis = props.theses.find(thesis => {
+        if (thesis.id === thesisId) {
+          return thesis;
+        }
+      });
+      if (typeof foundThesis !== "undefined") {
+        this.state.thesis = foundThesis;
+      }
+    }
 
   handleEdit() {
     document.getElementsByTagName("textarea")[1].removeAttribute("readOnly");
@@ -46,7 +45,6 @@ export class ThesisShow extends Component {
 
   renderContent() {
     const thesis = this.state.thesis;
-        console.log(thesis);
     return (
       <div>
         <h3 className="ui dividing header">{ thesis.title }</h3>
@@ -123,7 +121,7 @@ export class ThesisShow extends Component {
             </div>
           </div>
         </form>
-        <h3 id="deadlineReminder">Deadline: {thesis.deadline}</h3>
+        <h3 id="deadlineReminder">Deadline: { thesis.deadline }</h3>
         <button className="ui primary button" id="editButton" onClick={ this.handleEdit }>Edit</button>
         <button className="ui primary button" id="saveButton" onClick={ this.handleSave }>Save</button>
       </div>
