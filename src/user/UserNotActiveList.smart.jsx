@@ -32,8 +32,8 @@ export class NewUsersList extends Component {
   }
 
   updateUser(cell, user) {
-  	let newUser = Object.assign({}, user);
-  	newUser.role = this.state[user.id];
+    const newUser = Object.assign({}, user);
+    newUser.role = this.state[user.id];
     newUser.isActive = true;
     this.props.updateUser(newUser);
   }
@@ -50,22 +50,23 @@ export class NewUsersList extends Component {
   acceptButtonFormatter(cell, row) {
     return (
       <button className="positive ui button" onClick={
-        this.updateUser.bind(this, cell, row)}>
+        this.updateUser.bind(this, cell, row)}
+      >
         Accept
-      </button>);
+      </button>
+    );
   }
 
   declineButtonFormatter(cell, row) {
     return (
-      <button className="negative ui button" onClick={ () =>
-        {
-          if (confirm("Are you sure you want to delete this user?")) {
-            this.declineUser(row);
-          };
-        }
-      }>
+      <button className="negative ui button" onClick={ () => {
+        if (confirm("Are you sure you want to delete this user?")) {
+          this.declineUser(row);
+        }}}
+      >
         Decline
-      </button>);
+      </button>
+    );
   }
 
   rolesFormatter(cell, row) {
@@ -104,8 +105,8 @@ export class NewUsersList extends Component {
               <TableHeaderColumn dataField="name" dataSort width="200">Name</TableHeaderColumn>
               <TableHeaderColumn dataField="email" dataSort width="200">Email</TableHeaderColumn>
               <TableHeaderColumn dataFormat={this.rolesFormatter} dataSort width="200">Permission</TableHeaderColumn>
-              <TableHeaderColumn dataFormat={this.acceptButtonFormatter} dataSort width="50"></TableHeaderColumn>
-              <TableHeaderColumn dataFormat={this.declineButtonFormatter} dataSort width="50"></TableHeaderColumn>
+              <TableHeaderColumn dataFormat={this.acceptButtonFormatter} dataSort width="50" />
+              <TableHeaderColumn dataFormat={this.declineButtonFormatter} dataSort width="50" />
             </BootstrapTable>
           </div>
         }

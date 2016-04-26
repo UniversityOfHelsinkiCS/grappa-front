@@ -1,4 +1,4 @@
-import { Map, fromJS } from "immutable";
+import { fromJS } from "immutable";
 import {
   USER_GET_ALL_SUCCESS,
   USER_GET_ALL_FAILURE,
@@ -24,10 +24,9 @@ export default function (state = INITIAL_STATE, action) {
       const updated = users.map(user => {
         if (user.id === action.sent.id) {
           return action.sent;
-        } else {
-          return user;
         }
-      })
+        return user;
+      });
       return state.mergeIn(["users"], fromJS(updated));
     case USER_UPDATE_ONE_FAILURE:
     // probably should display error message?

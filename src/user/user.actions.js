@@ -29,13 +29,13 @@ export const getUsers = () => {
 };
 
 export const updateUser = (user) => {
-  // console.log("updateUser-action called!");
+  console.log("updateUser-action called!");
   return {
     type: CALL_API,
     success: USER_UPDATE_ONE_SUCCESS,
     failure: USER_UPDATE_ONE_FAILURE,
     method: "put",
-    url: "/user/" + user.id,
+    url: `/user/${user.id}`,
     data: user,
   };
 };
@@ -47,7 +47,7 @@ export const declineUser = (user) => {
     success: USER_DECLINE_ONE_SUCCESS,
     failure: USER_DECLINE_ONE_FAILURE,
     method: "delete",
-    url: "/user/" + user.id,
+    url: `/user/${user.id}`,
     data: user,
   };
 };
