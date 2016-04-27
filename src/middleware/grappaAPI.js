@@ -18,7 +18,7 @@ export const handleCallApi = store => next => action => {
   if (action.type === CALL_API) {
     const user = store.getState().get("auth").get("user").toJS();
     const token = store.getState().get("auth").get("token");
-    console.log(user);
+    // console.log(user);
     axios({
       method: action.method,
       url: API_PATH + action.url,
@@ -32,6 +32,7 @@ export const handleCallApi = store => next => action => {
       store.dispatch({
         type: action.success,
         payload: res.data,
+        sent: action.data,
       });
     })
     .catch(err => {

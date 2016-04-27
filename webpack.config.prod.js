@@ -2,7 +2,7 @@ const path = require("path");
 const webpack = require("webpack");
 
 const NODE_ENV = process.env.NODE_ENV || "production";
-const API_URL = process.env.API_URL || "http://tktl-grappa.herokuapp.com";
+const API_URL = process.env.API_URL || "https://tktl-grappa.herokuapp.com";
 
 module.exports = {
   devtool: "source-map",
