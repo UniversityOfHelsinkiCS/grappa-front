@@ -28,6 +28,12 @@ export const getUsers = () => {
   };
 };
 
+/**
+ * Action-creator for sending PUT-request to API
+ *
+ * @param {Object} user - User to be updated
+ * @return {Object} - Action for API to handle
+ */
 export const updateUser = (user) => {
   console.log("updateUser-action called!");
   return {
@@ -40,6 +46,12 @@ export const updateUser = (user) => {
   };
 };
 
+/**
+ * Action-creator for deleting an user
+ *
+ * @param {Object} user - User to delete, needs to put into data-field for the reducer
+ * @return {Object} - Action for API to handle
+ */
 export const deleteUser = (user) => {
   console.log("deleteUser-action called!");
   return {

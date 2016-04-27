@@ -6,11 +6,7 @@ import {
 } from "./auth.actions";
 
 const INITIAL_STATE = fromJS({
-  user: {
-    id: 0,
-    name: "",
-    role: "",
-  },
+  user: {},
   token: "",
 });
 
@@ -20,7 +16,6 @@ export default function (state = INITIAL_STATE, action) {
       console.log(action);
       return state.merge({
         user: action.payload.user,
-        loggedIn: true,
         token: action.payload.token,
       });
     case LOGIN_USER_FAILURE:

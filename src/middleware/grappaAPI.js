@@ -3,7 +3,7 @@ import axios from "axios";
 export const CALL_API = "CALL_API";
 export const API_PATH = process.env.API_URL;
 
-/*
+/**
  * Method for intercepting CALL_API-type actions before reducers
  *
  * This method is being called on every dispatched action and it
@@ -14,7 +14,6 @@ export const API_PATH = process.env.API_URL;
  * dispatches either SUCCESS or FAILURE type of action.
  */
 export const handleCallApi = store => next => action => {
-  next(action);
   if (action.type === CALL_API) {
     const user = store.getState().get("auth").get("user").toJS();
     const token = store.getState().get("auth").get("token");
@@ -42,5 +41,7 @@ export const handleCallApi = store => next => action => {
         error: err,
       });
     });
+  } else {
+    next(action);
   }
 };
