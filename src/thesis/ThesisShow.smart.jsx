@@ -75,7 +75,7 @@ export class ThesisShow extends Component {
     }
   }
   handleSave(event) {
-    updateThesis(this.state.thesis);
+    this.props.updateThesis(this.state.thesis);
     document.getElementsByTagName("textarea")[1].readOnly = true;
     for (let i = 0; i < 5; i++) {
       document.getElementsByTagName("input")[i].readOnly = true;

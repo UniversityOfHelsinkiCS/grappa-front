@@ -74,13 +74,13 @@ export const saveThesis = (thesis) => {
  *
  */
 export const updateThesis = (data) => {
-  console.log("");
+  console.log("updateThesis-action called!");
   return {
     type: CALL_API,
     success: THESIS_UPDATE_ONE_SUCCESS,
     failure: THESIS_UPDATE_ONE_FAILURE,
     method: "put",
-    url: "/thesis",
+    url: `/thesis/${data.id}`,
     data,
   };
 };
