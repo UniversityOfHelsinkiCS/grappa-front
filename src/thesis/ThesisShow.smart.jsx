@@ -178,9 +178,9 @@ export class ThesisShow extends Component {
     return (
       <div>
         { isUndefined ?
-            <p>No thesis found with this id.</p>
+          <p>No thesis found with this id.</p>
             :
-            this.renderContent()
+          this.renderContent()
         }
       </div>
     );
