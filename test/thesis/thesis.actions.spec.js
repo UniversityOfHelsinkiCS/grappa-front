@@ -9,7 +9,7 @@ import {
   THESIS_UPDATE_ONE_FAILURE,
   saveThesis,
   getTheses,
-  updateThesis,
+  updateThesisWithEthesis,
 } from "../../src/thesis/thesis.actions";
 
 describe("thesis.actions", () => {
@@ -49,17 +49,17 @@ describe("thesis.actions", () => {
     expect(createdAction).to.deep.equal(expectedAction);
   });
 
-  it("updateThesis should return correct object", () => {
+  it("updateThesisWithEthesis should return correct object", () => {
     const updateInfo = {
       ethesis: "http://google.com",
     };
-    const createdAction = updateThesis(updateInfo);
+    const createdAction = updateThesisWithEthesis(updateInfo);
     const expectedAction = {
       type: CALL_API,
       success: THESIS_UPDATE_ONE_SUCCESS,
       failure: THESIS_UPDATE_ONE_FAILURE,
-      method: "put",
-      url: "/thesis",
+      method: "post",
+      url: "/thesis/ethesis",
       data: updateInfo,
     };
     expect(createdAction).to.deep.equal(expectedAction);

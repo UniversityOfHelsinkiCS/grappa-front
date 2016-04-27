@@ -1,7 +1,7 @@
 import Validation from "../thesis/thesisValidation";
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { updateThesis } from "../thesis/thesis.actions";
+import { updateThesisWithEthesis } from "../thesis/thesis.actions";
 
 export class Ethesis extends Component {
   constructor() {
@@ -20,7 +20,7 @@ export class Ethesis extends Component {
     this.setState(change);
   }
 
-  /* Creates data object to pass to updateThesis action */
+  /* Creates data object to pass to updateThesisWithEthesis action */
 
   handleSubmit(event) {
     event.preventDefault();
@@ -30,8 +30,8 @@ export class Ethesis extends Component {
         ethesis: this.state.ethesislink,
       },
     };
-    const { updateThesis } = this.props;
-    updateThesis(data);
+    const { updateThesisWithEthesis } = this.props;
+    updateThesisWithEthesis(data);
   }
 
   /* Grabs url parameter and saves it to state, then renders form */
@@ -72,8 +72,8 @@ export class Ethesis extends Component {
 * An ordinary function used to define and dispatch the relevant data to thesis.actions
 */
 const mapDispatchToProps = (dispatch) => ({
-  updateThesis(data) {
-    dispatch(updateThesis(data));
+  updateThesisWithEthesis(data) {
+    dispatch(updateThesisWithEthesis(data));
   },
 });
 
