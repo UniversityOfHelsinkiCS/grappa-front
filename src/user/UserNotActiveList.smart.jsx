@@ -115,7 +115,7 @@ export class NewUsersList extends Component {
   }
 }
 import { connect } from "react-redux";
-import { getUsers, updateUser, declineUser } from "./user.actions";
+import { getUsers, updateUser, deleteUser } from "./user.actions";
 
 /*
 * A special funciton used to define what the form of the data is that is gotten from the state.
@@ -139,7 +139,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(updateUser(user));
   },
   declineUser(user) {
-    dispatch(declineUser(user));
+    dispatch(deleteUser(user));
   },
 });
 
