@@ -208,3 +208,24 @@ export const activatedUsers = [
     StudyFieldId: 2,
   },
 ];
+
+export const loggedInUsers = [
+  {
+    id: 1,
+    name: "Kjell Lemström",
+    email: "ohtugrappa@gmail.com",
+    role: "admin",
+    StudyFieldId: null,
+  },
+  {
+    id: 2,
+    name: "B Virtanen",
+    email: "ohtugrappa2@gmail.com",
+    role: "print-person",
+    StudyFieldId: null,
+  },
+];
+
+export const tokens = [
+  "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjp7ImlkIjoxLCJyb2xlIjoiYWRtaW4iLCJTdHVkeUZpZWxkSWQiOm51bGx9LCJjcmVhdGVkIjoiMjAxNi0wNS0xMVQxODowMDo0MC40NzJaIiwiZXhwaXJlcyI6MTQ2Mjk4OTY0MDQ3Mn0.fAr3zUXgirdQT3YpVQa2DkLZR-4i1E2TJl-UOYGH0RE",
+];

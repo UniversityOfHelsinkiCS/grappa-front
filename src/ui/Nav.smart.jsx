@@ -69,7 +69,7 @@ export class Nav extends Component {
 * The render method which states what to render onto the view.
 */
   render() {
-    const { loggedIn } = this.props;
+    const loggedIn = this.props.user.role !== undefined;
     return (
       <div id="nav">
         { loggedIn ? this.renderNav() : this.renderNonLoggedNav() }
@@ -84,7 +84,6 @@ const mapStateToProps = (state) => {
   const auth = state.get("auth");
   return {
     user: auth.get("user").toJS(),
-    loggedIn: auth.get("loggedIn"),
   };
 };
 

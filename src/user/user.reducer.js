@@ -12,6 +12,19 @@ const INITIAL_STATE = fromJS({
   users: [],
 });
 
+/**
+ * The default function for handling the state change
+ *
+ * USER_GET_ALL_SUCCESS: current users are merged with those fetched from API.
+ * USER_UPDATE_ONE_SUCCESS: succesfully updated user is now also updated inside
+ * this reducer.
+ * USER_DELETE_ONE_SUCCESS: if the sent request to delete user is success then the current
+ * users are looped through and the user to be deleted is excluded from the new users-list.
+ * Which is essentially the same as deleting the user but without ever explictly calling 'delete'.
+ * @param {Object} state - Current state of the reducer
+ * @param {Object} action - Action dispatched from Smart-component or GrappaAPI
+ * @return {Object} state - State to replace the current state
+ */
 export default function (state = INITIAL_STATE, action) {
   switch (action.type) {
     case USER_GET_ALL_SUCCESS:

@@ -31,16 +31,15 @@ export class Login extends React.Component {
    * @param {Object} nextProps - The new props received from Redux
    */
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
-    if (nextProps.loggedIn) {
+    if (nextProps.user.role !== undefined) {
       browserHistory.replace("/thesis");
       this.props.fetchAll();
     }
   }
-/*
-* Handler method to handle the changes to the email input field.
-* @param (Event) used to get a hold of what the input of the user was.
-*/
+/**
+ * Handler method to handle the changes to the email input field.
+ * @param (Event) used to get a hold of what the input of the user was.
+ */
   handleEmailChange(event) {
     event.preventDefault();
     this.setState({ email: event.target.value });
@@ -100,7 +99,7 @@ import { getCouncilmeetings } from "../councilmeeting/councilmeeting.actions";
 const mapStateToProps = (state) => {
   const auth = state.get("auth");
   return {
-    loggedIn: auth.get("loggedIn"),
+    user: auth.get("user").toJS(),
   };
 };
 

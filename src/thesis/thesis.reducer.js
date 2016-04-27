@@ -2,7 +2,7 @@
 * Reducer to define the changes to the state in accordance to the actions passed to it
 * in regard to listing, adding and viewing theses.
 */
-import { Map, fromJS } from "immutable";
+import { fromJS } from "immutable";
 import {
   THESIS_GET_ALL_SUCCESS,
   THESIS_GET_ALL_FAILURE,
@@ -20,15 +20,18 @@ const INITIAL_STATE = fromJS({
   linkSent: "not_tried",
 });
 
-/*
-* The function that handles the different state changes depending on which case
-* has been passed to it from thesis.actions.
-* @param state The state, which is INITIAL_STATE by default, but is modified in accordance
-* to all the changes thus far.
-* @param action One of the previously defined actions from thesis.actions that defines
-* which case is relevant.
-* @return The new state created by the modification of the previous one.
-*/
+/**
+ * The default function for handling the state change
+ *
+ * THESIS_GET_ALL_SUCCESS: current theses are merged with those fetched from API.
+ * THESIS_SAVE_ONE_SUCCESS: received new thesis is added to the state's theses
+ * THESIS_UPDATE_ONE_SUCCESS: idk what this does
+ * @param {Object} state - Current state of the reducer. INITIAL_STATE by default, but is
+ * modified in accordance to all the changes thus far.
+ * @param {Object} action - Action dispatched from a Smart-component or GrappaAPI which is
+ * created from one of the action-creators from thesis.actions.js
+ * @return {Object} state - State to replace the current state
+ */
 export default function (state = INITIAL_STATE, action) {
   switch (action.type) {
     case THESIS_GET_ALL_SUCCESS:
@@ -40,7 +43,7 @@ export default function (state = INITIAL_STATE, action) {
     // probably should display error message?
       return state;
     case THESIS_SAVE_ONE_SUCCESS:
-      return state.updateIn(["theses"], list => list.push(new Map(action.payload)));
+      return state.updateIn(["theses"], theses => fromJS([...theses, action.payload]));
     case THESIS_SAVE_ONE_FAILURE:
     // probably should display error message?
       return state;
