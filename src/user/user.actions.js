@@ -8,8 +8,8 @@ export const USER_GET_ALL_SUCCESS = "USER_GET_ALL_SUCCESS";
 export const USER_GET_ALL_FAILURE = "USER_GET_ALL_FAILURE";
 export const USER_UPDATE_ONE_SUCCESS = "USER_UPDATE_ONE_SUCCESS";
 export const USER_UPDATE_ONE_FAILURE = "USER_UPDATE_ONE_FAILURE";
-export const USER_DECLINE_ONE_SUCCESS = "USER_DECLINE_ONE_SUCCESS";
-export const USER_DECLINE_ONE_FAILURE = "USER_DECLINE_ONE_FAILURE";
+export const USER_DELETE_ONE_SUCCESS = "USER_DELETE_ONE_SUCCESS";
+export const USER_DELETE_ONE_FAILURE = "USER_DELETE_ONE_FAILURE";
 
 /*
 * The action called to get a list of all new users in the database.
@@ -40,12 +40,12 @@ export const updateUser = (user) => {
   };
 };
 
-export const declineUser = (user) => {
-  console.log("declineUser-action called!");
+export const deleteUser = (user) => {
+  console.log("deleteUser-action called!");
   return {
     type: CALL_API,
-    success: USER_DECLINE_ONE_SUCCESS,
-    failure: USER_DECLINE_ONE_FAILURE,
+    success: USER_DELETE_ONE_SUCCESS,
+    failure: USER_DELETE_ONE_FAILURE,
     method: "delete",
     url: `/user/${user.id}`,
     data: user,
