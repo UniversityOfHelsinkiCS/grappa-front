@@ -24,8 +24,8 @@ describe("Ethesis.smart", () => {
     expect(forms.length).to.equal(1);
     expect(header[0].textContent).to.equal("Enter eThesis link to your thesis");
   });
-  it("should call updateThesis when submit button is clicked", () => {
-    const spy = sinon.spy(actions, "updateThesis");
+  it("should call updateThesisWithEthesis when submit button is clicked", () => {
+    const spy = sinon.spy(actions, "updateThesisWithEthesis");
     Simulate.submit(form);
     expect(spy.calledOnce).to.equal(true);
   });

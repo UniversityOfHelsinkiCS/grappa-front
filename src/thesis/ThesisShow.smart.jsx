@@ -1,11 +1,17 @@
 import React, { Component } from "react";
+import { updateThesis } from "./thesis.actions";
 // import { getTheses } from "./thesis.actions";
 
 export class ThesisShow extends Component {
   constructor() {
     super();
     this.handleEdit = this.handleEdit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
+    this.handleSave = this.handleSave.bind(this);
+    this.handleTitleChange = this.handleTitleChange.bind(this);
+    this.handleNameChange = this.handleNameChange.bind(this);
+    this.handleGradeChange = this.handleGradeChange.bind(this);
+    this.handleEthesisChange = this.handleEthesisChange.bind(this);
+    this.handleUrkundChange = this.handleUrkundChange.bind(this);
     this.state = {
       thesis: {},
     };
@@ -36,23 +42,45 @@ export class ThesisShow extends Component {
     }
   }
 
-  handleChange(event) {
-    this.setState({ title: event.target.value });
+  handleTitleChange(event) {
+    const thesispointer = this.state.thesis;
+    thesispointer.title = event.target.value;
+    this.setState({ thesis: this.state.thesis });
   }
-
+  handleNameChange(event) {
+    const thesispointer = this.state.thesis;
+    thesispointer.author = event.target.value;
+    this.setState({ thesis: this.state.thesis });
+  }
+  handleGradeChange(event) {
+    const thesispointer = this.state.thesis;
+    thesispointer.grade = event.target.value;
+    this.setState({ thesis: this.state.thesis });
+  }
+  handleEthesisChange(event) {
+    const thesispointer = this.state.thesis;
+    thesispointer.ethesis = event.target.value;
+    this.setState({ thesis: this.state.thesis });
+  }
+  handleUrkundChange(event) {
+    const thesispointer = this.state.thesis;
+    thesispointer.urkund = event.target.value;
+    this.setState({ thesis: this.state.thesis });
+  }
   handleEdit() {
     document.getElementsByTagName("textarea")[1].removeAttribute("readOnly");
     for (let i = 0; i < 5; i++) {
       document.getElementsByTagName("input")[i].removeAttribute("readOnly");
     }
   }
-
   handleSave() {
+    this.props.updateThesis(this.state.thesis);
     document.getElementsByTagName("textarea")[1].readOnly = true;
     for (let i = 0; i < 5; i++) {
       document.getElementsByTagName("input")[i].readOnly = true;
     }
   }
+
 
   renderGraders() {
     const graders = this.state.thesis.Graders;
@@ -99,23 +127,25 @@ export class ThesisShow extends Component {
           <form className="ui form">
             <div className="field">
               <div>Title:</div>
-              <input type="text" readOnly value={thesis.title} />
+              <input type="text" readOnly value={thesis.title} onChange={ this.handleTitleChange.bind(this) } />
               <div>Name:</div>
-              <input type="text" readOnly value={ thesis.author } />
+              <input type="text" readOnly value={ thesis.author } onChange={ this.handleNameChange.bind(this) } />
               <div>Grade:</div>
-              <input type="text" readOnly value={ thesis.grade } />
+              <input type="text" readOnly value={ thesis.grade } onChange={ this.handleGradeChange.bind(this) } />
             </div>
             <div className="field">
               <div>Ethesis link:</div>
-              <input type="text" readOnly value={ thesis.ethesis } />
+              <input type="text" readOnly value={ thesis.ethesis } onChange={ this.handleEthesisChange.bind(this) } />
             </div>
             <div className="field">
               <div>Urkund link:</div>
-              <input type="text" readOnly value={ thesis.urkund } />
+              <input type="text" readOnly value={ thesis.urkund } onChange={ this.handleUrkundChange.bind(this) } />
             </div>
             <h4 className="ui dividing header">Abstract</h4>
             <textarea className="abstract" value={ thesis.abstract } readOnly rows="5" cols="30" />
-            { this.renderGraders() }
+            <div className="field">
+              { this.renderGraders() }
+            </div>
             <h4 className="ui dividing header">Grader Evaluation</h4>
             <textarea className="eval" readOnly rows="5" cols="30" />
           </form>
@@ -170,17 +200,17 @@ export class ThesisShow extends Component {
       </div>
     );
   }
-
   render() {
     // console.log("state is ")
-    console.log(this.state.thesis);
+    // console.log(this.state);
     const isUndefined = typeof this.state.thesis === "undefined" || this.state.thesis === "";
     return (
       <div>
-        { isUndefined ?
-          <p>No thesis found with this id.</p>
+        {
+          isUndefined ?
+            <p>No thesis found with this id.</p>
             :
-          this.renderContent()
+            this.renderContent()
         }
       </div>
     );
@@ -199,4 +229,10 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, null)(ThesisShow);
+const mapDispatchToProps = (dispatch) => ({
+  updateThesis(thesis) {
+    dispatch(updateThesis(thesis));
+  },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ThesisShow);
