@@ -169,13 +169,13 @@ export class ThesisCreate extends React.Component {
               name="thesis[grade]"
             >
               <option value="">Grade</option>
-              <option value="A">Approbatur</option>
-              <option value="B">Lubenter Approbatur</option>
-              <option value="X">Non Sine Laude Approbatur</option>
-              <option value="C">Cum Laude Approbatur</option>
-              <option value="M">Magna Cum Laude Approbatur</option>
-              <option value="E">Eximia Cum Laude Approbatur</option>
-              <option value="L">Laudatur</option>
+              <option value="Approbatur">Approbatur</option>
+              <option value="Lubenter Approbatur">Lubenter Approbatur</option>
+              <option value="Non Sine Laude Approbatur">Non Sine Laude Approbatur</option>
+              <option value="Cum Laude Approbatur">Cum Laude Approbatur</option>
+              <option value="Magna Cum Laude Approbatur">Magna Cum Laude Approbatur</option>
+              <option value="Eximia Cum Laude Approbatur">Eximia Cum Laude Approbatur</option>
+              <option value="Laudatur">Laudatur</option>
             </Validation.Select>
           </div>
         </div>
@@ -211,9 +211,9 @@ export class ThesisCreate extends React.Component {
             <div className="field">
               <Validation.Select className="ui fluid search dropdown" value={this.state.gradertitle} onChange={this.handleChange.bind(this, "gradertitle")} name="1grader[field]">
                 <option value="">Rank</option>
+                <option value="Prof">Professor</option>
                 <option value="AssProf">Assistant Professor</option>
                 <option value="AdjProf">Adjunct Professor</option>
-                <option value="Prof">Professor</option>
                 <option value="Doc">Doctor</option>
                 <option value="Other">Other</option>
               </Validation.Select>
@@ -240,9 +240,11 @@ export class ThesisCreate extends React.Component {
               validations={[{ rule: "isRequired" }]}
             >
               <option value="">Rank</option>
-              <option value="AdjProf">Adjunct Professor</option>
               <option value="Prof">Professor</option>
+              <option value="AssProf">Assistant Professor</option>
+              <option value="AdjProf">Adjunct Professor</option>
               <option value="Doc">Doctor</option>
+              <option value="Other">Other</option>
             </Validation.Select>
           </div>
         </div>

@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-var update = require("react-addons-update");
 import { updateThesis } from "./thesis.actions";
 // import { getTheses } from "./thesis.actions";
 
@@ -14,7 +13,7 @@ export class ThesisShow extends Component {
     this.handleEthesisChange = this.handleEthesisChange.bind(this);
     this.handleUrkundChange = this.handleUrkundChange.bind(this);
     this.state = {
-      thesis: "",
+      thesis: {},
     };
   }
 
@@ -44,37 +43,37 @@ export class ThesisShow extends Component {
   }
 
   handleTitleChange(event) {
-    let lol = this.state.thesis;
-    lol.title = event.target.value;
-    this.setState({ thesis: this.state.thesis});
+    const thesispointer = this.state.thesis;
+    thesispointer.title = event.target.value;
+    this.setState({ thesis: this.state.thesis });
   }
   handleNameChange(event) {
-    let loli = this.state.thesis;
-    loli.author = event.target.value;
-    this.setState({ thesis: this.state.thesis});
+    const thesispointer = this.state.thesis;
+    thesispointer.author = event.target.value;
+    this.setState({ thesis: this.state.thesis });
   }
   handleGradeChange(event) {
-    let lolt = this.state.thesis;
-    lolt.grade = event.target.value;
-    this.setState({ thesis: this.state.thesis});
+    const thesispointer = this.state.thesis;
+    thesispointer.grade = event.target.value;
+    this.setState({ thesis: this.state.thesis });
   }
   handleEthesisChange(event) {
-    let loly = this.state.thesis;
-    loly.ethesis = event.target.value;
-    this.setState({ thesis: this.state.thesis});
+    const thesispointer = this.state.thesis;
+    thesispointer.ethesis = event.target.value;
+    this.setState({ thesis: this.state.thesis });
   }
   handleUrkundChange(event) {
-    let lolq = this.state.thesis;
-    lolq.urkund = event.target.value;
-    this.setState({ thesis: this.state.thesis});
+    const thesispointer = this.state.thesis;
+    thesispointer.urkund = event.target.value;
+    this.setState({ thesis: this.state.thesis });
   }
-  handleEdit(event) {
+  handleEdit() {
     document.getElementsByTagName("textarea")[1].removeAttribute("readOnly");
     for (let i = 0; i < 5; i++) {
       document.getElementsByTagName("input")[i].removeAttribute("readOnly");
     }
   }
-  handleSave(event) {
+  handleSave() {
     this.props.updateThesis(this.state.thesis);
     document.getElementsByTagName("textarea")[1].readOnly = true;
     for (let i = 0; i < 5; i++) {
@@ -82,19 +81,44 @@ export class ThesisShow extends Component {
     }
   }
 
+
+  renderGraders() {
+    const graders = this.state.thesis.Graders;
+    const noGraders = graders === undefined || graders.length === 0;
+    return (
+      <div className="field">
+        <h4 className="ui dividing header">Graders</h4>
+        { noGraders ?
+          <p>No graders found.</p>
+          :
+          <div>
+            {
+              graders.map(grader =>
+                <div key={grader.id} className="field">
+                  <div>{ grader.name }</div>
+                  <div>{ grader.title }</div>
+                </div>
+              )
+            }
+          </div>
+        }
+      </div>
+    );
+  }
+
   renderContent() {
     const thesis = this.state.thesis;
     let ethesis = "Missing";
     let evalGraders = "Not Done";
     let docSent = "Not Sent";
-    console.log(thesis);
+
     if (thesis.ethesis !== "" && thesis.ethesis !== null) {
       ethesis = "Added";
     }
-    if (thesis.ThesisProgress.gradersStatus) {
+    if (thesis.ThesisProgress !== null && thesis.ThesisProgress !== undefined && thesis.ThesisProgress.gradersStatus) {
       evalGraders = "Done";
     }
-    if (thesis.ThesisProgress.documentsSent !== null && thesis.ThesisProgress.documentsSent !== "") {
+    if (thesis.ThesisProgress !== null && thesis.ThesisProgress.documentsSent !== null && thesis.ThesisProgress.documentsSent !== "") {
       docSent = "Sent";
     }
     return (
@@ -120,17 +144,7 @@ export class ThesisShow extends Component {
             <h4 className="ui dividing header">Abstract</h4>
             <textarea className="abstract" value={ thesis.abstract } readOnly rows="5" cols="30" />
             <div className="field">
-              <h4 className="ui dividing header">Graders</h4>
-              <div className="field">
-                <h5>Grader 1</h5>
-                <div>Grader name: { thesis.Graders[0].name }</div>
-                <div>Grader title: { thesis.Graders[0].title }</div>
-              </div>
-              <div className="field">
-                <h5>Grader 2</h5>
-                <div>Grader name: { thesis.Graders[1].name }</div>
-                <div>Grader title: { thesis.Graders[1].title }</div>
-              </div>
+              { this.renderGraders() }
             </div>
             <h4 className="ui dividing header">Grader Evaluation</h4>
             <textarea className="eval" readOnly rows="5" cols="30" />
