@@ -9,6 +9,7 @@ import thesis from "./thesis/thesis.reducer";
 import councilmeeting from "./councilmeeting/councilmeeting.reducer";
 import thesisprogress from "./thesisprogress/thesisprogress.reducer";
 import user from "./user/user.reducer";
+import grader from "./grader/grader.reducer";
 import { LOGOUT_USER } from "./auth/auth.actions";
 
 const combinedReducers = combineReducers({
@@ -17,6 +18,7 @@ const combinedReducers = combineReducers({
   councilmeeting,
   thesisprogress,
   user,
+  grader,
 });
 
 /*
