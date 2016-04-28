@@ -1,5 +1,6 @@
 import React from "react";
 import { Route } from "react-router";
+import { restrictNonUser, restrictNonAdmin } from "./middleware/restrictAccess";
 import App from "./app/App.component";
 import ThesisList from "./thesis/ThesisList.smart";
 import Ethesis from "./ethesis/Ethesis.smart";
@@ -11,34 +12,6 @@ import UserShow from "./user/UserShow.smart";
 import UserNotActiveList from "./user/UserNotActiveList.smart";
 import Login from "./auth/Login.smart";
 import NotFound from "./app/NotFound.component";
-
-import store from "./store";
-
-const restrictNonUser = (nextState, replace) => {
-  // console.log("checking if user");
-  const user = store.getState().get("auth").get("user").toJS();
-  if (user.role === "") {
-    // console.log("wasnt user");
-    replace({
-      location: {
-        pathname: "/login",
-      },
-    });
-  }
-};
-
-const restrictNonAdmin = (nextState, replace) => {
-  // console.log("checking if admin");
-  const user = store.getState().get("auth").get("user").toJS();
-  if (user.role !== "admin") {
-    // console.log("wasnt admin :/");
-    replace({
-      location: {
-        pathname: "/login",
-      },
-    });
-  }
-};
 
 export default (
   <Route>

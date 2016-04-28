@@ -4,6 +4,12 @@ export const LOGIN_USER_SUCCESS = "LOGIN_USER_SUCCESS";
 export const LOGIN_USER_FAILURE = "LOGIN_USER_FAILURE";
 export const LOGOUT_USER = "LOGOUT_USER";
 
+/**
+ * Action-creator for sending the login request to API
+ *
+ * @param {Object} UserData - User login information
+ * @return {Object} - Action for API to handle
+ */
 export const loginUser = (userData) => {
   console.log("loginUser-action called!");
   return {
@@ -16,6 +22,11 @@ export const loginUser = (userData) => {
   };
 };
 
+/**
+ * Action-creator for resetting the user-state
+ *
+ * @return {Object} - Logout-action
+ */
 export const logout = () => {
   console.log("logout called!");
   return {
