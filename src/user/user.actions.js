@@ -10,6 +10,9 @@ export const USER_UPDATE_ONE_SUCCESS = "USER_UPDATE_ONE_SUCCESS";
 export const USER_UPDATE_ONE_FAILURE = "USER_UPDATE_ONE_FAILURE";
 export const USER_DELETE_ONE_SUCCESS = "USER_DELETE_ONE_SUCCESS";
 export const USER_DELETE_ONE_FAILURE = "USER_DELETE_ONE_FAILURE";
+export const USER_SAVE_ONE_SUCCESS = "USER_SAVE_ONE_SUCCESS";
+export const USER_SAVE_ONE_FAILURE = "USER_SAVE_ONE_FAILURE";
+
 
 /*
 * The action called to get a list of all new users in the database.
@@ -25,6 +28,25 @@ export const getUsers = () => {
     method: "get",
     url: "/user",
     data: {},
+  };
+};
+
+/*
+* The action called to save the given data as a new user in the database.
+* @param user An object cantaining all the relevant data of the new user thats
+* to be added.
+* @return saveUser The object containing the relevant information for the
+* reducer to handle the data accordingly.
+*/
+export const saveUser = (user) => {
+  console.log("saveUser-action called!");
+  return {
+    type: CALL_API,
+    success: USER_SAVE_ONE_SUCCESS,
+    failure: USER_SAVE_ONE_FAILURE,
+    method: "post",
+    url: "/user",
+    data: user,
   };
 };
 
