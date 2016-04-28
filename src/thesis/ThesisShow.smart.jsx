@@ -47,7 +47,7 @@ export class ThesisShow extends Component {
     }
   }
 
-  handleReviewChange(event){
+  handleReviewChange(event) {
     event.preventDefault();
     this.setState({ review: event.target.value });
   }
@@ -71,7 +71,7 @@ export class ThesisShow extends Component {
     thesispointer.ethesis = event.target.value;
     this.setState({ thesis: this.state.thesis });
   }
-  handleUrkundChange(event, id) {
+  handleUrkundChange(event) {
     const thesispointer = this.state.thesis;
     thesispointer.urkund = event.target.value;
     this.setState({ thesis: this.state.thesis });
@@ -98,7 +98,7 @@ export class ThesisShow extends Component {
     this.props.updateThesis(this.state.thesis);
 
     const graders = this.state.thesis.Graders;
-    for(let i=0; i< graders.length; i++){
+    for (let i = 0; i < graders.length; i++) {
       this.props.updateGrader(graders[i]);
     }
 
