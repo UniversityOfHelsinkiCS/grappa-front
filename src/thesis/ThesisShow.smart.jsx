@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { updateThesis } from "./thesis.actions";
+import { updateGrader } from "../grader/grader.actions";
 // import { getTheses } from "./thesis.actions";
 
 export class ThesisShow extends Component {
@@ -12,8 +13,12 @@ export class ThesisShow extends Component {
     this.handleGradeChange = this.handleGradeChange.bind(this);
     this.handleEthesisChange = this.handleEthesisChange.bind(this);
     this.handleUrkundChange = this.handleUrkundChange.bind(this);
+    this.handleReviewChange = this.handleReviewChange.bind(this);
+    this.handleGrNameChange = this.handleGrNameChange.bind(this);
+    this.handleGrTitleChange = this.handleGrTitleChange.bind(this);
     this.state = {
       thesis: {},
+      review: "",
     };
   }
 
@@ -42,6 +47,10 @@ export class ThesisShow extends Component {
     }
   }
 
+  handleReviewChange(event){
+    event.preventDefault();
+    this.setState({ review: event.target.value });
+  }
   handleTitleChange(event) {
     const thesispointer = this.state.thesis;
     thesispointer.title = event.target.value;
@@ -62,21 +71,39 @@ export class ThesisShow extends Component {
     thesispointer.ethesis = event.target.value;
     this.setState({ thesis: this.state.thesis });
   }
-  handleUrkundChange(event) {
+  handleUrkundChange(event, id) {
     const thesispointer = this.state.thesis;
     thesispointer.urkund = event.target.value;
     this.setState({ thesis: this.state.thesis });
   }
+  handleGrNameChange(id, event) {
+    event.preventDefault();
+    const thesispointer = this.state.thesis;
+    thesispointer.Graders[id].name = event.target.value;
+    this.setState({ thesis: this.state.thesis });
+  }
+  handleGrTitleChange(id, event) {
+    event.preventDefault();
+    const thesispointer = this.state.thesis;
+    thesispointer.Graders[id].title = event.target.value;
+    this.setState({ thesis: this.state.thesis });
+  }
   handleEdit() {
     document.getElementsByTagName("textarea")[1].removeAttribute("readOnly");
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 9; i++) {
       document.getElementsByTagName("input")[i].removeAttribute("readOnly");
     }
   }
   handleSave() {
     this.props.updateThesis(this.state.thesis);
+
+    const graders = this.state.thesis.Graders;
+    for(let i=0; i< graders.length; i++){
+      this.props.updateGrader(graders[i]);
+    }
+
     document.getElementsByTagName("textarea")[1].readOnly = true;
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 9; i++) {
       document.getElementsByTagName("input")[i].readOnly = true;
     }
   }
@@ -95,8 +122,8 @@ export class ThesisShow extends Component {
             {
               graders.map(grader =>
                 <div key={grader.id} className="field">
-                  <div>{ grader.name }</div>
-                  <div>{ grader.title }</div>
+                  <input type="text" readOnly value={grader.name} onChange={ this.handleGrNameChange.bind(this, graders.indexOf(grader)) } />
+                  <input type="text" readOnly value={grader.title} onChange={ this.handleGrTitleChange.bind(this, graders.indexOf(grader)) } />
                 </div>
               )
             }
@@ -142,12 +169,12 @@ export class ThesisShow extends Component {
               <input type="text" readOnly value={ thesis.urkund } onChange={ this.handleUrkundChange.bind(this) } />
             </div>
             <h4 className="ui dividing header">Abstract</h4>
-            <textarea className="abstract" value={ thesis.abstract } readOnly rows="5" cols="30" />
+            <textarea className="abstract" readOnly value={ thesis.abstract } rows="5" cols="30" />
             <div className="field">
               { this.renderGraders() }
             </div>
             <h4 className="ui dividing header">Grader Evaluation</h4>
-            <textarea className="eval" readOnly rows="5" cols="30" />
+            <textarea className="eval" readOnly value={ this.state.review } onChange={ this.handleReviewChange.bind(this) } rows="5" cols="30" />
           </form>
         </div>
         <form className="ui form">
@@ -232,6 +259,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => ({
   updateThesis(thesis) {
     dispatch(updateThesis(thesis));
+  },
+  updateGrader(grader) {
+    dispatch(updateGrader(grader));
   },
 });
 
