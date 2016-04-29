@@ -101,6 +101,7 @@ export class ThesisCreate extends React.Component {
         <h4 className="ui dividing header">Made by</h4>
         <div className="two fields">
           <div className="field">
+            <label>First name</label>
             <Validation.Input
               type="text"
               name="madeby[first-name]"
@@ -112,6 +113,7 @@ export class ThesisCreate extends React.Component {
             />
           </div>
           <div className="field">
+            <label>Last name</label>
             <Validation.Input
               type="text"
               name="madeby[last-name]"
@@ -124,6 +126,7 @@ export class ThesisCreate extends React.Component {
           </div>
         </div>
         <div className="ten wide field">
+          <label>Email</label>
           <Validation.Input
             type="text"
             name="madeby[email]"
@@ -136,6 +139,7 @@ export class ThesisCreate extends React.Component {
         <h4 className="ui dividing header">Thesis Information</h4>
         <div className="three fields">
           <div className="field">
+            <label>Title</label>
             <Validation.Input
               type="text"
               name="thesis[title]"
@@ -147,13 +151,14 @@ export class ThesisCreate extends React.Component {
           </div>
           <div className="three wide field">
             <div className="field">
+              <label>Studyfield</label>
               <Validation.Select
                 className="ui fluid search dropdown"
                 value={this.state.field}
                 onChange={this.handleChange.bind(this, "field")}
                 name="thesis[field]"
               >
-                <option value="">Field</option>
+                <option value="">Select field</option>
                 <option value="Algorithmic Bioinformatics">Algorithmic Bioinformatics</option>
                 <option value="Algorithms, Data Analytics and Machine Learning">Algorithms, Data Analytics and Machine Learning</option>
                 <option value="Networking and Services">Networking and Services</option>
@@ -162,13 +167,14 @@ export class ThesisCreate extends React.Component {
             </div>
           </div>
           <div className="five wide field">
+            <label>Grade</label>
             <Validation.Select
               className="ui fluid search dropdown"
               value={this.state.grade}
               onChange={this.handleChange.bind(this, "grade")}
               name="thesis[grade]"
             >
-              <option value="">Grade</option>
+              <option value="">Select grade</option>
               <option value="Approbatur">Approbatur</option>
               <option value="Lubenter Approbatur">Lubenter Approbatur</option>
               <option value="Non Sine Laude Approbatur">Non Sine Laude Approbatur</option>
@@ -181,6 +187,7 @@ export class ThesisCreate extends React.Component {
         </div>
         <div className="two fields">
           <div className="field">
+            <label>E-thesis-link</label>
             <Validation.Input
               type="text"
               name="thesis[ethesis]"
@@ -191,6 +198,7 @@ export class ThesisCreate extends React.Component {
             />
           </div>
           <div className="field">
+            <label>Urkund-link</label>
             <Validation.Input
               type="text"
               name="thesis[urkund]"
@@ -205,12 +213,14 @@ export class ThesisCreate extends React.Component {
         <h4 className="ui dividing header">Graders</h4>
         <div className="three fields">
           <div className="field">
+            <label>Name</label>
             <Validation.Input type="text" name="1grader[name]" value={this.state.grader} onChange={this.handleChange.bind(this, "grader")} placeholder="Name"/>
           </div>
           <div className="four wide field">
             <div className="field">
+              <label>Title</label>
               <Validation.Select className="ui fluid search dropdown" value={this.state.gradertitle} onChange={this.handleChange.bind(this, "gradertitle")} name="1grader[field]">
-                <option value="">Rank</option>
+                <option value="">Select title</option>
                 <option value="Prof">Professor</option>
                 <option value="AssProf">Assistant Professor</option>
                 <option value="AdjProf">Adjunct Professor</option>
@@ -222,6 +232,7 @@ export class ThesisCreate extends React.Component {
         </div>
         <div className="three fields">
           <div className="field">
+            <label>Name</label>
             <Validation.Input
               type="text"
               name="2grader[name]"
@@ -232,6 +243,7 @@ export class ThesisCreate extends React.Component {
             />
           </div>
           <div className="four wide field">
+            <label>Title</label>
             <Validation.Select
               className="ui fluid search dropdown"
               value={this.state.grader2title}
@@ -239,7 +251,7 @@ export class ThesisCreate extends React.Component {
               name="2grader[field]"
               validations={[{ rule: "isRequired" }]}
             >
-              <option value="">Rank</option>
+              <option value="">Select title</option>
               <option value="Prof">Professor</option>
               <option value="AssProf">Assistant Professor</option>
               <option value="AdjProf">Adjunct Professor</option>

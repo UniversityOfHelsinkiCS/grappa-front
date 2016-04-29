@@ -9,3 +9,6 @@ export const dateFormatter = (cell, row) => {
   const origDate = new Date(row.deadline);
   return `${origDate.getDate()}/${origDate.getMonth()}/${origDate.getFullYear()}`;
 };
+
+export const instructorFormatter = (cell, row) =>
+row.User.name;

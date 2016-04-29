@@ -7,7 +7,7 @@
 
 import React, { Component } from "react";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
-import { linkFormatter, studyFieldNameFormatter, dateFormatter } from "../config/helpers";
+import { linkFormatter, studyFieldNameFormatter, dateFormatter, instructorFormatter } from "../config/helpers";
 
 
 
@@ -21,6 +21,7 @@ export class ThesisList extends Component {
       false: "In progress",
     };
     this.dateFormatter = dateFormatter.bind(this);
+    this.instructorFormatter = instructorFormatter.bind(this);
   }
 
   /*
@@ -51,14 +52,13 @@ export class ThesisList extends Component {
           Thesis ID</TableHeaderColumn>
           <TableHeaderColumn dataField="ThesisProgress.isDone" dataFormat={this.statusFormatter} dataSort formatExtraData={ this.statuses } width="200" filter={ { options: this.statuses, type: "SelectFilter", defaultValue: false } }>Status</TableHeaderColumn>
           <TableHeaderColumn dataField="author" dataSort width="200">Author</TableHeaderColumn>
-          <TableHeaderColumn dataField="title"  dataSort width="200">Thesis Title
-          </TableHeaderColumn>
-          <TableHeaderColumn dataField="instructor" dataSort width="200">Instructor
+          <TableHeaderColumn dataField="title" dataFormat={ this.linkFormatter } dataSort width="200">Thesis Title</TableHeaderColumn>
+          <TableHeaderColumn dataFormat={ this.instructorFormatter } dataSort width="200">Instructor
           </TableHeaderColumn>
           <TableHeaderColumn dataField="email" dataSort width="200">Email</TableHeaderColumn>
-          <TableHeaderColumn dataFormat={this.studyFieldNameFormatter} dataSort width="200">Field
+          <TableHeaderColumn dataFormat={ this.studyFieldNameFormatter } dataSort width="200">Field
           </TableHeaderColumn>
-          <TableHeaderColumn dataFormat={this.dateFormatter} dataSort width="200">Deadline
+          <TableHeaderColumn dataFormat={ this.dateFormatter } dataSort width="200">Deadline
           </TableHeaderColumn>
         </BootstrapTable>
       </div>
