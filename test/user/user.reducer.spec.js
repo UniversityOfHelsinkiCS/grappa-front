@@ -7,6 +7,8 @@ import {
   // USER_UPDATE_ONE_FAILURE,
   USER_DELETE_ONE_SUCCESS,
   // USER_DELETE_ONE_FAILURE,
+  USER_SAVE_ONE_SUCCESS,
+  USER_SAVE_ONE_FAILURE,
 } from "../../src/user/user.actions";
 import reducer from "../../src/user/user.reducer";
 import { activatedUsers, notActivatedUsers } from "../mockdata";
@@ -21,6 +23,9 @@ const stateWithUsers = fromJS({
 
 const stateWithUpdatedUser = fromJS({
   users: [activatedUsers[0], ...notActivatedUsers.slice(1)],
+});
+const stateWithMoreUsers = fromJS({
+  users: [...activatedUsers, activatedUsers[0]],
 });
 
 const stateWithDeletedUser = fromJS({
@@ -56,5 +61,30 @@ describe("User reducer", () => {
       });
       expect(newState).to.equal(stateWithDeletedUser);
     });
+  });
+  it("should add user to users when saving user is succesfull", () => {
+    const expectedState = initialState.mergeIn(["users"],
+      fromJS([activatedUsers[0]])
+      );
+    const newState = reducer(initialState, {
+      type: USER_SAVE_ONE_SUCCESS,
+      payload: activatedUsers[0],
+    });
+    expect(newState).to.equal(expectedState);
+  });
+  xit("shouldn't remove old users when adding a user", () => {
+    const newState = reducer(stateWithUsers, {
+      type: USER_SAVE_ONE_SUCCESS,
+      payload: activatedUsers[0],
+    });
+    expect(newState).to.deep.equal(stateWithMoreUsers);
+  });
+  it("shouldn't change users when saving is unsuccesfull", () => {
+    const newState = reducer(initialState, {
+      type: USER_SAVE_ONE_FAILURE,
+      message: "asdf",
+      error: "error",
+    });
+    expect(newState).to.equal(initialState);
   });
 });

@@ -19,8 +19,9 @@ describe("CouncilmeetingList.smart", () => {
       </Provider>
     );
     const title = scryRenderedDOMComponentsWithTag(component, "h2");
-    expect(title.length).to.equal(1);
-    expect(title[0].textContent).to.equal("Councilmeetings");
+    expect(title.length).to.equal(2);
+    expect(title[0].textContent).to.equal("Add a new date for a councilmeeting");
+    expect(title[1].textContent).to.equal("Councilmeetings");
   });
 
   it("should call api when the page is rendered", () => {
