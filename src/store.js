@@ -11,6 +11,7 @@ import thesisprogress from "./thesisprogress/thesisprogress.reducer";
 import user from "./user/user.reducer";
 import grader from "./grader/grader.reducer";
 import email from "./email/email.reducer";
+import emailstatus from "./emailstatus/emailstatus.reducer";
 import { LOGOUT_USER } from "./auth/auth.actions";
 
 const combinedReducers = combineReducers({
@@ -21,6 +22,7 @@ const combinedReducers = combineReducers({
   user,
   grader,
   email,
+  emailstatus,
 });
 
 /*
