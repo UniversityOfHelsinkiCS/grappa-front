@@ -12,6 +12,7 @@ import UserShow from "./user/UserShow.smart";
 import UserNotActiveList from "./user/UserNotActiveList.smart";
 import Login from "./auth/Login.smart";
 import NotFound from "./app/NotFound.component";
+import UserRegistration from "./user/UserRegistration.smart";
 
 export default (
   <Route>
@@ -25,6 +26,7 @@ export default (
       <Route path="user" component={UserNotActiveList} onEnter={restrictNonAdmin} />
       <Route path="user/me" component={UserShow} onEnter={restrictNonUser} />
       <Route path="login" component={Login} />
+      <Route path="registration" component={UserRegistration} />
       <Route path="*" component={NotFound}/>
     </Route>
   </Route>

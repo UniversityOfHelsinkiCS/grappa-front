@@ -24,6 +24,7 @@ export class Nav extends Component {
     return (
       <div className="ui horizontal pointing menu">
         <Link className="item" to="/login">Login</Link>
+        <Link className="item" to="/registration">Register</Link>
       </div>
     );
   }
