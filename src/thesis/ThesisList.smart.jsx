@@ -10,7 +10,6 @@ import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import { linkFormatter, studyFieldNameFormatter, dateFormatter, instructorFormatter } from "../config/helpers";
 
 
-
 export class ThesisList extends Component {
   constructor() {
     super();
@@ -50,7 +49,7 @@ export class ThesisList extends Component {
         <BootstrapTable data={theses} search bordered={false}>
           <TableHeaderColumn filter= {{ type: "TextFilter" }} dataField="id" isKey hidden>
           Thesis ID</TableHeaderColumn>
-          <TableHeaderColumn dataField="ThesisProgress.isDone" dataFormat={this.statusFormatter} dataSort formatExtraData={ this.statuses } width="200" filter={ { options: this.statuses, type: "SelectFilter", defaultValue: false } }>Status</TableHeaderColumn>
+          <TableHeaderColumn dataField="ThesisProgress.isDone" dataFormat={this.statusFormatter} dataSort formatExtraData={this.statuses} width="200" filter={{ options: this.statuses, type: "SelectFilter", defaultValue: false }}>Status</TableHeaderColumn>
           <TableHeaderColumn dataField="author" dataSort width="200">Author</TableHeaderColumn>
           <TableHeaderColumn dataField="title" dataFormat={ this.linkFormatter } dataSort width="200">Thesis Title</TableHeaderColumn>
           <TableHeaderColumn dataFormat={ this.instructorFormatter } dataSort width="200">Instructor
