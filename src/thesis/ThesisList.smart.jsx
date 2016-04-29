@@ -9,11 +9,16 @@ import React, { Component } from "react";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import { linkFormatter, studyFieldNameFormatter, dateFormatter, instructorFormatter } from "../config/helpers";
 
+
 export class ThesisList extends Component {
   constructor() {
     super();
     this.linkFormatter = linkFormatter.bind(this);
     this.studyFieldNameFormatter = studyFieldNameFormatter.bind(this);
+    this.statuses = {
+      true: "Done",
+      false: "In progress",
+    };
     this.dateFormatter = dateFormatter.bind(this);
     this.instructorFormatter = instructorFormatter.bind(this);
   }
@@ -26,6 +31,9 @@ export class ThesisList extends Component {
     getTheses();
   }
 
+  statusFormatter(cell, row, enumObj) {
+    return enumObj[cell];
+  }
   /*
   * The method in charge of rendering the outlook of the page. Contains all the html elements.
   * Contains a react-bootstrap-table library styled table.
@@ -34,15 +42,16 @@ export class ThesisList extends Component {
 
   render() {
     const { theses } = this.props;
+    console.log(theses);
     return (
       <div>
         <h2>Theses</h2>
         <BootstrapTable data={theses} search bordered={false}>
           <TableHeaderColumn filter= {{ type: "TextFilter" }} dataField="id" isKey hidden>
           Thesis ID</TableHeaderColumn>
+          <TableHeaderColumn dataField="ThesisProgress.isDone" dataFormat={this.statusFormatter} dataSort formatExtraData={this.statuses} width="200" filter={{ options: this.statuses, type: "SelectFilter", defaultValue: false }}>Status</TableHeaderColumn>
           <TableHeaderColumn dataField="author" dataSort width="200">Author</TableHeaderColumn>
-          <TableHeaderColumn dataField="title" dataFormat={ this.linkFormatter } dataSort width="200">Thesis Title
-          </TableHeaderColumn>
+          <TableHeaderColumn dataField="title" dataFormat={ this.linkFormatter } dataSort width="200">Thesis Title</TableHeaderColumn>
           <TableHeaderColumn dataFormat={ this.instructorFormatter } dataSort width="200">Instructor
           </TableHeaderColumn>
           <TableHeaderColumn dataField="email" dataSort width="200">Email</TableHeaderColumn>
