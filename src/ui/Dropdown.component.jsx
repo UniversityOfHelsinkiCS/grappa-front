@@ -13,6 +13,7 @@ export default class Dropdown extends Component {
   constructor() {
     super();
     this.handleChange = this.handleChange.bind(this);
+    this.dateFormatter = this.dateFormatter.bind(this);
     this.active = "Select Date";
   }
 /*
@@ -26,6 +27,10 @@ export default class Dropdown extends Component {
       this.active = event.target.value;
     }
   }
+  dateFormatter(row) {
+    const origDate = new Date(row);
+    return `${origDate.getDate()}/${origDate.getMonth()}/${origDate.getFullYear()}`;
+  }
   /*
   * The method in charge of rendering the outlook of the page. Contains all the html elements.
   * @return select-container Container wrapping all the html elements to be rendered.
@@ -35,8 +40,8 @@ export default class Dropdown extends Component {
     return (
       <select className="ui fluid search dropdown" value={this.active} onChange={this.handleChange}>
         { data.map((date, index) =>
-          <option key={ index } value={ date.date }>
-            { date.date }
+          <option key={ index } value={ date.date } >
+            { this.dateFormatter(date.date) }
           </option>
         )}
       </select>
