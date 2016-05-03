@@ -2,9 +2,12 @@ import { createMessage } from "../flash/flash.actions";
 
 export const manageState = store => next => action => {
   next(action);
-  if (action.flashMessage !== undefined) {
-    console.log("action tuli!")
+  if (action.flashMessage !== undefined && action.flashMessage !== null) {
+    console.log("flashMessage tuli!")
     console.log(action);
     store.dispatch(createMessage(action.flashMessage));
+  }
+  if (action.redirect !== undefined) {
+    console.log("redirect tuli!");
   }
 }

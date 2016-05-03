@@ -5,18 +5,7 @@ import {
 } from "./flash.actions";
 
 const INITIAL_STATE = fromJS({
-  messages: [{
-    id: -1,
-    type: "info",
-    title: "Apua",
-    body: "Rikoit kaiken",
-  },
-  {
-    id: -2,
-    type: "success",
-    title: "Apua",
-    body: "Rikoit kaiken",
-  }],
+  messages: [],
   nextId: 0,
 });
 

@@ -28,30 +28,22 @@ export const handleCallApi = store => next => action => {
       },
     })
     .then(res => {
-      if (action.method === "get") {
-        store.dispatch({
-          type: action.success,
-          payload: res.data,
-          sent: action.data,
-        });
-      } else {
-        store.dispatch({
-          type: action.success,
-          payload: res.data,
-          sent: action.data,
-          flashMessage: {
-            type: "success",
-            title: "titteli",
-            body: "onnistui",
-          },
-        });
-      }
+      store.dispatch({
+        type: action.success,
+        payload: res.data,
+        sent: action.data,
+        flashMessage: action.successMessage,
+      });
     })
     .catch(err => {
       store.dispatch({
         type: action.failure,
-        message: "Calling GrappaAPI produced an error.",
         error: err,
+        flashMessage: {
+          type: "error",
+          title: "Error",
+          body: `Calling GrappaAPI produced an error ${action.failure}. Press F12 for further information on console.`,
+        },
       });
     });
   } else {

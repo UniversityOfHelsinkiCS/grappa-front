@@ -22,6 +22,11 @@ export const addCouncilmeeting = (Councilmeeting) => {
   return {
     type: CALL_API,
     success: COUNCILMEETING_SAVE_ONE_SUCCESS,
+    successMessage: {
+      type: "success",
+      title: "Success",
+      body: "Councilmeeting was saved.",
+    },
     failure: COUNCILMEETING_SAVE_ONE_FAILURE,
     method: "post",
     url: "/councilmeeting",

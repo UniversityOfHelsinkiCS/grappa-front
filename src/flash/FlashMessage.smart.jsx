@@ -5,10 +5,17 @@ export class FlashMessage extends Component {
   constructor() {
     super();
     this.handleMessageClose = this.handleMessageClose.bind(this);
-    this.state = {
-      timer: "",
-    }
   }
+
+  // componentWillReceiveProps(newProps) {
+  //   if (newProps.messages.length > 0) {
+  //     const newMsgId = newProps.messages[newProps.messages.length-1].id;
+  //     // console.log("setting timer on id: " + newMsgId);
+  //     setTimeout(() => {
+  //       this.props.deleteMessage(newMsgId);
+  //     }, 4000);
+  //   }
+  // }
 
   handleMessageClose(message, event) {
     event.preventDefault();
@@ -31,7 +38,6 @@ export class FlashMessage extends Component {
     const { messages } = this.props;
     return(
       <div className="flashmessage-container">
-        messageita on: { messages.length }
         { messages.map(msg => this.renderMessage(msg)) }
       </div>
     );
