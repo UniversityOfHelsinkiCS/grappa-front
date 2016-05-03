@@ -188,7 +188,7 @@ export class ThesisShow extends Component {
   */
   renderDates(date) {
     const origDate = new Date(date);
-    return `${origDate.getDate()}/${origDate.getMonth()}/${origDate.getFullYear()}`
+    return `${origDate.getDate()}/${origDate.getMonth()}/${origDate.getFullYear()}`;
   }
 
   /**
