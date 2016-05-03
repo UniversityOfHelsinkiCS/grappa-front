@@ -9,8 +9,6 @@ export const dateFormatter = (cell, row) => {
   return `${origDate.getDate()}/${origDate.getMonth()}/${origDate.getFullYear()}`;
 };
 
-export const statusFormatter = (cell, row, enumObj) => {
-  return enumObj[row.ThesisProgress.isDone];
-}
+export const statusFormatter = (cell, row, enumObj) => enumObj[row.ThesisProgress.isDone];
 
 export const instructorFormatter = (cell, row) => row.User.name;

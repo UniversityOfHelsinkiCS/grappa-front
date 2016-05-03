@@ -21,6 +21,7 @@ export class ThesisList extends Component {
     };
     this.dateFormatter = dateFormatter.bind(this);
     this.instructorFormatter = instructorFormatter.bind(this);
+    this.statusFormatter = statusFormatter.bind(this);
   }
 
   /*
@@ -46,6 +47,7 @@ export class ThesisList extends Component {
         <BootstrapTable data={theses} search bordered={false}>
           <TableHeaderColumn filter= {{ type: "TextFilter" }} dataField="id" isKey hidden>
           Thesis ID</TableHeaderColumn>
+          <TableHeaderColumn dataField="isDone" dataFormat={ this.statusFormatter } formatExtraData={ this.statuses } >Status</TableHeaderColumn>
           <TableHeaderColumn dataField="author" dataSort width="200">Author</TableHeaderColumn>
           <TableHeaderColumn dataField="title" dataFormat={ this.linkFormatter } dataSort width="200">Thesis Title</TableHeaderColumn>
           <TableHeaderColumn dataFormat={ this.instructorFormatter } dataSort width="200">Instructor
