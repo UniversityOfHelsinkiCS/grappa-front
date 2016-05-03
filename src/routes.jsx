@@ -27,7 +27,7 @@ export default (
       <Route path="user" component={UserNotActiveList} onEnter={restrictNonAdmin} />
       <Route path="user/me" component={UserShow} onEnter={restrictNonUser} />
       <Route path="login" component={Login} />
- 	  <Route path="emailstatus" component={EmailstatusList} onEnter={restrictNonAdmin} />
+      <Route path="emailstatus" component={EmailstatusList} onEnter={restrictNonAdmin} />
       <Route path="registration" component={UserRegistration} />
       <Route path="*" component={NotFound}/>
     </Route>
