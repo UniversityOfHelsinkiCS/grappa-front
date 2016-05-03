@@ -28,11 +28,24 @@ export const handleCallApi = store => next => action => {
       },
     })
     .then(res => {
-      store.dispatch({
-        type: action.success,
-        payload: res.data,
-        sent: action.data,
-      });
+      if (action.method === "get") {
+        store.dispatch({
+          type: action.success,
+          payload: res.data,
+          sent: action.data,
+        });
+      } else {
+        store.dispatch({
+          type: action.success,
+          payload: res.data,
+          sent: action.data,
+          flashMessage: {
+            type: "success",
+            title: "titteli",
+            body: "onnistui",
+          },
+        });
+      }
     })
     .catch(err => {
       store.dispatch({
