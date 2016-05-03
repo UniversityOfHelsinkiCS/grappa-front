@@ -10,6 +10,7 @@ import CouncilmeetingCreate from "./councilmeeting/CouncilmeetingCreate.smart";
 import CouncilmeetingList from "./councilmeeting/CouncilmeetingList.smart";
 import UserShow from "./user/UserShow.smart";
 import UserNotActiveList from "./user/UserNotActiveList.smart";
+import EmailstatusList from "./emailstatus/EmailstatusList.smart";
 import Login from "./auth/Login.smart";
 import NotFound from "./app/NotFound.component";
 import UserRegistration from "./user/UserRegistration.smart";
@@ -26,6 +27,7 @@ export default (
       <Route path="user" component={UserNotActiveList} onEnter={restrictNonAdmin} />
       <Route path="user/me" component={UserShow} onEnter={restrictNonUser} />
       <Route path="login" component={Login} />
+ 	  <Route path="emailstatus" component={EmailstatusList} onEnter={restrictNonAdmin} />
       <Route path="registration" component={UserRegistration} />
       <Route path="*" component={NotFound}/>
     </Route>

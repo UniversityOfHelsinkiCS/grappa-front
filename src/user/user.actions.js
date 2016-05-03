@@ -39,7 +39,7 @@ export const getUsers = () => {
 * reducer to handle the data accordingly.
 */
 export const saveUser = (user) => {
-  console.log("saveThesis-action called!");
+  console.log("saveUser-action called!");
   return {
     type: CALL_API,
     success: USER_SAVE_ONE_SUCCESS,

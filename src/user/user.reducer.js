@@ -14,8 +14,6 @@ const INITIAL_STATE = fromJS({
   users: [],
 });
 
-// import { browserHistory } from "react-router";
-
 /**
  * The default function for handling the state change
  *
