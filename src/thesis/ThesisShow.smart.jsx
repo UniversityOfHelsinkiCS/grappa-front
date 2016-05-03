@@ -12,10 +12,11 @@ export class ThesisShow extends Component {
     this.handleSave = this.handleSave.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleInstructorChange = this.handleInstructorChange.bind(this);
-    this.handleReviewChange = this.handleReviewChange.bind(this);
     this.handleNotification = this.handleNotification.bind(this);
     this.handleGrNameChange = this.handleGrNameChange.bind(this);
     this.handleGrTitleChange = this.handleGrTitleChange.bind(this);
+    this.handleEval = this.handleEval.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
     this.state = {
       thesis: {},
       review: "",
@@ -46,15 +47,11 @@ export class ThesisShow extends Component {
       this.state.thesis = foundThesis;
     }
   }
+
   handleChange(name, event) {
     const thesispointer = this.state.thesis;
     thesispointer[name] = event.target.value;
     this.setState({ thesis: this.state.thesis });
-  }
-
-  handleReviewChange(event) {
-    event.preventDefault();
-    this.setState({ review: event.target.value });
   }
   handleInstructorChange(event) {
     const thesispointer = this.state.thesis;
@@ -80,9 +77,16 @@ export class ThesisShow extends Component {
     this.setState({ thesis: this.state.thesis });
   }
 
+  handleEval() {
+    document.getElementsByTagName("textarea")[1].removeAttribute("readOnly");
+  }
+  handleSubmit() {
+    document.getElementsByTagName("textarea")[1].readOnly = true;
+    this.props.updateThesis(this.state.thesis);
+  }
+
   handleEdit() {
     const graders = this.state.thesis.Graders;
-    document.getElementsByTagName("textarea")[1].removeAttribute("readOnly");
     for (let i = 0; i < 6 + (graders.length * 2); i++) {
       document.getElementsByTagName("input")[i].removeAttribute("readOnly");
     }
@@ -97,7 +101,6 @@ export class ThesisShow extends Component {
 
     this.props.updateUser(this.state.thesis.User);
 
-    document.getElementsByTagName("textarea")[1].readOnly = true;
     for (let i = 0; i < 6 + (graders.length * 2); i++) {
       document.getElementsByTagName("input")[i].readOnly = true;
     }
@@ -105,45 +108,93 @@ export class ThesisShow extends Component {
 
   renderContent() {
     const thesis = this.state.thesis;
+    console.log(this.props.user);
     return (
       <div>
-        <div>
-          <form className="ui form">
-            <div className="field">
-              <div>Title:</div>
-              <input type="text" readOnly value={thesis.title} onChange={ this.handleChange.bind(this, "title") } />
-              <div>Author:</div>
-              <input type="text" readOnly value={ thesis.author } onChange={ this.handleChange.bind(this, "author") } />
-              <div>Grade:</div>
-              <input type="text" readOnly value={ thesis.grade } onChange={ this.handleChange.bind(this, "grade") } />
-            </div>
-            <div className="field">
-              <div>Instructor:</div>
-              <input type="text" readOnly value={ thesis.User.name } onChange={ this.handleInstructorChange.bind(this) } />
-            </div>
-            <div className="field">
-              <div>Ethesis link:</div>
-              <input type="text" readOnly value={ thesis.ethesis } onChange={ this.handleChange.bind(this, "ethesis") } />
-            </div>
-            <div className="field">
-              <div>Urkund link:</div>
-              <input type="text" readOnly value={ thesis.urkund } onChange={ this.handleChange.bind(this, "urkund") } />
-            </div>
-            <h4 className="ui dividing header">Abstract</h4>
-            <textarea className="abstract" readOnly value={ thesis.abstract } rows="5" cols="30" />
-            <div className="field">
-              { this.renderGraders() }
-            </div>
-            <h4 className="ui dividing header">Grader Evaluation</h4>
-            <textarea className="eval" readOnly value={ this.state.review } onChange={ this.handleReviewChange.bind(this) } rows="5" cols="30" />
-          </form>
+        <div className="ui form">
+          <div className="field">
+            <div>Title:</div>
+            <input type="text" readOnly value={thesis.title} onChange={ this.handleChange.bind(this, "title") } />
+            <div>Author:</div>
+            <input type="text" readOnly value={ thesis.author } onChange={ this.handleChange.bind(this, "author") } />
+            <div>Email:</div>
+            <input type="text" readOnly value={ thesis.email } onChange={ this.handleChange.bind(this, "email") } />
+            <div>Grade:</div>
+            <input type="text" readOnly value={ thesis.grade } onChange={ this.handleChange.bind(this, "grade") } />
+          </div>
+          <div className="field">
+            <div>Instructor:</div>
+            <input type="text" readOnly value={ thesis.User.name } onChange={ this.handleInstructorChange.bind(this) } />
+          </div>
+          <div className="field">
+            <div>Ethesis link:</div>
+            <input type="text" readOnly value={ thesis.ethesis } onChange={ this.handleChange.bind(this, "ethesis") } />
+          </div>
+          <div className="field">
+            <div>Urkund link:</div>
+            <input type="text" readOnly value={ thesis.urkund } onChange={ this.handleChange.bind(this, "urkund") } />
+          </div>
+          <h4 className="ui dividing header">Abstract</h4>
+          <textarea className="abstract" readOnly value={ thesis.abstract } rows="5" cols="30" />
+          <div className="field">
+            { this.renderGraders() }
+          </div>
+          <h4 className="ui dividing header">Grader Evaluation</h4>
+          <textarea className="eval" readOnly value={ this.state.thesis.graderEvaluation } onChange={ this.handleChange.bind(this, "graderEvaluation") } rows="5" cols="30" />
+          { this.renderGraderButtons() }
         </div>
         <h4 className="ui dividing header">Notifications</h4>
         { this.renderThesisProgress() }
         <h3 id="deadlineReminder">Deadline: { thesis.deadline }</h3>
-        <button className="ui primary button" id="editButton" onClick={ this.handleEdit }>Edit</button>
-        <button className="ui primary button" id="saveButton" onClick={ this.handleSave }>Save</button>
+        { this.renderThesisEditButtons() }
       </div>
+    );
+  }
+
+  renderGraderButtons() {
+    const user = this.props.user;
+    if (user.role === "professor") {
+      return (
+        <div>
+          <button className="ui primary button" id="editButton" onClick={ this.handleEval.bind(this) }>Evaluate Graders</button>
+          <button className="ui primary button" id="editButton" onClick={ this.handleSubmit.bind(this) }>Submit Evaluation</button>
+        </div>
+      );
+    }
+    return false;
+  }
+
+  renderThesisEditButtons() {
+    const user = this.props.user;
+    if (user.role === "admin" || user.name === this.state.instructor) {
+      return (
+        <div>
+          <button className="ui primary button" id="editButton" onClick={ this.handleEdit }>Edit</button>
+          <button className="ui primary button" id="saveButton" onClick={ this.handleSave }>Save</button>
+        </div>
+      );
+    }
+    return false;
+  }
+
+  renderReminderButton(ethesis, evalGraders, name) {
+    if (name === "ethesis") {
+      if (ethesis === "Missing") {
+        return (
+          <button className="ui blue tiny button" onClick={ this.handleNotification.bind(this, "student") } >Send reminder</button>
+        );
+      }
+      return (
+        <button className="ui disabled blue tiny button" >Send reminder</button>
+      );
+    }
+    if (evalGraders === "Not Done") {
+      return (
+        <button className="ui blue tiny button" onClick={ this.handleNotification.bind(this, "professor") } >Send reminder</button>
+      );
+    }
+    return (
+      <button className="ui disabled blue tiny button" >Send reminder</button>
     );
   }
 
@@ -182,6 +233,9 @@ export class ThesisShow extends Component {
     }
     if (thesis.ThesisProgress !== null && thesis.ThesisProgress !== undefined && thesis.ThesisProgress.gradersStatus) {
       evalGraders = "Done";
+      if (thesis.graderEvaluation === null) {
+        evalGraders = "Not Needed";
+      }
     }
     if (ethesis === "Added" && evalGraders === "Done") {
       docReady = "Documents available";
@@ -194,42 +248,43 @@ export class ThesisShow extends Component {
           <div>
             {
               <div>
-                <div className="three fields">
-                  <div className="field">Name and status</div>
-                  <div className="field">Date when last notification sent</div>
-                  <div className="field">Buttons for sending notifications</div>
-                </div>
+                <div className="ui form">
+                  <div className="three fields">
+                    <div className="field">Name and status</div>
+                    <div className="field">Date when last notification sent</div>
+                    <div className="field">Buttons for sending reminders</div>
+                  </div>
 
-                <div className="three fields">
-                  <div className="field">
-                    Ethesis Link
-                    <div className="ui tag label"> { ethesis } </div>
+                  <div className="three fields">
+                    <div className="field">
+                      Ethesis Link
+                      <div className="ui tag label"> { ethesis } </div>
+                    </div>
+                    <div className="field">
+                      <p>{ thesis.ThesisProgress.ethesisReminder }</p>
+                    </div>
+                    <div className="field">
+                      { this.renderReminderButton(ethesis, evalGraders, "ethesis") }
+                    </div>
                   </div>
-                  <div className="field">
-                    <p>{ thesis.ThesisProgress.ethesisReminder }</p>
-                  </div>
-                  <div className="field">
-                    <button className="ui blue tiny button" onClick={ this.handleNotification.bind(this, "student") } >Send notification</button>
+
+                  <div className="three fields">
+                    <div className="field">
+                      Grader Evaluation
+                      <div className="ui tag label"> { evalGraders } </div>
+                    </div>
+                    <div className="field">
+                      <p>{ thesis.ThesisProgress.professorReminder }</p>
+                    </div>
+                    <div className="field">
+                      { this.renderReminderButton(ethesis, evalGraders, "eval") }
+                    </div>
                   </div>
                 </div>
-
-                <div className="three fields">
-                  <div className="field">
-                    Grader Evaluation
-                    <div className="ui tag label"> { evalGraders } </div>
-                  </div>
-                  <div className="field">
-                    <p>{ thesis.ThesisProgress.professorReminder }</p>
-                  </div>
-                  <div className="field">
-                    <button className="ui blue tiny button" onClick={ this.handleNotification.bind(this, "professor") } >Send notification</button>
-                  </div>
-                </div>
-
                 <div className="three fields">
                   <h4 className="ui dividing header">Print</h4>
                   <div className="field">
-                     { docReady }
+                    { docReady }
                   </div>
                   <div className="field">
                     <button className="ui blue tiny button">Print documents</button>
@@ -266,8 +321,10 @@ import { connect } from "react-redux";
 * @return ListOfThesis A list containing all the thesis listed in the database.
 */
 const mapStateToProps = (state) => {
+  const user = state.get("auth");
   const thesis = state.get("thesis");
   return {
+    user: user.get("user").toJS(),
     theses: thesis.get("theses").toJS(),
   };
 };
