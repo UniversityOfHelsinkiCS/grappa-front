@@ -7,7 +7,7 @@
 
 import React, { Component } from "react";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
-import { linkFormatter, studyFieldNameFormatter, dateFormatter, instructorFormatter } from "../config/helpers";
+import { linkFormatter, studyFieldNameFormatter, dateFormatter, instructorFormatter, statusFormatter } from "../config/helpers";
 
 
 export class ThesisList extends Component {
@@ -21,6 +21,7 @@ export class ThesisList extends Component {
     };
     this.dateFormatter = dateFormatter.bind(this);
     this.instructorFormatter = instructorFormatter.bind(this);
+    this.statusFormatter = statusFormatter.bind(this);
   }
 
   /*
@@ -31,9 +32,6 @@ export class ThesisList extends Component {
     getTheses();
   }
 
-  statusFormatter(cell, row, enumObj) {
-    return enumObj[cell];
-  }
   /*
   * The method in charge of rendering the outlook of the page. Contains all the html elements.
   * Contains a react-bootstrap-table library styled table.
@@ -49,7 +47,7 @@ export class ThesisList extends Component {
         <BootstrapTable data={theses} search bordered={false}>
           <TableHeaderColumn filter= {{ type: "TextFilter" }} dataField="id" isKey hidden>
           Thesis ID</TableHeaderColumn>
-          <TableHeaderColumn dataField="ThesisProgress.isDone" dataFormat={this.statusFormatter} dataSort formatExtraData={this.statuses} width="200" filter={{ options: this.statuses, type: "SelectFilter", defaultValue: false }}>Status</TableHeaderColumn>
+          <TableHeaderColumn dataField="isDone" dataFormat={ this.statusFormatter } formatExtraData={ this.statuses } >Status</TableHeaderColumn>
           <TableHeaderColumn dataField="author" dataSort width="200">Author</TableHeaderColumn>
           <TableHeaderColumn dataField="title" dataFormat={ this.linkFormatter } dataSort width="200">Thesis Title</TableHeaderColumn>
           <TableHeaderColumn dataFormat={ this.instructorFormatter } dataSort width="200">Instructor

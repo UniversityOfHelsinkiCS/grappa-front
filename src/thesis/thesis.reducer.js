@@ -35,10 +35,19 @@ const INITIAL_STATE = fromJS({
 export default function (state = INITIAL_STATE, action) {
   switch (action.type) {
     case THESIS_GET_ALL_SUCCESS:
+      /*
+       * This silliness is because react bootstrap table doesn't deal with nested objects
+       */
+      const theses = action.payload;
+      for (const thesis in theses) {
+        if ({}.hasOwnProperty.call(theses, thesis) && thesis.ThesisProgress) {
+          thesis.isDone = thesis.ThesisProgress.isDone;
+        }
+      }
       return state.merge(fromJS({
-        theses: action.payload,
+        theses,
       }));
-      // return state.updateIn(["theses"], list => list.concat(fromJS(action.payload)));
+    // return state.updateIn(["theses"], list => list.concat(fromJS(action.payload)));
     case THESIS_GET_ALL_FAILURE:
     // probably should display error message?
       return state;
