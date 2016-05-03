@@ -30,7 +30,8 @@ const INITIAL_STATE = fromJS({
 export default function (state = INITIAL_STATE, action) {
   switch (action.type) {
     case USER_SAVE_ONE_SUCCESS:
-      return state.updateIn(["users"], users => fromJS([...users, action.payload]));
+      return state;
+      // return state.updateIn(["users"], users => fromJS([...users, action.payload]));
     case USER_SAVE_ONE_FAILURE:
       return state;
     case USER_GET_ALL_SUCCESS:
