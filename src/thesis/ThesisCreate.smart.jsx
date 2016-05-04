@@ -18,11 +18,24 @@ export class ThesisCreate extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.componentDidMount = this.componentDidMount.bind(this);
     this.handleDateChange = this.handleDateChange.bind(this);
+    this.handleGraderChange = this.handleGraderChange.bind(this);
+    this.handleGraderTitleChange = this.handleGraderTitleChange.bind(this);
+    this.handleGraderAddition = this.handleGraderAddition.bind(this);
     this.state = {
       fname: "",
       lname: "",
       email: "",
       title: "",
+      graders: [
+        {
+          name: "",
+          title: "",
+        },
+        {
+          name: "",
+          title: "",
+        },
+      ],
       grader: "",
       grader2: "",
       gradertitle: "",
@@ -53,6 +66,32 @@ export class ThesisCreate extends React.Component {
     change[name] = event.target.value;
     this.setState(change);
   }
+
+  handleGraderChange(id, event) {
+    event.preventDefault();
+    const thesispointer = this.state;
+    thesispointer.graders[id].name = event.target.value;
+    this.setState({ thesis: this.state.thesis });
+  }
+  handleGraderTitleChange(id, event) {
+    event.preventDefault();
+    const thesispointer = this.state;
+    thesispointer.graders[id].title = event.target.value;
+    this.setState({ thesis: this.state.thesis });
+  }
+
+  /**
+  * Handler method for defining what to do when add graders button is clicked.
+  * A empty object is added to the graders list, and as the rendering of the
+  * grader input spaces is tied to the lists size, a needed fields are rendered
+  * automatically.
+  */
+  handleGraderAddition(event) {
+    event.preventDefault();
+    const thesispointer = this.state;
+    thesispointer.graders.push({ name: "", title: "" });
+    this.setState(thesispointer);
+  }
 /*
 * Handler method to handle changes happening in the choose date input field in the render method.
 * @param event Used to get a hold of what the input of the user was.
@@ -61,26 +100,22 @@ export class ThesisCreate extends React.Component {
     event.preventDefault();
     this.setState({ deadline: event.target.value });
   }
-/*
-* Handler method to handle what to do when the submit button is clicked.
-* @param event Used to get a hold of what the input of the user was.
-*/
+
+  /*
+  * Handler method to handle what to do when the submit button is clicked.
+  * @param event Used to get a hold of what the input of the user was.
+  */
   handleSubmit(event) {
     event.preventDefault();
     const newThesis = {
       author: `${this.state.fname} ${this.state.lname}`,
       email: this.state.email,
       title: this.state.title,
-      graders: [
-        {
-          name: this.state.grader,
-          title: this.state.gradertitle,
-        },
-        {
-          name: this.state.grader2,
-          title: this.state.grader2title,
-        },
-      ],
+      graders: this.state.graders.filter(
+        function (value) {
+          return (value.name !== "");
+        }
+      ),
       urkund: this.state.urkund,
       ethesis: this.state.ethesis,
       field: this.state.field,
@@ -90,6 +125,38 @@ export class ThesisCreate extends React.Component {
     const { saveThesis } = this.props;
     saveThesis(newThesis);
   }
+
+  renderGraders() {
+    const graders = this.state.graders;
+    return (
+      <div className="field">
+        {
+          graders.map(grader =>
+            <div className="three fields">
+              <div className="field">
+                <label>Name</label>
+                <Validation.Input type="text" name="1grader[name]" value={grader.name} onChange={this.handleGraderChange.bind(this, graders.indexOf(grader))} placeholder="Name"/>
+              </div>
+              <div className="four wide field">
+                <div className="field">
+                  <label>Title</label>
+                  <Validation.Select className="ui fluid search dropdown" value={grader.title} onChange={this.handleGraderTitleChange.bind(this, graders.indexOf(grader))}>
+                    <option value="">Select title</option>
+                    <option value="Prof">Professor</option>
+                    <option value="AssProf">Assistant Professor</option>
+                    <option value="AdjProf">Adjunct Professor</option>
+                    <option value="Doc">Doctor</option>
+                    <option value="Other">Other</option>
+                  </Validation.Select>
+                </div>
+              </div>
+            </div>
+          )
+        }
+      </div>
+    );
+  }
+
 /*
 * The method in charge of rendering the outlook of the page. Contains all the html elements.
 * @return <div> thesis-container Container wrapping all the html elements to be rendered.
@@ -100,8 +167,8 @@ export class ThesisCreate extends React.Component {
       <Validation.Form className="ui form" onSubmit={this.handleSubmit}>
         <h4 className="ui dividing header">Made by</h4>
         <div className="two fields">
-          <div className="six wide field">
-            <label>First name *</label>
+          <div className="field">
+            <label>First name</label>
             <Validation.Input
               type="text"
               name="madeby[first-name]"
@@ -112,8 +179,8 @@ export class ThesisCreate extends React.Component {
                             { rule: "isAlpha" }]}
             />
           </div>
-          <div className="six wide field">
-            <label>Last name *</label>
+          <div className="field">
+            <label>Last name</label>
             <Validation.Input
               type="text"
               name="madeby[last-name]"
@@ -125,8 +192,8 @@ export class ThesisCreate extends React.Component {
             />
           </div>
         </div>
-        <div className="six wide field">
-          <label>Email *</label>
+        <div className="ten wide field">
+          <label>Email</label>
           <Validation.Input
             type="text"
             name="madeby[email]"
@@ -138,8 +205,8 @@ export class ThesisCreate extends React.Component {
 
         <h4 className="ui dividing header">Thesis Information</h4>
         <div className="three fields">
-          <div className="six wide field">
-            <label>Title *</label>
+          <div className="field">
+            <label>Title</label>
             <Validation.Input
               type="text"
               name="thesis[title]"
@@ -151,7 +218,7 @@ export class ThesisCreate extends React.Component {
           </div>
           <div className="three wide field">
             <div className="field">
-              <label>Studyfield *</label>
+              <label>Studyfield</label>
               <Validation.Select
                 className="ui fluid search dropdown"
                 value={this.state.field}
@@ -167,7 +234,7 @@ export class ThesisCreate extends React.Component {
             </div>
           </div>
           <div className="five wide field">
-            <label>Grade *</label>
+            <label>Grade</label>
             <Validation.Select
               className="ui fluid search dropdown"
               value={this.state.grade}
@@ -185,81 +252,34 @@ export class ThesisCreate extends React.Component {
             </Validation.Select>
           </div>
         </div>
-        <div className="six wide field">
-          <label>E-thesis-link</label>
-          <Validation.Input
-            type="text"
-            name="thesis[ethesis]"
-            value={this.state.ethesis}
-            onChange={this.handleChange.bind(this, "ethesis")}
-            placeholder="Link to E-thesis"
-            validations={[{ rule: "isLink" }]}
-          />
-        </div>
-        <div className="six wide field">
-          <label>Urkund-link</label>
-          <Validation.Input
-            type="text"
-            name="thesis[urkund]"
-            value={this.state.urkund}
-            onChange={this.handleChange.bind(this, "urkund")}
-            placeholder="Link to Urkund"
-            validations={[{ rule: "isRequired" },
-                            { rule: "isLink" }]}
-          />
-        </div>
-        <h4 className="ui dividing header">Graders *</h4>
-        <div className="three fields">
-          <div className="six wide field">
-            <label>Name *</label>
-            <Validation.Input type="text" name="1grader[name]" value={this.state.grader} onChange={this.handleChange.bind(this, "grader")} placeholder="Name"/>
-          </div>
-          <div className="four wide field">
-            <div className="field">
-              <label>Title *</label>
-              <Validation.Select className="ui fluid search dropdown" value={this.state.gradertitle} onChange={this.handleChange.bind(this, "gradertitle")} name="1grader[field]">
-                <option value="">Select title</option>
-                <option value="Prof">Professor</option>
-                <option value="AssProf">Assistant Professor</option>
-                <option value="AdjProf">Adjunct Professor</option>
-                <option value="Doc">Doctor</option>
-                <option value="Other">Other</option>
-              </Validation.Select>
-            </div>
-          </div>
-        </div>
-        <div className="three fields">
+        <div className="two fields">
           <div className="field">
-            <label>Name</label>
+            <label>E-thesis-link</label>
             <Validation.Input
               type="text"
-              name="2grader[name]"
-              value={this.state.grader2}
-              onChange={this.handleChange.bind(this, "grader2")}
-              placeholder="Name"
-              validations={[{ rule: "isRequired" }]}
+              name="thesis[ethesis]"
+              value={this.state.ethesis}
+              onChange={this.handleChange.bind(this, "ethesis")}
+              placeholder="Link to E-thesis"
+              validations={[{ rule: "isLink" }]}
             />
           </div>
-          <div className="four wide field">
-            <label>Title</label>
-            <Validation.Select
-              className="ui fluid search dropdown"
-              value={this.state.grader2title}
-              onChange={this.handleChange.bind(this, "grader2title")}
-              name="2grader[field]"
-              validations={[{ rule: "isRequired" }]}
-            >
-              <option value="">Select title</option>
-              <option value="Prof">Professor</option>
-              <option value="AssProf">Assistant Professor</option>
-              <option value="AdjProf">Adjunct Professor</option>
-              <option value="Doc">Doctor</option>
-              <option value="Other">Other</option>
-            </Validation.Select>
+          <div className="field">
+            <label>Urkund-link</label>
+            <Validation.Input
+              type="text"
+              name="thesis[urkund]"
+              value={this.state.urkund}
+              onChange={this.handleChange.bind(this, "urkund")}
+              placeholder="Link to Urkund"
+              validations={[{ rule: "isLink" }]}
+            />
           </div>
         </div>
-        <button className="ui primary button">Add Graders</button>
-        <h4 className="ui dividing header">Choose the date for the Department Council meeting *</h4>
+        <h4 className="ui dividing header">Graders</h4>
+        { this.renderGraders() }
+        <button className="ui primary button" onClick={ this.handleGraderAddition } >Add Graders</button>
+        <h4 className="ui dividing header">Choose the date for the Department Council meeting</h4>
         <Dropdown data={dates} onChange={this.handleDateChange}/>
         <Validation.Button className="ui primary button" value="Submit" onClick={this.handleSubmit}/>
         <button className="ui primary button">Cancel</button>
