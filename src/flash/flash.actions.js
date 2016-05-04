@@ -7,16 +7,16 @@ export const DELETE_FLASH_MESSAGE = "DELETE_FLASH_MESSAGE";
  * @param {Object} UserData - User login information
  * @return {Object} - Action for API to handle
  */
-export const createMessage = (message) => {
-  return {
+export const createMessage = (message) => (
+  {
     type: CREATE_FLASH_MESSAGE,
     message,
-  };
-};
+  }
+);
 
-export const deleteMessage = (id) => {
-  return {
+export const deleteMessage = (id) => (
+  {
     type: DELETE_FLASH_MESSAGE,
     id,
-  };
-};
+  }
+);

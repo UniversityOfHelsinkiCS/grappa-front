@@ -9,6 +9,8 @@ import React from "react";
 import { connect } from "react-redux";
 import Dropdown from "../ui/Dropdown.component";
 import Validation from "./thesisValidation";
+// import { validateThesis, validateThesisField } from "../config/Validator";
+import { validateThesisField } from "../config/Validator";
 import { getCouncilmeetings } from "../councilmeeting/councilmeeting.actions";
 
 export class ThesisCreate extends React.Component {
@@ -32,25 +34,31 @@ export class ThesisCreate extends React.Component {
       field: "",
       grade: "",
       deadline: "",
+      errors: {},
     };
   }
 /*
 * Defines what is done at the beginning of the components life before rendering.
 */
   componentDidMount() {
-    const { getCouncilmeetings } = this.props;
-    getCouncilmeetings();
+    this.props.getCouncilmeetings();
   }
-/*
+/**
 * Handler method to handle changes happening in the different input fields in the render method.
 * @param name The id for where the change has happened. Used to designated which state parameter changes.
 * @param event Used to get a hold of what the input of the user was.
 * @param type Type of validation needed: text, email or link
 */
   handleChange(name, event) {
+    console.log(event);
     event.preventDefault();
-    const change = {};
+    const change = {
+      errors: this.state.errors,
+    };
     change[name] = event.target.value;
+    const newErrors = validateThesisField(name, event.target.value);
+    console.log(newErrors);
+    change.errors[name] = newErrors;
     this.setState(change);
   }
 /*
@@ -61,7 +69,7 @@ export class ThesisCreate extends React.Component {
     event.preventDefault();
     this.setState({ deadline: event.target.value });
   }
-/*
+/**
 * Handler method to handle what to do when the submit button is clicked.
 * @param event Used to get a hold of what the input of the user was.
 */
@@ -90,63 +98,58 @@ export class ThesisCreate extends React.Component {
     const { saveThesis } = this.props;
     saveThesis(newThesis);
   }
-/*
-* The method in charge of rendering the outlook of the page. Contains all the html elements.
-* @return <div> thesis-container Container wrapping all the html elements to be rendered.
-*/
-  render() {
-    const { dates } = this.props;
+
+  renderThesisAuthor() {
     return (
-      <Validation.Form className="ui form" onSubmit={this.handleSubmit}>
-        <h4 className="ui dividing header">Made by</h4>
-        <div className="two fields">
-          <div className="field">
-            <label>First name</label>
-            <Validation.Input
-              type="text"
-              name="madeby[first-name]"
-              value={this.state.fname}
-              onChange={this.handleChange.bind(this, "fname")}
-              placeholder="First Name"
-              validations={[{ rule: "isRequired" },
-                            { rule: "isAlpha" }]}
-            />
-          </div>
-          <div className="field">
-            <label>Last name</label>
-            <Validation.Input
-              type="text"
-              name="madeby[last-name]"
-              value={this.state.lname}
-              onChange={this.handleChange.bind(this, "lname")}
-              placeholder="Last Name"
-              validations={[{ rule: "isRequired" },
-                            { rule: "isAlpha" }]}
-            />
-          </div>
-        </div>
-        <div className="ten wide field">
-          <label>Email</label>
-          <Validation.Input
+      <div className="ui form segment error">
+        <h4 className="ui dividing header">Thesis Author</h4>
+        <div className="field">
+          <label>First name</label>
+          <input
             type="text"
-            name="madeby[email]"
-            value={this.state.email} onChange={this.handleChange.bind(this, "email")} placeholder="Email Address"
-            validations={[{ rule: "isRequired" },
-                          { rule: "isEmail" }]}
+            name="madeby[first-name]"
+            value={this.state.fname}
+            onChange={this.handleChange.bind(this, "fname")}
+            placeholder="First Name"
           />
         </div>
+        <div className="field">
+          <label>Last name</label>
+          <input
+            type="text"
+            name="madeby[last-name]"
+            value={this.state.lname}
+            onChange={this.handleChange.bind(this, "lname")}
+            placeholder="Last Name"
+          />
+        </div>
+        <div className="field">
+          <label>Email</label>
+          <input
+            type="text"
+            name="madeby[email]"
+            value={this.state.email}
+            onChange={this.handleChange.bind(this, "email")}
+            placeholder="Email Address"
+          />
+        </div>
+      </div>
+    );
+  }
 
+  renderThesisInformation() {
+    return (
+      <div className="ui form segment error">
         <h4 className="ui dividing header">Thesis Information</h4>
         <div className="three fields">
           <div className="field">
             <label>Title</label>
-            <Validation.Input
+            <input
               type="text"
               name="thesis[title]"
               value={this.state.title}
               onChange={this.handleChange.bind(this, "title")}
               placeholder="Title"
-              validations={[{ rule: "isRequired" }]}
             />
           </div>
           <div className="three wide field">
@@ -188,28 +191,32 @@ export class ThesisCreate extends React.Component {
         <div className="two fields">
           <div className="field">
             <label>E-thesis-link</label>
-            <Validation.Input
+            <input
               type="text"
               name="thesis[ethesis]"
               value={this.state.ethesis}
               onChange={this.handleChange.bind(this, "ethesis")}
               placeholder="Link to E-thesis"
-              validations={[{ rule: "isLink" }]}
             />
           </div>
           <div className="field">
             <label>Urkund-link</label>
-            <Validation.Input
+            <input
               type="text"
               name="thesis[urkund]"
               value={this.state.urkund}
               onChange={this.handleChange.bind(this, "urkund")}
               placeholder="Link to Urkund"
-              validations={[{ rule: "isRequired" },
-                            { rule: "isLink" }]}
             />
           </div>
         </div>
+      </div>
+    );
+  }
+
+  renderGraders() {
+    return (
+      <div className="ui form segment error">
         <h4 className="ui dividing header">Graders</h4>
         <div className="three fields">
           <div className="field">
@@ -261,11 +268,56 @@ export class ThesisCreate extends React.Component {
           </div>
         </div>
         <button className="ui primary button">Add Graders</button>
+      </div>
+    );
+  }
+
+  renderPickCouncilmeeting() {
+    const { dates } = this.props;
+    return (
+      <div className="ui form segment error">
         <h4 className="ui dividing header">Choose the date for the Department Council meeting</h4>
         <Dropdown data={dates} onChange={this.handleDateChange}/>
-        <Validation.Button className="ui primary button" value="Submit" onClick={this.handleSubmit}/>
-        <button className="ui primary button">Cancel</button>
-      </Validation.Form>
+      </div>
+    );
+  }
+
+  renderErrorsAndSubmit() {
+    const errors = Object.keys(this.state.errors).reduce((previous, key) =>
+      [...previous, ...this.state.errors[key]]
+    , []);
+    const noErrors = errors.length === 0;
+    console.log(errors);
+    return (
+      <div>
+        {
+          noErrors ?
+            <button className="ui primary button" onClick={this.handleSubmit}>
+              Submit
+            </button>
+              :
+            <div className="ui error message">
+              <ul className="list">
+                { errors.map((error, index) => <li key={index}>{error}</li>) }
+              </ul>
+            </div>
+        }
+      </div>
+    );
+  }
+/*
+* The method in charge of rendering the outlook of the page. Contains all the html elements.
+* @return <div> thesis-container Container wrapping all the html elements to be rendered.
+*/
+  render() {
+    return (
+      <div>
+        {this.renderThesisAuthor()}
+        {this.renderThesisInformation()}
+        {this.renderGraders()}
+        {this.renderPickCouncilmeeting()}
+        {this.renderErrorsAndSubmit()}
+      </div>
     );
   }
 }

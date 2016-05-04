@@ -12,19 +12,19 @@ const INITIAL_STATE = fromJS({
 export default function (state = INITIAL_STATE, action) {
   switch (action.type) {
     case CREATE_FLASH_MESSAGE:
-      console.log("create tuli :D")
+      console.log("create tuli :D");
       const newMessage = Object.assign(
         { id: state.get("nextId") },
         action.message
       );
       const newMessages = [...state.get("messages").slice(-3), newMessage];
-      console.log(newMessage)
+      console.log(newMessage);
       return state.merge({
         messages: fromJS(newMessages),
         nextId: state.get("nextId") + 1,
       });
     case DELETE_FLASH_MESSAGE:
-      console.log("tuli delete :0")
+      console.log("tuli delete :0");
       return state.updateIn(["messages"], messages =>
         messages.filter(msg => {
           if (msg.get("id") !== action.id) {

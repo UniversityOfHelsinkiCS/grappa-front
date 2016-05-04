@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint --ext .js,.jsx src/ test/",
+    "lint:fix": "eslint --ext .js,.jsx src/ test/ --fix",
     "build": "webpack --config webpack.config.js",
     "postinstall": "webpack --config webpack.config.prod.js --progress --colors",
     "start": "node index.js",
