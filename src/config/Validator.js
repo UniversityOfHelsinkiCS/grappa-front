@@ -1,5 +1,5 @@
 import Validator from "validator";
-import validationRules from "./ValidatorRules";
+import { validationRules } from "./ValidatorRules";
 
 /**
  * Method for validating single value according to a rule listed below
@@ -15,7 +15,6 @@ const validate = (rules, value) =>
     }
     return previous;
   }, []);
-
 
 /**
  * Validates one of Thesis' fields

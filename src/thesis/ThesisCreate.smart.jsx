@@ -25,10 +25,16 @@ export class ThesisCreate extends React.Component {
       lname: "",
       email: "",
       title: "",
-      grader: "",
-      grader2: "",
-      gradertitle: "",
-      grader2title: "",
+      graders: [
+        {
+          name: "",
+          title: "",
+        },
+        {
+          name: "",
+          title: "",
+        },
+      ],
       urkund: "",
       ethesis: "",
       field: "",
@@ -60,6 +66,30 @@ export class ThesisCreate extends React.Component {
     console.log(newErrors);
     change.errors[name] = newErrors;
     this.setState(change);
+  }
+
+  handleGraderChange(index, name, event) {
+    event.preventDefault();
+    const graders = this.state.graders;
+    graders[index][name] = event.target.value;
+    this.setState({ graders: graders });
+  }
+
+  addGrader(event) {
+    event.preventDefault();
+    const newGrader = {
+      name: "",
+      title: "",
+    };
+    this.setState({
+      graders: [...this.state.graders, newGrader],
+    });
+  }
+
+  removeGrader(index, event) {
+    event.preventDefault();
+    this.state.graders.splice(index, 1);
+    this.setState({ graders: this.state.graders });
   }
 /*
 * Handler method to handle changes happening in the choose date input field in the render method.
@@ -101,7 +131,7 @@ export class ThesisCreate extends React.Component {
 
   renderThesisAuthor() {
     return (
-      <div className="ui form segment error">
+      <div className="ui form">
         <h4 className="ui dividing header">Thesis Author</h4>
         <div className="field">
           <label>First name</label>
@@ -139,7 +169,7 @@ export class ThesisCreate extends React.Component {
 
   renderThesisInformation() {
     return (
-      <div className="ui form segment error">
+      <div className="ui form">
         <h4 className="ui dividing header">Thesis Information</h4>
         <div className="three fields">
           <div className="field">
@@ -216,58 +246,33 @@ export class ThesisCreate extends React.Component {
 
   renderGraders() {
     return (
-      <div className="ui form segment error">
+      <div className="ui form">
         <h4 className="ui dividing header">Graders</h4>
-        <div className="three fields">
-          <div className="field">
-            <label>Name</label>
-            <Validation.Input type="text" name="1grader[name]" value={this.state.grader} onChange={this.handleChange.bind(this, "grader")} placeholder="Name"/>
-          </div>
-          <div className="four wide field">
-            <div className="field">
-              <label>Title</label>
-              <Validation.Select className="ui fluid search dropdown" value={this.state.gradertitle} onChange={this.handleChange.bind(this, "gradertitle")} name="1grader[field]">
-                <option value="">Select title</option>
-                <option value="Prof">Professor</option>
-                <option value="AssProf">Assistant Professor</option>
-                <option value="AdjProf">Adjunct Professor</option>
-                <option value="Doc">Doctor</option>
-                <option value="Other">Other</option>
-              </Validation.Select>
+        {
+          this.state.graders.map((grader, index) =>
+            <div key={index} className="three fields">
+              <div className="field">
+                <label>Name</label>
+                <input type="text" name="grader_name" value={grader.name} onChange={this.handleGraderChange.bind(this, index, "name")} placeholder="Name" />
+              </div>
+              <div className="four wide field">
+                <div className="field">
+                  <label>Title</label>
+                  <select className="ui fluid search dropdown" value={grader.title} onChange={this.handleGraderChange.bind(this, index, "title")} >
+                    <option value="">Select title</option>
+                    <option value="Prof">Professor</option>
+                    <option value="AssProf">Assistant Professor</option>
+                    <option value="AdjProf">Adjunct Professor</option>
+                    <option value="Doc">Doctor</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+                <button className="ui danger button" onClick={this.removeGrader.bind(this, index)}>Remove Grader</button>
+              </div>
             </div>
-          </div>
-        </div>
-        <div className="three fields">
-          <div className="field">
-            <label>Name</label>
-            <Validation.Input
-              type="text"
-              name="2grader[name]"
-              value={this.state.grader2}
-              onChange={this.handleChange.bind(this, "grader2")}
-              placeholder="Name"
-              validations={[{ rule: "isRequired" }]}
-            />
-          </div>
-          <div className="four wide field">
-            <label>Title</label>
-            <Validation.Select
-              className="ui fluid search dropdown"
-              value={this.state.grader2title}
-              onChange={this.handleChange.bind(this, "grader2title")}
-              name="2grader[field]"
-              validations={[{ rule: "isRequired" }]}
-            >
-              <option value="">Select title</option>
-              <option value="Prof">Professor</option>
-              <option value="AssProf">Assistant Professor</option>
-              <option value="AdjProf">Adjunct Professor</option>
-              <option value="Doc">Doctor</option>
-              <option value="Other">Other</option>
-            </Validation.Select>
-          </div>
-        </div>
-        <button className="ui primary button">Add Graders</button>
+          )
+        }
+        <button className="ui primary button" onClick={this.addGrader.bind(this)}>Add Grader</button>
       </div>
     );
   }
@@ -275,7 +280,7 @@ export class ThesisCreate extends React.Component {
   renderPickCouncilmeeting() {
     const { dates } = this.props;
     return (
-      <div className="ui form segment error">
+      <div className="ui form">
         <h4 className="ui dividing header">Choose the date for the Department Council meeting</h4>
         <Dropdown data={dates} onChange={this.handleDateChange}/>
       </div>
