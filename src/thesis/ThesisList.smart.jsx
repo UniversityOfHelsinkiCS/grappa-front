@@ -7,17 +7,10 @@
 
 import React, { Component } from "react";
 import { Table, Thead, Th, unsafe } from "reactable";
-import { linkFormatter, studyFieldNameFormatter, dateFormatter, instructorFormatter, statusFormatter } from "../config/helpers";
-
 
 export class ThesisList extends Component {
   constructor() {
     super();
-    this.linkFormatter = linkFormatter.bind(this);
-    this.studyFieldNameFormatter = studyFieldNameFormatter.bind(this);
-    this.dateFormatter = dateFormatter.bind(this);
-    this.instructorFormatter = instructorFormatter.bind(this);
-    this.statusFormatter = statusFormatter.bind(this);
     this.state = {};
     this.state.theses = [];
     this.state.allTheses = [];
