@@ -1,9 +1,15 @@
+/**
+* ThesisShow.smart for displaying and running the view of a single thesis.
+* It contains the component for displaying the needed displayable data, and
+* the container in charge of connecting the component to the reducers and actions
+* in charge of state changes.
+*/
+
 import React, { Component } from "react";
 import { updateThesis } from "./thesis.actions";
 import { updateGrader } from "../grader/grader.actions";
 import { updateUser } from "../user/user.actions";
 import { sendNotification } from "../email/email.actions";
-// import { getTheses } from "./thesis.actions";
 
 export class ThesisShow extends Component {
   constructor() {
@@ -51,22 +57,37 @@ export class ThesisShow extends Component {
     }
   }
 
+  /**
+  * Handler method for defining how the user input is handled in multiple input fields.
+  * @param (String) name Defines which field is in question, eg. "author" or "title".
+  */
   handleChange(name, event) {
     const thesispointer = this.state.thesis;
     thesispointer[name] = event.target.value;
     this.setState({ thesis: this.state.thesis });
   }
+
+  /**
+  * Handles the pressing of the "Send Notification" buttons, calling the appropriate
+  * action in each instance.
+  * @param (String) name Defines which button is in question, "ethesis" or "eval".
+  */
+  handleNotification(name, event) {
+    event.preventDefault();
+    this.props.sendNotification({ thesis: this.state.thesis, type: name });
+  }
+
   handleInstructorChange(event) {
     const thesispointer = this.state.thesis;
     thesispointer.User.name = event.target.value;
     this.setState({ thesis: this.state.thesis });
   }
 
-  handleNotification(name, event) {
-    event.preventDefault();
-    this.props.sendNotification({ thesis: this.state.thesis, type: name });
-  }
-
+  /**
+  * Two handler methods for handling the input fields for repective graders.
+  * @param (Integer) id Defines in which iteration of the Graders list the method
+  * was called, giving the right index for pointing to the correct object.
+  */
   handleGrNameChange(id, event) {
     event.preventDefault();
     const thesispointer = this.state.thesis;
@@ -80,19 +101,27 @@ export class ThesisShow extends Component {
     this.setState({ thesis: this.state.thesis });
   }
 
+  /**
+  * Two methods that on clicking their respective button remove the readOnly attribute
+  * of their respective field/s.
+  */
   handleEval() {
     document.getElementsByTagName("textarea")[1].removeAttribute("readOnly");
   }
-  handleSubmit() {
-    document.getElementsByTagName("textarea")[1].readOnly = true;
-    this.props.updateThesis(this.state.thesis);
-  }
-
   handleEdit() {
     const graders = this.state.thesis.Graders;
     for (let i = 0; i < 6 + (graders.length * 2); i++) {
       document.getElementsByTagName("input")[i].removeAttribute("readOnly");
     }
+  }
+  /**
+  * Two methods that on clicking their respective button add the readOnly attribute
+  * to their respective field/s and call the appropriate actions to save the user
+  * input given.
+  */
+  handleSubmit() {
+    document.getElementsByTagName("textarea")[1].readOnly = true;
+    this.props.updateThesis(this.state.thesis);
   }
   handleSave() {
     this.props.updateThesis(this.state.thesis);
@@ -103,7 +132,6 @@ export class ThesisShow extends Component {
     }
 
     this.props.updateUser(this.state.thesis.User);
-
     for (let i = 0; i < 6 + (graders.length * 2); i++) {
       document.getElementsByTagName("input")[i].readOnly = true;
     }
@@ -118,9 +146,13 @@ export class ThesisShow extends Component {
     return `${origDate.getDate()}/${origDate.getMonth()}/${origDate.getFullYear()}`;
   }
 
+  /**
+  * The main segment of the rendering methods which is called from the original
+  * render if the needed data is available. All other rendering segments are called
+  * from this method.
+  */
   renderContent() {
     const thesis = this.state.thesis;
-    console.log(this.props.user);
     return (
       <div>
         <div className="ui form">
@@ -163,6 +195,18 @@ export class ThesisShow extends Component {
     );
   }
 
+  /**
+  * A method to convert a date into a DD/MM/YY format.
+  */
+  renderDates(date) {
+    const origDate = new Date(date);
+    return `${origDate.getDate()}/${origDate.getMonth()}/${origDate.getFullYear()}`;
+  }
+
+  /**
+  * The method for rendering the buttons related to adding the Grader Evaluation
+  * if the appropriate user is signed in.
+  */
   renderGraderButtons() {
     const user = this.props.user;
     if (user.role === "professor") {
@@ -176,6 +220,10 @@ export class ThesisShow extends Component {
     return false;
   }
 
+  /**
+  * The method for rendering the buttons related to editing the thesis if the
+  * appropriate user is signed in.
+  */
   renderThesisEditButtons() {
     const user = this.props.user;
     if (user.role === "admin" || user.name === this.state.instructor) {
@@ -189,6 +237,10 @@ export class ThesisShow extends Component {
     return false;
   }
 
+  /**
+  * The method for rendering the buttons related to sending reminders. If no more
+  * corresponding data is needed, the button is disabled.
+  */
   renderReminderButton(ethesis, evalGraders, name) {
     if (name === "ethesis") {
       if (ethesis === "Missing") {
@@ -210,6 +262,9 @@ export class ThesisShow extends Component {
     );
   }
 
+  /**
+  * The method for rendering the graders related to the thesis.
+  */
   renderGraders() {
     const graders = this.state.thesis.Graders;
     const noGraders = graders === undefined || graders.length === 0;
@@ -234,6 +289,10 @@ export class ThesisShow extends Component {
     );
   }
 
+  /**
+  * The method for rendering the data related to the ethesis link, grader evaluation
+  * status and the availability of needed printable files.
+  */
   renderThesisProgress() {
     const thesis = this.state.thesis;
     const noThesProg = thesis.ThesisProgress === null;
@@ -310,6 +369,11 @@ export class ThesisShow extends Component {
     );
   }
 
+  /**
+  * The inital render method. renderContent() is called from here. This method also
+  * checks that the state has been updated with the appropriate data before rendering
+  * is started.
+  */
   render() {
     const isUndefined = typeof this.state.thesis === "undefined" || this.state.thesis === "";
     return (
@@ -328,7 +392,8 @@ import { connect } from "react-redux";
 
 /*
 * A special funciton used to define what the form of the data is that is gotten from the state.
-* @return ListOfThesis A list containing all the thesis listed in the database.
+* @return (Object) {user, theses} An object containing a list of all the thesis visible to
+* your role and a list of all the users.
 */
 const mapStateToProps = (state) => {
   const user = state.get("auth");
@@ -339,6 +404,10 @@ const mapStateToProps = (state) => {
   };
 };
 
+/*
+* A special function used to define and dispatch the relevant data to the right
+* actions in thesis.actions.
+*/
 const mapDispatchToProps = (dispatch) => ({
   updateThesis(thesis) {
     dispatch(updateThesis(thesis));
