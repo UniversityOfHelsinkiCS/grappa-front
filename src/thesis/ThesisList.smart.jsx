@@ -79,7 +79,8 @@ const mapStateToProps = (state) => {
 };
 
 /*
-* A special function used to define and dispatch the relevant data to thesis.actions
+* A special function used to define and dispatch the relevant data to the right
+* actions in thesis.actions.
 */
 const mapDispatchToProps = (dispatch) => ({
   getTheses() {
