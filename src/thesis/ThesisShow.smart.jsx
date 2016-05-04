@@ -23,6 +23,9 @@ export class ThesisShow extends Component {
     this.handleGrTitleChange = this.handleGrTitleChange.bind(this);
     this.handleEval = this.handleEval.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.dateFormatter = this.dateFormatter.bind(this);
+    this.dateTimeFormatter = this.dateTimeFormatter.bind(this);
+
     this.state = {
       thesis: {},
       review: "",
@@ -133,6 +136,15 @@ export class ThesisShow extends Component {
       document.getElementsByTagName("input")[i].readOnly = true;
     }
   }
+  dateTimeFormatter(date) {
+    const origDate = new Date(date);
+    return `${origDate.getDate()}/${origDate.getMonth()}/${origDate.getFullYear()}
+    ${origDate.getHours()}:${origDate.getMinutes()}:${origDate.getSeconds()}`;
+  }
+  dateFormatter(date) {
+    const origDate = new Date(date);
+    return `${origDate.getDate()}/${origDate.getMonth()}/${origDate.getFullYear()}`;
+  }
 
   /**
   * The main segment of the rendering methods which is called from the original
@@ -177,7 +189,7 @@ export class ThesisShow extends Component {
         </div>
         <h4 className="ui dividing header">Notifications</h4>
         { this.renderThesisProgress() }
-        <h3 id="deadlineReminder">Deadline: { this.renderDates(thesis.deadline) }</h3>
+        <h3 id="deadlineReminder">Deadline: { this.dateFormatter(thesis.deadline) }</h3>
         { this.renderThesisEditButtons() }
       </div>
     );
@@ -320,7 +332,7 @@ export class ThesisShow extends Component {
                       <div className="ui tag label"> { ethesis } </div>
                     </div>
                     <div className="field">
-                      <p>{ thesis.ThesisProgress.ethesisReminder }</p>
+                      <p>{ this.dateTimeFormatter(thesis.ThesisProgress.ethesisReminder) }</p>
                     </div>
                     <div className="field">
                       { this.renderReminderButton(ethesis, evalGraders, "ethesis") }
@@ -333,7 +345,7 @@ export class ThesisShow extends Component {
                       <div className="ui tag label"> { evalGraders } </div>
                     </div>
                     <div className="field">
-                      <p>{ thesis.ThesisProgress.professorReminder }</p>
+                      <p>{ this.dateTimeFormatter(thesis.ThesisProgress.professorReminder) }</p>
                     </div>
                     <div className="field">
                       { this.renderReminderButton(ethesis, evalGraders, "eval") }
