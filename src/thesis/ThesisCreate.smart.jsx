@@ -100,8 +100,8 @@ export class ThesisCreate extends React.Component {
       <Validation.Form className="ui form" onSubmit={this.handleSubmit}>
         <h4 className="ui dividing header">Made by</h4>
         <div className="two fields">
-          <div className="field">
-            <label>First name</label>
+          <div className="six wide field">
+            <label>First name *</label>
             <Validation.Input
               type="text"
               name="madeby[first-name]"
@@ -112,8 +112,8 @@ export class ThesisCreate extends React.Component {
                             { rule: "isAlpha" }]}
             />
           </div>
-          <div className="field">
-            <label>Last name</label>
+          <div className="six wide field">
+            <label>Last name *</label>
             <Validation.Input
               type="text"
               name="madeby[last-name]"
@@ -125,8 +125,8 @@ export class ThesisCreate extends React.Component {
             />
           </div>
         </div>
-        <div className="ten wide field">
-          <label>Email</label>
+        <div className="six wide field">
+          <label>Email *</label>
           <Validation.Input
             type="text"
             name="madeby[email]"
@@ -138,8 +138,8 @@ export class ThesisCreate extends React.Component {
 
         <h4 className="ui dividing header">Thesis Information</h4>
         <div className="three fields">
-          <div className="field">
-            <label>Title</label>
+          <div className="six wide field">
+            <label>Title *</label>
             <Validation.Input
               type="text"
               name="thesis[title]"
@@ -151,7 +151,7 @@ export class ThesisCreate extends React.Component {
           </div>
           <div className="three wide field">
             <div className="field">
-              <label>Studyfield</label>
+              <label>Studyfield *</label>
               <Validation.Select
                 className="ui fluid search dropdown"
                 value={this.state.field}
@@ -167,7 +167,7 @@ export class ThesisCreate extends React.Component {
             </div>
           </div>
           <div className="five wide field">
-            <label>Grade</label>
+            <label>Grade *</label>
             <Validation.Select
               className="ui fluid search dropdown"
               value={this.state.grade}
@@ -185,40 +185,38 @@ export class ThesisCreate extends React.Component {
             </Validation.Select>
           </div>
         </div>
-        <div className="two fields">
-          <div className="field">
-            <label>E-thesis-link</label>
-            <Validation.Input
-              type="text"
-              name="thesis[ethesis]"
-              value={this.state.ethesis}
-              onChange={this.handleChange.bind(this, "ethesis")}
-              placeholder="Link to E-thesis"
-              validations={[{ rule: "isLink" }]}
-            />
-          </div>
-          <div className="field">
-            <label>Urkund-link</label>
-            <Validation.Input
-              type="text"
-              name="thesis[urkund]"
-              value={this.state.urkund}
-              onChange={this.handleChange.bind(this, "urkund")}
-              placeholder="Link to Urkund"
-              validations={[{ rule: "isRequired" },
-                            { rule: "isLink" }]}
-            />
-          </div>
+        <div className="six wide field">
+          <label>E-thesis-link</label>
+          <Validation.Input
+            type="text"
+            name="thesis[ethesis]"
+            value={this.state.ethesis}
+            onChange={this.handleChange.bind(this, "ethesis")}
+            placeholder="Link to E-thesis"
+            validations={[{ rule: "isLink" }]}
+          />
         </div>
-        <h4 className="ui dividing header">Graders</h4>
+        <div className="six wide field">
+          <label>Urkund-link</label>
+          <Validation.Input
+            type="text"
+            name="thesis[urkund]"
+            value={this.state.urkund}
+            onChange={this.handleChange.bind(this, "urkund")}
+            placeholder="Link to Urkund"
+            validations={[{ rule: "isRequired" },
+                            { rule: "isLink" }]}
+          />
+        </div>
+        <h4 className="ui dividing header">Graders *</h4>
         <div className="three fields">
-          <div className="field">
-            <label>Name</label>
+          <div className="six wide field">
+            <label>Name *</label>
             <Validation.Input type="text" name="1grader[name]" value={this.state.grader} onChange={this.handleChange.bind(this, "grader")} placeholder="Name"/>
           </div>
           <div className="four wide field">
             <div className="field">
-              <label>Title</label>
+              <label>Title *</label>
               <Validation.Select className="ui fluid search dropdown" value={this.state.gradertitle} onChange={this.handleChange.bind(this, "gradertitle")} name="1grader[field]">
                 <option value="">Select title</option>
                 <option value="Prof">Professor</option>
@@ -261,7 +259,7 @@ export class ThesisCreate extends React.Component {
           </div>
         </div>
         <button className="ui primary button">Add Graders</button>
-        <h4 className="ui dividing header">Choose the date for the Department Council meeting</h4>
+        <h4 className="ui dividing header">Choose the date for the Department Council meeting *</h4>
         <Dropdown data={dates} onChange={this.handleDateChange}/>
         <Validation.Button className="ui primary button" value="Submit" onClick={this.handleSubmit}/>
         <button className="ui primary button">Cancel</button>

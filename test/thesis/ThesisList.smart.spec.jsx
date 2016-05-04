@@ -32,15 +32,13 @@ describe("ThesisList.smart", () => {
     expect(spyMethod.callCount).to.be.equal(1);
   });
 
-  it("should render filter dropdown", () => {
+  it("should render filter checkbox", () => {
     const component = renderIntoDocument(
       <Provider store={store}>
         <ThesisListContainer />
       </Provider>
     );
-    const select = scryRenderedDOMComponentsWithClass(component, "select-filter");
-    // expect(select.length).to.equal(1);
-    console.log(select[0]);
-    // expect(select[0].textContent).to.equal("Select Status...DoneIn progress");
+    const select = scryRenderedDOMComponentsWithClass(component, "checkbox");
+    expect(select.length).to.equal(1);
   });
 });
