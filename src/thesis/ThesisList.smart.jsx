@@ -48,14 +48,14 @@ export class ThesisList extends Component {
           <TableHeaderColumn filter= {{ type: "TextFilter" }} dataField="id" isKey hidden>
           Thesis ID</TableHeaderColumn>
           <TableHeaderColumn dataField="isDone" dataFormat={ this.statusFormatter } formatExtraData={ this.statuses } >Status</TableHeaderColumn>
-          <TableHeaderColumn dataField="author" dataSort width="200">Author</TableHeaderColumn>
-          <TableHeaderColumn dataField="title" dataFormat={ this.linkFormatter } dataSort width="200">Thesis Title</TableHeaderColumn>
-          <TableHeaderColumn dataFormat={ this.instructorFormatter } dataSort width="200">Instructor
+          <TableHeaderColumn dataField="author" dataSort >Author</TableHeaderColumn>
+          <TableHeaderColumn dataField="title" dataFormat={ this.linkFormatter } dataSort >Thesis Title</TableHeaderColumn>
+          <TableHeaderColumn dataFormat={ this.instructorFormatter } dataSort >Instructor
           </TableHeaderColumn>
-          <TableHeaderColumn dataField="email" dataSort width="200">Email</TableHeaderColumn>
-          <TableHeaderColumn dataFormat={ this.studyFieldNameFormatter } dataSort width="200">Field
+          <TableHeaderColumn dataField="email" dataSort >Email</TableHeaderColumn>
+          <TableHeaderColumn dataFormat={ this.studyFieldNameFormatter } dataSort>Field
           </TableHeaderColumn>
-          <TableHeaderColumn dataFormat={ this.dateFormatter } dataSort width="200">Deadline
+          <TableHeaderColumn dataFormat={ this.dateFormatter } dataSort >Deadline
           </TableHeaderColumn>
         </BootstrapTable>
       </div>
