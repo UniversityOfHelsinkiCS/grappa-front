@@ -8,6 +8,7 @@
     "react/jsx-no-bind": 0,
     "max-len": 1,
     "prefer-arrow-callback": 1,
+    "prefer-template": 0,
     "react/no-deprecated": 2,
     "react/prop-types": 1,
     "no-console": 0,
