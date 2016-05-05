@@ -23,7 +23,6 @@ export default function (state = INITIAL_STATE, action) {
     case GRADER_UPDATE_FAILURE:
       return state.updateIn(["linkSent"], () => "failed");
     default:
-      console.log("returning default state");
       return state;
   }
 }

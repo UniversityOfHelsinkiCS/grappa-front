@@ -20,6 +20,10 @@ body {
 .flashmessage-item {
 }
 
+.m-bot {
+  margin-bottom: 15px;
+}
+
 #sign{
 	text-align:right;
 	margin-right: 3cm;
