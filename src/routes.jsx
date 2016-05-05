@@ -3,6 +3,7 @@ import { Route } from "react-router";
 import { restrictNonUser, restrictNonAdmin } from "./middleware/restrictAccess";
 import App from "./app/App.component";
 import ThesisList from "./thesis/ThesisList.smart";
+import ThesisListForPrint from "./thesis/ThesisListForPrint.smart";
 import Ethesis from "./ethesis/Ethesis.smart";
 import ThesisShow from "./thesis/ThesisShow.smart";
 import ThesisCreate from "./thesis/ThesisCreate.smart";
@@ -22,6 +23,7 @@ export default (
       <Route path="thesis" component={ThesisList} onEnter={restrictNonUser} />
       <Route path="thesis/new" component={ThesisCreate} onEnter={restrictNonUser} />
       <Route path="thesis/:id" component={ThesisShow} onEnter={restrictNonUser} />
+      <Route path="print" component={ThesisListForPrint} onEnter={restrictNonUser} />
       <Route path="councilmeeting/new" component={CouncilmeetingCreate} onEnter={restrictNonAdmin} />
       <Route path="councilmeeting" component={CouncilmeetingList} onEnter={restrictNonAdmin} />
       <Route path="user" component={UserNotActiveList} onEnter={restrictNonAdmin} />
