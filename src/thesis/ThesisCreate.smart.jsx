@@ -9,7 +9,7 @@ import React from "react";
 import { connect } from "react-redux";
 import Dropdown from "../ui/Dropdown.component";
 import Validation from "./thesisValidation";
-import { validateField, validateModel, validateModels } from "../config/Validator";
+import { validateField, validateModel } from "../config/Validator";
 import { getCouncilmeetings } from "../councilmeeting/councilmeeting.actions";
 
 export class ThesisCreate extends React.Component {

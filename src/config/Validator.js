@@ -57,12 +57,20 @@ export const validateModel = (values, model) => {
     obj: {},
     list: [],
   };
-  for (const key in values) {
-    errors.obj[key] = [];
-    const fieldErrors = validateField(key, values[key], model);
-    console.log(fieldErrors);
-    errors.obj[key] = fieldErrors;
-    errors.list.push(...fieldErrors);
+  if (typeof values === "object") {
+    for (const key in values) {
+      errors.obj[key] = [];
+      const fieldErrors = validateField(key, values[key], model);
+      console.log(fieldErrors);
+      errors.obj[key] = fieldErrors;
+      errors.list.push(...fieldErrors);
+    }
+  // array of models
+  } else if (typeof values === "array") {
+    const modelErrors = values.map(modelValues => {
+      return validateModel(modelValues, model);
+    });
+    console.log(modelErrors);
   }
   return errors;
 };

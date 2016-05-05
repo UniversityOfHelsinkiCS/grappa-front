@@ -10,7 +10,7 @@ export default class App extends Component {
         <h1>Gradut Pikaisesti Pakettiin</h1>
         <Nav />
         <FlashMessage />
-        <main className="main-container">
+        <main className="main-container m-top">
           {this.props.children}
         </main>
       </div>

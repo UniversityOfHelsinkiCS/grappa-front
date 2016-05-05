@@ -98,6 +98,48 @@ const validationRules = {
       ],
     },
   ],
+  registration: [
+    {
+      name: "fname",
+      rules: [
+        {
+          type: "notEmpty",
+          prompt: "First name can't be empty.",
+        },
+      ],
+    },
+    {
+      name: "lname",
+      rules: [
+        {
+          type: "notEmpty",
+          prompt: "Last name can't be empty.",
+        },
+      ],
+    },
+    {
+      name: "email",
+      rules: [
+        {
+          type: "notEmpty",
+          prompt: "Email can't be empty.",
+        },
+        {
+          type: "validEmail",
+          prompt: "Not a valid email.",
+        },
+      ],
+    },
+    {
+      name: "password",
+      rules: [
+        {
+          type: "notEmpty",
+          prompt: "Title can't be empty.",
+        },
+      ],
+    },
+  ]
 };
 
 export default validationRules;
