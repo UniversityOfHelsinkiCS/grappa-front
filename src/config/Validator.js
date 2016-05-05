@@ -34,8 +34,8 @@ const validate = (rules, value) =>
  * @return {Array} - Found errors
  */
 export const validateField = (name, value, model) => {
-  console.log(name + value + model)
-  let errors = [];
+  console.log(name + value + model);
+  const errors = [];
   const validation = validationRules[model].find(field => {
     if (field.name === name) return field;
   });
@@ -45,13 +45,13 @@ export const validateField = (name, value, model) => {
     errors.push(...validateModel(value, validation.model).list);
   }
   return [...errors, ...validate(validation.rules, value)];
-}
+};
 
 /**
  * Validates all of models' fields
  */
 export const validateModel = (values, model) => {
-  console.log(model)
+  console.log(model);
   console.log(values);
   const errors = {
     obj: {},
@@ -59,36 +59,20 @@ export const validateModel = (values, model) => {
   };
   if (typeof values === "object") {
     for (const key in values) {
-      errors.obj[key] = [];
-      const fieldErrors = validateField(key, values[key], model);
-      console.log(fieldErrors);
-      errors.obj[key] = fieldErrors;
-      errors.list.push(...fieldErrors);
+      if ({}.hasOwnProperty.call(values, key)) {
+        errors.obj[key] = [];
+        const fieldErrors = validateField(key, values[key], model);
+        console.log(fieldErrors);
+        errors.obj[key] = fieldErrors;
+        errors.list.push(...fieldErrors);
+      }
     }
   // array of models
-  } else if (typeof values === "array") {
-    const modelErrors = values.map(modelValues => {
-      return validateModel(modelValues, model);
-    });
-    console.log(modelErrors);
-  }
-  return errors;
-};
-
-export const validateModels = (valueList, model) => {
-  const errors = {};
-  for (const key in values) {
-    errors[key] = [];
-    const validation = thesisValidation.filter(field => {
-      if (field.name === key) return field;
-    });
-    validation.rules.map(rule => {
-      if (rule.type === "notEmpty" && Validator.isNull(thesis[key])) {
-        errors[key].push(rule.prompt);
-      } else if (rule.type === "validEmail" && !Validator.isEmail(thesis[key])) {
-        errors[key].push(rule.prompt);
-      }
-    });
+  // } else if (typeof values === "array") {
+  //   const modelErrors = values.map(modelValues =>
+  //     validateModel(modelValues, model)
+  //   );
+  //   console.log(modelErrors);
   }
   return errors;
 };

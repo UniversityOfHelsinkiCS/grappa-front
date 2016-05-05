@@ -139,7 +139,7 @@ const validationRules = {
         },
       ],
     },
-  ]
+  ],
 };
 
 export default validationRules;

@@ -7,8 +7,8 @@
 
 import React from "react";
 import { connect } from "react-redux";
-import Dropdown from "../ui/Dropdown.component";
-import Validation from "./thesisValidation";
+// import Dropdown from "../ui/Dropdown.component";
+// import Validation from "./thesisValidation";
 import { validateField, validateModel } from "../config/Validator";
 import { getCouncilmeetings } from "../councilmeeting/councilmeeting.actions";
 
@@ -60,7 +60,7 @@ export class ThesisCreate extends React.Component {
       errors: this.state.errors,
     };
     change[name] = event.target.value;
-    console.log(change)
+    console.log(change);
     const newErrors = validateField(name, event.target.value, "thesis");
     console.log(newErrors);
     change.errors[name] = newErrors;
@@ -72,7 +72,7 @@ export class ThesisCreate extends React.Component {
     const change = {
       graders: this.state.graders,
       errors: this.state.errors,
-    }
+    };
     change.graders[index][name] = event.target.value;
     const newErrors = validateField(name, event.target.value, "grader");
     console.log(newErrors);
@@ -115,7 +115,7 @@ export class ThesisCreate extends React.Component {
         StudyFieldName: this.state.StudyFieldName,
         grade: this.state.grade,
         CouncilMeeting: this.props.meetingDates.find(date => {
-          if (date.id === parseInt(this.state.CouncilMeetingId), 10) return date;
+          if (date.id === parseInt(this.state.CouncilMeetingId, 10)) return date;
         }),
       };
       this.props.saveThesis(newThesis);
@@ -279,7 +279,6 @@ export class ThesisCreate extends React.Component {
           { meetingDates.map((meeting, index) =>
             <option key={ index } value={ meeting.id } >
               { meeting.date }
-              {/*{ this.dateFormatter(date.date) }*/}
             </option>
           )}
         </select>
@@ -291,7 +290,6 @@ export class ThesisCreate extends React.Component {
     const errors = Object.keys(this.state.errors).reduce((previous, key) =>
       [...previous, ...this.state.errors[key]]
     , []);
-    const noErrors = errors.length === 0;
     if (errors.length === 0) {
       return (
         <button className="ui primary button" onClick={this.handleSubmit}>
@@ -299,7 +297,7 @@ export class ThesisCreate extends React.Component {
         </button>
       );
     }
-    console.log("were errors!")
+    console.log("were errors!");
     console.log(errors);
     return (
       <div className="ui error message">

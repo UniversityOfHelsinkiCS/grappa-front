@@ -7,8 +7,7 @@
 import React from "react";
 import { browserHistory } from "react-router";
 import { connect } from "react-redux";
-import Validation from "./loginValidation";
-import { validateField, validateModel } from "../config/Validator";
+// import { validateField, validateModel } from "../config/Validator";
 
 export class Login extends React.Component {
   constructor() {

@@ -159,52 +159,8 @@ export class UserRegistration extends Component {
               <li>{ this.state.errors.email }</li>
               <li>{ this.state.errors.password }</li>
               <li>{ this.state.errors.passwordConf }</li>
-              {/*{ errors.map((error, index) => <li key={index}>{error}</li>) }*/}
             </ul>
           </div>
-        </div>
-      </div>
-    );
-  }
-
-  renderOld() {
-    return (
-      <div>
-        <div className="ui form">
-          <h2 className="ui dividing header">Registration</h2>
-          <div className="tree fields">
-            <div className="three wide field">
-
-              <input type="text" name="firstname" placeholder="First Name" value={this.state.fname} onChange={this.handleChange.bind(this, "fname")}>
-              </input>
-            </div>
-            <div className="three wide field">
-              { this.state.errors.lname }
-              <input type="text" name="lastname" placeholder="Last Name" value={this.state.lname} onChange={this.handleChange.bind(this, "lname")}>
-              </input>
-            </div>
-            <div className="three wide field">
-              { this.state.errors.email }
-              <input type="text" name="email" placeholder="Email" value={this.state.email} onChange={this.handleChange.bind(this, "email")}>
-              </input>
-            </div>
-          </div>
-          <div className="two fields">
-            <div className="three wide field">
-              { this.state.errors.password }
-              <input type="password" name="password" placeholder="Password" value={this.state.password} onChange={this.handleChange.bind(this, "password")}>
-              </input>
-            </div>
-            <div className="three wide field">
-              { this.state.errors.passwordConf }
-              <input type="password" name="passwordConf" placeholder="Confirm password" value={this.state.passwordConf} onChange={this.handleChange.bind(this, "passwordConf")}>
-              </input>
-            </div>
-          </div>
-
-          <button className="ui primary button" onClick={this.handleSubmit}>
-            Submit
-          </button>
         </div>
       </div>
     );
