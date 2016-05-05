@@ -114,9 +114,7 @@ export class ThesisCreate extends React.Component {
         ethesis: this.state.ethesis,
         StudyFieldName: this.state.StudyFieldName,
         grade: this.state.grade,
-        CouncilMeeting: this.props.meetingDates.find(date => {
-          if (date.id === parseInt(this.state.CouncilMeetingId, 10)) return date;
-        }),
+        CouncilMeetingId: this.state.CouncilMeetingId,
       };
       this.props.saveThesis(newThesis);
     } else {
@@ -275,7 +273,7 @@ export class ThesisCreate extends React.Component {
     return (
       <div className="m-bot">
         <h4 className="ui dividing header">Choose the date for the Department Council meeting</h4>
-        <select className="ui fluid search dropdown" value={this.state.chosenDate} onChange={this.handleChange.bind(this, "CouncilMeetingId")}>
+        <select className="ui fluid search dropdown" onChange={this.handleChange.bind(this, "CouncilMeetingId")}>
           { meetingDates.map((meeting, index) =>
             <option key={ index } value={ meeting.id } >
               { meeting.date }
