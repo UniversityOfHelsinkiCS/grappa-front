@@ -92,7 +92,7 @@ export class UserRegistration extends Component {
       // console.log(newUser);
       this.props.registerUser(newUser);
     } else {
-      this.setState({errors: userErrors.obj });
+      this.setState({ errors: userErrors.obj });
     }
   }
 
@@ -166,15 +166,6 @@ export class UserRegistration extends Component {
             </div>
           </div>
           <Errors errors={this.state.errors}/>
-          {/*<div className="ui error message">
-            <ul className="list">
-              <li>{ this.state.errors.fname }</li>
-              <li>{ this.state.errors.lname }</li>
-              <li>{ this.state.errors.email }</li>
-              <li>{ this.state.errors.password }</li>
-              <li>{ this.state.errors.passwordConf }</li>
-            </ul>
-          </div>*/}
         </div>
       </div>
     );

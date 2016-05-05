@@ -51,7 +51,7 @@ export const registerUser = (user) => (
     url: "/user",
     data: user,
   }
-)
+);
 
 /**
  * Action-creator for sending PUT-request to API
