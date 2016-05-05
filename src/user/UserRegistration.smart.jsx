@@ -85,48 +85,83 @@ export class UserRegistration extends Component {
 
   render() {
     return (
-      <div>
-        <form className="ui form" onSubmit={this.handleSubmit}>
-          <h2 className="ui dividing header">Registration</h2>
-          <div className="tree fields">
-            <div className="three wide field">
-              { this.state.errors.fname }
-              <input type="text" name="firstname" placeholder="First Name" value={this.state.fname} onChange={this.handleChange.bind(this, "fname")}>
-              </input>
+      <div className="ui middle aligned center aligned grid">
+        <div className="ui">
+          <div className="ui large form stacked segment">
+            <div className="field error">
+              <div className="ui left icon input">
+                <i className="user icon"></i>
+                <input
+                  type="text"
+                  name="fname"
+                  placeholder="First name"
+                  value={ this.state.fname }
+                  onChange={ this.handleChange.bind(this, "fname") }
+                />
+              </div>
             </div>
-            <div className="three wide field">
-              { this.state.errors.lname }
-              <input type="text" name="lastname" placeholder="Last Name" value={this.state.lname} onChange={this.handleChange.bind(this, "lname")}>
-              </input>
+            <div className="field error">
+              <div className="ui left icon input">
+                <i className="user icon"></i>
+                <input
+                  type="text"
+                  name="lname"
+                  placeholder="Last name"
+                  value={ this.state.lanem }
+                  onChange={ this.handleChange.bind(this, "lname") }
+                />
+              </div>
             </div>
-            <div className="three wide field">
-              { this.state.errors.email }
-              <input type="text" name="email" placeholder="Email" value={this.state.email} onChange={this.handleChange.bind(this, "email")}>
-              </input>
+            <div className="field error">
+              <div className="ui left icon input">
+                <i className="mail icon"></i>
+                <input
+                  type="text"
+                  name="email"
+                  placeholder="E-mail address"
+                  value={ this.state.email }
+                  onChange={ this.handleChange.bind(this, "email") }
+                />
+              </div>
+            </div>
+            <div className="field error">
+              <div className="ui left icon input">
+                <i className="lock icon"></i>
+                <input
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                  value={ this.state.password }
+                  onChange={ this.handleChange.bind(this, "password") }
+                />
+              </div>
+            </div>
+            <div className="field error">
+              <div className="ui left icon input">
+                <i className="lock icon"></i>
+                <input
+                  type="password"
+                  name="confPassword"
+                  placeholder="Confirm password"
+                  value={ this.state.confPassword }
+                  onChange={ this.handleChange.bind(this, "confPassword") }
+                />
+              </div>
+            </div>
+            <div className="ui fluid large blue submit button" onClick={this.handleSubmit}>
+              Register
             </div>
           </div>
-          <div className="two fields">
-            <div className="three wide field">
-              { this.state.errors.password }
-              <input type="password" name="password" placeholder="Password" value={this.state.password} onChange={this.handleChange.bind(this, "password")}>
-              </input>
-            </div>
-            <div className="three wide field">
-              { this.state.errors.passwordConf }
-              <input type="password" name="passwordConf" placeholder="Confirm password" value={this.state.passwordConf} onChange={this.handleChange.bind(this, "passwordConf")}>
-              </input>
-            </div>
+          <div className="ui error message">
+            <ul className="list">
+              <li>{ this.state.errors.fname }</li>
+              <li>{ this.state.errors.lname }</li>
+              <li>{ this.state.errors.email }</li>
+              <li>{ this.state.errors.password }</li>
+              <li>{ this.state.errors.passwordConf }</li>
+            </ul>
           </div>
-
-          <button className="ui primary button" onClick={ () => {
-            this.handleSubmit();
-          }}
-          >
-            Submit
-          </button>
-          <button className="ui primary button">Cancel</button>
-
-        </form>
+        </div>
       </div>
     );
   }

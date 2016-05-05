@@ -1,5 +1,7 @@
 import React, { Component, PropTypes } from "react";
 import Nav from "../ui/Nav.smart";
+import FlashMessage from "../flash/FlashMessage.smart";
+
 export default class App extends Component {
 
   render() {
@@ -7,8 +9,9 @@ export default class App extends Component {
       <div>
         <h1>Gradut Pikaisesti Pakettiin</h1>
         <Nav />
-        <main className="main-container">
-        {this.props.children}
+        <FlashMessage />
+        <main className="main-container m-top">
+          {this.props.children}
         </main>
       </div>
     );

@@ -4,6 +4,8 @@ import persistState from "redux-localstorage";
 import { fromJS, Map } from "immutable";
 import logger from "./middleware/logger";
 import { handleCallApi } from "./middleware/grappaAPI";
+import { manageState } from "./middleware/statusManager";
+
 import auth from "./auth/auth.reducer";
 import thesis from "./thesis/thesis.reducer";
 import councilmeeting from "./councilmeeting/councilmeeting.reducer";
@@ -12,6 +14,7 @@ import user from "./user/user.reducer";
 import grader from "./grader/grader.reducer";
 import email from "./email/email.reducer";
 import emailstatus from "./emailstatus/emailstatus.reducer";
+import flash from "./flash/flash.reducer";
 import { LOGOUT_USER } from "./auth/auth.actions";
 
 const combinedReducers = combineReducers({
@@ -23,6 +26,7 @@ const combinedReducers = combineReducers({
   grader,
   email,
   emailstatus,
+  flash,
 });
 
 /*
@@ -35,7 +39,7 @@ const rootReducer = (state, action) => {
   return combinedReducers(state, action);
 };
 
-const createStoreWithMiddleware = applyMiddleware(logger, handleCallApi)(createStore);
+const createStoreWithMiddleware = applyMiddleware(logger, handleCallApi, manageState)(createStore);
 const createPersistentStore = compose(
   persistState(["auth", "thesis"], {
     slicer: (paths) => (state) => state.filter((v, k) => paths.indexOf(k) !== -1),

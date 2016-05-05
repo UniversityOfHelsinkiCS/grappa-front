@@ -16,11 +16,11 @@ export default class Dropdown extends Component {
     this.dateFormatter = this.dateFormatter.bind(this);
     this.active = "Select Date";
   }
-/*
-* This method handles the selecting of an item in the list. The job of contacting councilmeeting.actions
-* is left to the change handler given in the props, leaving this handler to take care of changing
-* the "active" fields value to the selected one.
-*/
+  /**
+   * This method handles the selecting of an item in the list. The job of contacting councilmeeting.actions
+   * is left to the change handler given in the props, leaving this handler to take care of changing
+   * the "active" fields value to the selected one.
+   */
   handleChange(event) {
     if (this.props.onChange) {
       this.props.onChange(event);
