@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Table, Thead, Th, unsafe } from "reactable";
 import API_PATH from "../middleware/grappaAPI";
-import { createPdfs } from "./thesis.actions";
+import { createPdfs } from "../pdf/pdf.actions";
 
 
 export class ThesisListForPrint extends Component {
@@ -14,7 +14,7 @@ export class ThesisListForPrint extends Component {
   componentWillMount() {
     const { getTheses } = this.props;
     getTheses();
-    
+
     this.setState({ theses: this.selectFields(this.props.theses) });
   }
 
