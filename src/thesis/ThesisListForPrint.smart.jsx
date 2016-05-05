@@ -1,11 +1,14 @@
 import React, { Component } from "react";
 import { Table, Thead, Th, unsafe } from "reactable";
 import API_PATH from "../middleware/grappaAPI";
+import { createPdfs } from "./thesis.actions";
+
 
 export class ThesisListForPrint extends Component {
   constructor() {
     super();
     this.state = {};
+    this.handleClick = this.handleClick.bind(this);
   }
 
   componentWillMount() {
@@ -15,6 +18,11 @@ export class ThesisListForPrint extends Component {
     this.setState({ theses: this.selectFields(this.props.theses) });
   }
 
+  handleClick() {
+    const { createPdfs } = this.props;
+    const listToPrint = { thesesToPrint: this.props.theses };
+    createPdfs(listToPrint);
+  }
   selectFields(theses) {
     const newTheses = [];
     for (let i = 0; i < theses.length; i++) {
@@ -49,7 +57,7 @@ export class ThesisListForPrint extends Component {
         <h2>Theses</h2>
           <Table noDataText="No theses available" className="table" columns={columns} sortable filterable={columns} data={this.state.theses}>
           </Table>
-          <button type="button">Print all</button>
+          <button type="button" onClick={this.handleClick}>Print all</button>
       </div>
     );
   }
@@ -78,5 +86,8 @@ const mapDispatchToProps = (dispatch) => ({
   getTheses() {
     dispatch(getTheses());
   },
+  createPdfs(listToPrint){
+    dispatch(createPdfs(listToPrint));
+  }
 });
 export default connect(mapStateToProps, mapDispatchToProps)(ThesisListForPrint);

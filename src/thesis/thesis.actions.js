@@ -96,3 +96,15 @@ export const updateThesisWithEthesis = (data) => {
     data,
   };
 };
+
+export const createPdfs = (theses) => {
+  console.log("createPdfs-action called!");
+  return {
+    type: CALL_API,
+    success: "PRINT_THESES_SUCCESS",
+    failure: "PRINT_THESES_FAILURE",
+    method: "post",
+    url: "/thesis/pdf",
+    data: theses,
+  };
+};
