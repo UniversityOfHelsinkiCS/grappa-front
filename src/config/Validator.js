@@ -21,7 +21,11 @@ const validate = (rules, value) =>
       if (rule.type.substring(3, 8) === "Count") {
         // Amount is between square brackets : minCount[2]
         const amount = parseInt(rule.type.substring(rule.type.indexOf("[") + 1, rule.type.lastIndexOf("]")), 10);
-        console.log(amount);
+        if ((prefix === "min" && value.length < amount) || (prefix === "max" && value.length > amount)) {
+          return [...previous, rule.prompt];
+        }
+      } else if (rule.type.substring(3, 9) === "Length") {
+        const amount = parseInt(rule.type.substring(rule.type.indexOf("[") + 1, rule.type.lastIndexOf("]")), 10);
         if ((prefix === "min" && value.length < amount) || (prefix === "max" && value.length > amount)) {
           return [...previous, rule.prompt];
         }

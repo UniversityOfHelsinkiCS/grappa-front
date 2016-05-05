@@ -1,6 +1,7 @@
 import React, { Component } from "react";
+import Errors from "../ui/Errors.component";
 import Validator from "validator";
-
+import { validateField, validateModel } from "../config/Validator";
 
 export class UserRegistration extends Component {
   constructor() {
@@ -13,13 +14,7 @@ export class UserRegistration extends Component {
       email: "",
       password: "",
       passwordConf: "",
-      errors: {
-        fname: "",
-        lname: "",
-        email: "",
-        password: "",
-        passwordConf: "",
-      },
+      errors: {},
     };
   }
 
@@ -50,36 +45,54 @@ export class UserRegistration extends Component {
   }
 
   handleChange(name, event) {
+    console.log(name);
     event.preventDefault();
-    const change = {};
+    const change = {
+      errors: this.state.errors,
+    };
     change[name] = event.target.value;
-    // console.log(name);
-    const errors = this.validateInput(name, event.target.value);
-    change.errors = Object.assign(this.state.errors, errors);
+    console.log(change);
+    const newErrors = validateField(name, event.target.value, "user");
+    console.log(newErrors);
+    change.errors[`user_${name}`] = newErrors;
     this.setState(change);
   }
 
+  // handleChange(name, event) {
+  //   event.preventDefault();
+  //   const change = {};
+  //   change[name] = event.target.value;
+  //   // console.log(name);
+  //   const errors = this.validateInput(name, event.target.value);
+  //   change.errors = Object.assign(this.state.errors, errors);
+  //   this.setState(change);
+  // }
+
   handleSubmit(event) {
     event.preventDefault();
-    const inputs = Object.keys(this.state.errors);
-    const change = { errors: {} };
-    const errorsCount = inputs.reduce((previous, currentinput) => {
-      const errors = this.validateInput(currentinput, this.state[currentinput]);
-      change.errors = Object.assign(change.errors, errors);
-      const amount = errors[currentinput] === "" ? 0 : 1;
-      return previous + amount;
-    }, 0);
-
-    this.setState(change);
+    // const inputs = Object.keys(this.state.errors);
+    // const change = { errors: {} };
+    // const errorsCount = inputs.reduce((previous, currentinput) => {
+    //   const errors = this.validateInput(currentinput, this.state[currentinput]);
+    //   change.errors = Object.assign(change.errors, errors);
+    //   const amount = errors[currentinput] === "" ? 0 : 1;
+    //   return previous + amount;
+    // }, 0);
+    //
+    // this.setState(change);
     // console.log(errorsCount)
-    if (errorsCount === 0) {
+    const userErrors = validateModel(this.state, "user");
+    console.log(userErrors);
+    if (userErrors.list.length === 0) {
       const newUser = {
         name: `${this.state.fname} ${this.state.lname}`,
         email: this.state.email,
         password: this.state.password,
       };
       // console.log(newUser);
-      this.props.saveUser(newUser);
+      this.props.registerUser(newUser);
+    } else {
+      this.setState({errors: userErrors.obj });
     }
   }
 
@@ -107,7 +120,7 @@ export class UserRegistration extends Component {
                   type="text"
                   name="lname"
                   placeholder="Last name"
-                  value={ this.state.lanem }
+                  value={ this.state.lname }
                   onChange={ this.handleChange.bind(this, "lname") }
                 />
               </div>
@@ -152,7 +165,8 @@ export class UserRegistration extends Component {
               Register
             </div>
           </div>
-          <div className="ui error message">
+          <Errors errors={this.state.errors}/>
+          {/*<div className="ui error message">
             <ul className="list">
               <li>{ this.state.errors.fname }</li>
               <li>{ this.state.errors.lname }</li>
@@ -160,7 +174,7 @@ export class UserRegistration extends Component {
               <li>{ this.state.errors.password }</li>
               <li>{ this.state.errors.passwordConf }</li>
             </ul>
-          </div>
+          </div>*/}
         </div>
       </div>
     );
@@ -168,11 +182,11 @@ export class UserRegistration extends Component {
 }
 
 import { connect } from "react-redux";
-import { saveUser } from "./user.actions";
+import { registerUser } from "./user.actions";
 
 const mapDispatchToProps = (dispatch) => ({
-  saveUser(newUser) {
-    dispatch(saveUser(newUser));
+  registerUser(newUser) {
+    dispatch(registerUser(newUser));
   },
 });
 

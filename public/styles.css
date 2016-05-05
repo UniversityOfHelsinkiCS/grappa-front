@@ -28,6 +28,11 @@ body {
   margin-bottom: 15px;
 }
 
+.fancy-header {
+  font-family: 'Oxygen', sans-serif;
+  margin: 10px !important;
+}
+
 #sign{
 	text-align:right;
 	margin-right: 3cm;

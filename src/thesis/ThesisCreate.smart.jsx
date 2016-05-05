@@ -6,7 +6,9 @@
 */
 
 import React from "react";
+import moment from "moment";
 import { connect } from "react-redux";
+import Errors from "../ui/Errors.component";
 // import Dropdown from "../ui/Dropdown.component";
 // import Validation from "./thesisValidation";
 import { validateField, validateModel } from "../config/Validator";
@@ -290,7 +292,7 @@ export class ThesisCreate extends React.Component {
         <select className="ui fluid search dropdown" onChange={this.handleChange.bind(this, "CouncilMeetingId")}>
           { meetingDates.map((meeting, index) =>
             <option key={ index } value={ meeting.id } >
-              { meeting.date }
+              { moment(meeting.date).format("DD/MM/YYYY")}
             </option>
           )}
         </select>
@@ -298,27 +300,6 @@ export class ThesisCreate extends React.Component {
     );
   }
 
-  renderErrorsAndSubmit() {
-    const errors = Object.keys(this.state.errors).reduce((previous, key) =>
-      [...previous, ...this.state.errors[key]]
-    , []);
-    if (errors.length === 0) {
-      return (
-        <button className="ui primary button" onClick={this.handleSubmit}>
-          Submit
-        </button>
-      );
-    }
-    console.log("were errors!");
-    console.log(errors);
-    return (
-      <div className="ui error message">
-        <ul className="list">
-          { errors.map((error, index) => <li key={index}>{error}</li>) }
-        </ul>
-      </div>
-    );
-  }
 /*
 * The method in charge of rendering the outlook of the page. Contains all the html elements.
 * @return <div> thesis-container Container wrapping all the html elements to be rendered.
@@ -332,7 +313,10 @@ export class ThesisCreate extends React.Component {
           {this.renderGraders()}
           {this.renderPickCouncilmeeting()}
         </div>
-        {this.renderErrorsAndSubmit()}
+        <Errors errors={this.state.errors}/>
+        <button className="ui primary button" onClick={this.handleSubmit}>
+          Submit
+        </button>
       </div>
     );
   }
