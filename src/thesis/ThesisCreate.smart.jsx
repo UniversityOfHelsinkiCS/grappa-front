@@ -6,7 +6,9 @@
 */
 
 import React from "react";
+import moment from "moment";
 import { connect } from "react-redux";
+import Errors from "../ui/Errors.component";
 // import Dropdown from "../ui/Dropdown.component";
 // import Validation from "./thesisValidation";
 import { validateField, validateModel } from "../config/Validator";
@@ -63,7 +65,7 @@ export class ThesisCreate extends React.Component {
     console.log(change);
     const newErrors = validateField(name, event.target.value, "thesis");
     console.log(newErrors);
-    change.errors[name] = newErrors;
+    change.errors[`thesis_${name}`] = newErrors;
     this.setState(change);
   }
 
@@ -73,10 +75,11 @@ export class ThesisCreate extends React.Component {
       graders: this.state.graders,
       errors: this.state.errors,
     };
+    console.log(this.state.errors);
     change.graders[index][name] = event.target.value;
     const newErrors = validateField(name, event.target.value, "grader");
     console.log(newErrors);
-    change.errors[name] = newErrors;
+    change.errors[`grader_${name}`] = newErrors;
     this.setState(change);
   }
 
@@ -86,15 +89,27 @@ export class ThesisCreate extends React.Component {
       name: "",
       title: "",
     };
-    this.setState({
+    const change = {
       graders: [...this.state.graders, newGrader],
-    });
+      errors: this.state.errors,
+    };
+    const newErrors = validateField("graders", change.graders, "thesis");
+    console.log(newErrors);
+    change.errors.thesis_graders = newErrors;
+    this.setState(change);
   }
 
   removeGrader(index, event) {
     event.preventDefault();
     this.state.graders.splice(index, 1);
-    this.setState({ graders: this.state.graders });
+    const change = {
+      graders: this.state.graders,
+      errors: this.state.errors,
+    };
+    const newErrors = validateField("graders", change.graders, "thesis");
+    console.log(newErrors);
+    change.errors.thesis_graders = newErrors;
+    this.setState(change);
   }
 /**
 * Handler method to handle what to do when the submit button is clicked.
@@ -103,6 +118,7 @@ export class ThesisCreate extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
     const thesisErrors = validateModel(this.state, "thesis");
+    // const graderErrors = validateModel(this.state.graders, "grader");
     console.log(thesisErrors);
     if (thesisErrors.list.length === 0) {
       const newThesis = {
@@ -276,7 +292,7 @@ export class ThesisCreate extends React.Component {
         <select className="ui fluid search dropdown" onChange={this.handleChange.bind(this, "CouncilMeetingId")}>
           { meetingDates.map((meeting, index) =>
             <option key={ index } value={ meeting.id } >
-              { meeting.date }
+              { moment(meeting.date).format("DD/MM/YYYY")}
             </option>
           )}
         </select>
@@ -284,27 +300,6 @@ export class ThesisCreate extends React.Component {
     );
   }
 
-  renderErrorsAndSubmit() {
-    const errors = Object.keys(this.state.errors).reduce((previous, key) =>
-      [...previous, ...this.state.errors[key]]
-    , []);
-    if (errors.length === 0) {
-      return (
-        <button className="ui primary button" onClick={this.handleSubmit}>
-          Submit
-        </button>
-      );
-    }
-    console.log("were errors!");
-    console.log(errors);
-    return (
-      <div className="ui error message">
-        <ul className="list">
-          { errors.map((error, index) => <li key={index}>{error}</li>) }
-        </ul>
-      </div>
-    );
-  }
 /*
 * The method in charge of rendering the outlook of the page. Contains all the html elements.
 * @return <div> thesis-container Container wrapping all the html elements to be rendered.
@@ -318,7 +313,10 @@ export class ThesisCreate extends React.Component {
           {this.renderGraders()}
           {this.renderPickCouncilmeeting()}
         </div>
-        {this.renderErrorsAndSubmit()}
+        <Errors errors={this.state.errors}/>
+        <button className="ui primary button" onClick={this.handleSubmit}>
+          Submit
+        </button>
       </div>
     );
   }

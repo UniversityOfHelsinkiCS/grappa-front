@@ -34,20 +34,24 @@ export const getUsers = () => {
  * The action called to save the given data as a new user in the database.
  * @param user An object cantaining all the relevant data of the new user thats
  * to be added.
- * @return saveUser The object containing the relevant information for the
+ * @return registerUser The object containing the relevant information for the
  * reducer to handle the data accordingly.
  */
-export const saveUser = (user) => {
-  console.log("saveUser-action called!");
-  return {
+export const registerUser = (user) => (
+  {
     type: CALL_API,
     success: USER_SAVE_ONE_SUCCESS,
+    successMessage: {
+      type: "success",
+      title: "Success",
+      body: "You've succesfully registered. You can log in once the admin has activated your account.",
+    },
     failure: USER_SAVE_ONE_FAILURE,
     method: "post",
     url: "/user",
     data: user,
-  };
-};
+  }
+);
 
 /**
  * Action-creator for sending PUT-request to API
@@ -66,11 +70,6 @@ export const updateUser = (user) => {
       body: "User was updated.",
     },
     failure: USER_UPDATE_ONE_FAILURE,
-    failureMessage: {
-      type: "error",
-      title: "Error",
-      body: "Updating user failed.",
-    },
     method: "put",
     url: `/user/${user.id}`,
     data: user,

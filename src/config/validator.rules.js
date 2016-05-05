@@ -98,7 +98,7 @@ const validationRules = {
       ],
     },
   ],
-  registration: [
+  user: [
     {
       name: "fname",
       rules: [
@@ -135,7 +135,20 @@ const validationRules = {
       rules: [
         {
           type: "notEmpty",
-          prompt: "Title can't be empty.",
+          prompt: "Password can't be empty.",
+        },
+        {
+          type: "minLength[8]",
+          prompt: "Password must be at least 8 characters.",
+        },
+      ],
+    },
+    {
+      name: "passwordConf",
+      rules: [
+        {
+          type: "match[password]",
+          prompt: "Passwords must match.",
         },
       ],
     },
