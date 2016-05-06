@@ -18,7 +18,7 @@ export class ThesisListForPrint extends Component {
     this.setState({ theses: this.selectFields(this.props.theses) });
   }
 
-  /** 
+  /**
    * Yeah, doesn't work. Plz fix
    */
   handleClick() {
