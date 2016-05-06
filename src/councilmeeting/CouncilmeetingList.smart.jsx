@@ -1,10 +1,10 @@
 import React, { Component } from "react";
+import moment from "moment";
 import { connect } from "react-redux";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import { getCouncilmeetings } from "./councilmeeting.actions";
 import { addCouncilmeeting } from "./councilmeeting.actions";
 const DatePicker = require("react-datepicker");
-const moment = require("moment");
 
 export class CouncilmeetingList extends Component {
 
@@ -23,8 +23,9 @@ export class CouncilmeetingList extends Component {
     getCouncilmeetings();
   }
   dateFormatter(cell, row) {
-    const origDate = new Date(row.date);
-    return `${origDate.getDate()}/${origDate.getMonth()}/${origDate.getFullYear()}`;
+    return moment(row.date).format("DD/MM/YYYY");
+    // const origDate = new Date(row.date);
+    // return `${origDate.getDate()}/${origDate.getMonth()}/${origDate.getFullYear()}`;
   }
   /*
   * Handler method to handle what to do when the submit button is clicked.

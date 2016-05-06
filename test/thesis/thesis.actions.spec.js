@@ -41,6 +41,11 @@ describe("thesis.actions", () => {
     const expectedAction = {
       type: CALL_API,
       success: THESIS_SAVE_ONE_SUCCESS,
+      successMessage: {
+        type: "success",
+        title: "Success",
+        body: "Thesis was saved.",
+      },
       failure: THESIS_SAVE_ONE_FAILURE,
       method: "post",
       url: "/thesis",

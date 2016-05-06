@@ -13,7 +13,6 @@ export const USER_DELETE_ONE_FAILURE = "USER_DELETE_ONE_FAILURE";
 export const USER_SAVE_ONE_SUCCESS = "USER_SAVE_ONE_SUCCESS";
 export const USER_SAVE_ONE_FAILURE = "USER_SAVE_ONE_FAILURE";
 
-
 /*
 * The action called to get a list of all new users in the database.
 * @return getUsers The object containing the relevant information for the
@@ -31,24 +30,28 @@ export const getUsers = () => {
   };
 };
 
-/*
-* The action called to save the given data as a new user in the database.
-* @param user An object cantaining all the relevant data of the new user thats
-* to be added.
-* @return saveUser The object containing the relevant information for the
-* reducer to handle the data accordingly.
-*/
-export const saveUser = (user) => {
-  console.log("saveUser-action called!");
-  return {
+/**
+ * The action called to save the given data as a new user in the database.
+ * @param user An object cantaining all the relevant data of the new user thats
+ * to be added.
+ * @return registerUser The object containing the relevant information for the
+ * reducer to handle the data accordingly.
+ */
+export const registerUser = (user) => (
+  {
     type: CALL_API,
     success: USER_SAVE_ONE_SUCCESS,
+    successMessage: {
+      type: "success",
+      title: "Success",
+      body: "You've succesfully registered. You can log in once the admin has activated your account.",
+    },
     failure: USER_SAVE_ONE_FAILURE,
     method: "post",
     url: "/user",
     data: user,
-  };
-};
+  }
+);
 
 /**
  * Action-creator for sending PUT-request to API
@@ -61,6 +64,11 @@ export const updateUser = (user) => {
   return {
     type: CALL_API,
     success: USER_UPDATE_ONE_SUCCESS,
+    successMessage: {
+      type: "success",
+      title: "Success",
+      body: "User was updated.",
+    },
     failure: USER_UPDATE_ONE_FAILURE,
     method: "put",
     url: `/user/${user.id}`,
@@ -79,7 +87,17 @@ export const deleteUser = (user) => {
   return {
     type: CALL_API,
     success: USER_DELETE_ONE_SUCCESS,
+    successMessage: {
+      type: "warning",
+      title: "Success",
+      body: "User was deleted.",
+    },
     failure: USER_DELETE_ONE_FAILURE,
+    failureMessage: {
+      type: "error",
+      title: "Error",
+      body: "Deletion of the user failed.",
+    },
     method: "delete",
     url: `/user/${user.id}`,
     data: user,

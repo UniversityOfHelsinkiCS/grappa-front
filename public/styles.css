@@ -2,11 +2,37 @@ body {
 	background-color: white;
 }
 .main-container {
+  /*position: absolute;
+  z-index: -1;*/
   margin-top: 15px;
   margin-bottom: 15px;
   margin-left: 15px;
-  margin-right: 15px;
+  margin-right: 150px;
 }
+
+.flashmessage-container {
+  position: fixed;
+  bottom: 15px;
+  right: 5px;
+  width: 130px;
+}
+
+.flashmessage-item {
+}
+
+.m-top {
+  margin-top: 30px;
+}
+
+.m-bot {
+  margin-bottom: 15px;
+}
+
+.fancy-header {
+  font-family: 'Oxygen', sans-serif;
+  margin: 10px !important;
+}
+
 #sign{
 	text-align:right;
 	margin-right: 3cm;

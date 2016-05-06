@@ -1,6 +1,7 @@
 import React, { Component } from "react";
+import Errors from "../ui/Errors.component";
 import Validator from "validator";
-
+import { validateField, validateModel } from "../config/Validator";
 
 export class UserRegistration extends Component {
   constructor() {
@@ -13,13 +14,7 @@ export class UserRegistration extends Component {
       email: "",
       password: "",
       passwordConf: "",
-      errors: {
-        fname: "",
-        lname: "",
-        email: "",
-        password: "",
-        passwordConf: "",
-      },
+      errors: {},
     };
   }
 
@@ -50,94 +45,139 @@ export class UserRegistration extends Component {
   }
 
   handleChange(name, event) {
+    console.log(name);
     event.preventDefault();
-    const change = {};
+    const change = {
+      errors: this.state.errors,
+    };
     change[name] = event.target.value;
-    // console.log(name);
-    const errors = this.validateInput(name, event.target.value);
-    change.errors = Object.assign(this.state.errors, errors);
+    console.log(change);
+    const newErrors = validateField(name, event.target.value, "user");
+    console.log(newErrors);
+    change.errors[`user_${name}`] = newErrors;
     this.setState(change);
   }
 
+  // handleChange(name, event) {
+  //   event.preventDefault();
+  //   const change = {};
+  //   change[name] = event.target.value;
+  //   // console.log(name);
+  //   const errors = this.validateInput(name, event.target.value);
+  //   change.errors = Object.assign(this.state.errors, errors);
+  //   this.setState(change);
+  // }
+
   handleSubmit(event) {
     event.preventDefault();
-    const inputs = Object.keys(this.state.errors);
-    const change = { errors: {} };
-    const errorsCount = inputs.reduce((previous, currentinput) => {
-      const errors = this.validateInput(currentinput, this.state[currentinput]);
-      change.errors = Object.assign(change.errors, errors);
-      const amount = errors[currentinput] === "" ? 0 : 1;
-      return previous + amount;
-    }, 0);
-
-    this.setState(change);
+    // const inputs = Object.keys(this.state.errors);
+    // const change = { errors: {} };
+    // const errorsCount = inputs.reduce((previous, currentinput) => {
+    //   const errors = this.validateInput(currentinput, this.state[currentinput]);
+    //   change.errors = Object.assign(change.errors, errors);
+    //   const amount = errors[currentinput] === "" ? 0 : 1;
+    //   return previous + amount;
+    // }, 0);
+    //
+    // this.setState(change);
     // console.log(errorsCount)
-    if (errorsCount === 0) {
+    const userErrors = validateModel(this.state, "user");
+    console.log(userErrors);
+    if (userErrors.list.length === 0) {
       const newUser = {
         name: `${this.state.fname} ${this.state.lname}`,
         email: this.state.email,
         password: this.state.password,
       };
       // console.log(newUser);
-      this.props.saveUser(newUser);
+      this.props.registerUser(newUser);
+    } else {
+      this.setState({ errors: userErrors.obj });
     }
   }
 
   render() {
     return (
-      <div>
-        <form className="ui form" onSubmit={this.handleSubmit}>
-          <h2 className="ui dividing header">Registration</h2>
-          <div className="tree fields">
-            <div className="three wide field">
-              { this.state.errors.fname }
-              <input type="text" name="firstname" placeholder="First Name" value={this.state.fname} onChange={this.handleChange.bind(this, "fname")}>
-              </input>
+      <div className="ui middle aligned center aligned grid">
+        <div className="ui">
+          <div className="ui large form stacked segment">
+            <div className="field error">
+              <div className="ui left icon input">
+                <i className="user icon"></i>
+                <input
+                  type="text"
+                  name="fname"
+                  placeholder="First name"
+                  value={ this.state.fname }
+                  onChange={ this.handleChange.bind(this, "fname") }
+                />
+              </div>
             </div>
-            <div className="three wide field">
-              { this.state.errors.lname }
-              <input type="text" name="lastname" placeholder="Last Name" value={this.state.lname} onChange={this.handleChange.bind(this, "lname")}>
-              </input>
+            <div className="field error">
+              <div className="ui left icon input">
+                <i className="user icon"></i>
+                <input
+                  type="text"
+                  name="lname"
+                  placeholder="Last name"
+                  value={ this.state.lname }
+                  onChange={ this.handleChange.bind(this, "lname") }
+                />
+              </div>
             </div>
-            <div className="three wide field">
-              { this.state.errors.email }
-              <input type="text" name="email" placeholder="Email" value={this.state.email} onChange={this.handleChange.bind(this, "email")}>
-              </input>
+            <div className="field error">
+              <div className="ui left icon input">
+                <i className="mail icon"></i>
+                <input
+                  type="text"
+                  name="email"
+                  placeholder="E-mail address"
+                  value={ this.state.email }
+                  onChange={ this.handleChange.bind(this, "email") }
+                />
+              </div>
+            </div>
+            <div className="field error">
+              <div className="ui left icon input">
+                <i className="lock icon"></i>
+                <input
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                  value={ this.state.password }
+                  onChange={ this.handleChange.bind(this, "password") }
+                />
+              </div>
+            </div>
+            <div className="field error">
+              <div className="ui left icon input">
+                <i className="lock icon"></i>
+                <input
+                  type="password"
+                  name="confPassword"
+                  placeholder="Confirm password"
+                  value={ this.state.confPassword }
+                  onChange={ this.handleChange.bind(this, "confPassword") }
+                />
+              </div>
+            </div>
+            <div className="ui fluid large blue submit button" onClick={this.handleSubmit}>
+              Register
             </div>
           </div>
-          <div className="two fields">
-            <div className="three wide field">
-              { this.state.errors.password }
-              <input type="password" name="password" placeholder="Password" value={this.state.password} onChange={this.handleChange.bind(this, "password")}>
-              </input>
-            </div>
-            <div className="three wide field">
-              { this.state.errors.passwordConf }
-              <input type="password" name="passwordConf" placeholder="Confirm password" value={this.state.passwordConf} onChange={this.handleChange.bind(this, "passwordConf")}>
-              </input>
-            </div>
-          </div>
-
-          <button className="ui primary button" onClick={ () => {
-            this.handleSubmit();
-          }}
-          >
-            Submit
-          </button>
-          <button className="ui primary button">Cancel</button>
-
-        </form>
+          <Errors errors={this.state.errors}/>
+        </div>
       </div>
     );
   }
 }
 
 import { connect } from "react-redux";
-import { saveUser } from "./user.actions";
+import { registerUser } from "./user.actions";
 
 const mapDispatchToProps = (dispatch) => ({
-  saveUser(newUser) {
-    dispatch(saveUser(newUser));
+  registerUser(newUser) {
+    dispatch(registerUser(newUser));
   },
 });
 

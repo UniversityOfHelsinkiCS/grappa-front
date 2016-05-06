@@ -32,13 +32,18 @@ export const handleCallApi = store => next => action => {
         type: action.success,
         payload: res.data,
         sent: action.data,
+        flashMessage: action.successMessage,
       });
     })
     .catch(err => {
       store.dispatch({
         type: action.failure,
-        message: "Calling GrappaAPI produced an error.",
         error: err,
+        flashMessage: {
+          type: "error",
+          title: "Error",
+          body: `Calling GrappaAPI produced an error on path ${action.url}. Press F12 for further information on console.`,
+        },
       });
     });
   } else {

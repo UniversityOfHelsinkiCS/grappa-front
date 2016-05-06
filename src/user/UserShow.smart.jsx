@@ -10,7 +10,7 @@ export class UserShow extends Component {
     return (
       <div className="ui list">
         <div className="item">
-          <i className="users icon"></i>
+          <i className="user icon"></i>
           <div className="content">
             { user.name }
           </div>

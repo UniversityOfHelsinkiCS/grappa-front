@@ -7,22 +7,21 @@
 import React from "react";
 import { browserHistory } from "react-router";
 import { connect } from "react-redux";
-import Validation from "./loginValidation";
+// import { validateField, validateModel } from "../config/Validator";
 
 export class Login extends React.Component {
   constructor() {
     super();
-    this.handleEmailChange = this.handleEmailChange.bind(this);
-    this.handlePasswordchange = this.handlePasswordChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
 
     this.state = {
       email: "ohtugrappa@gmail.com",
       password: "asdf",
+      errors: {},
     };
   }
 
-  /*
+  /**
    * Built-in method for React-Component called when its props changes
    *
    * Here it's used for redirecting from /login to /thesis after user has
@@ -36,22 +35,16 @@ export class Login extends React.Component {
       this.props.fetchAll();
     }
   }
-/**
- * Handler method to handle the changes to the email input field.
- * @param (Event) used to get a hold of what the input of the user was.
- */
-  handleEmailChange(event) {
-    event.preventDefault();
-    this.setState({ email: event.target.value });
-  }
 
-  /*
-  * Handler method to handle the changes to the password input field.
-  * @param (Event) used to get a hold of what the input of the user was.
-  */
-  handlePasswordChange(event) {
+  handleChange(name, event) {
     event.preventDefault();
-    this.setState({ password: event.target.value });
+    const change = {
+      errors: this.state.errors,
+    };
+    change[name] = event.target.value;
+    // const newErrors = validateField(name, event.target.value, "login");
+    // change.errors[name] = newErrors;
+    this.setState(change);
   }
   /*
   * Handler method to handle what to do when the submit button is clicked.
@@ -71,23 +64,37 @@ export class Login extends React.Component {
   */
   render() {
     return (
-      <Validation.Form className="field" onSubmit={this.handleSubmit}>
-        <Validation.Input
-          type="text"
-          value={ this.state.email }
-          onChange={ this.handleEmailChange.bind(this) }
-          placeholder="email"
-          validations={ [{ rule: "isEmail" }] }
-        />
-        <Validation.Input
-          type="password"
-          value={ this.state.password }
-          onChange={ this.handlePasswordChange.bind(this) }
-          placeholder="Password"
-          validations={ [{ rule: "isRequired" }] }
-        />
-        <Validation.Button className="ui primary button" value="Submit" onClick={this.handleSubmit} />
-      </Validation.Form>
+      <div className="ui middle aligned center aligned grid">
+        <div className="ui large form">
+          <div className="ui stacked segment">
+            <div className="field error">
+              <div className="ui left icon input">
+                <i className="mail icon"></i>
+                <input
+                  type="text"
+                  name="email"
+                  placeholder="E-mail address"
+                  value={ this.state.email }
+                  onChange={ this.handleChange.bind(this, "email") }
+                />
+              </div>
+            </div>
+            <div className="field error">
+              <div className="ui left icon input">
+                <i className="lock icon"></i>
+                <input
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                  value={ this.state.password }
+                  onChange={ this.handleChange.bind(this, "password") }
+                />
+              </div>
+            </div>
+          </div>
+          <div className="ui fluid large blue submit button" onClick={this.handleSubmit}>Login</div>
+        </div>
+      </div>
     );
   }
 }

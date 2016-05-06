@@ -18,7 +18,6 @@ export default function (state = INITIAL_STATE, action) {
     case SEND_NOTIFICATION_FAILURE:
       return state;
     default:
-      console.log("returning default state");
       return state;
   }
 }
