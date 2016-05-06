@@ -33,9 +33,7 @@ export class ThesisList extends Component {
    * We keep track of two sets of theses: all and only in progress
    */
   selectFields(theses) {
-    console.log(theses);
     for (let i = 0; i < theses.length; i++) {
-      console.log(theses[i]);
       const origDate = new Date(theses[i].deadline);
       const newDate = `${origDate.getDate()}/${origDate.getMonth()}/${origDate.getFullYear()}`;
       const link = '<a href="thesis/' + theses[i].id + '">' + theses[i].title + "</a>";

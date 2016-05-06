@@ -41,6 +41,16 @@ export class Nav extends Component {
     );
   }
 
+  renderPrintPersonNav() {
+    return (
+      <div className="ui horizontal pointing menu">
+        <Link className="item" to="/login">Login</Link>
+        <Link className="item" to="/registration">Register</Link>
+        <Link className="item" to="/print">View thesis documents</Link>
+      </div>
+    );
+  }
+
   renderAdminNav() {
     const { user } = this.props;
     return (
@@ -58,9 +68,10 @@ export class Nav extends Component {
 
   renderNav() {
     const isAdmin = this.props.user.role === "admin";
+    const isPrintPerson = this.props.user.role === "print-person";
     return (
       <div>
-        { isAdmin ? this.renderAdminNav() : this.renderUserNav() }
+        { isAdmin ? this.renderAdminNav() : isPrintPerson ? this.renderPrintPersonNav() : this.renderUserNav() }
       </div>
     );
   }
