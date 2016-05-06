@@ -67,7 +67,7 @@ export class ThesisList extends Component {
   /**
   * The method in charge of rendering the outlook of the page. Contains all the html elements.
   * Contains a reactable library styled table.
-  * @return <div>-container Container wrapping all the html elements to be rendered.
+  * #return <div>-container Container wrapping all the html elements to be rendered.
   */
 
   render() {
@@ -102,7 +102,7 @@ import { getTheses } from "./thesis.actions";
 
 /**
 * A special funciton used to define what the form of the data is that is gotten from the state.
-* @return ListOfThesis A list containing all the thesis listed in the database.
+* #return ListOfThesis A list containing all the thesis listed in the database.
 */
 const mapStateToProps = (state) => {
   const user = state.get("auth").get("user");
