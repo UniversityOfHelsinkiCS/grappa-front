@@ -1,4 +1,4 @@
-/*
+/**
 * Reducer to define the changes to the state in accordance to the actions passed to it
 * in regard to listing, adding and viewing theses.
 */

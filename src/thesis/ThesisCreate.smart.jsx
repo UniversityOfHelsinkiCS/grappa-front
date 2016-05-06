@@ -1,4 +1,4 @@
-/*
+/**
 * ThesisCreate.smart for displaying and running the feature for adding thesis,
 * which contains the ThesisCreate component for creating the visual side
 * of the page and the container containing functions for connecting the component
@@ -42,7 +42,7 @@ export class ThesisCreate extends React.Component {
       errors: {},
     };
   }
-/*
+/**
 * Defines what is done at the beginning of the components life before rendering.
 */
   componentDidMount() {
@@ -300,7 +300,7 @@ export class ThesisCreate extends React.Component {
     );
   }
 
-/*
+/**
 * The method in charge of rendering the outlook of the page. Contains all the html elements.
 * @return <div> thesis-container Container wrapping all the html elements to be rendered.
 */
@@ -323,7 +323,7 @@ export class ThesisCreate extends React.Component {
 }
 
 import { saveThesis } from "./thesis.actions";
-/*
+/**
 * A special function used to define and dispatch the relevant data to thesis.actions
 */
 const mapDispatchToProps = (dispatch) => ({
@@ -334,7 +334,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(getCouncilmeetings());
   },
 });
-/*
+/**
 * A special function used to define what the form of the data is that is gotten from the state.
 * @return ListOfDateObjects A list containing the dates of councilmeetings listed in the database.
 */

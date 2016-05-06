@@ -1,4 +1,4 @@
-/*
+/**
 * The file containing all the defined actions that one can call to gain access
 * to modifying the state in regard to listing, accept and decline users.
 */
@@ -13,7 +13,7 @@ export const USER_DELETE_ONE_FAILURE = "USER_DELETE_ONE_FAILURE";
 export const USER_SAVE_ONE_SUCCESS = "USER_SAVE_ONE_SUCCESS";
 export const USER_SAVE_ONE_FAILURE = "USER_SAVE_ONE_FAILURE";
 
-/*
+/**
 * The action called to get a list of all new users in the database.
 * @return getUsers The object containing the relevant information for the
 * reducer to handle the data accordingly.

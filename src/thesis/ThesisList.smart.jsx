@@ -1,4 +1,4 @@
-/*
+/**
 * ThesisList.smart for displaying the data relating to all the thesis added to the
 * database. It contains the component for rendering the needed displayable data, and
 * the container containing various functions for handling the connections between the
@@ -17,7 +17,7 @@ export class ThesisList extends Component {
     this.state.inProgressTheses = [];
   }
 
-  /*
+  /**
   * Defines what is done at the beginning of the components life before rendering.
   * Switches the state used by Table between all and in progress theses
   */
@@ -28,7 +28,7 @@ export class ThesisList extends Component {
     this.setState({ theses: this.state.inProgressTheses });
   }
 
-  /*
+  /**
    * Selects desired fields from raw thesis objects and formats them
    * We keep track of two sets of theses: all and only in progress
    */
@@ -54,7 +54,7 @@ export class ThesisList extends Component {
     }
   }
 
-   /*
+   /**
    * Defines what happens when we check the checkbox
    */
   filter() {
@@ -64,10 +64,10 @@ export class ThesisList extends Component {
       this.setState({ theses: this.state.inProgressTheses });
     }
   }
-  /*
+  /**
   * The method in charge of rendering the outlook of the page. Contains all the html elements.
   * Contains a reactable library styled table.
-  * @return <div>-container Container wrapping all the html elements to be rendered.
+  * #return <div>-container Container wrapping all the html elements to be rendered.
   */
 
   render() {
@@ -100,9 +100,9 @@ export class ThesisList extends Component {
 import { connect } from "react-redux";
 import { getTheses } from "./thesis.actions";
 
-/*
+/**
 * A special funciton used to define what the form of the data is that is gotten from the state.
-* @return ListOfThesis A list containing all the thesis listed in the database.
+* #return ListOfThesis A list containing all the thesis listed in the database.
 */
 const mapStateToProps = (state) => {
   const user = state.get("auth").get("user");
@@ -113,7 +113,7 @@ const mapStateToProps = (state) => {
   };
 };
 
-/*
+/**
 * A special function used to define and dispatch the relevant data to the right
 * actions in thesis.actions.
 */

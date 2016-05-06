@@ -1,4 +1,4 @@
-/*
+/**
 * NewUsersList.smart for displaying the data relating to new users added to the
 * database. It contains the component for rendering the needed displayable data, and
 * the container containing various functions for handling the connections between the
@@ -21,7 +21,7 @@ export class NewUsersList extends Component {
     this.state = {};
   }
 
-  /*
+  /**
   * Defines what is done at the beginning of the components life before rendering.
   */
   componentDidMount() {
@@ -58,7 +58,7 @@ export class NewUsersList extends Component {
     declineUser(user);
   }
 
-  /*
+  /**
   * Formatter-methods are in charge of formatting the correct
   * views and actions into the react-bootstrap-table.
   */
@@ -107,7 +107,7 @@ export class NewUsersList extends Component {
     );
   }
 
-  /*
+  /**
   * The method in charge of rendering the outlook of the page. Contains all the html elements.
   * Contains a react-bootstrap-table library styled table.
   * @return <div>-container Container wrapping all the html elements to be rendered.
@@ -145,7 +145,7 @@ export class NewUsersList extends Component {
 import { connect } from "react-redux";
 import { getUsers, updateUser, deleteUser } from "./user.actions";
 
-/*
+/**
 * A special funciton used to define what the form of the data is that is gotten from the state.
 * @return users A list containing all the new users listed in the database.
 */
