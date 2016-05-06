@@ -4,7 +4,7 @@ import {
   SEND_NOTIFICATION_FAILURE,
 } from "./email.actions";
 
-/*
+/**
 *Defines what the intial state is when no changes have yet been done to the state.
 */
 const INITIAL_STATE = fromJS({

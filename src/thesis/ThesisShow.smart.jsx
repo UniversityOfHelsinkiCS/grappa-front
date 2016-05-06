@@ -6,7 +6,7 @@
 */
 
 import React, { Component } from "react";
-import { updateThesis } from "./thesis.actions";
+import { updateThesis, deleteThesis } from "./thesis.actions";
 import { updateGrader } from "../grader/grader.actions";
 import { updateUser } from "../user/user.actions";
 import { sendNotification } from "../email/email.actions";
@@ -25,10 +25,11 @@ export class ThesisShow extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.dateFormatter = this.dateFormatter.bind(this);
     this.dateTimeFormatter = this.dateTimeFormatter.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
 
     this.state = {
       thesis: {},
-      review: "",
+      delete: false,
     };
   }
 
@@ -113,6 +114,7 @@ export class ThesisShow extends Component {
     for (let i = 0; i < 6 + (graders.length * 2); i++) {
       document.getElementsByTagName("input")[i].removeAttribute("readOnly");
     }
+    document.getElementsByTagName("select")[0].removeAttribute("disabled");
   }
   /**
   * Two methods that on clicking their respective button add the readOnly attribute
@@ -134,6 +136,16 @@ export class ThesisShow extends Component {
     this.props.updateUser(this.state.thesis.User);
     for (let i = 0; i < 6 + (graders.length * 2); i++) {
       document.getElementsByTagName("input")[i].readOnly = true;
+    }
+    document.getElementsByTagName("select")[0].disabled = true;
+  }
+  handleDelete(type) {
+    if (type === "initial") {
+      this.setState({ delete: true });
+    } else if (type === "confirm") {
+      this.props.deleteThesis(this.state.thesis);
+    } else {
+      this.setState({ delete: false });
     }
   }
   dateTimeFormatter(date) {
@@ -164,7 +176,21 @@ export class ThesisShow extends Component {
             <div>Email:</div>
             <input type="text" readOnly value={ thesis.email } onChange={ this.handleChange.bind(this, "email") } />
             <div>Grade:</div>
-            <input type="text" readOnly value={ thesis.grade } onChange={ this.handleChange.bind(this, "grade") } />
+            <select
+              disabled
+              className="ui fluid search dropdown"
+              value={thesis.grade}
+              onChange={this.handleChange.bind(this, "grade")}
+            >
+              <option value="">Select grade</option>
+              <option value="Approbatur">Approbatur</option>
+              <option value="Lubenter Approbatur">Lubenter Approbatur</option>
+              <option value="Non Sine Laude Approbatur">Non Sine Laude Approbatur</option>
+              <option value="Cum Laude Approbatur">Cum Laude Approbatur</option>
+              <option value="Magna Cum Laude Approbatur">Magna Cum Laude Approbatur</option>
+              <option value="Eximia Cum Laude Approbatur">Eximia Cum Laude Approbatur</option>
+              <option value="Laudatur">Laudatur</option>
+            </select>
           </div>
           <div className="field">
             <div>Instructor:</div>
@@ -227,10 +253,20 @@ export class ThesisShow extends Component {
   renderThesisEditButtons() {
     const user = this.props.user;
     if (user.role === "admin" || user.name === this.state.instructor) {
+      if (this.state.delete) {
+        return (
+          <div>
+            <h3>Deletion is unreversable, are you sure you wish to proceed?</h3>
+            <button className="ui primary button" id="confirmdeleteButton" onClick={ this.handleDelete.bind(this, "confirm") }>Confirm Deletion</button>
+            <button className="ui primary button" id="canceldeleteButton" onClick={ this.handleDelete.bind(this, "cancel") }>Cancel Deletion</button>
+          </div>
+        );
+      }
       return (
         <div>
           <button className="ui primary button" id="editButton" onClick={ this.handleEdit }>Edit</button>
           <button className="ui primary button" id="saveButton" onClick={ this.handleSave }>Save</button>
+          <button className="ui primary button" id="deleteButton" onClick={ this.handleDelete.bind(this, "initial") }>Delete</button>
         </div>
       );
     }
@@ -390,7 +426,7 @@ export class ThesisShow extends Component {
 }
 import { connect } from "react-redux";
 
-/*
+/**
 * A special funciton used to define what the form of the data is that is gotten from the state.
 * @return (Object) {user, theses} An object containing a list of all the thesis visible to
 * your role and a list of all the users.
@@ -404,7 +440,7 @@ const mapStateToProps = (state) => {
   };
 };
 
-/*
+/**
 * A special function used to define and dispatch the relevant data to the right
 * actions in thesis.actions.
 */
@@ -420,6 +456,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   sendNotification(object) {
     dispatch(sendNotification(object));
+  },
+  deleteThesis(thesis) {
+    dispatch(deleteThesis(thesis));
   },
 });
 

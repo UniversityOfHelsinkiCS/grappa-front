@@ -40,7 +40,7 @@ export class CouncilmeetingList extends Component {
     addCouncilmeeting(newCouncilmeeting);
   }
 
-  /*
+  /**
   * Handler method to handle changes happening in the date selection field in the render method.
   * @param date Used to get a hold of what the input of the user was.
   */
