@@ -24,6 +24,17 @@ export const restrictNonUser = (nextState, replace) => {
   }
 };
 
+export const restrictNonPrintPerson = (nextState, replace) => {
+  const user = store.getState().get("auth").get("user").toJS();
+  if (user.role !== "print-person" && user.role !== "admin") {
+    replace({
+      location: {
+        pathname: "/login",
+      },
+    });
+  }
+};
+
 
 /**
  * Function for redirecting un-authorized user to admin views

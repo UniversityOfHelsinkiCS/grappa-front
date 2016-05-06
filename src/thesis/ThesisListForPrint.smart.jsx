@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Table, Thead, Th, unsafe } from "reactable";
+import { Table, unsafe } from "reactable";
 import API_PATH from "../middleware/grappaAPI";
 import { createPdfs } from "../pdf/pdf.actions";
 
@@ -18,6 +18,9 @@ export class ThesisListForPrint extends Component {
     this.setState({ theses: this.selectFields(this.props.theses) });
   }
 
+  /** 
+   * Yeah, doesn't work. Plz fix
+   */
   handleClick() {
     const { createPdfs } = this.props;
     const listToPrint = { thesesToPrint: this.props.theses };
@@ -32,7 +35,7 @@ export class ThesisListForPrint extends Component {
       } else {
         newThesis.Status = "Waiting for documents";
         newThesis.pdf = "";
-        const link = '<a href="' + API_PATH + '/thesis/pdf/' + theses[i].id + '">Print documents</a>';
+        const link = "<a href='" + API_PATH + "/thesis/pdf/" + theses[i].id + "'>Print documents</a>";
         newThesis.pdf = unsafe(link);
       }
       newThesis.title = theses[i].title;
@@ -55,9 +58,8 @@ export class ThesisListForPrint extends Component {
     return (
       <div>
         <h2>Theses</h2>
-          <Table noDataText="No theses available" className="table" columns={columns} sortable filterable={columns} data={this.state.theses}>
-          </Table>
-          <button type="button" onClick={this.handleClick}>Print all</button>
+        <Table noDataText="No theses available" className="table" columns={columns} sortable filterable={columns} data={this.state.theses}/>
+        <button type="button" onClick={this.handleClick}>Print all</button>
       </div>
     );
   }
@@ -86,8 +88,8 @@ const mapDispatchToProps = (dispatch) => ({
   getTheses() {
     dispatch(getTheses());
   },
-  createPdfs(listToPrint){
+  createPdfs(listToPrint) {
     dispatch(createPdfs(listToPrint));
-  }
+  },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(ThesisListForPrint);
