@@ -390,7 +390,7 @@ export class ThesisShow extends Component {
 }
 import { connect } from "react-redux";
 
-/*
+/**
 * A special funciton used to define what the form of the data is that is gotten from the state.
 * @return (Object) {user, theses} An object containing a list of all the thesis visible to
 * your role and a list of all the users.
@@ -404,7 +404,7 @@ const mapStateToProps = (state) => {
   };
 };
 
-/*
+/**
 * A special function used to define and dispatch the relevant data to the right
 * actions in thesis.actions.
 */
