@@ -138,9 +138,9 @@ export class ThesisShow extends Component {
     }
   }
   handleDelete(type) {
-    if (type === "initial"){
+    if (type === "initial") {
       this.setState({ delete: true });
-    } else if (type === "confirm"){
+    } else if (type === "confirm") {
       this.props.deleteThesis(this.state.thesis);
     } else {
       this.setState({ delete: false });
@@ -237,7 +237,7 @@ export class ThesisShow extends Component {
   renderThesisEditButtons() {
     const user = this.props.user;
     if (user.role === "admin" || user.name === this.state.instructor) {
-      if (this.state.delete){
+      if (this.state.delete) {
         return (
           <div>
             <h3>Deletion is unreversable, are you sure you wish to proceed?</h3>
