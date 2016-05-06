@@ -29,7 +29,7 @@ export class NewUsersList extends Component {
   }
 
   setUserRole(cell, id, event) {
-    console.log(event.target.value)
+    console.log(event.target.value);
     if (this.state[id] === undefined) {
       this.state[id] = {};
     }
