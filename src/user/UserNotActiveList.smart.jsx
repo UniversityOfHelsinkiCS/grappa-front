@@ -29,6 +29,7 @@ export class NewUsersList extends Component {
   }
 
   setUserRole(cell, id, event) {
+    console.log(event.target.value)
     if (this.state[id] === undefined) {
       this.state[id] = {};
     }
@@ -39,15 +40,17 @@ export class NewUsersList extends Component {
     if (this.state[id] === undefined) {
       this.state[id] = {};
     }
-    this.state[id].studyfieldId = event.target.value;
+    this.state[id].StudyFieldId = event.target.value;
     console.log("ID on: ", id);
   }
 
   updateUser(cell, user) {
     const newUser = Object.assign({}, user);
-    newUser.role = this.state[user.id].role;
-    if (this.state[user.id].studyfieldId !== 5) {
-      newUser.StudyFieldId = this.state[user.id].studyfieldId;
+    if (newUser.role === undefined || newUser.role === null) {
+      newUser.role = "instructor";
+    }
+    if (newUser.StudyFieldId === undefined || newUser.role === null) {
+      newUser.StudyFieldId = null;
     }
     newUser.isActive = true;
     this.props.updateUser(newUser);
