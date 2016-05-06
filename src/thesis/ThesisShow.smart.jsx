@@ -114,7 +114,7 @@ export class ThesisShow extends Component {
     for (let i = 0; i < 6 + (graders.length * 2); i++) {
       document.getElementsByTagName("input")[i].removeAttribute("readOnly");
     }
-      document.getElementsByTagName("select")[0].removeAttribute("disabled");
+    document.getElementsByTagName("select")[0].removeAttribute("disabled");
   }
   /**
   * Two methods that on clicking their respective button add the readOnly attribute
