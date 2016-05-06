@@ -1,4 +1,4 @@
-/*
+/**
 * Reducer to define the changes to the state in accordance to the actions passed to it
 * in regard to listing, adding and viewing theses.
 */
@@ -11,7 +11,7 @@ import {
   THESIS_UPDATE_ONE_SUCCESS,
   THESIS_UPDATE_ONE_FAILURE,
 } from "./thesis.actions";
-/*
+/**
 *Defines what the intial state is when no changes have yet been done to the state.
 * todo: ethesis should probably have it's own reducer
 */
@@ -61,7 +61,6 @@ export default function (state = INITIAL_STATE, action) {
     case THESIS_UPDATE_ONE_FAILURE:
       return state.updateIn(["linkSent"], () => "failed");
     default:
-      console.log("returning default state");
       return state;
   }
 }

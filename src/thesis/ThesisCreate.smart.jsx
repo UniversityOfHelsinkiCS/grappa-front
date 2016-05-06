@@ -1,4 +1,4 @@
-/*
+/**
 * ThesisCreate.smart for displaying and running the feature for adding thesis,
 * which contains the ThesisCreate component for creating the visual side
 * of the page and the container containing functions for connecting the component
@@ -6,9 +6,12 @@
 */
 
 import React from "react";
+import moment from "moment";
 import { connect } from "react-redux";
-import Dropdown from "../ui/Dropdown.component";
-import Validation from "./thesisValidation";
+import Errors from "../ui/Errors.component";
+// import Dropdown from "../ui/Dropdown.component";
+// import Validation from "./thesisValidation";
+import { validateField, validateModel } from "../config/Validator";
 import { getCouncilmeetings } from "../councilmeeting/councilmeeting.actions";
 
 export class ThesisCreate extends React.Component {
@@ -16,146 +19,185 @@ export class ThesisCreate extends React.Component {
     super();
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    this.componentDidMount = this.componentDidMount.bind(this);
-    this.handleDateChange = this.handleDateChange.bind(this);
     this.state = {
       fname: "",
       lname: "",
       email: "",
       title: "",
-      grader: "",
-      grader2: "",
-      gradertitle: "",
-      grader2title: "",
+      graders: [
+        {
+          name: "",
+          title: "",
+        },
+        {
+          name: "",
+          title: "",
+        },
+      ],
       urkund: "",
       ethesis: "",
-      field: "",
+      StudyFieldName: "",
       grade: "",
-      deadline: "",
+      CouncilMeetingId: "",
+      errors: {},
     };
   }
-/*
+/**
 * Defines what is done at the beginning of the components life before rendering.
 */
   componentDidMount() {
-    const { getCouncilmeetings } = this.props;
-    getCouncilmeetings();
+    this.props.getCouncilmeetings();
   }
-/*
-* Handler method to handle changes happening in the different input fields in the render method.
-* @param name The id for where the change has happened. Used to designated which state parameter changes.
-* @param event Used to get a hold of what the input of the user was.
-* @param type Type of validation needed: text, email or link
-*/
+
+  /**
+  * Handler method to handle changes happening in the different input fields in the render method.
+  * @param name The id for where the change has happened. Used to designated which state parameter changes.
+  * @param event Used to get a hold of what the input of the user was.
+  * @param type Type of validation needed: text, email or link
+  */
   handleChange(name, event) {
+    console.log(name);
     event.preventDefault();
-    const change = {};
+    const change = {
+      errors: this.state.errors,
+    };
     change[name] = event.target.value;
+    console.log(change);
+    const newErrors = validateField(name, event.target.value, "thesis");
+    console.log(newErrors);
+    change.errors[`thesis_${name}`] = newErrors;
     this.setState(change);
   }
-/*
-* Handler method to handle changes happening in the choose date input field in the render method.
-* @param event Used to get a hold of what the input of the user was.
-*/
-  handleDateChange(event) {
+
+  handleGraderChange(index, name, event) {
     event.preventDefault();
-    this.setState({ deadline: event.target.value });
+    const change = {
+      graders: this.state.graders,
+      errors: this.state.errors,
+    };
+    console.log(this.state.errors);
+    change.graders[index][name] = event.target.value;
+    const newErrors = validateField(name, event.target.value, "grader");
+    console.log(newErrors);
+    change.errors[`grader_${name}`] = newErrors;
+    this.setState(change);
   }
-/*
+
+  addGrader(event) {
+    event.preventDefault();
+    const newGrader = {
+      name: "",
+      title: "",
+    };
+    const change = {
+      graders: [...this.state.graders, newGrader],
+      errors: this.state.errors,
+    };
+    const newErrors = validateField("graders", change.graders, "thesis");
+    console.log(newErrors);
+    change.errors.thesis_graders = newErrors;
+    this.setState(change);
+  }
+
+  removeGrader(index, event) {
+    event.preventDefault();
+    this.state.graders.splice(index, 1);
+    const change = {
+      graders: this.state.graders,
+      errors: this.state.errors,
+    };
+    const newErrors = validateField("graders", change.graders, "thesis");
+    console.log(newErrors);
+    change.errors.thesis_graders = newErrors;
+    this.setState(change);
+  }
+/**
 * Handler method to handle what to do when the submit button is clicked.
 * @param event Used to get a hold of what the input of the user was.
 */
   handleSubmit(event) {
     event.preventDefault();
-    const newThesis = {
-      author: `${this.state.fname} ${this.state.lname}`,
-      email: this.state.email,
-      title: this.state.title,
-      graders: [
-        {
-          name: this.state.grader,
-          title: this.state.gradertitle,
-        },
-        {
-          name: this.state.grader2,
-          title: this.state.grader2title,
-        },
-      ],
-      urkund: this.state.urkund,
-      ethesis: this.state.ethesis,
-      field: this.state.field,
-      grade: this.state.grade,
-      deadline: this.state.deadline,
-    };
-    const { saveThesis } = this.props;
-    saveThesis(newThesis);
+    const thesisErrors = validateModel(this.state, "thesis");
+    // const graderErrors = validateModel(this.state.graders, "grader");
+    console.log(thesisErrors);
+    if (thesisErrors.list.length === 0) {
+      const newThesis = {
+        author: `${this.state.fname} ${this.state.lname}`,
+        email: this.state.email,
+        title: this.state.title,
+        graders: this.state.graders,
+        urkund: this.state.urkund,
+        ethesis: this.state.ethesis,
+        StudyFieldName: this.state.StudyFieldName,
+        grade: this.state.grade,
+        CouncilMeetingId: this.state.CouncilMeetingId,
+      };
+      this.props.saveThesis(newThesis);
+    } else {
+      this.setState({ errors: thesisErrors.obj });
+    }
   }
-/*
-* The method in charge of rendering the outlook of the page. Contains all the html elements.
-* @return <div> thesis-container Container wrapping all the html elements to be rendered.
-*/
-  render() {
-    const { dates } = this.props;
+
+  renderThesisAuthor() {
     return (
-      <Validation.Form className="ui form" onSubmit={this.handleSubmit}>
-        <h4 className="ui dividing header">Made by</h4>
-        <div className="two fields">
-          <div className="six wide field">
-            <label>First name *</label>
-            <Validation.Input
-              type="text"
-              name="madeby[first-name]"
-              value={this.state.fname}
-              onChange={this.handleChange.bind(this, "fname")}
-              placeholder="First Name"
-              validations={[{ rule: "isRequired" },
-                            { rule: "isAlpha" }]}
-            />
-          </div>
-          <div className="six wide field">
-            <label>Last name *</label>
-            <Validation.Input
-              type="text"
-              name="madeby[last-name]"
-              value={this.state.lname}
-              onChange={this.handleChange.bind(this, "lname")}
-              placeholder="Last Name"
-              validations={[{ rule: "isRequired" },
-                            { rule: "isAlpha" }]}
-            />
-          </div>
-        </div>
-        <div className="six wide field">
-          <label>Email *</label>
-          <Validation.Input
+      <div className="m-bot">
+        <h4 className="ui dividing header">Thesis Author</h4>
+        <div className="field">
+          <label>First name*</label>
+          <input
             type="text"
-            name="madeby[email]"
-            value={this.state.email} onChange={this.handleChange.bind(this, "email")} placeholder="Email Address"
-            validations={[{ rule: "isRequired" },
-                          { rule: "isEmail" }]}
+            name="madeby[first-name]"
+            value={this.state.fname}
+            onChange={this.handleChange.bind(this, "fname")}
+            placeholder="First Name"
           />
         </div>
+        <div className="field">
+          <label>Last name*</label>
+          <input
+            type="text"
+            name="madeby[last-name]"
+            value={this.state.lname}
+            onChange={this.handleChange.bind(this, "lname")}
+            placeholder="Last Name"
+          />
+        </div>
+        <div className="field">
+          <label>Email*</label>
+          <input
+            type="text"
+            name="madeby[email]"
+            value={this.state.email}
+            onChange={this.handleChange.bind(this, "email")}
+            placeholder="Email Address"
+          />
+        </div>
+      </div>
+    );
+  }
 
+  renderThesisInformation() {
+    return (
+      <div className="m-bot">
         <h4 className="ui dividing header">Thesis Information</h4>
         <div className="three fields">
-          <div className="six wide field">
-            <label>Title *</label>
-            <Validation.Input
+          <div className="field">
+            <label>Title*</label>
+            <input
               type="text"
               name="thesis[title]"
               value={this.state.title}
               onChange={this.handleChange.bind(this, "title")}
               placeholder="Title"
-              validations={[{ rule: "isRequired" }]}
             />
           </div>
           <div className="three wide field">
             <div className="field">
-              <label>Studyfield *</label>
-              <Validation.Select
+              <label>Studyfield*</label>
+              <select
                 className="ui fluid search dropdown"
                 value={this.state.field}
-                onChange={this.handleChange.bind(this, "field")}
+                onChange={this.handleChange.bind(this, "StudyFieldName")}
                 name="thesis[field]"
               >
                 <option value="">Select field</option>
@@ -163,12 +205,12 @@ export class ThesisCreate extends React.Component {
                 <option value="Algorithms, Data Analytics and Machine Learning">Algorithms, Data Analytics and Machine Learning</option>
                 <option value="Networking and Services">Networking and Services</option>
                 <option value="Software Systems">Software Systems</option>
-              </Validation.Select>
+              </select>
             </div>
           </div>
           <div className="five wide field">
-            <label>Grade *</label>
-            <Validation.Select
+            <label>Grade*</label>
+            <select
               className="ui fluid search dropdown"
               value={this.state.grade}
               onChange={this.handleChange.bind(this, "grade")}
@@ -182,94 +224,106 @@ export class ThesisCreate extends React.Component {
               <option value="Magna Cum Laude Approbatur">Magna Cum Laude Approbatur</option>
               <option value="Eximia Cum Laude Approbatur">Eximia Cum Laude Approbatur</option>
               <option value="Laudatur">Laudatur</option>
-            </Validation.Select>
+            </select>
           </div>
         </div>
-        <div className="six wide field">
-          <label>E-thesis-link</label>
-          <Validation.Input
-            type="text"
-            name="thesis[ethesis]"
-            value={this.state.ethesis}
-            onChange={this.handleChange.bind(this, "ethesis")}
-            placeholder="Link to E-thesis"
-            validations={[{ rule: "isLink" }]}
-          />
-        </div>
-        <div className="six wide field">
-          <label>Urkund-link</label>
-          <Validation.Input
-            type="text"
-            name="thesis[urkund]"
-            value={this.state.urkund}
-            onChange={this.handleChange.bind(this, "urkund")}
-            placeholder="Link to Urkund"
-            validations={[{ rule: "isRequired" },
-                            { rule: "isLink" }]}
-          />
-        </div>
-        <h4 className="ui dividing header">Graders *</h4>
-        <div className="three fields">
-          <div className="six wide field">
-            <label>Name *</label>
-            <Validation.Input type="text" name="1grader[name]" value={this.state.grader} onChange={this.handleChange.bind(this, "grader")} placeholder="Name"/>
-          </div>
-          <div className="four wide field">
-            <div className="field">
-              <label>Title *</label>
-              <Validation.Select className="ui fluid search dropdown" value={this.state.gradertitle} onChange={this.handleChange.bind(this, "gradertitle")} name="1grader[field]">
-                <option value="">Select title</option>
-                <option value="Prof">Professor</option>
-                <option value="AssProf">Assistant Professor</option>
-                <option value="AdjProf">Adjunct Professor</option>
-                <option value="Doc">Doctor</option>
-                <option value="Other">Other</option>
-              </Validation.Select>
-            </div>
-          </div>
-        </div>
-        <div className="three fields">
+        <div className="two fields">
           <div className="field">
-            <label>Name</label>
-            <Validation.Input
+            <label>E-thesis-link</label>
+            <input
               type="text"
-              name="2grader[name]"
-              value={this.state.grader2}
-              onChange={this.handleChange.bind(this, "grader2")}
-              placeholder="Name"
-              validations={[{ rule: "isRequired" }]}
+              name="thesis[ethesis]"
+              value={this.state.ethesis}
+              onChange={this.handleChange.bind(this, "ethesis")}
+              placeholder="Link to E-thesis"
             />
           </div>
-          <div className="four wide field">
-            <label>Title</label>
-            <Validation.Select
-              className="ui fluid search dropdown"
-              value={this.state.grader2title}
-              onChange={this.handleChange.bind(this, "grader2title")}
-              name="2grader[field]"
-              validations={[{ rule: "isRequired" }]}
-            >
-              <option value="">Select title</option>
-              <option value="Prof">Professor</option>
-              <option value="AssProf">Assistant Professor</option>
-              <option value="AdjProf">Adjunct Professor</option>
-              <option value="Doc">Doctor</option>
-              <option value="Other">Other</option>
-            </Validation.Select>
+          <div className="field">
+            <label>Urkund-link</label>
+            <input
+              type="text"
+              name="thesis[urkund]"
+              value={this.state.urkund}
+              onChange={this.handleChange.bind(this, "urkund")}
+              placeholder="Link to Urkund"
+            />
           </div>
         </div>
-        <button className="ui primary button">Add Graders</button>
-        <h4 className="ui dividing header">Choose the date for the Department Council meeting *</h4>
-        <Dropdown data={dates} onChange={this.handleDateChange}/>
-        <Validation.Button className="ui primary button" value="Submit" onClick={this.handleSubmit}/>
-        <button className="ui primary button">Cancel</button>
-      </Validation.Form>
+      </div>
+    );
+  }
+
+  renderGraders() {
+    return (
+      <div className="m-bot">
+        <h4 className="ui dividing header">Graders</h4>
+        {
+          this.state.graders.map((grader, index) =>
+            <div key={index} className="two fields">
+              <div className="field">
+                <label>Name*</label>
+                <input type="text" name="grader_name" value={grader.name} onChange={this.handleGraderChange.bind(this, index, "name")} placeholder="Name" />
+              </div>
+              <div className="field">
+                <label>Title*</label>
+                <select className="ui fluid search dropdown" value={grader.title} onChange={this.handleGraderChange.bind(this, index, "title")} >
+                  <option value="">Select title</option>
+                  <option value="Prof">Professor</option>
+                  <option value="AssProf">Assistant Professor</option>
+                  <option value="AdjProf">Adjunct Professor</option>
+                  <option value="Doc">Doctor</option>
+                  <option value="Other">Other</option>
+                </select>
+                <button className="ui red button" onClick={this.removeGrader.bind(this, index)}>Remove Grader</button>
+              </div>
+            </div>
+          )
+        }
+        <button className="ui primary button" onClick={this.addGrader.bind(this)}>Add Grader</button>
+      </div>
+    );
+  }
+
+  renderPickCouncilmeeting() {
+    const meetingDates = [{ id: "", date: "Select Date" }, ...this.props.meetingDates];
+    return (
+      <div className="m-bot">
+        <h4 className="ui dividing header">Choose the date for the Department Council meeting</h4>
+        <select className="ui fluid search dropdown" onChange={this.handleChange.bind(this, "CouncilMeetingId")}>
+          { meetingDates.map((meeting, index) =>
+            <option key={ index } value={ meeting.id } >
+              { moment(meeting.date).format("DD/MM/YYYY")}
+            </option>
+          )}
+        </select>
+      </div>
+    );
+  }
+
+/**
+* The method in charge of rendering the outlook of the page. Contains all the html elements.
+* @return <div> thesis-container Container wrapping all the html elements to be rendered.
+*/
+  render() {
+    return (
+      <div>
+        <div className="ui form">
+          {this.renderThesisAuthor()}
+          {this.renderThesisInformation()}
+          {this.renderGraders()}
+          {this.renderPickCouncilmeeting()}
+        </div>
+        <Errors errors={this.state.errors}/>
+        <button className="ui primary button" onClick={this.handleSubmit}>
+          Submit
+        </button>
+      </div>
     );
   }
 }
 
 import { saveThesis } from "./thesis.actions";
-/*
+/**
 * A special function used to define and dispatch the relevant data to thesis.actions
 */
 const mapDispatchToProps = (dispatch) => ({
@@ -280,16 +334,15 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(getCouncilmeetings());
   },
 });
-/*
+/**
 * A special function used to define what the form of the data is that is gotten from the state.
 * @return ListOfDateObjects A list containing the dates of councilmeetings listed in the database.
 */
 const mapStateToProps = (state) => {
   const cmreducer = state.get("councilmeeting");
   return {
-    dates: cmreducer.get("councilmeetings").toJS(),
+    meetingDates: cmreducer.get("councilmeetings").toJS(),
   };
 };
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(ThesisCreate);

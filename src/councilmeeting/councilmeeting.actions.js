@@ -1,4 +1,4 @@
-/*
+/**
 * The file containing all the defined actions that one can call to gain access
 * to modifying the state in regard to adding or getting councilmeetings.
 */
@@ -10,7 +10,7 @@ export const COUNCILMEETING_GET_ALL_FAILURE = "COUNCILMEETING_GET_ALL_FAILURE";
 export const COUNCILMEETING_SAVE_ONE_SUCCESS = "COUNCILMEETING_SAVE_ONE_SUCCESS";
 export const COUNCILMEETING_SAVE_ONE_FAILURE = "CONCILMEETING_SAVE_ONE_FAILURE";
 
-/*
+/**
 * The action called to add a councilmeeting to the database.
 * @param Councilmeeting A object containing all the relevant information to create
 * a new councilmeeting entry.
@@ -22,13 +22,18 @@ export const addCouncilmeeting = (Councilmeeting) => {
   return {
     type: CALL_API,
     success: COUNCILMEETING_SAVE_ONE_SUCCESS,
+    successMessage: {
+      type: "success",
+      title: "Success",
+      body: "Councilmeeting was saved.",
+    },
     failure: COUNCILMEETING_SAVE_ONE_FAILURE,
     method: "post",
     url: "/councilmeeting",
     data: Councilmeeting,
   };
 };
-/*
+/**
 * The action called get the data concerning all the councilmeetings from the database.
 * @param FilterParams An object containing the filter for which dates to return.
 * @return getCouncilmeetings The object containing the relevant information for the

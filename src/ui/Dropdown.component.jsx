@@ -1,4 +1,4 @@
-/*
+/**
 * This React component is used to create a dynamic dropdown list of all the councilmeeting
 * dates listed in the database.
 * @param dateList This list of dates must be provided to the component as props,
@@ -16,11 +16,11 @@ export default class Dropdown extends Component {
     this.dateFormatter = this.dateFormatter.bind(this);
     this.active = "Select Date";
   }
-/*
-* This method handles the selecting of an item in the list. The job of contacting councilmeeting.actions
-* is left to the change handler given in the props, leaving this handler to take care of changing
-* the "active" fields value to the selected one.
-*/
+  /**
+   * This method handles the selecting of an item in the list. The job of contacting councilmeeting.actions
+   * is left to the change handler given in the props, leaving this handler to take care of changing
+   * the "active" fields value to the selected one.
+   */
   handleChange(event) {
     if (this.props.onChange) {
       this.props.onChange(event);
@@ -31,7 +31,7 @@ export default class Dropdown extends Component {
     const origDate = new Date(row);
     return `${origDate.getDate()}/${origDate.getMonth()}/${origDate.getFullYear()}`;
   }
-  /*
+  /**
   * The method in charge of rendering the outlook of the page. Contains all the html elements.
   * @return select-container Container wrapping all the html elements to be rendered.
   */

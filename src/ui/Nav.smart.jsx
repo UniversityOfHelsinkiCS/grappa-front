@@ -37,7 +37,6 @@ export class Nav extends Component {
         <a className="item" onClick={ this.handleLogout }>Logout</a>
         <Link className="item" to="/thesis">Theses</Link>
         <Link className="item" to="/thesis/new">Add new thesis</Link>
-        <Link className="item" to="/thesis/1">ThesesShow </Link>
       </div>
     );
   }
@@ -50,7 +49,6 @@ export class Nav extends Component {
         <a className="item" onClick={ this.handleLogout }>Logout</a>
         <Link className="item" to="/thesis">Theses</Link>
         <Link className="item" to="/thesis/new">Add new thesis</Link>
-        <Link className="item" to="/thesis/1">ThesesShow </Link>
         <Link className="item" to="/councilmeeting">Councilmeetings </Link>
         <Link className="item" to="/user">Accept new users</Link>
         <Link className="item" to="/emailstatus">Emailstatuses</Link>

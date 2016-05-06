@@ -4,7 +4,7 @@ import {
   SEND_NOTIFICATION_FAILURE,
 } from "./email.actions";
 
-/*
+/**
 *Defines what the intial state is when no changes have yet been done to the state.
 */
 const INITIAL_STATE = fromJS({
@@ -18,7 +18,6 @@ export default function (state = INITIAL_STATE, action) {
     case SEND_NOTIFICATION_FAILURE:
       return state;
     default:
-      console.log("returning default state");
       return state;
   }
 }

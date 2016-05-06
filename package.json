@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint --ext .js,.jsx src/ test/",
+    "lint:fix": "eslint --ext .js,.jsx src/ test/ --fix",
     "build": "webpack --config webpack.config.js",
     "postinstall": "webpack --config webpack.config.prod.js --progress --colors",
     "start": "node index.js",
@@ -50,7 +51,7 @@
     "redux-localstorage": "^0.4.0",
     "redux-thunk": "^1.0.3",
     "validator": "^3.41.2",
-    "webpack": "^1.12.11"
+    "webpack": "^1.13.0"
   },
   "devDependencies": {
     "babel-preset-react-hmre": "^1.0.1",

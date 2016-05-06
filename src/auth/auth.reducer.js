@@ -13,7 +13,6 @@ const INITIAL_STATE = fromJS({
 export default function (state = INITIAL_STATE, action) {
   switch (action.type) {
     case LOGIN_USER_SUCCESS:
-      console.log(action);
       return state.merge({
         user: action.payload.user,
         token: action.payload.token,
