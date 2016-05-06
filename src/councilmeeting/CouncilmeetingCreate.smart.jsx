@@ -1,4 +1,4 @@
-/*
+/**
 * CouncilmeetingCreate.smart for displaying and running the feature for adding
 * councilmeeting dates to the database. It contains the CouncilmeetingCreate component
 * for creating the visual side of the page and listening for user inpt, and the
@@ -21,7 +21,7 @@ export class CouncilmeetingCreate extends Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
-  /*
+  /**
   * Handler method to handle changes happening in the date selection field in the render method.
   * @param date Used to get a hold of what the input of the user was.
   */
@@ -31,7 +31,7 @@ export class CouncilmeetingCreate extends Component {
     });
   }
 
-  /*
+  /**
   * Handler method to handle what to do when the submit button is clicked.
   * @param event Used to get a hold of what the input of the user was.
   */
@@ -44,7 +44,7 @@ export class CouncilmeetingCreate extends Component {
     addCouncilmeeting(newCouncilmeeting);
   }
 
-  /*
+  /**
   * The method in charge of rendering the outlook of the page. Contains all the html elements.
   * Contains a react-datepicker library styled date picker.
   * @return <div>-container Container wrapping all the html elements to be rendered.
@@ -66,7 +66,7 @@ export class CouncilmeetingCreate extends Component {
   }
 }
 
-/*
+/**
 * A special function used to define and dispatch the relevant data to councilmeeting.actions
 */
 const mapDispatchToProps = (dispatch) => ({

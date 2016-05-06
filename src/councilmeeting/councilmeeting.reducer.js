@@ -1,4 +1,4 @@
-/*
+/**
 * The reducer to define the changes to the state in accordance to the actions passed to it
 * in regard to adding or getting councilmeetings.
 */
@@ -10,14 +10,14 @@ import {
   COUNCILMEETING_SAVE_ONE_FAILURE,
 } from "./councilmeeting.actions";
 
-/*
+/**
 *Defines what the intial state is when no changes have yet been done to the state.
 */
 const INITIAL_STATE = fromJS({
   councilmeetings: [],
 });
 
-/*
+/**
 * The function that handles the different state changes depending on which case
 * has been passed to it from councilmeeting.actions.
 * @param state The state, which is INITIAL_STATE by default, but is modified in accordance

@@ -1,4 +1,4 @@
-/*
+/**
 * The file containing all the defined actions that one can call to gain access
 * to modifying the state in regard to listing, adding and viewing theses.
 */
@@ -15,7 +15,7 @@ export const THESIS_UPDATE_ONE_FAILURE = "THESIS_UPDATE_ONE_FAILURE";
 // export const THESIS_GET_ONE_SUCCESS = "THESIS_GET_ONE_SUCCESS";
 // export const THESIS_GET_ONE_FAILURE = "THESIS_GET_ONE_FAILURE";
 
-/*
+/**
 * The action called to get a list of all the data related to the theses in the database.
 * @return getTheses The object containing the relevant information for the
 * reducer to handle the data accordingly.
@@ -44,7 +44,7 @@ export const getTheses = () => {
 //   }
 // }
 
-/*
+/**
 * The action called to save the given data as a new thesis in the database.
 * @param thesis An object cantaining all the relevant data of the new thesis thats
 * to be added.
@@ -68,15 +68,12 @@ export const saveThesis = (thesis) => {
   };
 };
 
-/*
- * The action used change some values in a thesis.
- * Used by Ethesis component.
+/**
+ * The action used to change some values in a thesis.
  *
  * @param data object containing the fields we want to change
  * @return The object containing the relevant information for the
  * reducer to handle the data accordingly.
- *
- *
  */
 export const updateThesis = (data) => {
   console.log("updateThesis-action called!");
@@ -90,6 +87,14 @@ export const updateThesis = (data) => {
   };
 };
 
+/**
+ * The action used to change some values in a thesis.
+ * Used by Ethesis component.
+ *
+ * @param data object containing the fields we want to change
+ * @return The object containing the relevant information for the
+ * reducer to handle the data accordingly.
+ */
 export const updateThesisWithEthesis = (data) => {
   console.log("updateThesisWithEthesis-action called!");
   return {

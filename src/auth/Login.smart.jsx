@@ -1,4 +1,4 @@
-/*
+/**
 * Login.smart for displaying and running the feature of logging in, which contains
 * the Login component for creating the visual side of the page, and the container
 * containing the functions for connecting the component to the reducers that handle
@@ -46,7 +46,7 @@ export class Login extends React.Component {
     // change.errors[name] = newErrors;
     this.setState(change);
   }
-  /*
+  /**
   * Handler method to handle what to do when the submit button is clicked.
   * @param event Used to get a hold of what the input of the user was.
   */
@@ -58,7 +58,7 @@ export class Login extends React.Component {
     };
     this.props.loginUser(user);
   }
-  /*
+  /**
   * The method in charge of rendering the outlook of the page. Contains all the html elements.
   * @return <div> Login-Conntainer wrapping all the html elements to be rendered.
   */
