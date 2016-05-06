@@ -10,6 +10,7 @@ import { updateThesis, deleteThesis } from "./thesis.actions";
 import { updateGrader } from "../grader/grader.actions";
 import { updateUser } from "../user/user.actions";
 import { sendNotification } from "../email/email.actions";
+import { updateThesisProgress } from "../thesisprogress/thesisprogress.actions";
 
 export class ThesisShow extends Component {
   constructor() {
@@ -123,6 +124,7 @@ export class ThesisShow extends Component {
   handleSubmit() {
     document.getElementsByTagName("textarea")[1].readOnly = true;
     this.props.updateThesis(this.state.thesis);
+    this.props.updateThesisProgress(this.state.thesis);
   }
   handleSave() {
     this.props.updateThesis(this.state.thesis);
@@ -443,6 +445,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   deleteThesis(thesis) {
     dispatch(deleteThesis(thesis));
+  },
+  updateThesisProgress(thesis) {
+    dispatch(updateThesisProgress(thesis));
   },
 });
 
