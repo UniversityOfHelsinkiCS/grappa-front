@@ -52,16 +52,14 @@ export class CouncilmeetingCreate extends Component {
   render() {
     return (
       <div>
-        <h2>Add a new date for a councilmeeting</h2>
+        <h2>Create new councilmeeting date</h2>
         <DatePicker
           dateFormat="DD/MM/YYYY"
           selected={this.state.date}
           onChange={this.handleChange}
         />
         <button className="ui primary button" onClick={this.handleSubmit}>Submit</button>
-        <button className="ui primary button" >Cancel</button>
       </div>
-
       );
   }
 }

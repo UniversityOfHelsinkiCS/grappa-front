@@ -292,7 +292,7 @@ export class ThesisCreate extends React.Component {
         <select className="ui fluid search dropdown" onChange={this.handleChange.bind(this, "CouncilMeetingId")}>
           { meetingDates.map((meeting, index) =>
             <option key={ index } value={ meeting.id } >
-              { moment(meeting.date).format("DD/MM/YYYY")}
+              { moment(new Date(meeting.date)).format("DD/MM/YYYY")}
             </option>
           )}
         </select>
