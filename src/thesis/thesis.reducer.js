@@ -35,6 +35,13 @@ const INITIAL_STATE = fromJS({
 export default function (state = INITIAL_STATE, action) {
   switch (action.type) {
     case THESIS_GET_ALL_SUCCESS:
+      // lolz if no theses found action.payload is null or smthing
+      // fuging hell man this shit
+      if (!action.payload || action.payload === null) {
+        return state.merge(fromJS({
+          theses: [],
+        }));
+      }
       /*
        * This silliness is because react bootstrap table doesn't deal with nested objects
        */
@@ -52,7 +59,8 @@ export default function (state = INITIAL_STATE, action) {
     // probably should display error message?
       return state;
     case THESIS_SAVE_ONE_SUCCESS:
-      return state.updateIn(["theses"], theses => fromJS([...theses, action.payload]));
+      return state;
+      // return state.updateIn(["theses"], theses => fromJS([...theses, action.payload]));
     case THESIS_SAVE_ONE_FAILURE:
     // probably should display error message?
       return state;

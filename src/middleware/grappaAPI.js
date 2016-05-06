@@ -42,7 +42,7 @@ export const handleCallApi = store => next => action => {
         flashMessage: {
           type: "error",
           title: "Error",
-          body: `Calling GrappaAPI produced an error on path ${action.url}. Press F12 for further information on console.`,
+          body: `Calling GrappaAPI produced an error on path ${action.url}.`,
         },
       });
     });

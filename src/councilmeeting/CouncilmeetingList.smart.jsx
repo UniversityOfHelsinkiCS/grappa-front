@@ -23,7 +23,7 @@ export class CouncilmeetingList extends Component {
     getCouncilmeetings();
   }
   dateFormatter(cell, row) {
-    return moment(row.date).format("DD/MM/YYYY");
+    return moment(new Date(row.date)).format("DD/MM/YYYY");
     // const origDate = new Date(row.date);
     // return `${origDate.getDate()}/${origDate.getMonth()}/${origDate.getFullYear()}`;
   }
