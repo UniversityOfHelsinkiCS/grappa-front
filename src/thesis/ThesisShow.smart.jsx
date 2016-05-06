@@ -244,7 +244,7 @@ export class ThesisShow extends Component {
             <button className="ui primary button" id="confirmdeleteButton" onClick={ this.handleDelete.bind(this, "confirm") }>Confirm Deletion</button>
             <button className="ui primary button" id="canceldeleteButton" onClick={ this.handleDelete.bind(this, "cancel") }>Cancel Deletion</button>
           </div>
-        )
+        );
       }
       return (
         <div>
