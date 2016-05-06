@@ -114,6 +114,7 @@ export class ThesisShow extends Component {
     for (let i = 0; i < 6 + (graders.length * 2); i++) {
       document.getElementsByTagName("input")[i].removeAttribute("readOnly");
     }
+    document.getElementsByTagName("select")[0].removeAttribute("disabled");
   }
   /**
   * Two methods that on clicking their respective button add the readOnly attribute
@@ -136,6 +137,7 @@ export class ThesisShow extends Component {
     for (let i = 0; i < 6 + (graders.length * 2); i++) {
       document.getElementsByTagName("input")[i].readOnly = true;
     }
+    document.getElementsByTagName("select")[0].disabled = true;
   }
   handleDelete(type) {
     if (type === "initial") {
@@ -174,7 +176,21 @@ export class ThesisShow extends Component {
             <div>Email:</div>
             <input type="text" readOnly value={ thesis.email } onChange={ this.handleChange.bind(this, "email") } />
             <div>Grade:</div>
-            <input type="text" readOnly value={ thesis.grade } onChange={ this.handleChange.bind(this, "grade") } />
+            <select
+              disabled
+              className="ui fluid search dropdown"
+              value={thesis.grade}
+              onChange={this.handleChange.bind(this, "grade")}
+            >
+              <option value="">Select grade</option>
+              <option value="Approbatur">Approbatur</option>
+              <option value="Lubenter Approbatur">Lubenter Approbatur</option>
+              <option value="Non Sine Laude Approbatur">Non Sine Laude Approbatur</option>
+              <option value="Cum Laude Approbatur">Cum Laude Approbatur</option>
+              <option value="Magna Cum Laude Approbatur">Magna Cum Laude Approbatur</option>
+              <option value="Eximia Cum Laude Approbatur">Eximia Cum Laude Approbatur</option>
+              <option value="Laudatur">Laudatur</option>
+            </select>
           </div>
           <div className="field">
             <div>Instructor:</div>
