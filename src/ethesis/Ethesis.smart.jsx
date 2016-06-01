@@ -49,22 +49,40 @@ export class Ethesis extends Component {
       );
     }
     return (
-      <Validation.Form className="ethesis form" onSubmit={this.handleSubmit}>
-        <h4 className="ui dividing header">Enter eThesis link to your thesis</h4>
-        <Validation.Input
-          ref="ethesislink"
-          type="text"
-          name="ethesislink"
-          className="ethesis field"
-          value={this.state.ethesislink}
-          onChange={this.handleChange.bind(this, "ethesislink")}
-          placeholder="Link to eThesis"
-          validations={[{ rule: "isLink" },
-                        { rule: "isRequired" }]}
-        />
-        <Validation.Button className="ui primary button" value="Submit" onClick={this.handleSubmit}/>
-      </Validation.Form>
+      <div className="ui container m-top">
+        <div className="ui form">
+        <div className="ui field">
+          <div className="ui left icon input">
+            <i className="external icon"></i>
+            <input
+              type="text"
+              name="ethesis-link"
+              placeholder="eThesis link"
+              onClick={this.handleSubmit}
+            />
+          </div>
+          </div>
+        </div>
+        <div className="ui fluid large green submit button">Submit</div>
+      </div>
     );
+    // return (
+    //   <Validation.Form className="ethesis form" onSubmit={this.handleSubmit}>
+    //     <h4 className="ui dividing header">Enter eThesis link to your thesis</h4>
+    //     <Validation.Input
+    //       ref="ethesislink"
+    //       type="text"
+    //       name="ethesislink"
+    //       className="ethesis field"
+    //       value={this.state.ethesislink}
+    //       onChange={this.handleChange.bind(this, "ethesislink")}
+    //       placeholder="Link to eThesis"
+    //       validations={[{ rule: "isLink" },
+    //                     { rule: "isRequired" }]}
+    //     />
+    //     <Validation.Button className="ui primary button" value="Submit" onClick={this.handleSubmit}/>
+    //   </Validation.Form>
+    // );
   }
 }
 

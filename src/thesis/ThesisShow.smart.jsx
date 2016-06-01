@@ -1,9 +1,9 @@
 /**
-* ThesisShow.smart for displaying and running the view of a single thesis.
-* It contains the component for displaying the needed displayable data, and
-* the container in charge of connecting the component to the reducers and actions
-* in charge of state changes.
-*/
+ * ThesisShow.smart for displaying and running the view of a single thesis.
+ * It contains the component for displaying the needed displayable data, and
+ * the container in charge of connecting the component to the reducers and actions
+ * in charge of state changes.
+ */
 
 import React, { Component } from "react";
 import { updateThesis, deleteThesis } from "./thesis.actions";
