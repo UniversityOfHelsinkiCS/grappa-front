@@ -3,7 +3,6 @@ import { Table, unsafe } from "reactable";
 import API_PATH from "../middleware/grappaAPI";
 import { createPdfs } from "../pdf/pdf.actions";
 
-
 export class ThesisListForPrint extends Component {
   constructor() {
     super();

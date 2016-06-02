@@ -28,6 +28,14 @@ body {
   margin-bottom: 15px;
 }
 
+.m-right {
+  margin-right: 15px;
+}
+
+.m-left {
+  margin-left: 15px;
+}
+
 .fancy-header {
   font-family: 'Oxygen', sans-serif;
   margin: 10px !important;
@@ -36,4 +44,11 @@ body {
 #sign{
 	text-align:right;
 	margin-right: 3cm;
+}
+
+a.icon-link {
+  display: block;
+  height: 100%;
+  width: 100%;
+  pointer-events: all;
 }

@@ -6,6 +6,8 @@
  */
 
 import React, { Component } from "react";
+import { browserHistory, Link } from "react-router";
+
 import { updateThesis, deleteThesis } from "./thesis.actions";
 import { updateGrader } from "../grader/grader.actions";
 import { updateUser } from "../user/user.actions";
@@ -31,7 +33,21 @@ export class ThesisShow extends Component {
     this.state = {
       thesis: {},
       delete: false,
+      graders: [
+        {
+          name: "pena",
+          title: "prof",
+        },
+        {
+          name: "juha",
+          title: "sbuge"
+        }
+      ]
     };
+  }
+
+  handleClicking(event) {
+    console.log("click!");
   }
 
   componentWillMount() {
@@ -368,6 +384,14 @@ export class ThesisShow extends Component {
                     <div className="field">
                       Ethesis Link
                       <div className="ui tag label"> { ethesis } </div>
+                      <div className="ui checked checkbox">
+                        <label htmlFor="ethesisLink">eThesis link</label>
+                        <input id="ethesisLink" className="checkbox" type="checkbox" readOnly="true" checked="true"/>
+                      </div>
+                      {/*<div className="ui checkbox" checked="true">
+                        <input id="fun" type="checkbox" onClick={this.handleClicking}/>
+                        <label htmlFor="fun">Make my profile visible</label>
+                      </div>*/}
                     </div>
                     <div className="field">
                       <p>{ this.dateTimeFormatter(thesis.ThesisProgress.ethesisReminder) }</p>
@@ -412,16 +436,264 @@ export class ThesisShow extends Component {
   * checks that the state has been updated with the appropriate data before rendering
   * is started.
   */
+  // render() {
+  //   const isUndefined = typeof this.state.thesis === "undefined" || this.state.thesis === "";
+  //   return (
+  //     <div>
+  //       {
+  //         isUndefined ?
+  //           <p>No thesis found with this id.</p>
+  //           :
+  //           this.renderContent()
+  //       }
+  //     </div>
+  //   );
+  // }
+
+  handleGraderChange(index, name, event) {
+    event.preventDefault();
+    const change = {
+      graders: this.state.graders,
+      errors: this.state.errors,
+    };
+    console.log(this.state.errors);
+    change.graders[index][name] = event.target.value;
+    const newErrors = validateField(name, event.target.value, "grader");
+    console.log(newErrors);
+    change.errors[`grader_${name}`] = newErrors;
+    this.setState(change);
+  }
+
+  addGrader(event) {
+    event.preventDefault();
+    const newGrader = {
+      name: "",
+      title: "",
+    };
+    const change = {
+      graders: [...this.state.graders, newGrader],
+      errors: this.state.errors,
+    };
+    const newErrors = validateField("graders", change.graders, "thesis");
+    console.log(newErrors);
+    change.errors.thesis_graders = newErrors;
+    this.setState(change);
+  }
+
+  removeGrader(index, event) {
+    event.preventDefault();
+    this.state.graders.splice(index, 1);
+    const change = {
+      graders: this.state.graders,
+      errors: this.state.errors,
+    };
+    const newErrors = validateField("graders", change.graders, "thesis");
+    console.log(newErrors);
+    change.errors.thesis_graders = newErrors;
+    this.setState(change);
+  }
+
+  renderGraders() {
+    return (
+      <div className="m-bot">
+        <h2 className="ui dividing header">Graders</h2>
+        {
+          this.state.graders.map((grader, index) =>
+            <div key={index} className="two fields">
+              <div className="field">
+                <label>Name</label>
+                <input type="text" name="grader_name" value={grader.name} onChange={this.handleGraderChange.bind(this, index, "name")} placeholder="Name" />
+              </div>
+              <div className="field">
+                <label>Title</label>
+                <select className="ui fluid search dropdown" value={grader.title} onChange={this.handleGraderChange.bind(this, index, "title")} >
+                  <option value="">Select title</option>
+                  <option value="Prof">Professor</option>
+                  <option value="AssProf">Assistant Professor</option>
+                  <option value="AdjProf">Adjunct Professor</option>
+                  <option value="Doc">Doctor</option>
+                  <option value="Other">Other</option>
+                </select>
+                <button className="ui red button" onClick={this.removeGrader.bind(this, index)}>Remove Grader</button>
+              </div>
+            </div>
+          )
+        }
+        <button className="ui primary button" onClick={this.addGrader.bind(this)}>Add Grader</button>
+      </div>
+    );
+  }
+
   render() {
-    const isUndefined = typeof this.state.thesis === "undefined" || this.state.thesis === "";
     return (
       <div>
-        {
-          isUndefined ?
-            <p>No thesis found with this id.</p>
-            :
-            this.renderContent()
-        }
+        <div className="ui form">
+          <div className="ui green button">Edit</div>
+          <h2 className="ui dividing header">Thesis details</h2>
+          <div className="field">
+            <div className="two fields">
+              <div className="field">
+                <label>Title</label>
+                <input type="text" name="shipping[first-name]" placeholder="First Name" readOnly="true" value="teesi"/>
+              </div>
+              <div className="field">
+                <label>Grade</label>
+                <input type="text" name="shipping[first-name]" placeholder="First Name" readOnly="true" value="teesi"/>
+              </div>
+            </div>
+          </div>
+          <div className="field">
+            <div className="two fields">
+              <div className="field">
+                <label>Ethesis</label>
+                <div className="ui right icon input">
+                <i className="external icon">
+                  <a href="http://www.w3schools.com" target="_blank" className="icon-link"></a>
+                </i>
+                  <input
+                    type="text"
+                    name="email"
+                    placeholder="E-mail address"
+                    readOnly="true"
+                    value="ethesis"
+                  />
+                </div>
+              </div>
+              <div className="field">
+                <label>Urkund</label>
+                <div className="ui right icon input">
+                  <i className="external icon">
+                    <a href="http://www.w3schools.com" target="_blank" className="icon-link"></a>
+                  </i>
+                  <input
+                    type="text"
+                    name="email"
+                    placeholder="E-mail address"
+                    readOnly="true"
+                    value="urkundi"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="field">
+            <div className="two fields">
+              <div className="field">
+                <label>Author</label>
+                <input type="text" name="shipping[first-name]" placeholder="First Name" />
+              </div>
+              <div className="field">
+                <label>Email</label>
+                <input type="text" name="shipping[last-name]" placeholder="Last Name" />
+              </div>
+            </div>
+          </div>
+          <div className="field">
+            <div className="two fields">
+              <div className="field">
+                <label>Instructor</label>
+                <input type="text" name="shipping[first-name]" placeholder="First Name" />
+              </div>
+              <div className="field">
+                <label>Studyfield</label>
+                <input type="text" name="shipping[last-name]" placeholder="Last Name" />
+              </div>
+            </div>
+          </div>
+          <h2 className="ui dividing header">Abstract</h2>
+          <div className="field">
+            <textarea></textarea>
+          </div>
+          {this.renderGraders()}
+          <h2 className="ui dividing header">Grader evaluation</h2>
+          <div className="field">
+            <textarea></textarea>
+          </div>
+          <h2 className="ui dividing header">Sent reminders</h2>
+          <div className="field">
+            <div className="ui right input">
+              <h3 className="ui header">Ethesis Reminder</h3>
+              <div className="ui checked checkbox m-left">
+                <label htmlFor="ethesisLink"></label>
+                <input id="ethesisLink" className="checkbox" type="checkbox" readOnly="true" checked="true"/>
+              </div>
+            </div>
+            {/*<div className="field">
+              <h3 className="ui header">Ethesis Reminder</h3>
+              <div className="ui checked checkbox m-left">
+                <label htmlFor="ethesisLink"></label>
+                <input id="ethesisLink" className="checkbox" type="checkbox" readOnly="true" checked="true"/>
+              </div>
+            </div>*/}
+            <div className="four fields">
+              <div className="field">
+                <label>Student</label>
+                <input type="text" name="shipping[first-name]" placeholder="First Name" />
+              </div>
+              <div className="field">
+                <label>Last sent</label>
+                <p>1.1.2016</p>
+                {/*<input type="text" name="shipping[last-name]" placeholder="Last Name" />*/}
+              </div>
+              <div className="field">
+                <label>Deadline</label>
+                <p>1.4.2016</p>
+              </div>
+              <div className="field">
+                <button className="ui blue button">Send reminder</button>
+                {/*<input type="text" name="shipping[last-name]" placeholder="Last Name" />*/}
+              </div>
+            </div>
+          </div>
+          <div className="field">
+            <h3 className="ui header">Grader Evaluation Reminder</h3>
+            <div className="four fields">
+              <div className="field">
+                <label>Professor</label>
+                <input type="text" name="shipping[first-name]" placeholder="First Name" />
+              </div>
+              <div className="field">
+                <label>Last sent</label>
+                <p>1.1.2016</p>
+                {/*<input type="text" name="shipping[last-name]" placeholder="Last Name" />*/}
+              </div>
+              <div className="field">
+                <label>Deadline</label>
+                <p>1.4.2016</p>
+              </div>
+              <div className="field">
+                <button className="ui blue button">Send reminder</button>
+                {/*<input type="text" name="shipping[last-name]" placeholder="Last Name" />*/}
+              </div>
+            </div>
+          </div>
+          <div className="field">
+            <h3 className="ui header">Print Thesis Reminder</h3>
+            <div className="four fields">
+              <div className="field">
+                <label>Print-person</label>
+                <input type="text" name="shipping[first-name]" placeholder="First Name" />
+              </div>
+              <div className="field">
+                <label>Last sent</label>
+                <p>1.1.2016</p>
+                {/*<input type="text" name="shipping[last-name]" placeholder="Last Name" />*/}
+              </div>
+              <div className="field">
+                <label>Deadline</label>
+                <p>1.4.2016</p>
+              </div>
+              <div className="field">
+                <button className="ui blue button">Send reminder</button>
+                {/*<input type="text" name="shipping[last-name]" placeholder="Last Name" />*/}
+              </div>
+            </div>
+          </div>
+          <h2 className="ui dividing header">Print</h2>
+          <div className="field">
+            <button className="ui blue button">Open as PDF</button>
+          </div>
+        </div>
       </div>
     );
   }
@@ -429,10 +701,10 @@ export class ThesisShow extends Component {
 import { connect } from "react-redux";
 
 /**
-* A special funciton used to define what the form of the data is that is gotten from the state.
-* @return (Object) {user, theses} An object containing a list of all the thesis visible to
-* your role and a list of all the users.
-*/
+ * A special function used to define what the form of the data is that is gotten from the state.
+ * @return (Object) {user, theses} An object containing a list of all the thesis visible to
+ * your role and a list of all the users.
+ */
 const mapStateToProps = (state) => {
   const user = state.get("auth");
   const thesis = state.get("thesis");
