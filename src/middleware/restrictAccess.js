@@ -37,9 +37,9 @@ export const restrictNonPrintPerson = (nextState, replace) => {
 
 
 /**
- * Function for redirecting un-authorized user to admin views
+ * Function for redirecting un-authorized user from admin views
  *
- * Called on routes on their onEnter-property when the are entered.
+ * Called on routes in their onEnter-property when they are entered.
  * If the current logged in user isn't an admin he/she is redirected
  * to the /login route. Doesn't actually work the way it's supposed to do.
  *

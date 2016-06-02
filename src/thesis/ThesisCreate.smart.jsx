@@ -141,9 +141,14 @@ export class ThesisCreate extends React.Component {
   renderThesisAuthor() {
     return (
       <div className="m-bot">
+        <p>
+          Please fill in all the fields. Thesis has to have a minimun of two graders and if
+          one of them isn't at least a professor and the other a doctor an evaluation of
+          the graders will be done by the thesis' studyfield's professor.
+        </p>
         <h4 className="ui dividing header">Thesis Author</h4>
         <div className="field">
-          <label>First name*</label>
+          <label>First name</label>
           <input
             type="text"
             name="madeby[first-name]"
@@ -153,7 +158,7 @@ export class ThesisCreate extends React.Component {
           />
         </div>
         <div className="field">
-          <label>Last name*</label>
+          <label>Last name</label>
           <input
             type="text"
             name="madeby[last-name]"
@@ -163,7 +168,7 @@ export class ThesisCreate extends React.Component {
           />
         </div>
         <div className="field">
-          <label>Email*</label>
+          <label>Email</label>
           <input
             type="text"
             name="madeby[email]"
@@ -182,7 +187,7 @@ export class ThesisCreate extends React.Component {
         <h4 className="ui dividing header">Thesis Information</h4>
         <div className="three fields">
           <div className="field">
-            <label>Title*</label>
+            <label>Title</label>
             <input
               type="text"
               name="thesis[title]"
@@ -193,7 +198,7 @@ export class ThesisCreate extends React.Component {
           </div>
           <div className="three wide field">
             <div className="field">
-              <label>Studyfield*</label>
+              <label>Studyfield</label>
               <select
                 className="ui fluid search dropdown"
                 value={this.state.field}
@@ -209,7 +214,7 @@ export class ThesisCreate extends React.Component {
             </div>
           </div>
           <div className="five wide field">
-            <label>Grade*</label>
+            <label>Grade</label>
             <select
               className="ui fluid search dropdown"
               value={this.state.grade}
@@ -227,17 +232,7 @@ export class ThesisCreate extends React.Component {
             </select>
           </div>
         </div>
-        <div className="two fields">
-          <div className="field">
-            <label>E-thesis-link</label>
-            <input
-              type="text"
-              name="thesis[ethesis]"
-              value={this.state.ethesis}
-              onChange={this.handleChange.bind(this, "ethesis")}
-              placeholder="Link to E-thesis"
-            />
-          </div>
+        <div className="one fields">
           <div className="field">
             <label>Urkund-link</label>
             <input
@@ -261,11 +256,11 @@ export class ThesisCreate extends React.Component {
           this.state.graders.map((grader, index) =>
             <div key={index} className="two fields">
               <div className="field">
-                <label>Name*</label>
+                <label>Name</label>
                 <input type="text" name="grader_name" value={grader.name} onChange={this.handleGraderChange.bind(this, index, "name")} placeholder="Name" />
               </div>
               <div className="field">
-                <label>Title*</label>
+                <label>Title</label>
                 <select className="ui fluid search dropdown" value={grader.title} onChange={this.handleGraderChange.bind(this, index, "title")} >
                   <option value="">Select title</option>
                   <option value="Prof">Professor</option>
