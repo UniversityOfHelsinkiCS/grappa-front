@@ -22,8 +22,10 @@ export class ThesisList extends Component {
   * Switches the state used by Table between all and in progress theses
   */
   componentWillMount() {
-    const { getTheses } = this.props;
-    getTheses();
+    this.props.getTheses();
+  }
+
+  componentWillReceiveProps(newProps) {
     this.selectFields(this.props.theses);
     this.setState({ theses: this.state.inProgressTheses });
   }
@@ -92,7 +94,7 @@ export class ThesisList extends Component {
           </Thead>
         </Table>
       </div>
-      );
+    );
   }
 }
 import { connect } from "react-redux";
