@@ -12,7 +12,7 @@ import store from "../../src/store";
 import CouncilmeetingListContainer, { CouncilmeetingList } from "../../src/councilmeeting/CouncilmeetingList.smart";
 
 describe("CouncilmeetingList.smart", () => {
-  it("should render table headers", () => {
+  xit("should render table headers", () => {
     const component = renderIntoDocument(
       <Provider store={store}>
         <CouncilmeetingListContainer />
