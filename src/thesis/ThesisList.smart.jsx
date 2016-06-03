@@ -6,6 +6,7 @@
 */
 
 import React, { Component } from "react";
+import { Link } from "react-router";
 import { Table, Thead, Th, unsafe } from "reactable";
 import moment from "moment";
 
@@ -19,10 +20,6 @@ export class ThesisList extends Component {
     };
   }
 
-  /**
-  * Defines what is done at the beginning of the components life before rendering.
-  * Switches the state used by Table between all and in progress theses
-  */
   componentWillMount() {
     this.props.getTheses();
   }
@@ -39,19 +36,20 @@ export class ThesisList extends Component {
   formatThesesForReactTable(theses) {
     return theses.map(thesis => {
       return {
-        status: "done",
+        status: thesis.ThesisProgress.isDone ? "Done" : "In progress",
         author: thesis.author,
-        title: thesis.title,
+        title: unsafe(`<a href="/thesis/${thesis.id}" target="_blank">${thesis.title}</a>`),
         instructor: thesis.User.name,
         studyfield: thesis.StudyField.name,
-        deadline: thesis.deadline,
+        // deadline: thesis.deadline,
+        deadline: moment(new Date(thesis.deadline)).format("DD/MM/YYYY"),
       };
     });
   }
 
   filterOldTheses(theses, condition) {
     return theses.filter(thesis => {
-      if (thesis.status === "in progress" || (thesis.status === "done" && !condition)) {
+      if (thesis.status === "In progress" || (thesis.status === "Done" && !condition)) {
         return thesis;
       }
     });
@@ -97,7 +95,7 @@ export class ThesisList extends Component {
       "deadline",
     ];
     return (
-      <div>
+      <div className="">
         <h2 className="ui dividing header">Theses</h2>
         <div className="ui right input">
           <div className="ui checkbox">
