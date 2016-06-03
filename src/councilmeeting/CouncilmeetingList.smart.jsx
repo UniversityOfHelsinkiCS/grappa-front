@@ -81,12 +81,9 @@ export class CouncilmeetingList extends Component {
                 </BootstrapTable>
               </div>
               <div className="field">
-                <div className="ui right input">
-                  <span>Show also past dates</span>
-                  <div className="ui checked checkbox m-left">
-                    <label></label>
-                    <input ref="checkbox" className="checkbox" type="checkbox"/>
-                  </div>
+                <div className="ui checkbox">
+                  <input ref="checkOld" type="checkbox"/>
+                  <label>Show also past dates</label>
                 </div>
               </div>
             </div>
