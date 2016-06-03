@@ -54,11 +54,18 @@ export class ThesisList extends Component {
     }
   }
 
-   /**
+  /**
    * Defines what happens when we check the checkbox
    */
-  filter() {
-    if (this.refs.checkbox.checked) {
+  filterOldTheses(event) {
+    console.log("filtering theses")
+    // const box = document.getElementById("chekki");
+    // box.checked = "true"
+    // this.refs.checkbox.checked = "true"
+
+    console.log(this.refs.checkOld.checked)
+
+    if (this.refs.checkOld.checked) {
       this.setState({ theses: this.state.allTheses });
     } else {
       this.setState({ theses: this.state.inProgressTheses });
@@ -88,10 +95,11 @@ export class ThesisList extends Component {
           <div className="item">Support</div>
         </div>*/}
         <div className="ui right input">
-          <span>Show also finished theses</span>
-          <div className="ui checked checkbox m-left">
-            <label></label>
-            <input ref="checkbox" className="checkbox" type="checkbox" onClick={this.filter.bind(this)}/>
+          <div className="ui checkbox">
+            <input ref="checkOld"
+              type="checkbox" onClick={this.filterOldTheses.bind(this)}
+            />
+            <label>Show also finished theses</label>
           </div>
         </div>
         {/*<div className="field">
