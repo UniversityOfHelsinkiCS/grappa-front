@@ -147,35 +147,37 @@ export class ThesisCreate extends React.Component {
           the graders will be done by the thesis' studyfield's professor.
         </p>
         <h4 className="ui dividing header">Thesis Author</h4>
-        <div className="field">
-          <label>First name</label>
-          <input
-            type="text"
-            name="madeby[first-name]"
-            value={this.state.fname}
-            onChange={this.handleChange.bind(this, "fname")}
-            placeholder="First Name"
-          />
-        </div>
-        <div className="field">
-          <label>Last name</label>
-          <input
-            type="text"
-            name="madeby[last-name]"
-            value={this.state.lname}
-            onChange={this.handleChange.bind(this, "lname")}
-            placeholder="Last Name"
-          />
-        </div>
-        <div className="field">
-          <label>Email</label>
-          <input
-            type="text"
-            name="madeby[email]"
-            value={this.state.email}
-            onChange={this.handleChange.bind(this, "email")}
-            placeholder="Email Address"
-          />
+        <div className="three fields">
+          <div className="field">
+            <label>First name</label>
+            <input
+              type="text"
+              name="madeby[first-name]"
+              value={this.state.fname}
+              onChange={this.handleChange.bind(this, "fname")}
+              placeholder="First Name"
+            />
+          </div>
+          <div className="field">
+            <label>Last name</label>
+            <input
+              type="text"
+              name="madeby[last-name]"
+              value={this.state.lname}
+              onChange={this.handleChange.bind(this, "lname")}
+              placeholder="Last Name"
+            />
+          </div>
+          <div className="field">
+            <label>Email</label>
+            <input
+              type="text"
+              name="madeby[email]"
+              value={this.state.email}
+              onChange={this.handleChange.bind(this, "email")}
+              placeholder="Email Address"
+            />
+          </div>
         </div>
       </div>
     );
@@ -196,7 +198,7 @@ export class ThesisCreate extends React.Component {
               placeholder="Title"
             />
           </div>
-          <div className="three wide field">
+          {/*<div className="three wide field">*/}
             <div className="field">
               <label>Studyfield</label>
               <select
@@ -212,8 +214,9 @@ export class ThesisCreate extends React.Component {
                 <option value="Software Systems">Software Systems</option>
               </select>
             </div>
-          </div>
-          <div className="five wide field">
+          {/*</div>*/}
+          {/*<div className="five wide field">*/}
+          <div className="field">
             <label>Grade</label>
             <select
               className="ui fluid search dropdown"
@@ -231,8 +234,9 @@ export class ThesisCreate extends React.Component {
               <option value="Laudatur">Laudatur</option>
             </select>
           </div>
+          {/*</div>*/}
         </div>
-        <div className="one fields">
+        <div className="three fields">
           <div className="field">
             <label>Urkund-link</label>
             <input
@@ -254,12 +258,12 @@ export class ThesisCreate extends React.Component {
         <h4 className="ui dividing header">Graders</h4>
         {
           this.state.graders.map((grader, index) =>
-            <div key={index} className="two fields">
+            <div key={index} className="three fields">
               <div className="field">
                 <label>Name</label>
                 <input type="text" name="grader_name" value={grader.name} onChange={this.handleGraderChange.bind(this, index, "name")} placeholder="Name" />
               </div>
-              <div className="field">
+              <div className=" field">
                 <label>Title</label>
                 <select className="ui fluid search dropdown" value={grader.title} onChange={this.handleGraderChange.bind(this, index, "title")} >
                   <option value="">Select title</option>
@@ -269,6 +273,9 @@ export class ThesisCreate extends React.Component {
                   <option value="Doc">Doctor</option>
                   <option value="Other">Other</option>
                 </select>
+              </div>
+              <div className="field">
+                <label>&nbsp;</label>
                 <button className="ui red button" onClick={this.removeGrader.bind(this, index)}>Remove Grader</button>
               </div>
             </div>

@@ -89,11 +89,6 @@ export class ThesisList extends Component {
     return (
       <div>
         <h2 className="ui dividing header">Theses</h2>
-        {/*<div className="ui celled horizontal list">
-          <div className="item">About Us</div>
-          <div className="item">Contact</div>
-          <div className="item">Support</div>
-        </div>*/}
         <div className="ui right input">
           <div className="ui checkbox">
             <input ref="checkOld"
@@ -102,10 +97,6 @@ export class ThesisList extends Component {
             <label>Show also finished theses</label>
           </div>
         </div>
-        {/*<div className="field">
-          <span>Show also finished theses</span>
-          <input ref="checkbox" className="checkbox" type="checkbox" onClick={this.filter.bind(this)}/>
-        </div>*/}
         <Table
           className="ui table"
           noDataText="No theses found"

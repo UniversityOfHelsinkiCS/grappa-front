@@ -72,7 +72,13 @@ export class CouncilmeetingList extends Component {
           </div>
           <div className="field">
             <h2 className="ui dividing header">Upcoming councilmeetings</h2>
-            <div className="two fields">
+            {/*<div className="two fields">*/}
+              <div className="field">
+                <div className="ui checkbox">
+                  <input ref="checkOld" type="checkbox"/>
+                  <label>Show also past dates</label>
+                </div>
+              </div>
               <div className="field">
                 <BootstrapTable data={councilmeetings} search bordered={false}>
                   <TableHeaderColumn filter= {{ type: "TextFilter" }} dataField="id" isKey hidden>
@@ -80,13 +86,7 @@ export class CouncilmeetingList extends Component {
                   <TableHeaderColumn dataFormat={this.dateFormatter} dataSort width="200">Date</TableHeaderColumn>
                 </BootstrapTable>
               </div>
-              <div className="field">
-                <div className="ui checkbox">
-                  <input ref="checkOld" type="checkbox"/>
-                  <label>Show also past dates</label>
-                </div>
-              </div>
-            </div>
+            {/*</div>*/}
           </div>
         </div>
       </div>
