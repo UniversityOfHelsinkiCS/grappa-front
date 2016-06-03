@@ -1,10 +1,7 @@
 import React, { Component } from "react";
 import DatePicker from "react-datepicker";
+import { Table, Thead, Th, unsafe } from "reactable";
 import moment from "moment";
-import { connect } from "react-redux";
-import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
-import { getCouncilmeetings } from "./councilmeeting.actions";
-import { addCouncilmeeting } from "./councilmeeting.actions";
 
 export class CouncilmeetingList extends Component {
 
@@ -15,29 +12,26 @@ export class CouncilmeetingList extends Component {
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    this.dateFormatter = this.dateFormatter.bind(this);
   }
 
   componentDidMount() {
-    const { getCouncilmeetings } = this.props;
-    getCouncilmeetings();
+    this.props.getCouncilmeetings();
   }
-  dateFormatter(cell, row) {
-    return moment(new Date(row.date)).format("DD/MM/YYYY");
-    // const origDate = new Date(row.date);
-    // return `${origDate.getDate()}/${origDate.getMonth()}/${origDate.getFullYear()}`;
+
+  filterDates() {
+    const condition = this.refs.checkOld.checked;
+
   }
-  /*
-  * Handler method to handle what to do when the submit button is clicked.
-  * @param event Used to get a hold of what the input of the user was.
-  */
+  /**
+   * Handler method to handle what to do when the submit button is clicked.
+   * @param event Used to get a hold of what the input of the user was.
+   */
   handleSubmit(event) {
     event.preventDefault();
-    const { addCouncilmeeting } = this.props;
     const newCouncilmeeting = {
       date: this.state.date.toDate(),
     };
-    addCouncilmeeting(newCouncilmeeting);
+    this.props.addCouncilmeeting(newCouncilmeeting);
   }
 
   /**
@@ -50,8 +44,19 @@ export class CouncilmeetingList extends Component {
     });
   }
 
+  handleCheckBoxClick(event) {
+
+  }
+
   render() {
-    const { councilmeetings } = this.props;
+    const formattedDates = this.props.councilmeetings.map(meeting => {
+      return {
+        date: moment(new Date(meeting.date)).format("DD/MM/YYYY"),
+      };
+    });
+    const columns = [
+      "date",
+    ];
     return (
       <div className="ui form">
         <div className="ui two fields">
@@ -72,21 +77,24 @@ export class CouncilmeetingList extends Component {
           </div>
           <div className="field">
             <h2 className="ui dividing header">Upcoming councilmeetings</h2>
-            {/*<div className="two fields">*/}
-              <div className="field">
-                <div className="ui checkbox">
-                  <input ref="checkOld" type="checkbox"/>
-                  <label>Show also past dates</label>
-                </div>
-              </div>
-              <div className="field">
-                <BootstrapTable data={councilmeetings} search bordered={false}>
-                  <TableHeaderColumn filter= {{ type: "TextFilter" }} dataField="id" isKey hidden>
-                  Councilmeeting ID</TableHeaderColumn>
-                  <TableHeaderColumn dataFormat={this.dateFormatter} dataSort width="200">Date</TableHeaderColumn>
-                </BootstrapTable>
-              </div>
-            {/*</div>*/}
+            <div className="ui checkbox">
+              <input ref="checkOld"
+                type="checkbox" onClick={this.handleCheckBoxClick.bind(this)}
+              />
+              <label>Show also past dates</label>
+            </div>
+            <Table
+              className="ui table"
+              noDataText="No theses found"
+              ref="table"
+              sortable columns={columns}
+              data={formattedDates}
+              filterable={columns}
+            >
+              <Thead>
+                <Th column="date">Date</Th>
+              </Thead>
+            </Table>
           </div>
         </div>
       </div>
@@ -94,6 +102,9 @@ export class CouncilmeetingList extends Component {
   }
 }
 
+import { connect } from "react-redux";
+import { getCouncilmeetings } from "./councilmeeting.actions";
+import { addCouncilmeeting } from "./councilmeeting.actions";
 
 const mapStateToProps = (state) => {
   const councilmeeting = state.get("councilmeeting");
