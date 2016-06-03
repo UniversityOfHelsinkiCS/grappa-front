@@ -1,10 +1,10 @@
 import React, { Component } from "react";
+import DatePicker from "react-datepicker";
 import moment from "moment";
 import { connect } from "react-redux";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import { getCouncilmeetings } from "./councilmeeting.actions";
 import { addCouncilmeeting } from "./councilmeeting.actions";
-const DatePicker = require("react-datepicker");
 
 export class CouncilmeetingList extends Component {
 
@@ -53,29 +53,48 @@ export class CouncilmeetingList extends Component {
   render() {
     const { councilmeetings } = this.props;
     return (
-      <div>
-        <div>
-          <h2>Add a new date for a councilmeeting</h2>
-          <DatePicker
-            dateFormat="DD/MM/YYYY"
-            selected={this.state.date}
-            onChange={this.handleChange}
-          />
-          <button className="ui primary button" onClick={this.handleSubmit}>Submit</button>
-          <button className="ui primary button" >Cancel</button>
-        </div>
-        <div>
-          <h2>Councilmeetings</h2>
-          <BootstrapTable data={councilmeetings} search bordered={false}>
-            <TableHeaderColumn filter= {{ type: "TextFilter" }} dataField="id" isKey hidden>
-            Councilmeeting ID</TableHeaderColumn>
-            <TableHeaderColumn dataFormat={this.dateFormatter} dataSort width="200">Date</TableHeaderColumn>
-          </BootstrapTable>
+      <div className="ui form">
+        <div className="ui two fields">
+          <div className="field">
+            <h2 className="ui dividing header">Create a councilmeeting date</h2>
+            <div className="two fields">
+              <div className="field">
+                <DatePicker
+                  dateFormat="DD/MM/YYYY"
+                  selected={this.state.date}
+                  onChange={this.handleChange}
+                />
+              </div>
+              <div className="field">
+                <button className="ui primary button" onClick={this.handleSubmit}>Submit</button>
+              </div>
+            </div>
+          </div>
+          <div className="field">
+            <h2 className="ui dividing header">Upcoming councilmeetings</h2>
+            <div className="two fields">
+              <div className="field">
+                <BootstrapTable data={councilmeetings} search bordered={false}>
+                  <TableHeaderColumn filter= {{ type: "TextFilter" }} dataField="id" isKey hidden>
+                  Councilmeeting ID</TableHeaderColumn>
+                  <TableHeaderColumn dataFormat={this.dateFormatter} dataSort width="200">Date</TableHeaderColumn>
+                </BootstrapTable>
+              </div>
+              <div className="field">
+                <div className="ui right input">
+                  <span>Show also past dates</span>
+                  <div className="ui checked checkbox m-left">
+                    <label></label>
+                    <input ref="checkbox" className="checkbox" type="checkbox"/>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-        );
+    );
   }
-
 }
 
 

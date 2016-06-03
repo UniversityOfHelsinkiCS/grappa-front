@@ -81,9 +81,31 @@ export class ThesisList extends Component {
     ];
     return (
       <div>
-        <h2>Theses</h2>
-        Show also finished theses<input ref="checkbox" className="checkbox" type="checkbox" onClick={this.filter.bind(this)}/>
-        <Table noDataText="No theses found" className="table" ref="table" sortable columns={columns} data={this.state.theses} filterable={columns}>
+        <h2 className="ui dividing header">Theses</h2>
+        {/*<div className="ui celled horizontal list">
+          <div className="item">About Us</div>
+          <div className="item">Contact</div>
+          <div className="item">Support</div>
+        </div>*/}
+        <div className="ui right input">
+          <span>Show also finished theses</span>
+          <div className="ui checked checkbox m-left">
+            <label></label>
+            <input ref="checkbox" className="checkbox" type="checkbox" onClick={this.filter.bind(this)}/>
+          </div>
+        </div>
+        {/*<div className="field">
+          <span>Show also finished theses</span>
+          <input ref="checkbox" className="checkbox" type="checkbox" onClick={this.filter.bind(this)}/>
+        </div>*/}
+        <Table
+          className="ui table"
+          noDataText="No theses found"
+          ref="table"
+          sortable columns={columns}
+          data={this.state.theses}
+          filterable={columns}
+        >
           <Thead>
             <Th column="Status">Status</Th>
             <Th column="Author">Author</Th>

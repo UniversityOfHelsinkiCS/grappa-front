@@ -21,6 +21,12 @@ export class UserShow extends Component {
             { user.email }
           </div>
         </div>
+        <div className="item">
+          <i className="student icon"></i>
+          <div className="content">
+            { user.StudyFieldId }
+          </div>
+        </div>
       </div>
     );
   }
