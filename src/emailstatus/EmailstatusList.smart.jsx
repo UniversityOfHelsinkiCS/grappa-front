@@ -37,8 +37,8 @@ export class EmailstatusList extends Component {
     const { emailstatuses } = this.props;
     return (
       <div>
-        <h2>Emailstatuses</h2>
-        <BootstrapTable data={emailstatuses} search bordered={false}>
+        <h2 className="ui dividing header">Emailstatuses</h2>
+        <BootstrapTable className="ui table" data={emailstatuses} search bordered={false}>
           <TableHeaderColumn filter= {{ type: "TextFilter" }} dataField="id" isKey hidden>
           EmailStatus ID</TableHeaderColumn>
           <TableHeaderColumn dataField="type" dataSort width="200">Type</TableHeaderColumn>

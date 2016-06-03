@@ -496,15 +496,15 @@ export class ThesisShow extends Component {
   renderGraders() {
     return (
       <div className="m-bot">
-        <h2 className="ui dividing header">Graders</h2>
+        <h4 className="ui dividing header">Graders</h4>
         {
           this.state.graders.map((grader, index) =>
-            <div key={index} className="two fields">
+            <div key={index} className="three fields">
               <div className="field">
                 <label>Name</label>
                 <input type="text" name="grader_name" value={grader.name} onChange={this.handleGraderChange.bind(this, index, "name")} placeholder="Name" />
               </div>
-              <div className="field">
+              <div className=" field">
                 <label>Title</label>
                 <select className="ui fluid search dropdown" value={grader.title} onChange={this.handleGraderChange.bind(this, index, "title")} >
                   <option value="">Select title</option>
@@ -514,6 +514,9 @@ export class ThesisShow extends Component {
                   <option value="Doc">Doctor</option>
                   <option value="Other">Other</option>
                 </select>
+              </div>
+              <div className="field">
+                <label>&nbsp;</label>
                 <button className="ui red button" onClick={this.removeGrader.bind(this, index)}>Remove Grader</button>
               </div>
             </div>
@@ -613,18 +616,11 @@ export class ThesisShow extends Component {
           <div className="field">
             <div className="ui right input">
               <h3 className="ui header">Ethesis Reminder</h3>
-              <div className="ui checked checkbox m-left">
-                <label htmlFor="ethesisLink"></label>
-                <input id="ethesisLink" className="checkbox" type="checkbox" readOnly="true" checked="true"/>
+              <div className="ui checkbox m-left">
+                <input type="checkbox" />
+                <label></label>
               </div>
             </div>
-            {/*<div className="field">
-              <h3 className="ui header">Ethesis Reminder</h3>
-              <div className="ui checked checkbox m-left">
-                <label htmlFor="ethesisLink"></label>
-                <input id="ethesisLink" className="checkbox" type="checkbox" readOnly="true" checked="true"/>
-              </div>
-            </div>*/}
             <div className="four fields">
               <div className="field">
                 <label>Student</label>
@@ -640,16 +636,21 @@ export class ThesisShow extends Component {
                 <p>1.4.2016</p>
               </div>
               <div className="field">
+                <label>&nbsp;</label>
                 <button className="ui blue button">Send reminder</button>
-                {/*<input type="text" name="shipping[last-name]" placeholder="Last Name" />*/}
               </div>
             </div>
           </div>
           <div className="field">
-            <h3 className="ui header">Grader Evaluation Reminder</h3>
+            <div className="ui right input">
+              <h3 className="ui header">Grader Evaluation Reminder</h3>
+              <div className="ui checkbox m-left">
+                <input type="checkbox" />
+                <label></label>
+              </div>
+            </div>
             <div className="four fields">
               <div className="field">
-                <label>Professor</label>
                 <input type="text" name="shipping[first-name]" placeholder="First Name" />
               </div>
               <div className="field">
@@ -662,13 +663,19 @@ export class ThesisShow extends Component {
                 <p>1.4.2016</p>
               </div>
               <div className="field">
+                <label>&nbsp;</label>
                 <button className="ui blue button">Send reminder</button>
-                {/*<input type="text" name="shipping[last-name]" placeholder="Last Name" />*/}
               </div>
             </div>
           </div>
           <div className="field">
-            <h3 className="ui header">Print Thesis Reminder</h3>
+            <div className="ui right input">
+              <h3 className="ui header">Print Thesis Reminder</h3>
+              <div className="ui checkbox m-left">
+                <input type="checkbox" />
+                <label></label>
+              </div>
+            </div>
             <div className="four fields">
               <div className="field">
                 <label>Print-person</label>
@@ -684,8 +691,8 @@ export class ThesisShow extends Component {
                 <p>1.4.2016</p>
               </div>
               <div className="field">
+                <label>&nbsp;</label>
                 <button className="ui blue button">Send reminder</button>
-                {/*<input type="text" name="shipping[last-name]" placeholder="Last Name" />*/}
               </div>
             </div>
           </div>
