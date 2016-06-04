@@ -319,7 +319,7 @@ export class ThesisCreate extends React.Component {
     const meetingDates = [{ id: "", date: "Select Date" }, ...formatted];
     return (
       <div className="m-bot">
-        <h3 className="ui dividing header">Choose the date for the Department Council meeting</h3>
+        <h3 className="ui dividing header">Choose the Councilmeeting date</h3>
         <select className="ui fluid search dropdown"
           onChange={this.handleChange.bind(this, "CouncilMeetingId")}
         >
