@@ -35,8 +35,8 @@ export class ThesisCreate extends React.Component {
       ],
       urkund: "",
       ethesis: "",
-      StudyFieldName: "",
       grade: "",
+      StudyFieldId: "",
       CouncilMeetingId: "",
       errors: {},
     };
@@ -109,15 +109,15 @@ export class ThesisCreate extends React.Component {
     change.errors.thesis_graders = newErrors;
     this.setState(change);
   }
-/**
-* Handler method to handle what to do when the submit button is clicked.
-* @param event Used to get a hold of what the input of the user was.
-*/
+  /**
+   * Handler method to handle what to do when the submit button is clicked.
+   * @param event Used to get a hold of what the input of the user was.
+   */
   handleSubmit(event) {
     event.preventDefault();
     const thesisErrors = validateModel(this.state, "thesis");
     // const graderErrors = validateModel(this.state.graders, "grader");
-    console.log(thesisErrors);
+    // console.log(thesisErrors);
     if (thesisErrors.list.length === 0) {
       const newThesis = {
         author: `${this.state.fname} ${this.state.lname}`,
@@ -126,8 +126,8 @@ export class ThesisCreate extends React.Component {
         graders: this.state.graders,
         urkund: this.state.urkund,
         ethesis: this.state.ethesis,
-        StudyFieldName: this.state.StudyFieldName,
         grade: this.state.grade,
+        StudyFieldId: this.state.StudyFieldId,
         CouncilMeetingId: this.state.CouncilMeetingId,
       };
       this.props.saveThesis(newThesis);
@@ -150,7 +150,6 @@ export class ThesisCreate extends React.Component {
             <label>First name</label>
             <input
               type="text"
-              name="madeby[first-name]"
               value={this.state.fname}
               onChange={this.handleChange.bind(this, "fname")}
               placeholder="First Name"
@@ -160,7 +159,6 @@ export class ThesisCreate extends React.Component {
             <label>Last name</label>
             <input
               type="text"
-              name="madeby[last-name]"
               value={this.state.lname}
               onChange={this.handleChange.bind(this, "lname")}
               placeholder="Last Name"
@@ -170,7 +168,6 @@ export class ThesisCreate extends React.Component {
             <label>Email</label>
             <input
               type="text"
-              name="madeby[email]"
               value={this.state.email}
               onChange={this.handleChange.bind(this, "email")}
               placeholder="Email Address"
@@ -191,18 +188,16 @@ export class ThesisCreate extends React.Component {
             <label>Title</label>
             <input
               type="text"
-              name="thesis[title]"
               value={this.state.title}
               onChange={this.handleChange.bind(this, "title")}
               placeholder="Title"
             />
           </div>
-          {/*<div className="three wide field">*/}
           <div className="field">
             <label>Studyfield</label>
             <select
               className="ui fluid search dropdown"
-              onChange={this.handleChange.bind(this, "StudyFieldName")}
+              onChange={this.handleChange.bind(this, "StudyFieldId")}
             >
               <option key="0" value="">Select field</option>
               { this.props.studyfields.map((field, index) =>
@@ -212,30 +207,12 @@ export class ThesisCreate extends React.Component {
               )}
             </select>
           </div>
-            <div className="field">
-              <label>Studyfield</label>
-              <select
-                className="ui fluid search dropdown"
-                value={this.state.field}
-                onChange={this.handleChange.bind(this, "StudyFieldName")}
-                name="thesis[field]"
-              >
-                <option value="">Select field</option>
-                <option value="Algorithmic Bioinformatics">Algorithmic Bioinformatics</option>
-                <option value="Algorithms, Data Analytics and Machine Learning">Algorithms, Data Analytics and Machine Learning</option>
-                <option value="Networking and Services">Networking and Services</option>
-                <option value="Software Systems">Software Systems</option>
-              </select>
-            </div>
-          {/*</div>*/}
-          {/*<div className="five wide field">*/}
           <div className="field">
             <label>Grade</label>
             <select
               className="ui fluid search dropdown"
               value={this.state.grade}
               onChange={this.handleChange.bind(this, "grade")}
-              name="thesis[grade]"
             >
               <option value="">Select grade</option>
               <option value="Approbatur">Approbatur</option>
@@ -247,14 +224,12 @@ export class ThesisCreate extends React.Component {
               <option value="Laudatur">Laudatur</option>
             </select>
           </div>
-          {/*</div>*/}
         </div>
         <div className="three fields">
           <div className="field">
             <label>Urkund-link</label>
             <input
               type="text"
-              name="thesis[urkund]"
               value={this.state.urkund}
               onChange={this.handleChange.bind(this, "urkund")}
               placeholder="Link to Urkund"

@@ -41,7 +41,7 @@ const validationRules = {
       ],
     },
     {
-      name: "StudyFieldName",
+      name: "StudyFieldId",
       rules: [
         {
           type: "notEmpty",
