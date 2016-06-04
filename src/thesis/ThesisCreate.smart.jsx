@@ -286,15 +286,46 @@ export class ThesisCreate extends React.Component {
     );
   }
 
+  formatMeetingsForReactTable(meetings) {
+    return meetings.map(meeting => {
+      return {
+        date: moment(new Date(meeting.date)).format("DD/MM/YYYY"),
+      };
+    });
+  }
+
+  filterOldDates(meetings) {
+    const today = new Date();
+    return meetings.filter(meeting => {
+      if (new Date(meeting.date) > today) {
+        return meeting;
+      }
+    })
+  }
+
   renderPickCouncilmeeting() {
-    const meetingDates = [{ id: "", date: "Select Date" }, ...this.props.meetingDates];
+    const today = new Date();
+    const filtered = this.props.meetingDates.filter(meeting => {
+      if (new Date(meeting.date) >= today) {
+        return meeting;
+      }
+    });
+    const formatted = filtered.map(meeting => {
+      return {
+        id: meeting.id,
+        date: moment(new Date(meeting.date)).format("DD/MM/YYYY"),
+      }
+    });
+    const meetingDates = [{ id: "", date: "Select Date" }, ...formatted];
     return (
       <div className="m-bot">
         <h4 className="ui dividing header">Choose the date for the Department Council meeting</h4>
-        <select className="ui fluid search dropdown" onChange={this.handleChange.bind(this, "CouncilMeetingId")}>
+        <select className="ui fluid search dropdown"
+          onChange={this.handleChange.bind(this, "CouncilMeetingId")}
+        >
           { meetingDates.map((meeting, index) =>
             <option key={ index } value={ meeting.id } >
-              { moment(new Date(meeting.date)).format("DD/MM/YYYY")}
+              { meeting.date }
             </option>
           )}
         </select>

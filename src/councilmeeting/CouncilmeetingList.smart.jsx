@@ -9,6 +9,9 @@ export class CouncilmeetingList extends Component {
     super();
     this.state = {
       date: moment(),
+      shownDates: [],
+      formattedDates: [],
+      filteredDates: [],
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -18,9 +21,44 @@ export class CouncilmeetingList extends Component {
     this.props.getCouncilmeetings();
   }
 
-  filterDates() {
-    const condition = this.refs.checkOld.checked;
+  componentWillReceiveProps(newProps) {
+    const formatted = this.formatMeetingsForReactTable(newProps.councilmeetings);
+    const filtered = this.filterOldDates(newProps.councilmeetings);
+    const filteredAndFormatted = this.formatMeetingsForReactTable(filtered);
+    this.setState({
+      shownDates: !this.refs.checkOld.checked ? filteredAndFormatted : formatted,
+      formattedDates: formatted,
+      filteredDates: filteredAndFormatted,
+    });
+  }
 
+  formatMeetingsForReactTable(meetings) {
+    return meetings.map(meeting => {
+      return {
+        date: moment(new Date(meeting.date)).format("DD/MM/YYYY"),
+      };
+    });
+  }
+
+  filterOldDates(meetings) {
+    const today = new Date();
+    return meetings.filter(meeting => {
+      if (new Date(meeting.date) >= today) {
+        return meeting;
+      }
+    })
+  }
+
+  handleCheckBoxClick(event) {
+    if (!this.refs.checkOld.checked) {
+      this.setState({
+        shownDates: this.state.filteredDates,
+      });
+    } else {
+      this.setState({
+        shownDates: this.state.formattedDates,
+      });
+    }
   }
   /**
    * Handler method to handle what to do when the submit button is clicked.
@@ -44,16 +82,7 @@ export class CouncilmeetingList extends Component {
     });
   }
 
-  handleCheckBoxClick(event) {
-
-  }
-
   render() {
-    const formattedDates = this.props.councilmeetings.map(meeting => {
-      return {
-        date: moment(new Date(meeting.date)).format("DD/MM/YYYY"),
-      };
-    });
     const columns = [
       "date",
     ];
@@ -78,17 +107,15 @@ export class CouncilmeetingList extends Component {
           <div className="field">
             <h2 className="ui dividing header">Upcoming councilmeetings</h2>
             <div className="ui checkbox">
-              <input ref="checkOld"
-                type="checkbox" onClick={this.handleCheckBoxClick.bind(this)}
-              />
+              <input ref="checkOld" type="checkbox" onClick={this.handleCheckBoxClick.bind(this)}/>
               <label>Show also past dates</label>
             </div>
             <Table
               className="ui table"
-              noDataText="No theses found"
+              noDataText="No meetings found"
               ref="table"
               sortable columns={columns}
-              data={formattedDates}
+              data={this.state.shownDates}
               filterable={columns}
             >
               <Thead>
