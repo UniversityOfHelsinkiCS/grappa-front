@@ -6,7 +6,6 @@
 */
 
 import React, { Component } from "react";
-import { Link } from "react-router";
 import { Table, Thead, Th, unsafe } from "reactable";
 import moment from "moment";
 
@@ -14,7 +13,6 @@ export class ThesisList extends Component {
   constructor() {
     super();
     this.state = {
-      theses: [],
       formattedTheses: [],
       filteredTheses: [],
     };
@@ -61,29 +59,6 @@ export class ThesisList extends Component {
       filteredTheses: filtered,
     });
   }
-  /**
-   * Selects desired fields from raw thesis objects and formats them
-   * We keep track of two sets of theses: all and only in progress
-   */
-  // selectFields(theses) {
-  //   for (let i = 0; i < theses.length; i++) {
-  //     const origDate = new Date(theses[i].deadline);
-  //     const newDate = `${origDate.getDate()}/${origDate.getMonth()}/${origDate.getFullYear()}`;
-  //     const link = '<a href="thesis/' + theses[i].id + '">' + theses[i].title + "</a>";
-  //     const newThesis = {
-  //       Status: theses[i].ThesisProgress.isDone ? "Done" : "In progress",
-  //       Author: theses[i].author,
-  //       title: unsafe(link),
-  //       graders: theses[i].User.name,
-  //       StudyField: theses[i].StudyField.name,
-  //       deadline: newDate,
-  //     };
-  //     if (!theses[i].ThesisProgress.isDone) {
-  //       this.state.inProgressTheses.push(newThesis);
-  //     }
-  //     this.state.allTheses.push(newThesis);
-  //   }
-  // }
 
   render() {
     const columns = [
@@ -95,13 +70,11 @@ export class ThesisList extends Component {
       "deadline",
     ];
     return (
-      <div className="">
+      <div>
         <h2 className="ui dividing header">Theses</h2>
         <div className="ui right input">
           <div className="ui checkbox">
-            <input ref="checkOld"
-              type="checkbox" onClick={this.handleCheckBoxClick.bind(this)}
-            />
+            <input ref="checkOld" type="checkbox" onClick={this.handleCheckBoxClick.bind(this)}/>
             <label>Show also finished theses</label>
           </div>
         </div>
@@ -126,13 +99,10 @@ export class ThesisList extends Component {
     );
   }
 }
+
 import { connect } from "react-redux";
 import { getTheses } from "./thesis.actions";
 
-/**
-* A special funciton used to define what the form of the data is that is gotten from the state.
-* #return ListOfThesis A list containing all the thesis listed in the database.
-*/
 const mapStateToProps = (state) => {
   const auth = state.get("auth");
   const thesis = state.get("thesis");
@@ -142,10 +112,6 @@ const mapStateToProps = (state) => {
   };
 };
 
-/**
-* A special function used to define and dispatch the relevant data to the right
-* actions in thesis.actions.
-*/
 const mapDispatchToProps = (dispatch) => ({
   getTheses() {
     dispatch(getTheses());
