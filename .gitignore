@@ -15,3 +15,6 @@ coverage/
 
 # instrument report folder created also by Istanbul
 instrument/
+
+# environment variable file
+.env
