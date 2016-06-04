@@ -1,43 +1,21 @@
-/**
- * ThesisShow.smart for displaying and running the view of a single thesis.
- * It contains the component for displaying the needed displayable data, and
- * the container in charge of connecting the component to the reducers and actions
- * in charge of state changes.
- */
-
 import React, { Component } from "react";
 import { browserHistory, Link } from "react-router";
+import moment from "moment";
 
 import GraderList from "../grader/GraderList.component";
-
-import { updateThesis, deleteThesis } from "./thesis.actions";
-import { updateGrader } from "../grader/grader.actions";
-import { updateUser } from "../user/user.actions";
-import { sendNotification } from "../email/email.actions";
-import { updateThesisProgress } from "../thesisprogress/thesisprogress.actions";
 
 export class ThesisShow extends Component {
   constructor() {
     super();
-
     this.state = {
-      thesis: {},
-      delete: false,
-      graders: [
-        {
-          name: "pena",
-          title: "prof",
-        },
-        {
-          name: "juha",
-          title: "sbuge"
+      thesis: {
+        Graders: [],
+        StudyField: {
+          name: "",
         }
-      ]
+      },
+      delete: false,
     };
-  }
-
-  handleClicking(event) {
-    console.log("click!");
   }
 
   componentWillMount() {
@@ -57,194 +35,322 @@ export class ThesisShow extends Component {
     }
     const foundThesis = props.theses.find(thesis => {
       if (thesis.id === thesisId) {
+        console.log(thesis)
         return thesis;
       }
     });
     if (typeof foundThesis !== "undefined") {
-      this.state.thesis = foundThesis;
+      console.log(foundThesis)
+      this.setState({
+        thesis: foundThesis,
+      });
     }
   }
 
-  render() {
+  handleInputValueChange(name, event) {
+    // console.log(name);
+    // event.preventDefault();
+    // const change = {
+    //   errors: this.state.errors,
+    // };
+    // change[name] = event.target.value;
+    // console.log(change);
+    // const newErrors = validateField(name, event.target.value, "thesis");
+    // console.log(newErrors);
+    // change.errors[`thesis_${name}`] = newErrors;
+    // this.setState(change);
+  }
+
+  renderThesisAuthor() {
     return (
-      <div>
-        <div className="ui form">
-          <h2 className="ui dividing header">{this.state.thesis.title}</h2>
-          <div className="ui green button">Edit</div>
-          <h2 className="ui dividing header">Thesis details</h2>
+      <div className="m-bot">
+        <h3 className="ui dividing header">Thesis Author</h3>
+        <div className="three fields">
           <div className="field">
-            <div className="two fields">
-              <div className="field">
-                <label>Title</label>
-                <input type="text" name="shipping[first-name]" placeholder="First Name" readOnly="true" value="teesi"/>
-              </div>
-              <div className="field">
-                <label>Grade</label>
-                <input type="text" name="shipping[first-name]" placeholder="First Name" readOnly="true" value="teesi"/>
-              </div>
-            </div>
+            <label>First name</label>
+            <input
+              type="text"
+              value="asf"
+              onChange={this.handleInputValueChange.bind(this, "fname")}
+              placeholder="First Name"
+            />
           </div>
           <div className="field">
-            <div className="two fields">
-              <div className="field">
-                <label>Ethesis</label>
-                <div className="ui right icon input">
-                <i className="external icon">
-                  <a href="http://www.w3schools.com" target="_blank" className="icon-link"></a>
-                </i>
-                  <input
-                    type="text"
-                    name="email"
-                    placeholder="E-mail address"
-                    readOnly="true"
-                    value="ethesis"
-                  />
-                </div>
-              </div>
-              <div className="field">
-                <label>Urkund</label>
-                <div className="ui right icon input">
-                  <i className="external icon">
-                    <a href="http://www.w3schools.com" target="_blank" className="icon-link"></a>
-                  </i>
-                  <input
-                    type="text"
-                    name="email"
-                    placeholder="E-mail address"
-                    readOnly="true"
-                    value="urkundi"
-                  />
-                </div>
-              </div>
-            </div>
+            <label>Last name</label>
+            <input
+              type="text"
+              value="{this.state.lname}"
+              onChange={this.handleInputValueChange.bind(this, "lname")}
+              placeholder="Last Name"
+            />
           </div>
           <div className="field">
-            <div className="two fields">
-              <div className="field">
-                <label>Author</label>
-                <input type="text" name="shipping[first-name]" placeholder="First Name" />
-              </div>
-              <div className="field">
-                <label>Email</label>
-                <input type="text" name="shipping[last-name]" placeholder="Last Name" />
-              </div>
-            </div>
-          </div>
-          <div className="field">
-            <div className="two fields">
-              <div className="field">
-                <label>Instructor</label>
-                <input type="text" name="shipping[first-name]" placeholder="First Name" />
-              </div>
-              <div className="field">
-                <label>Studyfield</label>
-                <input type="text" name="shipping[last-name]" placeholder="Last Name" />
-              </div>
-            </div>
-          </div>
-          <h2 className="ui dividing header">Abstract</h2>
-          <div className="field">
-            <textarea></textarea>
-          </div>
-          <GraderList graders={this.state.graders} />
-          <h2 className="ui dividing header">Grader evaluation</h2>
-          <div className="field">
-            <textarea></textarea>
-          </div>
-          <h2 className="ui dividing header">Sent reminders</h2>
-          <div className="field">
-            <div className="ui right input">
-              <h3 className="ui header">Ethesis Reminder</h3>
-              <div className="ui checkbox m-left">
-                <input type="checkbox" />
-                <label></label>
-              </div>
-            </div>
-            <div className="four fields">
-              <div className="field">
-                <label>Student</label>
-                <input type="text" name="shipping[first-name]" placeholder="First Name" />
-              </div>
-              <div className="field">
-                <label>Last sent</label>
-                <p>1.1.2016</p>
-                {/*<input type="text" name="shipping[last-name]" placeholder="Last Name" />*/}
-              </div>
-              <div className="field">
-                <label>Deadline</label>
-                <p>1.4.2016</p>
-              </div>
-              <div className="field">
-                <label>&nbsp;</label>
-                <button className="ui blue button">Send reminder</button>
-              </div>
-            </div>
-          </div>
-          <div className="field">
-            <div className="ui right input">
-              <h3 className="ui header">Grader Evaluation Reminder</h3>
-              <div className="ui checkbox m-left">
-                <input type="checkbox" />
-                <label></label>
-              </div>
-            </div>
-            <div className="four fields">
-              <div className="field">
-                <input type="text" name="shipping[first-name]" placeholder="First Name" />
-              </div>
-              <div className="field">
-                <label>Last sent</label>
-                <p>1.1.2016</p>
-                {/*<input type="text" name="shipping[last-name]" placeholder="Last Name" />*/}
-              </div>
-              <div className="field">
-                <label>Deadline</label>
-                <p>1.4.2016</p>
-              </div>
-              <div className="field">
-                <label>&nbsp;</label>
-                <button className="ui blue button">Send reminder</button>
-              </div>
-            </div>
-          </div>
-          <div className="field">
-            <div className="ui right input">
-              <h3 className="ui header">Print Thesis Reminder</h3>
-              <div className="ui checkbox m-left">
-                <input type="checkbox" />
-                <label></label>
-              </div>
-            </div>
-            <div className="four fields">
-              <div className="field">
-                <label>Print-person</label>
-                <input type="text" name="shipping[first-name]" placeholder="First Name" />
-              </div>
-              <div className="field">
-                <label>Last sent</label>
-                <p>1.1.2016</p>
-                {/*<input type="text" name="shipping[last-name]" placeholder="Last Name" />*/}
-              </div>
-              <div className="field">
-                <label>Deadline</label>
-                <p>1.4.2016</p>
-              </div>
-              <div className="field">
-                <label>&nbsp;</label>
-                <button className="ui blue button">Send reminder</button>
-              </div>
-            </div>
-          </div>
-          <h2 className="ui dividing header">Print</h2>
-          <div className="field">
-            <button className="ui blue button">Open as PDF</button>
+            <label>Email</label>
+            <input
+              type="text"
+              value="{this.state.email}"
+              onChange={this.handleInputValueChange.bind(this, "email")}
+              placeholder="Email Address"
+            />
           </div>
         </div>
       </div>
     );
   }
+
+  renderThesisInformation() {
+    return (
+      <div className="m-bot">
+        <h3 className="ui dividing header">Thesis Information</h3>
+        <div className="three fields">
+          <div className="field">
+            <label>Title</label>
+            <input
+              type="text"
+              value="{this.state.title}"
+              onChange={this.handleInputValueChange.bind(this, "title")}
+              placeholder="Title"
+            />
+          </div>
+          {/*<div className="three wide field">*/}
+            <div className="field">
+              <label>Studyfield</label>
+              <select
+                className="ui fluid search dropdown"
+                value="{this.state.StudyField.name}"
+                onChange={this.handleInputValueChange.bind(this, "StudyFieldName")}
+                name="thesis[field]"
+              >
+                <option value="">Select field</option>
+                <option value="Algorithmic Bioinformatics">Algorithmic Bioinformatics</option>
+                <option value="Algorithms, Data Analytics and Machine Learning">Algorithms, Data Analytics and Machine Learning</option>
+                <option value="Networking and Services">Networking and Services</option>
+                <option value="Software Systems">Software Systems</option>
+              </select>
+            </div>
+          {/*</div>*/}
+          {/*<div className="five wide field">*/}
+          <div className="field">
+            <label>Grade</label>
+            <select
+              className="ui fluid search dropdown"
+              value="{this.state.grade}"
+              onChange={this.handleInputValueChange.bind(this, "grade")}
+              name="thesis[grade]"
+            >
+              <option value="">Select grade</option>
+              <option value="Approbatur">Approbatur</option>
+              <option value="Lubenter Approbatur">Lubenter Approbatur</option>
+              <option value="Non Sine Laude Approbatur">Non Sine Laude Approbatur</option>
+              <option value="Cum Laude Approbatur">Cum Laude Approbatur</option>
+              <option value="Magna Cum Laude Approbatur">Magna Cum Laude Approbatur</option>
+              <option value="Eximia Cum Laude Approbatur">Eximia Cum Laude Approbatur</option>
+              <option value="Laudatur">Laudatur</option>
+            </select>
+          </div>
+          {/*</div>*/}
+        </div>
+        <div className="three fields">
+          <div className="field">
+            <label>Urkund</label>
+            <div className="ui right icon input">
+              <i className="external icon">
+                <a href="http://www.w3schools.com" target="_blank" className="icon-link"></a>
+              </i>
+              <input
+                type="text"
+                name="email"
+                placeholder="E-mail address"
+                readOnly="true"
+                value="urkundi"
+              />
+            </div>
+          </div>
+          <div className="field">
+            <label>Ethesis</label>
+            <div className="ui right icon input">
+            <i className="external icon">
+              <a href="http://www.w3schools.com" target="_blank" className="icon-link"></a>
+            </i>
+              <input
+                type="text"
+                name="email"
+                placeholder="E-mail address"
+                readOnly="true"
+                value="ethesis"
+              />
+            </div>
+          </div>
+          <div className="field">
+            <label>Instructor</label>
+            <input
+              type="text"
+              value="{this.state.urkund}"
+              onChange={this.handleInputValueChange.bind(this, "urkund")}
+              placeholder="Link to Urkund"
+            />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  renderPickCouncilmeeting() {
+    const today = new Date();
+    const filtered = this.props.councilmeetings.filter(meeting => {
+      if (new Date(meeting.date) >= today) {
+        return meeting;
+      }
+    });
+    const formatted = filtered.map(meeting => {
+      return {
+        id: meeting.id,
+        date: moment(new Date(meeting.date)).format("DD/MM/YYYY"),
+      };
+    });
+    return (
+      <div className="m-bot">
+        <h3 className="ui dividing header">Date of Councilmeeting</h3>
+        <select className="ui fluid search dropdown"
+          onChange={this.handleInputValueChange.bind(this, "CouncilMeetingId")}
+        >
+          { formatted.map((meeting, index) =>
+            <option key={ index } value={ meeting.id } >
+              { meeting.date }
+            </option>
+          )}
+        </select>
+      </div>
+    );
+  }
+
+  renderSentReminders() {
+    return (
+      <div>
+        <h2 className="ui dividing header">Sent reminders</h2>
+        <div className="field">
+          <div className="ui right input">
+            <h3 className="ui header">Ethesis Reminder</h3>
+            <div className="ui checkbox m-left">
+              <input type="checkbox" />
+              <label></label>
+            </div>
+          </div>
+          <div className="four fields">
+            <div className="field">
+              <label>Student</label>
+              <input type="text" name="shipping[first-name]" placeholder="First Name" />
+            </div>
+            <div className="field">
+              <label>Last sent</label>
+              <p>1.1.2016</p>
+              {/*<input type="text" name="shipping[last-name]" placeholder="Last Name" />*/}
+            </div>
+            <div className="field">
+              <label>Deadline</label>
+              <p>1.4.2016</p>
+            </div>
+            <div className="field">
+              <label>&nbsp;</label>
+              <button className="ui blue button">Send reminder</button>
+            </div>
+          </div>
+        </div>
+        <div className="field">
+          <div className="ui right input">
+            <h3 className="ui header">Grader Evaluation Reminder</h3>
+            <div className="ui checkbox m-left">
+              <input type="checkbox" />
+              <label></label>
+            </div>
+          </div>
+          <div className="four fields">
+            <div className="field">
+              <input type="text" name="shipping[first-name]" placeholder="First Name" />
+            </div>
+            <div className="field">
+              <label>Last sent</label>
+              <p>1.1.2016</p>
+              {/*<input type="text" name="shipping[last-name]" placeholder="Last Name" />*/}
+            </div>
+            <div className="field">
+              <label>Deadline</label>
+              <p>1.4.2016</p>
+            </div>
+            <div className="field">
+              <label>&nbsp;</label>
+              <button className="ui blue button">Send reminder</button>
+            </div>
+          </div>
+        </div>
+        <div className="field">
+          <div className="ui right input">
+            <h3 className="ui header">Print Thesis Reminder</h3>
+            <div className="ui checkbox m-left">
+              <input type="checkbox" />
+              <label></label>
+            </div>
+          </div>
+          <div className="four fields">
+            <div className="field">
+              <label>Print-person</label>
+              <input type="text" name="shipping[first-name]" placeholder="First Name" />
+            </div>
+            <div className="field">
+              <label>Last sent</label>
+              <p>1.1.2016</p>
+              {/*<input type="text" name="shipping[last-name]" placeholder="Last Name" />*/}
+            </div>
+            <div className="field">
+              <label>Deadline</label>
+              <p>1.4.2016</p>
+            </div>
+            <div className="field">
+              <label>&nbsp;</label>
+              <button className="ui blue button">Send reminder</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  render() {
+    return (
+      <div className="ui form">
+        <h2 className="ui dividing header">{this.state.thesis.title}</h2>
+        <div className="field">
+          <div className="ui green button">Edit</div>
+        </div>
+        { this.renderThesisAuthor() }
+        { this.renderThesisInformation() }
+        <GraderList graders={this.state.thesis.Graders} />
+        { this.renderPickCouncilmeeting() }
+        <h2 className="ui dividing header">Abstract</h2>
+        <div className="field">
+          <textarea></textarea>
+        </div>
+        <h2 className="ui dividing header">Grader evaluation</h2>
+        <div className="field">
+          <textarea></textarea>
+        </div>
+        { this.renderSentReminders() }
+        <h2 className="ui dividing header">Print</h2>
+        <div className="field">
+          <button className="ui blue button">Open as PDF</button>
+        </div>
+      </div>
+    );
+  }
 }
+
 import { connect } from "react-redux";
+
+import { updateThesis, deleteThesis } from "./thesis.actions";
+import { updateGrader } from "../grader/grader.actions";
+import { updateUser } from "../user/user.actions";
+import { sendNotification } from "../email/email.actions";
+import { updateThesisProgress } from "../thesisprogress/thesisprogress.actions";
 
 /**
  * A special function used to define what the form of the data is that is gotten from the state.
@@ -254,9 +360,11 @@ import { connect } from "react-redux";
 const mapStateToProps = (state) => {
   const user = state.get("auth");
   const thesis = state.get("thesis");
+  const councilmeeting = state.get("councilmeeting");
   return {
     user: user.get("user").toJS(),
     theses: thesis.get("theses").toJS(),
+    councilmeetings: councilmeeting.get("councilmeetings").toJS(),
   };
 };
 
