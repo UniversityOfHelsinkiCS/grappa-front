@@ -146,7 +146,7 @@ export class ThesisCreate extends React.Component {
           one of them isn't at least a professor and the other a doctor an evaluation of
           the graders will be done by the thesis' studyfield's professor.
         </p>
-        <h4 className="ui dividing header">Thesis Author</h4>
+        <h3 className="ui dividing header">Thesis Author</h3>
         <div className="three fields">
           <div className="field">
             <label>First name</label>
@@ -186,7 +186,7 @@ export class ThesisCreate extends React.Component {
   renderThesisInformation() {
     return (
       <div className="m-bot">
-        <h4 className="ui dividing header">Thesis Information</h4>
+        <h3 className="ui dividing header">Thesis Information</h3>
         <div className="three fields">
           <div className="field">
             <label>Title</label>
@@ -255,7 +255,7 @@ export class ThesisCreate extends React.Component {
   renderGraders() {
     return (
       <div className="m-bot">
-        <h4 className="ui dividing header">Graders</h4>
+        <h3 className="ui dividing header">Graders</h3>
         {
           this.state.graders.map((grader, index) =>
             <div key={index} className="three fields">
@@ -300,7 +300,7 @@ export class ThesisCreate extends React.Component {
       if (new Date(meeting.date) > today) {
         return meeting;
       }
-    })
+    });
   }
 
   renderPickCouncilmeeting() {
@@ -314,12 +314,12 @@ export class ThesisCreate extends React.Component {
       return {
         id: meeting.id,
         date: moment(new Date(meeting.date)).format("DD/MM/YYYY"),
-      }
+      };
     });
     const meetingDates = [{ id: "", date: "Select Date" }, ...formatted];
     return (
       <div className="m-bot">
-        <h4 className="ui dividing header">Choose the date for the Department Council meeting</h4>
+        <h3 className="ui dividing header">Choose the date for the Department Council meeting</h3>
         <select className="ui fluid search dropdown"
           onChange={this.handleChange.bind(this, "CouncilMeetingId")}
         >
@@ -341,6 +341,7 @@ export class ThesisCreate extends React.Component {
     return (
       <div>
         <div className="ui form">
+          <h2 className="ui dividing header">Create a thesis</h2>
           {this.renderThesisAuthor()}
           {this.renderThesisInformation()}
           {this.renderGraders()}

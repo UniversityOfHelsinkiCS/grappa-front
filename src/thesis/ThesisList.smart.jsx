@@ -23,6 +23,7 @@ export class ThesisList extends Component {
   }
 
   componentWillReceiveProps(newProps) {
+    console.log("received props");
     const formatted = this.formatThesesForReactTable(newProps.theses);
     const filtered = this.filterOldTheses(formatted, !this.refs.checkOld.checked);
     this.setState({
