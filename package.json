@@ -9,6 +9,7 @@
     "build": "webpack --config webpack.config.js",
     "postinstall": "webpack --config webpack.config.prod.js --progress --colors",
     "start": "node index.js",
+    "pm2:start": "pm2 start -n grappa-front npm -- start",
     "test": "export NODE_ENV=testing|| set NODE_ENV=testing&& istanbul cover node_modules/mocha/bin/_mocha -- --compilers js:babel-core/register --require ./test/testhelper.js  \"test/**/*@(.js|.jsx)\"",
     "test:watch": "npm run test -- --watch",
     "instrument": "istanbul instrument . -o instrument/",

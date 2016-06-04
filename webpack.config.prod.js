@@ -5,6 +5,8 @@ const webpack = require("webpack");
 const NODE_ENV = process.env.NODE_ENV;
 const API_URL = process.env.API_URL;
 
+console.log(API_URL)
+
 module.exports = {
   devtool: "source-map",
   entry: [
