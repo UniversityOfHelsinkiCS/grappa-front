@@ -14,6 +14,7 @@ import user from "./user/user.reducer";
 import grader from "./grader/grader.reducer";
 import email from "./email/email.reducer";
 import emailstatus from "./emailstatus/emailstatus.reducer";
+import studyfield from "./studyfield/studyfield.reducer";
 import pdf from "./pdf/pdf.reducer";
 import flash from "./flash/flash.reducer";
 import { LOGOUT_USER } from "./auth/auth.actions";
@@ -27,6 +28,7 @@ const combinedReducers = combineReducers({
   grader,
   email,
   emailstatus,
+  studyfield,
   pdf,
   flash,
 });
@@ -43,7 +45,7 @@ const rootReducer = (state, action) => {
 
 const createStoreWithMiddleware = applyMiddleware(logger, handleCallApi, manageState)(createStore);
 const createPersistentStore = compose(
-  persistState(["auth", "thesis"], {
+  persistState(["auth", "thesis", "councilmeeting", "studyfield"], {
     slicer: (paths) => (state) => state.filter((v, k) => paths.indexOf(k) !== -1),
     serialize: (subset) => JSON.stringify(subset.toJS()),
     deserialize: (serialized) => fromJS(JSON.parse(serialized)),

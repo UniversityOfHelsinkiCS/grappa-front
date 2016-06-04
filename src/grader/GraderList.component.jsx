@@ -52,8 +52,8 @@ export default class GraderList extends Component {
 
   render() {
     return (
-      <div>
-        <h2 className="ui dividing header">Graders</h2>
+      <div className="field">
+        <h3 className="ui dividing header">Graders</h3>
         {
           this.props.graders.map((grader, index) =>
             <div key={index} className="three fields">
