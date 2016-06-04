@@ -46,7 +46,7 @@ export class CouncilmeetingList extends Component {
       if (new Date(meeting.date) >= today) {
         return meeting;
       }
-    })
+    });
   }
 
   handleCheckBoxClick(event) {
