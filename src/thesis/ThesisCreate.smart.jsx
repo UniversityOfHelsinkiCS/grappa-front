@@ -19,8 +19,8 @@ export class ThesisCreate extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.state = {
-      fname: "",
-      lname: "",
+      firstname: "",
+      lastname: "",
       email: "",
       title: "",
       graders: [
@@ -120,8 +120,9 @@ export class ThesisCreate extends React.Component {
     // console.log(thesisErrors);
     if (thesisErrors.list.length === 0) {
       const newThesis = {
-        author: `${this.state.fname} ${this.state.lname}`,
-        email: this.state.email,
+        authorFirstname: this.state.firstname,
+        authorLastname: this.state.lastname,
+        authorEmail: this.state.email,
         title: this.state.title,
         graders: this.state.graders,
         urkund: this.state.urkund,
@@ -150,8 +151,8 @@ export class ThesisCreate extends React.Component {
             <label>First name</label>
             <input
               type="text"
-              value={this.state.fname}
-              onChange={this.handleChange.bind(this, "fname")}
+              value={this.state.firstname}
+              onChange={this.handleChange.bind(this, "firstname")}
               placeholder="First Name"
             />
           </div>
@@ -159,8 +160,8 @@ export class ThesisCreate extends React.Component {
             <label>Last name</label>
             <input
               type="text"
-              value={this.state.lname}
-              onChange={this.handleChange.bind(this, "lname")}
+              value={this.state.lastname}
+              onChange={this.handleChange.bind(this, "lastname")}
               placeholder="Last Name"
             />
           </div>

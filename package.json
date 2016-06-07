@@ -12,6 +12,7 @@
     "pm2:start": "pm2 start -n grappa-front npm -- start",
     "test": "export NODE_ENV=testing|| set NODE_ENV=testing&& istanbul cover node_modules/mocha/bin/_mocha -- --compilers js:babel-core/register --require ./test/testhelper.js  \"test/**/*@(.js|.jsx)\"",
     "test:watch": "npm run test -- --watch",
+    "test:noc": "export NODE_ENV=testing|| set NODE_ENV=testing&& mocha --compilers js:babel-core/register --require ./test/testhelper.js  \"test/**/*@(.js|.jsx)\"",
     "instrument": "istanbul instrument . -o instrument/",
     "check": "npm run lint && npm test && npm start"
   },
