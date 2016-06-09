@@ -126,7 +126,6 @@ export class ThesisCreate extends React.Component {
         title: this.state.title,
         graders: this.state.graders,
         urkund: this.state.urkund,
-        ethesis: this.state.ethesis,
         grade: this.state.grade,
         StudyFieldId: this.state.StudyFieldId,
         CouncilMeetingId: this.state.CouncilMeetingId,

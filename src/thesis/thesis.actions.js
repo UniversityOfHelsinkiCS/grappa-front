@@ -114,14 +114,3 @@ export const updateThesis = (data) => {
  * @return The object containing the relevant information for the
  * reducer to handle the data accordingly.
  */
-export const updateThesisWithEthesis = (data) => {
-  console.log("updateThesisWithEthesis-action called!");
-  return {
-    type: CALL_API,
-    success: THESIS_UPDATE_ONE_SUCCESS,
-    failure: THESIS_UPDATE_ONE_FAILURE,
-    method: "post",
-    url: "/thesis/ethesis",
-    data,
-  };
-};

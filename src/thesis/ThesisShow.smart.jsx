@@ -12,7 +12,8 @@ export class ThesisShow extends Component {
         Graders: [],
         StudyField: {
           name: "",
-        }
+        },
+        User: {},
       },
       delete: false,
     };
@@ -70,7 +71,7 @@ export class ThesisShow extends Component {
             <label>First name</label>
             <input
               type="text"
-              value="asf"
+              value={this.state.thesis.authorFirstname}
               onChange={this.handleInputValueChange.bind(this, "fname")}
               placeholder="First Name"
             />
@@ -79,7 +80,7 @@ export class ThesisShow extends Component {
             <label>Last name</label>
             <input
               type="text"
-              value="{this.state.lname}"
+              value={this.state.thesis.authorLastname}
               onChange={this.handleInputValueChange.bind(this, "lname")}
               placeholder="Last Name"
             />
@@ -88,7 +89,7 @@ export class ThesisShow extends Component {
             <label>Email</label>
             <input
               type="text"
-              value="{this.state.email}"
+              value={this.state.thesis.authorEmail}
               onChange={this.handleInputValueChange.bind(this, "email")}
               placeholder="Email Address"
             />
@@ -99,6 +100,7 @@ export class ThesisShow extends Component {
   }
 
   renderThesisInformation() {
+    const instructor = this.state.thesis.User == undefined ? "" : `${this.state.thesis.User.name}`
     return (
       <div className="m-bot">
         <h3 className="ui dividing header">Thesis Information</h3>
@@ -107,7 +109,7 @@ export class ThesisShow extends Component {
             <label>Title</label>
             <input
               type="text"
-              value="{this.state.title}"
+              value={this.state.thesis.title}
               onChange={this.handleInputValueChange.bind(this, "title")}
               placeholder="Title"
             />
@@ -117,15 +119,15 @@ export class ThesisShow extends Component {
               <label>Studyfield</label>
               <select
                 className="ui fluid search dropdown"
-                value="{this.state.StudyField.name}"
-                onChange={this.handleInputValueChange.bind(this, "StudyFieldName")}
-                name="thesis[field]"
+                value={this.state.thesis.StudyFieldId}
+                onChange={this.handleInputValueChange.bind(this, "StudyFieldId")}
               >
-                <option value="">Select field</option>
-                <option value="Algorithmic Bioinformatics">Algorithmic Bioinformatics</option>
-                <option value="Algorithms, Data Analytics and Machine Learning">Algorithms, Data Analytics and Machine Learning</option>
-                <option value="Networking and Services">Networking and Services</option>
-                <option value="Software Systems">Software Systems</option>
+                <option key="0" value="">Select field</option>
+                { this.props.studyfields.map((field, index) =>
+                  <option key={index} value={field.id}>
+                    { field.name }
+                  </option>
+                )}
               </select>
             </div>
           {/*</div>*/}
@@ -134,7 +136,7 @@ export class ThesisShow extends Component {
             <label>Grade</label>
             <select
               className="ui fluid search dropdown"
-              value="{this.state.grade}"
+              value={this.state.thesis.grade}
               onChange={this.handleInputValueChange.bind(this, "grade")}
               name="thesis[grade]"
             >
@@ -162,7 +164,7 @@ export class ThesisShow extends Component {
                 name="email"
                 placeholder="E-mail address"
                 readOnly="true"
-                value="urkundi"
+                value={this.state.thesis.urkund}
               />
             </div>
           </div>
@@ -177,7 +179,7 @@ export class ThesisShow extends Component {
                 name="email"
                 placeholder="E-mail address"
                 readOnly="true"
-                value="ethesis"
+                value={this.state.thesis.ethesis}
               />
             </div>
           </div>
@@ -185,7 +187,7 @@ export class ThesisShow extends Component {
             <label>Instructor</label>
             <input
               type="text"
-              value="{this.state.urkund}"
+              value={instructor}
               onChange={this.handleInputValueChange.bind(this, "urkund")}
               placeholder="Link to Urkund"
             />
@@ -212,6 +214,7 @@ export class ThesisShow extends Component {
       <div className="m-bot">
         <h3 className="ui dividing header">Date of Councilmeeting</h3>
         <select className="ui fluid search dropdown"
+          value={this.state.thesis.CouncilMeetingId}
           onChange={this.handleInputValueChange.bind(this, "CouncilMeetingId")}
         >
           { formatted.map((meeting, index) =>
@@ -225,6 +228,7 @@ export class ThesisShow extends Component {
   }
 
   renderSentReminders() {
+    const thesisProgress = this.state.thesis.ThesisProgress || {};
     return (
       <div>
         <h2 className="ui dividing header">Sent reminders</h2>
@@ -239,7 +243,7 @@ export class ThesisShow extends Component {
           <div className="four fields">
             <div className="field">
               <label>Student</label>
-              <input type="text" name="shipping[first-name]" placeholder="First Name" />
+              <p>name</p>
             </div>
             <div className="field">
               <label>Last sent</label>
@@ -266,7 +270,8 @@ export class ThesisShow extends Component {
           </div>
           <div className="four fields">
             <div className="field">
-              <input type="text" name="shipping[first-name]" placeholder="First Name" />
+              <label>Professor</label>
+              <p>name</p>
             </div>
             <div className="field">
               <label>Last sent</label>
@@ -294,7 +299,7 @@ export class ThesisShow extends Component {
           <div className="four fields">
             <div className="field">
               <label>Print-person</label>
-              <input type="text" name="shipping[first-name]" placeholder="First Name" />
+              <p>name</p>
             </div>
             <div className="field">
               <label>Last sent</label>
@@ -361,10 +366,12 @@ const mapStateToProps = (state) => {
   const user = state.get("auth");
   const thesis = state.get("thesis");
   const councilmeeting = state.get("councilmeeting");
+  const sfreducer = state.get("studyfield");
   return {
     user: user.get("user").toJS(),
     theses: thesis.get("theses").toJS(),
     councilmeetings: councilmeeting.get("councilmeetings").toJS(),
+    studyfields: sfreducer.get("studyfields").toJS(),
   };
 };
 

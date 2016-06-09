@@ -17,7 +17,7 @@ import {
 */
 const INITIAL_STATE = fromJS({
   theses: [],
-  linkSent: "not_tried",
+  ethesisLinkSent: "",
 });
 
 /**
@@ -65,9 +65,16 @@ export default function (state = INITIAL_STATE, action) {
     // probably should display error message?
       return state;
     case THESIS_UPDATE_ONE_SUCCESS:
-      return state.updateIn(["linkSent"], () => "success");
+      return state.updateIn(["theses"], thesis =>
+        thesis.map(thesis => {
+          if (thesis.get("id") === action.sent.id) {
+            return fromJS(action.sent);
+          }
+          return thesis;
+        })
+      );
     case THESIS_UPDATE_ONE_FAILURE:
-      return state.updateIn(["linkSent"], () => "failed");
+      return state;
     default:
       return state;
   }
