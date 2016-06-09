@@ -15,6 +15,7 @@ export class ThesisShow extends Component {
         },
         User: {},
       },
+      editing: false,
       delete: false,
     };
   }
@@ -48,7 +49,18 @@ export class ThesisShow extends Component {
     }
   }
 
+  preventChangeIfNotEditing(event) {
+    console.log("preventin")
+    if (!this.state.editing) {
+      console.log("eyes")
+      event.preventDefault();
+    }
+  }
+
   handleInputValueChange(name, event) {
+    if (this.state.editing) {
+
+    }
     // console.log(name);
     // event.preventDefault();
     // const change = {
@@ -100,6 +112,7 @@ export class ThesisShow extends Component {
   }
 
   renderThesisInformation() {
+    console.log(this.props.studyfields)
     const instructor = this.state.thesis.User == undefined ? "" : `${this.state.thesis.User.name}`
     return (
       <div className="m-bot">
@@ -236,7 +249,7 @@ export class ThesisShow extends Component {
           <div className="ui right input">
             <h3 className="ui header">Ethesis Reminder</h3>
             <div className="ui checkbox m-left">
-              <input type="checkbox" />
+              <input type="checkbox" readOnly="true" checked={thesisProgress.ethesisDone ? "true" : ""} />
               <label></label>
             </div>
           </div>
@@ -254,17 +267,22 @@ export class ThesisShow extends Component {
               <label>Deadline</label>
               <p>1.4.2016</p>
             </div>
-            <div className="field">
-              <label>&nbsp;</label>
-              <button className="ui blue button">Send reminder</button>
-            </div>
+              { thesisProgress.ethesisDone ?
+                <div className="field">
+                </div>
+                :
+                <div className="field">
+                  <label>&nbsp;</label>
+                  <button className="ui blue button">Send reminder</button>
+                </div>
+              }
           </div>
         </div>
         <div className="field">
           <div className="ui right input">
             <h3 className="ui header">Grader Evaluation Reminder</h3>
             <div className="ui checkbox m-left">
-              <input type="checkbox" />
+              <input type="checkbox" readOnly="true" checked={ thesisProgress.graderevalDone ? "true" : "" }/>
               <label></label>
             </div>
           </div>
@@ -282,17 +300,22 @@ export class ThesisShow extends Component {
               <label>Deadline</label>
               <p>1.4.2016</p>
             </div>
-            <div className="field">
-              <label>&nbsp;</label>
-              <button className="ui blue button">Send reminder</button>
-            </div>
+              { thesisProgress.graderevalDone ?
+                <div className="field">
+                </div>
+                :
+                <div className="field">
+                  <label>&nbsp;</label>
+                  <button className="ui blue button">Send reminder</button>
+                </div>
+              }
           </div>
         </div>
         <div className="field">
           <div className="ui right input">
             <h3 className="ui header">Print Thesis Reminder</h3>
             <div className="ui checkbox m-left">
-              <input type="checkbox" />
+              <input type="checkbox" readOnly="true" checked={ thesisProgress.printDone ? "true" : "" }/>
               <label></label>
             </div>
           </div>
@@ -310,10 +333,15 @@ export class ThesisShow extends Component {
               <label>Deadline</label>
               <p>1.4.2016</p>
             </div>
-            <div className="field">
-              <label>&nbsp;</label>
-              <button className="ui blue button">Send reminder</button>
-            </div>
+              { thesisProgress.printDone ?
+                <div className="field">
+                </div>
+                :
+                <div className="field">
+                  <label>&nbsp;</label>
+                  <button className="ui blue button">Send reminder</button>
+                </div>
+              }
           </div>
         </div>
       </div>
@@ -329,7 +357,7 @@ export class ThesisShow extends Component {
         </div>
         { this.renderThesisAuthor() }
         { this.renderThesisInformation() }
-        <GraderList graders={this.state.thesis.Graders} />
+        <GraderList graders={this.state.thesis.Graders} onChange={this.preventChangeIfNotEditing.bind(this)}/>
         { this.renderPickCouncilmeeting() }
         <h2 className="ui dividing header">Abstract</h2>
         <div className="field">
