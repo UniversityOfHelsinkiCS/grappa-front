@@ -54,7 +54,7 @@ describe("thesis.actions", () => {
     expect(createdAction).to.deep.equal(expectedAction);
   });
 
-  it("updateThesisWithEthesis should return correct object", () => {
+  xit("updateThesisWithEthesis should return correct object", () => {
     const updateInfo = {
       ethesis: "http://google.com",
     };
