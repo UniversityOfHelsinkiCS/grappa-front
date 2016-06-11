@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { browserHistory, Link } from "react-router";
 import moment from "moment";
 
+import { validateField, validateModel } from "../config/Validator";
 import GraderList from "../grader/GraderList.component";
 
 export class ThesisShow extends Component {
@@ -12,8 +13,11 @@ export class ThesisShow extends Component {
         Graders: [],
         StudyField: {
           name: "",
-        }
+        },
+        User: {},
       },
+      errors: {},
+      editable: false,
       delete: false,
     };
   }
@@ -35,30 +39,47 @@ export class ThesisShow extends Component {
     }
     const foundThesis = props.theses.find(thesis => {
       if (thesis.id === thesisId) {
-        console.log(thesis)
+        console.log(thesis);
         return thesis;
       }
     });
     if (typeof foundThesis !== "undefined") {
-      console.log(foundThesis)
+      console.log(foundThesis);
       this.setState({
         thesis: foundThesis,
       });
     }
   }
 
-  handleInputValueChange(name, event) {
-    // console.log(name);
-    // event.preventDefault();
-    // const change = {
-    //   errors: this.state.errors,
-    // };
-    // change[name] = event.target.value;
-    // console.log(change);
-    // const newErrors = validateField(name, event.target.value, "thesis");
-    // console.log(newErrors);
-    // change.errors[`thesis_${name}`] = newErrors;
-    // this.setState(change);
+  handleClick(button, event) {
+    if (button === "edit") {
+      this.setState({
+        editable: true,
+      });
+    } else if (button === "stop-edit") {
+      this.setState({
+        editable: false,
+      });
+    } else if (button === "save") {
+      this.props.updateThesis(this.state.thesis);
+      // this.props.updateGraders(this.state.Graders);
+    }
+  }
+
+  handleChange(name, event) {
+    if (this.state.editable) {
+      console.log("yo editing");
+      event.preventDefault();
+      const change = {
+        thesis: this.state.thesis,
+        errors: this.state.errors,
+        // editable: this.state.editable,
+      };
+      change.thesis[name] = event.target.value;
+      const newErrors = validateField(name, event.target.value, "thesis");
+      change.errors[`thesis_${name}`] = newErrors;
+      this.setState(change);
+    }
   }
 
   renderThesisAuthor() {
@@ -70,8 +91,8 @@ export class ThesisShow extends Component {
             <label>First name</label>
             <input
               type="text"
-              value="asf"
-              onChange={this.handleInputValueChange.bind(this, "fname")}
+              value={this.state.thesis.authorFirstname}
+              onChange={this.handleChange.bind(this, "authorFirstname")}
               placeholder="First Name"
             />
           </div>
@@ -79,8 +100,8 @@ export class ThesisShow extends Component {
             <label>Last name</label>
             <input
               type="text"
-              value="{this.state.lname}"
-              onChange={this.handleInputValueChange.bind(this, "lname")}
+              value={this.state.thesis.authorLastname}
+              onChange={this.handleChange.bind(this, "authorLastname")}
               placeholder="Last Name"
             />
           </div>
@@ -88,8 +109,8 @@ export class ThesisShow extends Component {
             <label>Email</label>
             <input
               type="text"
-              value="{this.state.email}"
-              onChange={this.handleInputValueChange.bind(this, "email")}
+              value={this.state.thesis.authorEmail}
+              onChange={this.handleChange.bind(this, "authorEmail")}
               placeholder="Email Address"
             />
           </div>
@@ -99,6 +120,7 @@ export class ThesisShow extends Component {
   }
 
   renderThesisInformation() {
+    const instructor = this.state.thesis.User === undefined ? "" : `${this.state.thesis.User.name}`;
     return (
       <div className="m-bot">
         <h3 className="ui dividing header">Thesis Information</h3>
@@ -107,8 +129,8 @@ export class ThesisShow extends Component {
             <label>Title</label>
             <input
               type="text"
-              value="{this.state.title}"
-              onChange={this.handleInputValueChange.bind(this, "title")}
+              value={this.state.thesis.title}
+              onChange={this.handleChange.bind(this, "title")}
               placeholder="Title"
             />
           </div>
@@ -117,15 +139,15 @@ export class ThesisShow extends Component {
               <label>Studyfield</label>
               <select
                 className="ui fluid search dropdown"
-                value="{this.state.StudyField.name}"
-                onChange={this.handleInputValueChange.bind(this, "StudyFieldName")}
-                name="thesis[field]"
+                value={this.state.thesis.StudyFieldId}
+                onChange={this.handleChange.bind(this, "StudyFieldId")}
               >
-                <option value="">Select field</option>
-                <option value="Algorithmic Bioinformatics">Algorithmic Bioinformatics</option>
-                <option value="Algorithms, Data Analytics and Machine Learning">Algorithms, Data Analytics and Machine Learning</option>
-                <option value="Networking and Services">Networking and Services</option>
-                <option value="Software Systems">Software Systems</option>
+                <option key="0" value="">Select field</option>
+                { this.props.studyfields.map((field, index) =>
+                  <option key={index} value={field.id}>
+                    { field.name }
+                  </option>
+                )}
               </select>
             </div>
           {/*</div>*/}
@@ -134,8 +156,8 @@ export class ThesisShow extends Component {
             <label>Grade</label>
             <select
               className="ui fluid search dropdown"
-              value="{this.state.grade}"
-              onChange={this.handleInputValueChange.bind(this, "grade")}
+              value={this.state.thesis.grade}
+              onChange={this.handleChange.bind(this, "grade")}
               name="thesis[grade]"
             >
               <option value="">Select grade</option>
@@ -155,14 +177,13 @@ export class ThesisShow extends Component {
             <label>Urkund</label>
             <div className="ui right icon input">
               <i className="external icon">
-                <a href="http://www.w3schools.com" target="_blank" className="icon-link"></a>
+                <a href={this.state.thesis.urkund} target="_blank" className="icon-link"></a>
               </i>
               <input
                 type="text"
-                name="email"
-                placeholder="E-mail address"
-                readOnly="true"
-                value="urkundi"
+                placeholder="Urkund link"
+                value={this.state.thesis.urkund}
+                onChange={this.handleChange.bind(this, "urkund")}
               />
             </div>
           </div>
@@ -170,14 +191,13 @@ export class ThesisShow extends Component {
             <label>Ethesis</label>
             <div className="ui right icon input">
             <i className="external icon">
-              <a href="http://www.w3schools.com" target="_blank" className="icon-link"></a>
+              <a href={this.state.thesis.ethesis} target="_blank" className="icon-link"></a>
             </i>
               <input
                 type="text"
-                name="email"
-                placeholder="E-mail address"
-                readOnly="true"
-                value="ethesis"
+                placeholder="Ethesis link"
+                value={this.state.thesis.ethesis}
+                onChange={this.handleChange.bind(this, "ethesis")}
               />
             </div>
           </div>
@@ -185,9 +205,10 @@ export class ThesisShow extends Component {
             <label>Instructor</label>
             <input
               type="text"
-              value="{this.state.urkund}"
-              onChange={this.handleInputValueChange.bind(this, "urkund")}
               placeholder="Link to Urkund"
+              value={instructor}
+              onChange={this.handleChange.bind(this, "instructor")}
+              disabled="true"
             />
           </div>
         </div>
@@ -212,7 +233,8 @@ export class ThesisShow extends Component {
       <div className="m-bot">
         <h3 className="ui dividing header">Date of Councilmeeting</h3>
         <select className="ui fluid search dropdown"
-          onChange={this.handleInputValueChange.bind(this, "CouncilMeetingId")}
+          value={this.state.thesis.CouncilMeetingId}
+          onChange={this.handleChange.bind(this, "CouncilMeetingId")}
         >
           { formatted.map((meeting, index) =>
             <option key={ index } value={ meeting.id } >
@@ -225,6 +247,7 @@ export class ThesisShow extends Component {
   }
 
   renderSentReminders() {
+    const thesisProgress = this.state.thesis.ThesisProgress || {};
     return (
       <div>
         <h2 className="ui dividing header">Sent reminders</h2>
@@ -232,14 +255,14 @@ export class ThesisShow extends Component {
           <div className="ui right input">
             <h3 className="ui header">Ethesis Reminder</h3>
             <div className="ui checkbox m-left">
-              <input type="checkbox" />
+              <input type="checkbox" readOnly="true" checked={thesisProgress.ethesisDone ? "true" : ""} />
               <label></label>
             </div>
           </div>
           <div className="four fields">
             <div className="field">
               <label>Student</label>
-              <input type="text" name="shipping[first-name]" placeholder="First Name" />
+              <p>name</p>
             </div>
             <div className="field">
               <label>Last sent</label>
@@ -250,23 +273,29 @@ export class ThesisShow extends Component {
               <label>Deadline</label>
               <p>1.4.2016</p>
             </div>
-            <div className="field">
-              <label>&nbsp;</label>
-              <button className="ui blue button">Send reminder</button>
-            </div>
+              { thesisProgress.ethesisDone ?
+                <div className="field">
+                </div>
+                :
+                <div className="field">
+                  <label>&nbsp;</label>
+                  <button className="ui blue button">Send reminder</button>
+                </div>
+              }
           </div>
         </div>
         <div className="field">
           <div className="ui right input">
             <h3 className="ui header">Grader Evaluation Reminder</h3>
             <div className="ui checkbox m-left">
-              <input type="checkbox" />
+              <input type="checkbox" readOnly="true" checked={ thesisProgress.graderevalDone ? "true" : "" }/>
               <label></label>
             </div>
           </div>
           <div className="four fields">
             <div className="field">
-              <input type="text" name="shipping[first-name]" placeholder="First Name" />
+              <label>Professor</label>
+              <p>name</p>
             </div>
             <div className="field">
               <label>Last sent</label>
@@ -277,24 +306,29 @@ export class ThesisShow extends Component {
               <label>Deadline</label>
               <p>1.4.2016</p>
             </div>
-            <div className="field">
-              <label>&nbsp;</label>
-              <button className="ui blue button">Send reminder</button>
-            </div>
+              { thesisProgress.graderevalDone ?
+                <div className="field">
+                </div>
+                :
+                <div className="field">
+                  <label>&nbsp;</label>
+                  <button className="ui blue button">Send reminder</button>
+                </div>
+              }
           </div>
         </div>
         <div className="field">
           <div className="ui right input">
             <h3 className="ui header">Print Thesis Reminder</h3>
             <div className="ui checkbox m-left">
-              <input type="checkbox" />
+              <input type="checkbox" readOnly="true" checked={ thesisProgress.printDone ? "true" : "" }/>
               <label></label>
             </div>
           </div>
           <div className="four fields">
             <div className="field">
               <label>Print-person</label>
-              <input type="text" name="shipping[first-name]" placeholder="First Name" />
+              <p>name</p>
             </div>
             <div className="field">
               <label>Last sent</label>
@@ -305,14 +339,19 @@ export class ThesisShow extends Component {
               <label>Deadline</label>
               <p>1.4.2016</p>
             </div>
-            <div className="field">
-              <label>&nbsp;</label>
-              <button className="ui blue button">Send reminder</button>
-            </div>
+              { thesisProgress.printDone ?
+                <div className="field">
+                </div>
+                :
+                <div className="field">
+                  <label>&nbsp;</label>
+                  <button className="ui blue button">Send reminder</button>
+                </div>
+              }
           </div>
         </div>
       </div>
-    )
+    );
   }
 
   render() {
@@ -320,11 +359,16 @@ export class ThesisShow extends Component {
       <div className="ui form">
         <h2 className="ui dividing header">{this.state.thesis.title}</h2>
         <div className="field">
-          <div className="ui green button">Edit</div>
+          { this.state.editable ?
+            <div className="ui red button" onClick={this.handleClick.bind(this, "stop-edit")}>Stop editing</div>
+            :
+            <div className="ui green button" onClick={this.handleClick.bind(this, "edit")}>Edit</div>
+          }
+          <div className="ui blue button" onClick={this.handleClick.bind(this, "save")}>Save</div>
         </div>
         { this.renderThesisAuthor() }
         { this.renderThesisInformation() }
-        <GraderList graders={this.state.thesis.Graders} />
+        <GraderList Graders={this.state.thesis.Graders} editable={this.state.editable}/>
         { this.renderPickCouncilmeeting() }
         <h2 className="ui dividing header">Abstract</h2>
         <div className="field">
@@ -347,7 +391,7 @@ export class ThesisShow extends Component {
 import { connect } from "react-redux";
 
 import { updateThesis, deleteThesis } from "./thesis.actions";
-import { updateGrader } from "../grader/grader.actions";
+import { updateGraders } from "../grader/grader.actions";
 import { updateUser } from "../user/user.actions";
 import { sendNotification } from "../email/email.actions";
 import { updateThesisProgress } from "../thesisprogress/thesisprogress.actions";
@@ -361,10 +405,12 @@ const mapStateToProps = (state) => {
   const user = state.get("auth");
   const thesis = state.get("thesis");
   const councilmeeting = state.get("councilmeeting");
+  const sfreducer = state.get("studyfield");
   return {
     user: user.get("user").toJS(),
     theses: thesis.get("theses").toJS(),
     councilmeetings: councilmeeting.get("councilmeetings").toJS(),
+    studyfields: sfreducer.get("studyfields").toJS(),
   };
 };
 
@@ -376,21 +422,21 @@ const mapDispatchToProps = (dispatch) => ({
   updateThesis(thesis) {
     dispatch(updateThesis(thesis));
   },
-  updateGrader(grader) {
-    dispatch(updateGrader(grader));
+  updateGraders(graders) {
+    dispatch(updateGraders(graders));
   },
-  updateUser(user) {
-    dispatch(updateUser(user));
-  },
+  // updateUser(user) {
+  //   dispatch(updateUser(user));
+  // },
   sendNotification(object) {
     dispatch(sendNotification(object));
   },
   deleteThesis(thesis) {
     dispatch(deleteThesis(thesis));
   },
-  updateThesisProgress(thesis) {
-    dispatch(updateThesisProgress(thesis));
-  },
+  // updateThesisProgress(thesis) {
+  //   dispatch(updateThesisProgress(thesis));
+  // },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ThesisShow);

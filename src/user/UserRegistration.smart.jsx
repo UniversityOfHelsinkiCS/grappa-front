@@ -9,8 +9,8 @@ export class UserRegistration extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.state = {
-      fname: "",
-      lname: "",
+      firstname: "",
+      lastname: "",
       email: "",
       password: "",
       passwordConf: "",
@@ -22,7 +22,7 @@ export class UserRegistration extends Component {
     const errors = {};
     // console.log(this.state.password)
     // console.log(this.state.passwordConf)
-    if ((name === "lname" || name === "fname") && Validator.isNull(input)) {
+    if ((name === "lastname" || name === "firstname") && Validator.isNull(input)) {
       errors[name] = "Name can't be empty.";
     } else if (name === "email" && !Validator.isEmail(input)) {
       errors[name] = "Not valid email.";
@@ -85,7 +85,7 @@ export class UserRegistration extends Component {
     console.log(userErrors);
     if (userErrors.list.length === 0) {
       const newUser = {
-        name: `${this.state.fname} ${this.state.lname}`,
+        name: `${this.state.firstname} ${this.state.lastname}`,
         email: this.state.email,
         password: this.state.password,
       };
@@ -106,10 +106,10 @@ export class UserRegistration extends Component {
                 <i className="user icon"></i>
                 <input
                   type="text"
-                  name="fname"
+                  name="firstname"
                   placeholder="First name"
-                  value={ this.state.fname }
-                  onChange={ this.handleChange.bind(this, "fname") }
+                  value={ this.state.firstname }
+                  onChange={ this.handleChange.bind(this, "firstname") }
                 />
               </div>
             </div>
@@ -118,10 +118,10 @@ export class UserRegistration extends Component {
                 <i className="user icon"></i>
                 <input
                   type="text"
-                  name="lname"
+                  name="lastname"
                   placeholder="Last name"
-                  value={ this.state.lname }
-                  onChange={ this.handleChange.bind(this, "lname") }
+                  value={ this.state.lastname }
+                  onChange={ this.handleChange.bind(this, "lastname") }
                 />
               </div>
             </div>

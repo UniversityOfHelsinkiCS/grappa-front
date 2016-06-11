@@ -19,9 +19,9 @@ export class ThesisCreate extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.state = {
-      fname: "",
-      lname: "",
-      email: "",
+      authorFirstname: "",
+      authorLastname: "",
+      authorEmail: "",
       title: "",
       graders: [
         {
@@ -120,12 +120,12 @@ export class ThesisCreate extends React.Component {
     // console.log(thesisErrors);
     if (thesisErrors.list.length === 0) {
       const newThesis = {
-        author: `${this.state.fname} ${this.state.lname}`,
-        email: this.state.email,
+        authorFirstname: this.state.authorFirstname,
+        authorLastname: this.state.authorLastname,
+        authorEmail: this.state.authorEmail,
         title: this.state.title,
         graders: this.state.graders,
         urkund: this.state.urkund,
-        ethesis: this.state.ethesis,
         grade: this.state.grade,
         StudyFieldId: this.state.StudyFieldId,
         CouncilMeetingId: this.state.CouncilMeetingId,
@@ -150,8 +150,8 @@ export class ThesisCreate extends React.Component {
             <label>First name</label>
             <input
               type="text"
-              value={this.state.fname}
-              onChange={this.handleChange.bind(this, "fname")}
+              value={this.state.firstname}
+              onChange={this.handleChange.bind(this, "authorFirstname")}
               placeholder="First Name"
             />
           </div>
@@ -159,8 +159,8 @@ export class ThesisCreate extends React.Component {
             <label>Last name</label>
             <input
               type="text"
-              value={this.state.lname}
-              onChange={this.handleChange.bind(this, "lname")}
+              value={this.state.lastname}
+              onChange={this.handleChange.bind(this, "authorLastname")}
               placeholder="Last Name"
             />
           </div>
@@ -169,7 +169,7 @@ export class ThesisCreate extends React.Component {
             <input
               type="text"
               value={this.state.email}
-              onChange={this.handleChange.bind(this, "email")}
+              onChange={this.handleChange.bind(this, "authorEmail")}
               placeholder="Email Address"
             />
           </div>
@@ -179,7 +179,7 @@ export class ThesisCreate extends React.Component {
   }
 
   renderThesisInformation() {
-    console.log(this.props.studyfields)
+    console.log(this.props.studyfields);
     return (
       <div className="m-bot">
         <h3 className="ui dividing header">Thesis Information</h3>
@@ -292,7 +292,7 @@ export class ThesisCreate extends React.Component {
   }
 
   renderPickCouncilmeeting() {
-    console.log(this.props.meetingDates)
+    console.log(this.props.meetingDates);
     const today = new Date();
     const filtered = this.props.meetingDates.filter(meeting => {
       if (new Date(meeting.date) >= today) {

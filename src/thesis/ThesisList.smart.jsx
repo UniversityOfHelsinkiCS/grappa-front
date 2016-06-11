@@ -36,7 +36,8 @@ export class ThesisList extends Component {
     return theses.map(thesis => {
       return {
         status: thesis.ThesisProgress.isDone ? "Done" : "In progress",
-        author: thesis.author,
+        firstname: thesis.authorFirstname,
+        lastname: thesis.authorLastname,
         title: unsafe(`<a href="/thesis/${thesis.id}" target="_blank">${thesis.title}</a>`),
         instructor: thesis.User.name,
         studyfield: thesis.StudyField.name,
@@ -64,7 +65,8 @@ export class ThesisList extends Component {
   render() {
     const columns = [
       "status",
-      "author",
+      "firstname",
+      "lastname",
       "title",
       "instructor",
       "studyfield",
@@ -89,7 +91,8 @@ export class ThesisList extends Component {
         >
           <Thead>
             <Th column="status">Status</Th>
-            <Th column="author">Author</Th>
+            <Th column="firstname">Author firstname</Th>
+            <Th column="lastname">Author lastname</Th>
             <Th column="title">Title</Th>
             <Th column="instructor">Instructor</Th>
             <Th column="studyfield">Studyfield</Th>

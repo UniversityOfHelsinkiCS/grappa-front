@@ -1,13 +1,11 @@
 import Validation from "../thesis/thesisValidation";
 import React, { Component } from "react";
-import { connect } from "react-redux";
-import { updateThesisWithEthesis } from "../thesis/thesis.actions";
 
 export class Ethesis extends Component {
   constructor() {
     super();
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
+    // this.handleChange = this.handleChange.bind(this);
     this.state = {
       ethesislink: "",
     };
@@ -20,32 +18,32 @@ export class Ethesis extends Component {
     this.setState(change);
   }
 
-  /* Creates data object to pass to updateThesisWithEthesis action */
-
   handleSubmit(event) {
     event.preventDefault();
     const data = {
-      token: this.state.token,
+      token: this.props.params.token,
       thesis: {
         ethesis: this.state.ethesislink,
       },
     };
-    const { updateThesisWithEthesis } = this.props;
-    updateThesisWithEthesis(data);
+    this.props.updateThesisesEthesis(data);
   }
 
-  /* Grabs url parameter and saves it to state, then renders form */
-
   render() {
-    this.state.token = this.props.params.token;
     const link = this.props.linkSent;
     if (link === "success") {
       return (
-        <h4>Link successfully saved. You may now safely close the browser window.</h4>
+        <div className="ui container m-top">
+          <h2 className="ui dividing header">Success</h2>
+          <p>Link was successfully saved. You may now leave this page.</p>
+        </div>
       );
-    } else if (link === "failed") {
+    } else if (link === "failure") {
       return (
-        <h4>There was an error saving your link. Please refresh the page and try again.</h4>
+        <div className="ui container m-top">
+          <h2 className="ui dividing header">Error</h2>
+          <p>There was an error saving your link. Please refresh the page and try again. If everything else fails please contact Kjell Lemström.</p>
+        </div>
       );
     }
     return (
@@ -56,14 +54,14 @@ export class Ethesis extends Component {
             <i className="external icon"></i>
             <input
               type="text"
-              name="ethesis-link"
+              name="ethesislink"
               placeholder="eThesis link"
-              onClick={this.handleSubmit}
+              onChange={this.handleChange.bind(this, "ethesislink")}
             />
           </div>
           </div>
         </div>
-        <div className="ui fluid large green submit button">Submit</div>
+        <div className="ui fluid large green submit button" onClick={this.handleSubmit}>Submit</div>
       </div>
     );
     // return (
@@ -86,19 +84,19 @@ export class Ethesis extends Component {
   }
 }
 
-/*
-* An ordinary function used to define and dispatch the relevant data to thesis.actions
-*/
+import { connect } from "react-redux";
+import { updateThesisesEthesis } from "../ethesis/ethesis.actions";
+
 const mapDispatchToProps = (dispatch) => ({
-  updateThesisWithEthesis(data) {
-    dispatch(updateThesisWithEthesis(data));
+  updateThesisesEthesis(data) {
+    dispatch(updateThesisesEthesis(data));
   },
 });
 
 const mapStateToProps = (state) => {
-  const ethesis = state.get("thesis");
+  const ethesisreducer = state.get("ethesis");
   return {
-    linkSent: ethesis.get("linkSent"),
+    linkSent: ethesisreducer.get("linkSent"),
   };
 };
 
