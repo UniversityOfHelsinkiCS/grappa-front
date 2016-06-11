@@ -1,27 +1,20 @@
-/**
-* Reducer to define the changes to the state in accordance to the actions passed to it
-* in regard to listing, adding and viewing theses.
-*/
 import { fromJS } from "immutable";
 import {
-  GRADER_UPDATE_SUCCESS,
-  GRADER_UPDATE_FAILURE,
+  GRADER_UPDATE_MANY_SUCCESS,
+  GRADER_UPDATE_MANY_FAILURE,
 } from "./grader.actions";
 
-/**
-*Defines what the intial state is when no changes have yet been done to the state.
-*/
 const INITIAL_STATE = fromJS({
-  theses: [],
-  linkSent: "not_tried",
+  graders: [],
 });
 
 export default function (state = INITIAL_STATE, action) {
   switch (action.type) {
-    case GRADER_UPDATE_SUCCESS:
+    case GRADER_UPDATE_MANY_SUCCESS:
+      console.log("should update graders yo");
       return state.updateIn(["linkSent"], () => "success");
-    case GRADER_UPDATE_FAILURE:
-      return state.updateIn(["linkSent"], () => "failed");
+    case GRADER_UPDATE_MANY_FAILURE:
+      return state;
     default:
       return state;
   }

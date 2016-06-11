@@ -1,7 +1,7 @@
 const validationRules = {
   thesis: [
     {
-      name: "firstname",
+      name: "authorFirstname",
       rules: [
         {
           type: "notEmpty",
@@ -10,7 +10,7 @@ const validationRules = {
       ],
     },
     {
-      name: "lastname",
+      name: "authorLastname",
       rules: [
         {
           type: "notEmpty",
@@ -19,7 +19,7 @@ const validationRules = {
       ],
     },
     {
-      name: "email",
+      name: "authorEmail",
       rules: [
         {
           type: "notEmpty",

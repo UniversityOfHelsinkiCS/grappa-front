@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { browserHistory, Link } from "react-router";
 import moment from "moment";
 
+import { validateField, validateModel } from "../config/Validator";
 import GraderList from "../grader/GraderList.component";
 
 export class ThesisShow extends Component {
@@ -15,7 +16,8 @@ export class ThesisShow extends Component {
         },
         User: {},
       },
-      editing: false,
+      errors: {},
+      editable: false,
       delete: false,
     };
   }
@@ -37,41 +39,47 @@ export class ThesisShow extends Component {
     }
     const foundThesis = props.theses.find(thesis => {
       if (thesis.id === thesisId) {
-        console.log(thesis)
+        console.log(thesis);
         return thesis;
       }
     });
     if (typeof foundThesis !== "undefined") {
-      console.log(foundThesis)
+      console.log(foundThesis);
       this.setState({
         thesis: foundThesis,
       });
     }
   }
 
-  preventChangeIfNotEditing(event) {
-    console.log("preventin")
-    if (!this.state.editing) {
-      console.log("eyes")
-      event.preventDefault();
+  handleClick(button, event) {
+    if (button === "edit") {
+      this.setState({
+        editable: true,
+      });
+    } else if (button === "stop-edit") {
+      this.setState({
+        editable: false,
+      });
+    } else if (button === "save") {
+      this.props.updateThesis(this.state.thesis);
+      // this.props.updateGraders(this.state.Graders);
     }
   }
 
-  handleInputValueChange(name, event) {
-    if (this.state.editing) {
-
+  handleChange(name, event) {
+    if (this.state.editable) {
+      console.log("yo editing");
+      event.preventDefault();
+      const change = {
+        thesis: this.state.thesis,
+        errors: this.state.errors,
+        // editable: this.state.editable,
+      };
+      change.thesis[name] = event.target.value;
+      const newErrors = validateField(name, event.target.value, "thesis");
+      change.errors[`thesis_${name}`] = newErrors;
+      this.setState(change);
     }
-    // console.log(name);
-    // event.preventDefault();
-    // const change = {
-    //   errors: this.state.errors,
-    // };
-    // change[name] = event.target.value;
-    // console.log(change);
-    // const newErrors = validateField(name, event.target.value, "thesis");
-    // console.log(newErrors);
-    // change.errors[`thesis_${name}`] = newErrors;
-    // this.setState(change);
   }
 
   renderThesisAuthor() {
@@ -84,7 +92,7 @@ export class ThesisShow extends Component {
             <input
               type="text"
               value={this.state.thesis.authorFirstname}
-              onChange={this.handleInputValueChange.bind(this, "fname")}
+              onChange={this.handleChange.bind(this, "authorFirstname")}
               placeholder="First Name"
             />
           </div>
@@ -93,7 +101,7 @@ export class ThesisShow extends Component {
             <input
               type="text"
               value={this.state.thesis.authorLastname}
-              onChange={this.handleInputValueChange.bind(this, "lname")}
+              onChange={this.handleChange.bind(this, "authorLastname")}
               placeholder="Last Name"
             />
           </div>
@@ -102,7 +110,7 @@ export class ThesisShow extends Component {
             <input
               type="text"
               value={this.state.thesis.authorEmail}
-              onChange={this.handleInputValueChange.bind(this, "email")}
+              onChange={this.handleChange.bind(this, "authorEmail")}
               placeholder="Email Address"
             />
           </div>
@@ -112,8 +120,7 @@ export class ThesisShow extends Component {
   }
 
   renderThesisInformation() {
-    console.log(this.props.studyfields)
-    const instructor = this.state.thesis.User == undefined ? "" : `${this.state.thesis.User.name}`
+    const instructor = this.state.thesis.User === undefined ? "" : `${this.state.thesis.User.name}`;
     return (
       <div className="m-bot">
         <h3 className="ui dividing header">Thesis Information</h3>
@@ -123,7 +130,7 @@ export class ThesisShow extends Component {
             <input
               type="text"
               value={this.state.thesis.title}
-              onChange={this.handleInputValueChange.bind(this, "title")}
+              onChange={this.handleChange.bind(this, "title")}
               placeholder="Title"
             />
           </div>
@@ -133,7 +140,7 @@ export class ThesisShow extends Component {
               <select
                 className="ui fluid search dropdown"
                 value={this.state.thesis.StudyFieldId}
-                onChange={this.handleInputValueChange.bind(this, "StudyFieldId")}
+                onChange={this.handleChange.bind(this, "StudyFieldId")}
               >
                 <option key="0" value="">Select field</option>
                 { this.props.studyfields.map((field, index) =>
@@ -150,7 +157,7 @@ export class ThesisShow extends Component {
             <select
               className="ui fluid search dropdown"
               value={this.state.thesis.grade}
-              onChange={this.handleInputValueChange.bind(this, "grade")}
+              onChange={this.handleChange.bind(this, "grade")}
               name="thesis[grade]"
             >
               <option value="">Select grade</option>
@@ -170,14 +177,13 @@ export class ThesisShow extends Component {
             <label>Urkund</label>
             <div className="ui right icon input">
               <i className="external icon">
-                <a href="http://www.w3schools.com" target="_blank" className="icon-link"></a>
+                <a href={this.state.thesis.urkund} target="_blank" className="icon-link"></a>
               </i>
               <input
                 type="text"
-                name="email"
-                placeholder="E-mail address"
-                readOnly="true"
+                placeholder="Urkund link"
                 value={this.state.thesis.urkund}
+                onChange={this.handleChange.bind(this, "urkund")}
               />
             </div>
           </div>
@@ -185,14 +191,13 @@ export class ThesisShow extends Component {
             <label>Ethesis</label>
             <div className="ui right icon input">
             <i className="external icon">
-              <a href="http://www.w3schools.com" target="_blank" className="icon-link"></a>
+              <a href={this.state.thesis.ethesis} target="_blank" className="icon-link"></a>
             </i>
               <input
                 type="text"
-                name="email"
-                placeholder="E-mail address"
-                readOnly="true"
+                placeholder="Ethesis link"
                 value={this.state.thesis.ethesis}
+                onChange={this.handleChange.bind(this, "ethesis")}
               />
             </div>
           </div>
@@ -200,9 +205,10 @@ export class ThesisShow extends Component {
             <label>Instructor</label>
             <input
               type="text"
-              value={instructor}
-              onChange={this.handleInputValueChange.bind(this, "urkund")}
               placeholder="Link to Urkund"
+              value={instructor}
+              onChange={this.handleChange.bind(this, "instructor")}
+              disabled="true"
             />
           </div>
         </div>
@@ -228,7 +234,7 @@ export class ThesisShow extends Component {
         <h3 className="ui dividing header">Date of Councilmeeting</h3>
         <select className="ui fluid search dropdown"
           value={this.state.thesis.CouncilMeetingId}
-          onChange={this.handleInputValueChange.bind(this, "CouncilMeetingId")}
+          onChange={this.handleChange.bind(this, "CouncilMeetingId")}
         >
           { formatted.map((meeting, index) =>
             <option key={ index } value={ meeting.id } >
@@ -345,7 +351,7 @@ export class ThesisShow extends Component {
           </div>
         </div>
       </div>
-    )
+    );
   }
 
   render() {
@@ -353,11 +359,16 @@ export class ThesisShow extends Component {
       <div className="ui form">
         <h2 className="ui dividing header">{this.state.thesis.title}</h2>
         <div className="field">
-          <div className="ui green button">Edit</div>
+          { this.state.editable ?
+            <div className="ui red button" onClick={this.handleClick.bind(this, "stop-edit")}>Stop editing</div>
+            :
+            <div className="ui green button" onClick={this.handleClick.bind(this, "edit")}>Edit</div>
+          }
+          <div className="ui blue button" onClick={this.handleClick.bind(this, "save")}>Save</div>
         </div>
         { this.renderThesisAuthor() }
         { this.renderThesisInformation() }
-        <GraderList graders={this.state.thesis.Graders} onChange={this.preventChangeIfNotEditing.bind(this)}/>
+        <GraderList Graders={this.state.thesis.Graders} editable={this.state.editable}/>
         { this.renderPickCouncilmeeting() }
         <h2 className="ui dividing header">Abstract</h2>
         <div className="field">
@@ -380,7 +391,7 @@ export class ThesisShow extends Component {
 import { connect } from "react-redux";
 
 import { updateThesis, deleteThesis } from "./thesis.actions";
-import { updateGrader } from "../grader/grader.actions";
+import { updateGraders } from "../grader/grader.actions";
 import { updateUser } from "../user/user.actions";
 import { sendNotification } from "../email/email.actions";
 import { updateThesisProgress } from "../thesisprogress/thesisprogress.actions";
@@ -411,21 +422,21 @@ const mapDispatchToProps = (dispatch) => ({
   updateThesis(thesis) {
     dispatch(updateThesis(thesis));
   },
-  updateGrader(grader) {
-    dispatch(updateGrader(grader));
+  updateGraders(graders) {
+    dispatch(updateGraders(graders));
   },
-  updateUser(user) {
-    dispatch(updateUser(user));
-  },
+  // updateUser(user) {
+  //   dispatch(updateUser(user));
+  // },
   sendNotification(object) {
     dispatch(sendNotification(object));
   },
   deleteThesis(thesis) {
     dispatch(deleteThesis(thesis));
   },
-  updateThesisProgress(thesis) {
-    dispatch(updateThesisProgress(thesis));
-  },
+  // updateThesisProgress(thesis) {
+  //   dispatch(updateThesisProgress(thesis));
+  // },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ThesisShow);

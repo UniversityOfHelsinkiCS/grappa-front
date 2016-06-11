@@ -99,6 +99,11 @@ export const updateThesis = (data) => {
   return {
     type: CALL_API,
     success: THESIS_UPDATE_ONE_SUCCESS,
+    successMessage: {
+      type: "success",
+      title: "Success",
+      body: "Thesis was updated.",
+    },
     failure: THESIS_UPDATE_ONE_FAILURE,
     method: "put",
     url: `/thesis/${data.id}`,

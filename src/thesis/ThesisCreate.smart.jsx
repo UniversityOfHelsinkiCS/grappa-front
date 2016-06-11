@@ -19,9 +19,9 @@ export class ThesisCreate extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.state = {
-      firstname: "",
-      lastname: "",
-      email: "",
+      authorFirstname: "",
+      authorLastname: "",
+      authorEmail: "",
       title: "",
       graders: [
         {
@@ -120,9 +120,9 @@ export class ThesisCreate extends React.Component {
     // console.log(thesisErrors);
     if (thesisErrors.list.length === 0) {
       const newThesis = {
-        authorFirstname: this.state.firstname,
-        authorLastname: this.state.lastname,
-        authorEmail: this.state.email,
+        authorFirstname: this.state.authorFirstname,
+        authorLastname: this.state.authorLastname,
+        authorEmail: this.state.authorEmail,
         title: this.state.title,
         graders: this.state.graders,
         urkund: this.state.urkund,
@@ -151,7 +151,7 @@ export class ThesisCreate extends React.Component {
             <input
               type="text"
               value={this.state.firstname}
-              onChange={this.handleChange.bind(this, "firstname")}
+              onChange={this.handleChange.bind(this, "authorFirstname")}
               placeholder="First Name"
             />
           </div>
@@ -160,7 +160,7 @@ export class ThesisCreate extends React.Component {
             <input
               type="text"
               value={this.state.lastname}
-              onChange={this.handleChange.bind(this, "lastname")}
+              onChange={this.handleChange.bind(this, "authorLastname")}
               placeholder="Last Name"
             />
           </div>
@@ -169,7 +169,7 @@ export class ThesisCreate extends React.Component {
             <input
               type="text"
               value={this.state.email}
-              onChange={this.handleChange.bind(this, "email")}
+              onChange={this.handleChange.bind(this, "authorEmail")}
               placeholder="Email Address"
             />
           </div>
@@ -179,7 +179,7 @@ export class ThesisCreate extends React.Component {
   }
 
   renderThesisInformation() {
-    console.log(this.props.studyfields)
+    console.log(this.props.studyfields);
     return (
       <div className="m-bot">
         <h3 className="ui dividing header">Thesis Information</h3>
@@ -292,7 +292,7 @@ export class ThesisCreate extends React.Component {
   }
 
   renderPickCouncilmeeting() {
-    console.log(this.props.meetingDates)
+    console.log(this.props.meetingDates);
     const today = new Date();
     const filtered = this.props.meetingDates.filter(meeting => {
       if (new Date(meeting.date) >= today) {
