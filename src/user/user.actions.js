@@ -13,22 +13,28 @@ export const USER_DELETE_ONE_FAILURE = "USER_DELETE_ONE_FAILURE";
 export const USER_SAVE_ONE_SUCCESS = "USER_SAVE_ONE_SUCCESS";
 export const USER_SAVE_ONE_FAILURE = "USER_SAVE_ONE_FAILURE";
 
-/**
-* The action called to get a list of all new users in the database.
-* @return getUsers The object containing the relevant information for the
-* reducer to handle the data accordingly.
-*/
-export const getUsers = () => {
-  console.log("getUsers-action called!");
-  return {
+
+export const getUsers = () => (
+  {
     type: CALL_API,
     success: USER_GET_ALL_SUCCESS,
     failure: USER_GET_ALL_FAILURE,
     method: "get",
     url: "/user",
     data: {},
-  };
-};
+  }
+);
+
+export const getInactiveUsers = () => (
+  {
+    type: CALL_API,
+    success: USER_GET_ALL_SUCCESS,
+    failure: USER_GET_ALL_FAILURE,
+    method: "get",
+    url: "/user/inactive",
+    data: {},
+  }
+);
 
 /**
  * The action called to save the given data as a new user in the database.
