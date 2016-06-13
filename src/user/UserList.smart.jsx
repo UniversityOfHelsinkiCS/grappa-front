@@ -47,17 +47,30 @@ export class UserList extends Component {
   }
 
   render() {
-    const { users } = this.props;
+    const users = this.props.users.map(user => {
+      let name = "";
+      if (user.StudyField) {
+        name = user.StudyField.name;
+      }
+      user.studyfield = name;
+      return user;
+    });
     console.log(users);
     const columns = [
+      "role",
+      "studyfield",
       "name",
+      "email",
     ];
     return (
       <div>
         <h2 className="ui dividing header">Users</h2>
+        <p>
+          All registered and activated users.
+        </p>
         <Table
           className="ui table"
-          noDataText="No users found due to apparent error"
+          noDataText="No users found"
           ref="table"
           sortable columns={columns}
           data={users}
@@ -65,7 +78,7 @@ export class UserList extends Component {
         >
           <Thead>
             <Th column="role">Role</Th>
-            <Th column="studyfield">StudyField</Th>
+            <Th column="studyfield">Field</Th>
             <Th column="name">Name</Th>
             <Th column="email">Email</Th>
           </Thead>
