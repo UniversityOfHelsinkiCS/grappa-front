@@ -349,9 +349,6 @@ import { saveThesis } from "./thesis.actions";
 import { getCouncilmeetings } from "../councilmeeting/councilmeeting.actions";
 import { getStudyfields } from "../studyfield/studyfield.actions";
 
-/**
-* A special function used to define and dispatch the relevant data to thesis.actions
-*/
 const mapDispatchToProps = (dispatch) => ({
   saveThesis(newThesis) {
     dispatch(saveThesis(newThesis));
@@ -363,10 +360,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(getStudyfields());
   },
 });
-/**
-* A special function used to define what the form of the data is that is gotten from the state.
-* @return ListOfDateObjects A list containing the dates of councilmeetings listed in the database.
-*/
+
 const mapStateToProps = (state) => {
   const cmreducer = state.get("councilmeeting");
   const sfreducer = state.get("studyfield");

@@ -7,58 +7,69 @@
 
 import React, { Component } from "react";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
+import { Table, Thead, Th, unsafe } from "reactable";
 
 export class NewUsersList extends Component {
   constructor() {
     super();
     this.acceptButtonFormatter = this.acceptButtonFormatter.bind(this);
     this.declineButtonFormatter = this.declineButtonFormatter.bind(this);
-    this.rolesFormatter = this.rolesFormatter.bind(this);
-    this.fieldFormatter = this.fieldFormatter.bind(this);
     this.updateUser = this.updateUser.bind(this);
     this.declineUser = this.declineUser.bind(this);
     this.setUserRole = this.setUserRole.bind(this);
     this.state = {};
   }
 
-  /**
-  * Defines what is done at the beginning of the components life before rendering.
-  */
   componentDidMount() {
     this.props.getUsers();
   }
 
-  setUserRole(cell, id, event) {
-    console.log(event.target.value);
-    if (this.state[id] === undefined) {
-      this.state[id] = {};
+  componentWillReceiveProps(newProps) {
+    if (newProps.users !== undefined) {
+      const init = {};
+      newProps.users.map(user => {
+        if (!user.isActive) {
+          init[user.id] = {};
+          init[user.id].id = user.id;
+          init[user.id].role = "instructor";
+          init[user.id].StudyFieldId = "";
+        }
+      });
+      this.setState(init);
     }
-    this.state[id].role = event.target.value;
   }
 
-  setUserField(cell, id, event) {
-    if (this.state[id] === undefined) {
-      this.state[id] = {};
-    }
-    this.state[id].StudyFieldId = event.target.value;
-    console.log("ID on: ", id);
+  setUserRole(user, event) {
+    event.preventDefault();
+    const change = {};
+    change[user.id] = this.state[user.id];
+    change[user.id].role = event.target.value;
+    this.setState(change);
   }
 
-  updateUser(cell, user) {
-    const newUser = Object.assign({}, user);
-    if (newUser.role === undefined || newUser.role === null) {
-      newUser.role = "instructor";
-    }
-    if (newUser.StudyFieldId === undefined || newUser.role === null) {
-      newUser.StudyFieldId = null;
-    }
+  setUserField(user, event) {
+    event.preventDefault();
+    const change = {};
+    change[user.id] = this.state[user.id];
+    change[user.id].StudyFieldId = event.target.value;
+    this.setState(change);
+  }
+
+  updateUser(user) {
+    const newUser = Object.assign({}, this.state[user.id]);
+    // if (newUser.role === undefined || newUser.role === null) {
+    //   newUser.role = "instructor";
+    // }
+    // if (newUser.StudyFieldId === undefined || newUser.role === null) {
+    //   newUser.StudyFieldId = null;
+    // }
     newUser.isActive = true;
+    console.log(newUser)
     this.props.updateUser(newUser);
   }
 
   declineUser(user) {
-    const { declineUser } = this.props;
-    declineUser(user);
+    this.props.declineUser(user);
   }
 
   /**
@@ -87,9 +98,10 @@ export class NewUsersList extends Component {
     );
   }
 
-  rolesFormatter(cell, row) {
+  renderRoleFormatter(user) {
+    const role = this.state[user.id] === undefined ? "" : this.state[user.id].role;
     return (
-      <select className="ui dropdown" onChange={this.setUserRole.bind(this, cell, row.id)}>
+      <select value={role} className="ui dropdown" onChange={this.setUserRole.bind(this, user)}>
         <option value="instructor">Instructor</option>
         <option value="print-person">Print-person</option>
         <option value="professor">Professor</option>
@@ -98,16 +110,85 @@ export class NewUsersList extends Component {
     );
   }
 
-  fieldFormatter(cell, row) {
+  renderStudyFieldFormatter(user) {
+    const fieldId = this.state[user.id] === undefined ? "" : this.state[user.id].StudyFieldId;
     return (
-      <select className="ui dropdown" onChange={this.setUserField.bind(this, cell, row.id)}>
-        <option value="5">SELECT</option>
-        <option value="1">Algorithmic Bioinformatics</option>
-        <option value="2">Algorithms, Data Analytics and Machine Learning</option>
-        <option value="3">Networking and Services</option>
-        <option value="4">Software Systems</option>
+      <select
+        value={ fieldId }
+        className="ui fluid search dropdown"
+        onChange={this.setUserField.bind(this, user)}
+      >
+        <option key="" value="">Select field</option>
+        { this.props.studyfields.map((field, index) =>
+          <option key={index} value={field.id}>
+            { field.name }
+          </option>
+        )}
       </select>
     );
+  }
+
+  renderTable(users) {
+    return (
+      <table className="ui celled table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Select role</th>
+            <th>Select studyfield</th>
+            <th>Accept</th>
+            <th>Decline</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            users.map(user =>
+              <tr key={user.id}>
+                <td>{user.name}</td>
+                <td>{user.email}</td>
+                <td>{ this.renderRoleFormatter(user)}</td>
+                <td>{ this.renderStudyFieldFormatter(user)}</td>
+                <td>
+                  <button className="positive ui button" onClick={
+                    this.updateUser.bind(this, user)}
+                  >
+                    Accept
+                  </button>
+                </td>
+                <td>
+                  <button className="negative ui button" onClick={ () => {
+                    if (confirm("Are you sure you want to delete this user?")) {
+                      this.declineUser(row);
+                    }}}
+                  >
+                    Decline
+                  </button>
+                </td>
+              </tr>
+            )
+          }
+        </tbody>
+        <tfoot>
+          {/*<tr>
+            <th>
+              <div className="ui right floated pagination menu">
+                <a className="icon item">
+                  <i className="left chevron icon"></i>
+                </a>
+                <a className="item">1</a>
+                <a className="item">2</a>
+                <a className="item">3</a>
+                <a className="item">4</a>
+                <a className="icon item">
+                  <i className="right chevron icon"></i>
+                </a>
+              </div>
+            </th>
+          </tr>*/}
+        </tfoot>
+      </table>
+    )
   }
 
   /**
@@ -124,44 +205,30 @@ export class NewUsersList extends Component {
     const noUsers = users.length === 0;
     return (
       <div>
-        { noUsers ?
-          <h2>No new users</h2>
-          :
-          <div>
-            <h2>New users</h2>
-            <BootstrapTable data={users}>
-              <TableHeaderColumn filter= {{ type: "TextFilter" }} dataField="id" isKey hidden>
-              Thesis ID</TableHeaderColumn>
-              <TableHeaderColumn dataField="name" dataSort width="200">Name</TableHeaderColumn>
-              <TableHeaderColumn dataField="email" dataSort width="200">Email</TableHeaderColumn>
-              <TableHeaderColumn dataFormat={this.rolesFormatter} dataSort width="150">Permission</TableHeaderColumn>
-              <TableHeaderColumn dataFormat={this.fieldFormatter} dataSort width="100">Field</TableHeaderColumn>
-              <TableHeaderColumn dataFormat={this.acceptButtonFormatter} dataSort width="50" />
-              <TableHeaderColumn dataFormat={this.declineButtonFormatter} dataSort width="50" />
-            </BootstrapTable>
-          </div>
-        }
+        <h2 className="ui dividing header">New users</h2>
+        <p>Role must be set for each user but studyfield can be left unselected which saves it as empty. Declining a user deletes it completely.</p>
+        { this.renderTable(users) }
       </div>
-      );
+    )
+    // return (
+    //   <div>
+    //     { noUsers ?
+    //       <h2 className="ui dividing header">No new users</h2>
+    //       :
+    //       <div>
+    //         <h2 className="ui dividing header">New users</h2>
+    //         <p>Role must be set for each user but studyfield can be set as null (empty). Declining a user deletes it completely.</p>
+    //         { this.renderTable(users) }
+    //       </div>
+    //     }
+    //   </div>
+    // );
   }
 }
 import { connect } from "react-redux";
 import { getUsers, updateUser, deleteUser } from "./user.actions";
+import { getStudyfields } from "../studyfield/studyfield.actions";
 
-/**
-* A special funciton used to define what the form of the data is that is gotten from the state.
-* @return users A list containing all the new users listed in the database.
-*/
-const mapStateToProps = (state) => {
-  const user = state.get("user");
-  return {
-    users: user.get("users").toJS(),
-  };
-};
-
-/*
-* A special function used to define and dispatch the relevant data to usermanagement.actions
-*/
 const mapDispatchToProps = (dispatch) => ({
   getUsers() {
     dispatch(getUsers());
@@ -172,6 +239,18 @@ const mapDispatchToProps = (dispatch) => ({
   declineUser(user) {
     dispatch(deleteUser(user));
   },
+  getStudyfields() {
+    dispatch(getStudyfields());
+  },
 });
+
+const mapStateToProps = (state) => {
+  const user = state.get("user");
+  const sfreducer = state.get("studyfield");
+  return {
+    users: user.get("users").toJS(),
+    studyfields: sfreducer.get("studyfields").toJS(),
+  };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewUsersList);
