@@ -64,7 +64,7 @@ export class NewUsersList extends Component {
     //   newUser.StudyFieldId = null;
     // }
     newUser.isActive = true;
-    console.log(newUser)
+    console.log(newUser);
     this.props.updateUser(newUser);
   }
 
@@ -188,7 +188,7 @@ export class NewUsersList extends Component {
           </tr>*/}
         </tfoot>
       </table>
-    )
+    );
   }
 
   /**
@@ -209,7 +209,7 @@ export class NewUsersList extends Component {
         <p>Role must be set for each user but studyfield can be left unselected which saves it as empty. Declining a user deletes it completely.</p>
         { this.renderTable(users) }
       </div>
-    )
+    );
     // return (
     //   <div>
     //     { noUsers ?

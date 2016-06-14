@@ -67,9 +67,9 @@ export class ThesisShow extends Component {
   }
 
   handleChange(name, event) {
+    event.preventDefault();
+    console.log("yo editing");
     if (this.state.editable) {
-      console.log("yo editing");
-      event.preventDefault();
       const change = {
         thesis: this.state.thesis,
         errors: this.state.errors,
@@ -196,7 +196,7 @@ export class ThesisShow extends Component {
               <input
                 type="text"
                 placeholder="Ethesis link"
-                value={this.state.thesis.ethesis}
+                value={this.state.thesis.ethesis || ""}
                 onChange={this.handleChange.bind(this, "ethesis")}
               />
             </div>
@@ -246,110 +246,59 @@ export class ThesisShow extends Component {
     );
   }
 
+  renderReminder(name, reminder, isDone) {
+    return (
+      <div className="field">
+        <div className="ui right input">
+          <h3 className="ui header">{ name }</h3>
+          <div className="ui checkbox m-left">
+            <input type="checkbox" readOnly="true" checked={isDone ? "true" : ""} />
+            <label></label>
+          </div>
+        </div>
+        <div className="four fields">
+          <div className="field">
+            <label>Recipient</label>
+            <p>{ reminder.to }</p>
+          </div>
+          <div className="field">
+            <label>Last sent</label>
+            { reminder.lastSent ?
+              <p>{ moment(new Date(reminder.lastSent)).format("DD/MM/YYYY HH:mm") }</p>
+              :
+              <p></p>
+            }
+          </div>
+          <div className="field">
+            <label>Deadline</label>
+            { reminder.deadline ?
+              <p>{ moment(new Date(reminder.deadline)).format("DD/MM/YYYY HH:mm") }</p>
+              :
+              <p></p>
+            }
+          </div>
+            { isDone ?
+              <div className="field">
+              </div>
+              :
+              <div className="field">
+                <label>&nbsp;</label>
+                <button className="ui blue button">Send reminder</button>
+              </div>
+            }
+        </div>
+      </div>
+    );
+  }
+
   renderSentReminders() {
     const thesisProgress = this.state.thesis.ThesisProgress || {};
     return (
       <div>
         <h2 className="ui dividing header">Sent reminders</h2>
-        <div className="field">
-          <div className="ui right input">
-            <h3 className="ui header">Ethesis Reminder</h3>
-            <div className="ui checkbox m-left">
-              <input type="checkbox" readOnly="true" checked={thesisProgress.ethesisDone ? "true" : ""} />
-              <label></label>
-            </div>
-          </div>
-          <div className="four fields">
-            <div className="field">
-              <label>Student</label>
-              <p>name</p>
-            </div>
-            <div className="field">
-              <label>Last sent</label>
-              <p>1.1.2016</p>
-              {/*<input type="text" name="shipping[last-name]" placeholder="Last Name" />*/}
-            </div>
-            <div className="field">
-              <label>Deadline</label>
-              <p>1.4.2016</p>
-            </div>
-              { thesisProgress.ethesisDone ?
-                <div className="field">
-                </div>
-                :
-                <div className="field">
-                  <label>&nbsp;</label>
-                  <button className="ui blue button">Send reminder</button>
-                </div>
-              }
-          </div>
-        </div>
-        <div className="field">
-          <div className="ui right input">
-            <h3 className="ui header">Grader Evaluation Reminder</h3>
-            <div className="ui checkbox m-left">
-              <input type="checkbox" readOnly="true" checked={ thesisProgress.graderevalDone ? "true" : "" }/>
-              <label></label>
-            </div>
-          </div>
-          <div className="four fields">
-            <div className="field">
-              <label>Professor</label>
-              <p>name</p>
-            </div>
-            <div className="field">
-              <label>Last sent</label>
-              <p>1.1.2016</p>
-              {/*<input type="text" name="shipping[last-name]" placeholder="Last Name" />*/}
-            </div>
-            <div className="field">
-              <label>Deadline</label>
-              <p>1.4.2016</p>
-            </div>
-              { thesisProgress.graderevalDone ?
-                <div className="field">
-                </div>
-                :
-                <div className="field">
-                  <label>&nbsp;</label>
-                  <button className="ui blue button">Send reminder</button>
-                </div>
-              }
-          </div>
-        </div>
-        <div className="field">
-          <div className="ui right input">
-            <h3 className="ui header">Print Thesis Reminder</h3>
-            <div className="ui checkbox m-left">
-              <input type="checkbox" readOnly="true" checked={ thesisProgress.printDone ? "true" : "" }/>
-              <label></label>
-            </div>
-          </div>
-          <div className="four fields">
-            <div className="field">
-              <label>Print-person</label>
-              <p>name</p>
-            </div>
-            <div className="field">
-              <label>Last sent</label>
-              <p>1.1.2016</p>
-              {/*<input type="text" name="shipping[last-name]" placeholder="Last Name" />*/}
-            </div>
-            <div className="field">
-              <label>Deadline</label>
-              <p>1.4.2016</p>
-            </div>
-              { thesisProgress.printDone ?
-                <div className="field">
-                </div>
-                :
-                <div className="field">
-                  <label>&nbsp;</label>
-                  <button className="ui blue button">Send reminder</button>
-                </div>
-              }
-          </div>
-        </div>
+        { this.renderReminder("Ethesis Reminder", thesisProgress.EthesisEmail || {}, thesisProgress.ethesisDone) }
+        { this.renderReminder("Grader Evaluation Reminder", thesisProgress.GraderEvalEmail || {}, thesisProgress.graderEvalDone) }
+        { this.renderReminder("Print Thesis Reminder", thesisProgress.PrintEmail || {}, thesisProgress.printDone) }
       </div>
     );
   }
