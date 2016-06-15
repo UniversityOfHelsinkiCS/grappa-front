@@ -10,15 +10,6 @@ import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import { Table, Thead, Th, unsafe } from "reactable";
 
 export class NewUsersList extends Component {
-  constructor() {
-    super();
-    this.acceptButtonFormatter = this.acceptButtonFormatter.bind(this);
-    this.declineButtonFormatter = this.declineButtonFormatter.bind(this);
-    this.updateUser = this.updateUser.bind(this);
-    this.declineUser = this.declineUser.bind(this);
-    this.setUserRole = this.setUserRole.bind(this);
-    this.state = {};
-  }
 
   componentDidMount() {
     this.props.getUsers();
@@ -57,12 +48,9 @@ export class NewUsersList extends Component {
 
   updateUser(user) {
     const newUser = Object.assign({}, this.state[user.id]);
-    // if (newUser.role === undefined || newUser.role === null) {
-    //   newUser.role = "instructor";
-    // }
-    // if (newUser.StudyFieldId === undefined || newUser.role === null) {
-    //   newUser.StudyFieldId = null;
-    // }
+    if (!newUser.StudyFieldId) {
+      delete newUser.StudyFieldId;
+    }
     newUser.isActive = true;
     console.log(newUser);
     this.props.updateUser(newUser);
@@ -206,7 +194,7 @@ export class NewUsersList extends Component {
     return (
       <div>
         <h2 className="ui dividing header">New users</h2>
-        <p>Role must be set for each user but studyfield can be left unselected which saves it as empty. Declining a user deletes it completely.</p>
+        <p>Role must be set for each user but studyfield can be left unselected for admin or print-person. Declining an user deletes it completely.</p>
         { this.renderTable(users) }
       </div>
     );

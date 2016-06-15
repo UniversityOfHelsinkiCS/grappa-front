@@ -18,7 +18,6 @@ export class ThesisShow extends Component {
       },
       errors: {},
       editable: false,
-      delete: false,
     };
   }
 
@@ -68,8 +67,11 @@ export class ThesisShow extends Component {
 
   handleChange(name, event) {
     event.preventDefault();
-    console.log("yo editing");
     if (this.state.editable) {
+      // professors are restricted from editing anything else but grader evaluation
+      if (this.props.user.role === "professor" && name !== "graderEval") {
+        return;
+      }
       const change = {
         thesis: this.state.thesis,
         errors: this.state.errors,
@@ -304,33 +306,41 @@ export class ThesisShow extends Component {
   }
 
   render() {
+    const role = this.props.user.role;
     return (
       <div className="ui form">
         <h2 className="ui dividing header">{this.state.thesis.title}</h2>
-        <div className="field">
-          { this.state.editable ?
-            <div className="ui red button" onClick={this.handleClick.bind(this, "stop-edit")}>Stop editing</div>
-            :
-            <div className="ui green button" onClick={this.handleClick.bind(this, "edit")}>Edit</div>
-          }
-          <div className="ui blue button" onClick={this.handleClick.bind(this, "save")}>Save</div>
-        </div>
+        { role === "admin" || role === "professor" ?
+          <div className="field">
+            { this.state.editable ?
+              <div className="ui red button" onClick={this.handleClick.bind(this, "stop-edit")}>Stop editing</div>
+              :
+              <div className="ui green button" onClick={this.handleClick.bind(this, "edit")}>Edit</div>
+            }
+            <div className="ui blue button" onClick={this.handleClick.bind(this, "save")}>Save</div>
+          </div>
+           :
+          <div className="field">olen ins tai printteri</div>
+        }
         { this.renderThesisAuthor() }
         { this.renderThesisInformation() }
         <GraderList Graders={this.state.thesis.Graders} editable={this.state.editable}/>
         { this.renderPickCouncilmeeting() }
-        <h2 className="ui dividing header">Abstract</h2>
-        <div className="field">
-          <textarea></textarea>
-        </div>
         <h2 className="ui dividing header">Grader evaluation</h2>
         <div className="field">
-          <textarea></textarea>
+          <textarea
+            value={this.state.graderEval || ""}
+            onChange={this.handleChange.bind(this, "graderEval")}
+          ></textarea>
         </div>
-        { this.renderSentReminders() }
-        <h2 className="ui dividing header">Print</h2>
+        { role === "admin" ?
+          this.renderSentReminders()
+            :
+          <div></div>
+        }
+        <h2 className="ui dividing header">Print abstract</h2>
         <div className="field">
-          <button className="ui blue button">Open as PDF</button>
+          <button className="ui blue button">Download as PDF</button>
         </div>
       </div>
     );
@@ -345,28 +355,19 @@ import { updateUser } from "../user/user.actions";
 import { sendNotification } from "../email/email.actions";
 import { updateThesisProgress } from "../thesisprogress/thesisprogress.actions";
 
-/**
- * A special function used to define what the form of the data is that is gotten from the state.
- * @return (Object) {user, theses} An object containing a list of all the thesis visible to
- * your role and a list of all the users.
- */
 const mapStateToProps = (state) => {
-  const user = state.get("auth");
+  const auth = state.get("auth");
   const thesis = state.get("thesis");
   const councilmeeting = state.get("councilmeeting");
   const sfreducer = state.get("studyfield");
   return {
-    user: user.get("user").toJS(),
+    user: auth.get("user").toJS(),
     theses: thesis.get("theses").toJS(),
     councilmeetings: councilmeeting.get("councilmeetings").toJS(),
     studyfields: sfreducer.get("studyfields").toJS(),
   };
 };
 
-/**
-* A special function used to define and dispatch the relevant data to the right
-* actions in thesis.actions.
-*/
 const mapDispatchToProps = (dispatch) => ({
   updateThesis(thesis) {
     dispatch(updateThesis(thesis));
