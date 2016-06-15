@@ -7,8 +7,9 @@ import ThesisListForPrint from "./thesis/ThesisListForPrint.smart";
 import Ethesis from "./ethesis/Ethesis.smart";
 import ThesisShow from "./thesis/ThesisShow.smart";
 import ThesisCreate from "./thesis/ThesisCreate.smart";
-import CouncilmeetingCreate from "./councilmeeting/CouncilmeetingCreate.smart";
+// import CouncilmeetingCreate from "./councilmeeting/CouncilmeetingCreate.smart";
 import CouncilmeetingList from "./councilmeeting/CouncilmeetingList.smart";
+import CouncilmeetingNext from "./councilmeeting/CouncilmeetingNext.smart";
 import UserShow from "./user/UserShow.smart";
 import UserList from "./user/UserList.smart";
 import UserNotActiveList from "./user/UserNotActiveList.smart";
@@ -25,7 +26,7 @@ export default (
       <Route path="thesis/new" component={ThesisCreate} onEnter={restrictNonUser} />
       <Route path="thesis/:id" component={ThesisShow} onEnter={restrictNonUser} />
       <Route path="print" component={ThesisListForPrint} onEnter={restrictNonPrintPerson} />
-      <Route path="councilmeeting/new" component={CouncilmeetingCreate} onEnter={restrictNonAdmin} />
+      <Route path="councilmeeting/next" component={CouncilmeetingNext} onEnter={restrictNonAdmin} />
       <Route path="councilmeeting" component={CouncilmeetingList} onEnter={restrictNonAdmin} />
       <Route path="user" component={UserList} onEnter={restrictNonAdmin} />
       <Route path="user/inactive" component={UserNotActiveList} onEnter={restrictNonAdmin} />

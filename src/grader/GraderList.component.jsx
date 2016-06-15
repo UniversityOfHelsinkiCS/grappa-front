@@ -83,18 +83,26 @@ export default class GraderList extends Component {
                   <option value="Other">Other</option>
                 </select>
               </div>
-              <div className="field">
-                <label>&nbsp;</label>
-                <button className="ui red button"
-                  onClick={this.removeGrader.bind(this, index)}
-                >
-                  Remove Grader
-                </button>
-              </div>
+              { this.props.editable ?
+                <div className="field">
+                  <label>&nbsp;</label>
+                  <button className="ui red button"
+                    onClick={this.removeGrader.bind(this, index)}
+                  >
+                    Remove Grader
+                  </button>
+                </div>
+                 :
+                <div></div>
+              }
             </div>
           )
         }
-        <button className="ui primary button" onClick={this.addGrader.bind(this)}>Add Grader</button>
+        { this.props.editable ?
+          <button className="ui primary button" onClick={this.addGrader.bind(this)}>Add Grader</button>
+           :
+          <div></div>
+        }
       </div>
     );
   }

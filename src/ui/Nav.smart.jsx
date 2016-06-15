@@ -46,7 +46,6 @@ export class Nav extends Component {
       <div className="ui horizontal pointing menu">
         <Link className="item" to="/user/me">{ user.name }</Link>
         <a className="item" onClick={ this.handleLogout }>Logout</a>
-        <Link className="item" to="/thesis">Theses</Link>
         <Link className="item" to="/print">Print theses</Link>
       </div>
     );
@@ -61,10 +60,11 @@ export class Nav extends Component {
         <Link className="item" to="/thesis">Theses</Link>
         <Link className="item" to="/thesis/new">Add new thesis</Link>
         <Link className="item" to="/councilmeeting">Councilmeetings </Link>
+        <Link className="item" to="/councilmeeting/next">Next meeting</Link>
         <Link className="item" to="/user/inactive">Accept new users</Link>
         <Link className="item" to="/user">All users</Link>
         <Link className="item" to="/emailstatus">Emailstatuses</Link>
-        <Link className="item" to="/print">Print theses</Link>
+        <Link className="item" to="/print">Print</Link>
       </div>
     );
   }
