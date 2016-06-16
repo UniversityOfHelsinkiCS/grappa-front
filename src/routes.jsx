@@ -1,6 +1,6 @@
 import React from "react";
 import { Route } from "react-router";
-import { restrictNonUser, restrictNonAdmin, restrictNonPrintPerson } from "./middleware/restrictAccess";
+import { redirectNonUser, redirectNonAdmin, redirectNonPrintPerson } from "./middleware/restrictAccess";
 import App from "./app/App.component";
 import ThesisList from "./thesis/ThesisList.smart";
 import ThesisListForPrint from "./thesis/ThesisListForPrint.smart";
@@ -22,17 +22,17 @@ export default (
   <Route>
     <Route path="/ethesis/:token" component={Ethesis}/>
     <Route path="/" component={App}>
-      <Route path="thesis" component={ThesisList} onEnter={restrictNonUser} />
-      <Route path="thesis/new" component={ThesisCreate} onEnter={restrictNonUser} />
-      <Route path="thesis/:id" component={ThesisShow} onEnter={restrictNonUser} />
-      <Route path="print" component={ThesisListForPrint} onEnter={restrictNonPrintPerson} />
-      <Route path="councilmeeting/next" component={CouncilmeetingNext} onEnter={restrictNonAdmin} />
-      <Route path="councilmeeting" component={CouncilmeetingList} onEnter={restrictNonAdmin} />
-      <Route path="user" component={UserList} onEnter={restrictNonAdmin} />
-      <Route path="user/inactive" component={UserNotActiveList} onEnter={restrictNonAdmin} />
-      <Route path="user/me" component={UserShow} onEnter={restrictNonUser} />
+      <Route path="thesis" component={ThesisList} onEnter={redirectNonUser} />
+      <Route path="thesis/new" component={ThesisCreate} onEnter={redirectNonUser} />
+      <Route path="thesis/:id" component={ThesisShow} onEnter={redirectNonUser} />
+      <Route path="print" component={ThesisListForPrint} onEnter={redirectNonPrintPerson} />
+      <Route path="councilmeeting/next" component={CouncilmeetingNext} onEnter={redirectNonAdmin} />
+      <Route path="councilmeeting" component={CouncilmeetingList} onEnter={redirectNonAdmin} />
+      <Route path="user" component={UserList} onEnter={redirectNonAdmin} />
+      <Route path="user/inactive" component={UserNotActiveList} onEnter={redirectNonAdmin} />
+      <Route path="user/me" component={UserShow} onEnter={redirectNonUser} />
       <Route path="login" component={Login} />
-      <Route path="emailstatus" component={EmailstatusList} onEnter={restrictNonAdmin} />
+      <Route path="emailstatus" component={EmailstatusList} onEnter={redirectNonAdmin} />
       <Route path="registration" component={UserRegistration} />
       <Route path="*" component={NotFound}/>
     </Route>

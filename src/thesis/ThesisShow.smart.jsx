@@ -18,6 +18,7 @@ export class ThesisShow extends Component {
       },
       errors: {},
       editable: false,
+      grading: false,
     };
   }
 
@@ -55,6 +56,10 @@ export class ThesisShow extends Component {
       this.setState({
         editable: true,
       });
+    } else if (button === "grade") {
+      this.setState({
+        grading: true,
+      });
     } else if (button === "stop-edit") {
       this.setState({
         editable: false,
@@ -67,11 +72,8 @@ export class ThesisShow extends Component {
 
   handleChange(name, event) {
     event.preventDefault();
-    if (this.state.editable) {
-      // professors are restricted from editing anything else but grader evaluation
-      if (this.props.user.role === "professor" && name !== "graderEval") {
-        return;
-      }
+    // professors are restricted from editing anything else but grader evaluation
+    if (this.state.editable || (this.state.grading && name === "graderEval")) {
       const change = {
         thesis: this.state.thesis,
         errors: this.state.errors,
@@ -310,7 +312,7 @@ export class ThesisShow extends Component {
     return (
       <div className="ui form">
         <h2 className="ui dividing header">{this.state.thesis.title}</h2>
-        { role === "admin" || role === "professor" ?
+        { role === "admin" ?
           <div className="field">
             { this.state.editable ?
               <div className="ui red button" onClick={this.handleClick.bind(this, "stop-edit")}>Stop editing</div>
@@ -318,6 +320,15 @@ export class ThesisShow extends Component {
               <div className="ui green button" onClick={this.handleClick.bind(this, "edit")}>Edit</div>
             }
             <div className="ui blue button" onClick={this.handleClick.bind(this, "save")}>Save</div>
+          </div>
+           :
+          role === "professor" ?
+          <div className="field">
+            { this.state.grading ?
+              <div className="ui blue button" onClick={this.handleClick.bind(this, "save")}>Save</div>
+              :
+              <div className="ui green button" onClick={this.handleClick.bind(this, "grade")}>Grade</div>
+            }
           </div>
            :
           <div className="field">olen ins tai printteri</div>
@@ -329,7 +340,7 @@ export class ThesisShow extends Component {
         <h2 className="ui dividing header">Grader evaluation</h2>
         <div className="field">
           <textarea
-            value={this.state.graderEval || ""}
+            value={this.state.thesis.graderEval || ""}
             onChange={this.handleChange.bind(this, "graderEval")}
           ></textarea>
         </div>
