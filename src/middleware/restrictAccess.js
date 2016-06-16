@@ -11,26 +11,20 @@ import store from "../store";
  * @param {Object} nextState - Next state of the react-router
  * @param {Object} replace - Function to replace the nextState
  */
-export const restrictNonUser = (nextState, replace) => {
-  // console.log("checking if user");
+export const redirectNonUser = (nextState, replace) => {
   const user = store.getState().get("auth").get("user").toJS();
-  if (typeof user.role === undefined) {
-    // console.log("wasnt user");
+  if (user.role === undefined) {
     replace({
-      location: {
-        pathname: "/login",
-      },
+      pathname: "/login",
     });
   }
 };
 
-export const restrictNonPrintPerson = (nextState, replace) => {
+export const redirectNonPrintPerson = (nextState, replace) => {
   const user = store.getState().get("auth").get("user").toJS();
   if (user.role !== "print-person" && user.role !== "admin") {
     replace({
-      location: {
-        pathname: "/login",
-      },
+      pathname: "/login",
     });
   }
 };
@@ -46,15 +40,13 @@ export const restrictNonPrintPerson = (nextState, replace) => {
  * @param {Object} nextState - Next state of the react-router
  * @param {Object} replace - Function to replace the nextState
  */
-export const restrictNonAdmin = (nextState, replace) => {
+export const redirectNonAdmin = (nextState, replace) => {
   // console.log("checking if admin");
   const user = store.getState().get("auth").get("user").toJS();
   if (user.role !== "admin") {
     // console.log("wasnt admin :/");
     replace({
-      location: {
-        pathname: "/login",
-      },
+      pathname: "/login",
     });
   }
 };
