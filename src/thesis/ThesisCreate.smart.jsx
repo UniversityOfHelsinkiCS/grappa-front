@@ -6,6 +6,7 @@
 */
 
 import React from "react";
+import Dropzone from "react-dropzone";
 import moment from "moment";
 import { connect } from "react-redux";
 import Errors from "../ui/Errors.component";
@@ -38,6 +39,7 @@ export class ThesisCreate extends React.Component {
       grade: "",
       StudyFieldId: "",
       CouncilMeetingId: "",
+      PdfFile: "",
       errors: {},
     };
   }
@@ -60,9 +62,7 @@ export class ThesisCreate extends React.Component {
       errors: this.state.errors,
     };
     change[name] = event.target.value;
-    console.log(change);
     const newErrors = validateField(name, event.target.value, "thesis");
-    console.log(newErrors);
     change.errors[`thesis_${name}`] = newErrors;
     this.setState(change);
   }
@@ -73,10 +73,8 @@ export class ThesisCreate extends React.Component {
       graders: this.state.graders,
       errors: this.state.errors,
     };
-    console.log(this.state.errors);
     change.graders[index][name] = event.target.value;
     const newErrors = validateField(name, event.target.value, "grader");
-    console.log(newErrors);
     change.errors[`grader_${name}`] = newErrors;
     this.setState(change);
   }
@@ -92,7 +90,6 @@ export class ThesisCreate extends React.Component {
       errors: this.state.errors,
     };
     const newErrors = validateField("graders", change.graders, "thesis");
-    console.log(newErrors);
     change.errors.thesis_graders = newErrors;
     this.setState(change);
   }
@@ -105,7 +102,6 @@ export class ThesisCreate extends React.Component {
       errors: this.state.errors,
     };
     const newErrors = validateField("graders", change.graders, "thesis");
-    console.log(newErrors);
     change.errors.thesis_graders = newErrors;
     this.setState(change);
   }
@@ -322,6 +318,27 @@ export class ThesisCreate extends React.Component {
     );
   }
 
+  onDrop(files) {
+    // console.log('Received files: ', files);
+    this.setState({
+      PdfFile: files[0],
+    })
+  }
+
+  renderUploadReview() {
+    return (
+      <div>
+        <h3 className="ui dividing header">Upload Thesis review as PDF</h3>
+        <div className="m-bot">
+          <Dropzone className="field upload-box" onDrop={this.onDrop.bind(this)} multiple={false}>
+            <p className="upload-p">Click to navigate to the file or drop them from your file system.</p>
+            <p className="upload-p">Current file: {this.state.PdfFile.name}</p>
+          </Dropzone>
+        </div>
+      </div>
+    );
+  }
+
 /**
 * The method in charge of rendering the outlook of the page. Contains all the html elements.
 * @return <div> thesis-container Container wrapping all the html elements to be rendered.
@@ -333,6 +350,7 @@ export class ThesisCreate extends React.Component {
           <h2 className="ui dividing header">Create a thesis</h2>
           {this.renderThesisAuthor()}
           {this.renderThesisInformation()}
+          {this.renderUploadReview()}
           {this.renderGraders()}
           {this.renderPickCouncilmeeting()}
         </div>

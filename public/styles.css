@@ -20,6 +20,19 @@ body {
 .flashmessage-item {
 }
 
+.upload-box {
+  min-height: 100px;
+  min-width: 100px;
+  border-width: 2px;
+  border-color: #666;
+  border-style: dashed;
+  border-radius: 5px;
+}
+
+.upload-p {
+  margin: 10px !important;
+}
+
 .m-top {
   margin-top: 30px;
 }
