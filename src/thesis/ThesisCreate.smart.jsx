@@ -126,7 +126,9 @@ export class ThesisCreate extends React.Component {
         StudyFieldId: this.state.StudyFieldId,
         CouncilMeetingId: this.state.CouncilMeetingId,
       };
-      this.props.saveThesis(newThesis);
+      const data = new FormData();
+      data.append("file", this.state.PdfFile);
+      this.props.saveThesis(newThesis, data);
     } else {
       this.setState({ errors: thesisErrors.obj });
     }
@@ -146,7 +148,7 @@ export class ThesisCreate extends React.Component {
             <label>First name</label>
             <input
               type="text"
-              value={this.state.firstname}
+              value={this.state.authorFirstname}
               onChange={this.handleChange.bind(this, "authorFirstname")}
               placeholder="First Name"
             />
@@ -155,7 +157,7 @@ export class ThesisCreate extends React.Component {
             <label>Last name</label>
             <input
               type="text"
-              value={this.state.lastname}
+              value={this.state.authorLastname}
               onChange={this.handleChange.bind(this, "authorLastname")}
               placeholder="Last Name"
             />
@@ -164,7 +166,7 @@ export class ThesisCreate extends React.Component {
             <label>Email</label>
             <input
               type="text"
-              value={this.state.email}
+              value={this.state.authorEmail}
               onChange={this.handleChange.bind(this, "authorEmail")}
               placeholder="Email Address"
             />
@@ -322,10 +324,11 @@ export class ThesisCreate extends React.Component {
     // console.log('Received files: ', files);
     this.setState({
       PdfFile: files[0],
-    })
+    });
   }
 
   renderUploadReview() {
+    console.log(this.state.PdfFile);
     return (
       <div>
         <h3 className="ui dividing header">Upload Thesis review as PDF</h3>
@@ -366,10 +369,12 @@ export class ThesisCreate extends React.Component {
 import { saveThesis } from "./thesis.actions";
 import { getCouncilmeetings } from "../councilmeeting/councilmeeting.actions";
 import { getStudyfields } from "../studyfield/studyfield.actions";
+import { uploadReview } from "../upload/upload.actions";
 
 const mapDispatchToProps = (dispatch) => ({
-  saveThesis(newThesis) {
+  saveThesis(newThesis, pdfFile) {
     dispatch(saveThesis(newThesis));
+    dispatch(uploadReview(pdfFile));
   },
   getCouncilmeetings() {
     dispatch(getCouncilmeetings());

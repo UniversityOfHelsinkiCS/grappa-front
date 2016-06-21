@@ -11,7 +11,7 @@ export class UserShow extends Component {
       if (field.id === user.StudyFieldId) {
         return field;
       }
-    })
+    });
     return (
       <table className="ui table">
         <tbody>
@@ -39,21 +39,21 @@ export class UserShow extends Component {
   }
       //   <div className="ui list">
       //   <div className="item">
-          
+
       //     <div className="content">
-            
+
       //     </div>
       //   </div>
       //   <div className="item">
-          
+
       //     <div className="content">
-            
+
       //     </div>
       //   </div>
       //   <div className="item">
-          
+
       //     <div className="content">
-            
+
       //     </div>
       //   </div>
       // </div>
