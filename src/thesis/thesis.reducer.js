@@ -59,10 +59,9 @@ export default function (state = INITIAL_STATE, action) {
     // probably should display error message?
       return state;
     case THESIS_SAVE_ONE_SUCCESS:
-      return state;
-      // return state.updateIn(["theses"], theses => fromJS([...theses, action.payload]));
+      // return state;
+      return state.updateIn(["theses"], theses => fromJS([...theses, action.payload]));
     case THESIS_SAVE_ONE_FAILURE:
-    // probably should display error message?
       return state;
     case THESIS_UPDATE_ONE_SUCCESS:
       return state.updateIn(["theses"], thesis =>
