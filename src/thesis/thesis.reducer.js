@@ -10,6 +10,7 @@ import {
   THESIS_SAVE_ONE_FAILURE,
   THESIS_UPDATE_ONE_SUCCESS,
   THESIS_UPDATE_ONE_FAILURE,
+  THESIS_DOWNLOAD_SUCCESS,
 } from "./thesis.actions";
 /**
 *Defines what the intial state is when no changes have yet been done to the state.
@@ -73,6 +74,8 @@ export default function (state = INITIAL_STATE, action) {
         })
       );
     case THESIS_UPDATE_ONE_FAILURE:
+      return state;
+    case THESIS_DOWNLOAD_SUCCESS:
       return state;
     default:
       return state;

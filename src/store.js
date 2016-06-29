@@ -5,6 +5,7 @@ import { fromJS, Map } from "immutable";
 import logger from "./middleware/logger";
 import { handleCallApi } from "./middleware/grappaAPI";
 import { manageState } from "./middleware/statusManager";
+import { triggerDownload } from "./middleware/downloadHelper";
 
 import auth from "./auth/auth.reducer";
 import thesis from "./thesis/thesis.reducer";
@@ -47,7 +48,7 @@ const rootReducer = (state, action) => {
   return combinedReducers(state, action);
 };
 
-const createStoreWithMiddleware = applyMiddleware(logger, handleCallApi, manageState)(createStore);
+const createStoreWithMiddleware = applyMiddleware(logger, handleCallApi, manageState, triggerDownload)(createStore);
 const createPersistentStore = compose(
   persistState(["auth", "thesis", "councilmeeting", "studyfield"], {
     slicer: (paths) => (state) => state.filter((v, k) => paths.indexOf(k) !== -1),

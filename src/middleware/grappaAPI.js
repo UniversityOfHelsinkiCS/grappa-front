@@ -16,6 +16,7 @@ export const callApi = (action, store) => {
       "X-Access-Token": token,
       "X-Key": user.id,
     },
+    responseType: action.responseType === undefined ? "json" : action.responseType,
   })
   .then(res => {
     store.dispatch({
