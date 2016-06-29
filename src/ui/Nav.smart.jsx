@@ -60,7 +60,6 @@ export class Nav extends Component {
         <Link className="item" to="/thesis">Theses</Link>
         <Link className="item" to="/thesis/new">Add new thesis</Link>
         <Link className="item" to="/councilmeeting">Councilmeetings </Link>
-        <Link className="item" to="/councilmeeting/1">Print</Link>
         <Link className="item" to="/councilmeeting/next">Next meeting</Link>
         <Link className="item" to="/user/inactive">Accept new users</Link>
         <Link className="item" to="/user">All users</Link>

@@ -6,50 +6,23 @@ import ThesesList from "../thesis/ThesisList.component";
 export class CouncilmeetingShow extends Component {
   constructor() {
     super();
-    this.handleDownload= this.handleDownload.bind(this);
     this.state = {
-      nextMeeting: {},
+      currentMeeting: {},
       filteredTheses: [],
     };
   }
 
   componentWillMount() {
-    // console.log(this.props)
-    // console.log(this.props.councilmeetings)
-    // this.findCMFromProps(this.props);
-    const nextMeeting = this.findNextMeeting(this.props.councilmeetings);
-    const filteredTheses = this.filterThesesByMeeting(this.props.theses, nextMeeting);
-    // console.log(nextMeeting)
-    // console.log(filteredTheses)
+    const currentMeeting = this.findCMFromProps(this.props);
+    const filteredTheses = this.filterThesesByMeeting(this.props.theses, currentMeeting);
     this.setState({
-      nextMeeting,
+      currentMeeting,
       filteredTheses,
     });
   }
 
-  // componentWillReceiveProps(newProps) {
-  //   this.findCMFromProps(newProps);
-  // }
-
-  findCMFromProps(props) {
-    let thesisId;
-    try {
-      thesisId = parseInt(props.params.id, 10);
-    } catch (e) {
-      return;
-    }
-    const foundThesis = props.theses.find(thesis => {
-      if (thesis.id === thesisId) {
-        console.log(thesis);
-        return thesis;
-      }
-    });
-    if (typeof foundThesis !== "undefined") {
-      console.log(foundThesis);
-      this.setState({
-        thesis: foundThesis,
-      });
-    }
+  componentWillReceiveProps(newProps) {
+    this.findCMFromProps(newProps);
   }
 
   filterThesesByMeeting(theses, meeting) {
@@ -57,7 +30,7 @@ export class CouncilmeetingShow extends Component {
       if (thesis.CouncilMeetingId === meeting.id) {
         return thesis;
       }
-    })
+    });
   }
 
   findNextMeeting(meetings) {
@@ -69,13 +42,38 @@ export class CouncilmeetingShow extends Component {
     });
   }
 
-  handleDownload(event) {
+  findCMFromProps(props) {
+    let foundCM;
+    if (props.params.id !== "next") {
+      let cmID;
+      try {
+        cmID = parseInt(props.params.id, 10);
+      } catch (e) {
+        return;
+      }
+      foundCM = props.councilmeetings.find(meeting => {
+        if (meeting.id === cmID) {
+          return meeting;
+        }
+      });
+    } else {
+      foundCM = this.findNextMeeting(props.councilmeetings);
+    }
+    return foundCM;
+  }
+
+  handleClick(name, event) {
     event.preventDefault();
-    console.log("lataan kaiken!")
-    const IDs = this.state.filteredTheses.reduce((previousValue, currentValue) => {
-      return [...previousValue, currentValue.id];
-    }, [])
-    this.props.downloadTheses(IDs);
+    if (name === "download") {
+      const IDs = this.state.filteredTheses.reduce((previousValue, currentValue) => {
+        return [...previousValue, currentValue.id];
+      }, []);
+      this.props.downloadTheses(IDs);
+    } else if (name === "next") {
+
+    } else if (name === "previous") {
+
+    }
   }
 
   render() {
@@ -91,7 +89,9 @@ export class CouncilmeetingShow extends Component {
     return (
       <div>
         <div className="m-bot">
-          <h2 className="ui dividing header">Councilmeeting of { moment(new Date(this.state.nextMeeting.date)).format("DD/MM/YYYY") }</h2>
+          <h2 className="ui dividing header">Councilmeeting of { moment(new Date(this.state.currentMeeting.date)).format("DD/MM/YYYY") }</h2>
+          <button className="ui button blue" onClick={this.handleClick.bind(this, "previous")}>Previous</button>
+          <button className="ui button blue" onClick={this.handleClick.bind(this, "next")}>Next</button>
           <p>Total theses: {this.state.filteredTheses.length}</p>
           <p>
             It will take approximately 1 min for 20 theses to be bundled into one
@@ -99,7 +99,7 @@ export class CouncilmeetingShow extends Component {
             through theses in the "Theses" view and click "Download as PDF" to get single
             PDF documents.
           </p>
-          <button className="ui button blue" onClick={this.handleDownload}>Download</button>
+          <button className="ui button blue" onClick={this.handleClick.bind(this, "download")}>Download</button>
         </div>
         <ThesesList theses={this.state.filteredTheses}/>
       </div>

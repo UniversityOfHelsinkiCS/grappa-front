@@ -137,4 +137,4 @@ export const downloadTheses = (data) => (
     responseType: "arraybuffer",
     data,
   }
-)
+);

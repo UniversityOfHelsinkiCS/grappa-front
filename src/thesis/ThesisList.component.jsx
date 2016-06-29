@@ -53,7 +53,7 @@ export default class ThesisList extends Component {
   }
 
   render() {
-    console.log(this.refs)
+    console.log(this.refs);
     const columns = [
       "status",
       "firstname",
@@ -65,7 +65,7 @@ export default class ThesisList extends Component {
     ];
     return (
       <div>
-        <h2 className="ui dividing header">Theses {this.state.formattedTheses.length-this.state.filteredTheses.length}/{this.state.formattedTheses.length}</h2>
+        <h2 className="ui dividing header">Theses {this.state.formattedTheses.length - this.state.filteredTheses.length}/{this.state.formattedTheses.length}</h2>
           <div className="column">
             <div className="ui right input">
               <div className="ui checkbox">

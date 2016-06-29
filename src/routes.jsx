@@ -9,7 +9,6 @@ import ThesisCreate from "./thesis/ThesisCreate.smart";
 // import CouncilmeetingCreate from "./councilmeeting/CouncilmeetingCreate.smart";
 import CouncilmeetingList from "./councilmeeting/CouncilmeetingList.smart";
 import CouncilmeetingShow from "./councilmeeting/CouncilmeetingShow.smart";
-import CouncilmeetingNext from "./councilmeeting/CouncilmeetingNext.smart";
 import UserList from "./user/UserList.smart";
 import UserNotActiveList from "./user/UserNotActiveList.smart";
 import UserShow from "./user/UserShow.smart";
@@ -25,7 +24,6 @@ export default (
       <Route path="thesis" component={ThesisList} onEnter={redirectNonUser} />
       <Route path="thesis/new" component={ThesisCreate} onEnter={redirectNonUser} />
       <Route path="thesis/:id" component={ThesisShow} onEnter={redirectNonUser} />
-      <Route path="councilmeeting/next" component={CouncilmeetingNext} onEnter={redirectNonAdmin} />
       <Route path="councilmeeting/:id" component={CouncilmeetingShow} onEnter={redirectNonPrintPerson} />
       <Route path="councilmeeting" component={CouncilmeetingList} onEnter={redirectNonAdmin} />
       <Route path="user" component={UserList} onEnter={redirectNonAdmin} />

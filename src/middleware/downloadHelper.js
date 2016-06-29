@@ -1,4 +1,4 @@
-import moment from "moment"
+import moment from "moment";
 
 import {
   THESIS_DOWNLOAD_SUCCESS,
@@ -10,10 +10,10 @@ export const triggerDownload = store => next => action => {
     // console.log("downloading")
     const blob = new Blob([action.payload]);
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
+    const a = document.createElement("a");
     a.href = url;
     a.download = `theses-${moment(new Date()).format("DD/MM/YYYY")}.pdf`;
-    a.target = '_blank';
+    a.target = "_blank";
     a.click();
   }
 };

@@ -17,7 +17,6 @@ import email from "./email/email.reducer";
 import emailstatus from "./emailstatus/emailstatus.reducer";
 import studyfield from "./studyfield/studyfield.reducer";
 import ethesis from "./ethesis/ethesis.reducer";
-import pdf from "./pdf/pdf.reducer";
 import upload from "./upload/upload.reducer";
 import flash from "./flash/flash.reducer";
 import { LOGOUT_USER } from "./auth/auth.actions";
@@ -33,7 +32,6 @@ const combinedReducers = combineReducers({
   emailstatus,
   studyfield,
   ethesis,
-  pdf,
   upload,
   flash,
 });
