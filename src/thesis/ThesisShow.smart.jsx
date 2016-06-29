@@ -349,7 +349,7 @@ export class ThesisShow extends Component {
             :
           <div></div>
         }
-        <h2 className="ui dividing header">Print abstract</h2>
+        <h2 className="ui dividing header">Print documents</h2>
         <div className="field">
           <button className="ui blue button">Download as PDF</button>
         </div>

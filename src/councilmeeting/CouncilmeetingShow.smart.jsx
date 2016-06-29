@@ -92,7 +92,7 @@ export class CouncilmeetingShow extends Component {
       <div>
         <div className="m-bot">
           <h2 className="ui dividing header">Councilmeeting of { moment(new Date(this.state.nextMeeting.date)).format("DD/MM/YYYY") }</h2>
-          <p>Total theses: 22</p>
+          <p>Total theses: {this.state.filteredTheses.length}</p>
           <p>
             It will take approximately 1 min for 20 theses to be bundled into one
             downloadable document. Be patient. If nothing works you can manually go
@@ -114,7 +114,6 @@ const mapStateToProps = (state) => {
   const auth = state.get("auth");
   const cm = state.get("councilmeeting");
   const thesis = state.get("thesis");
-  console.log(cm.get("councilmeetings").toJS())
   return {
     user: auth.get("user").toJS(),
     councilmeetings: cm.get("councilmeetings").toJS(),
