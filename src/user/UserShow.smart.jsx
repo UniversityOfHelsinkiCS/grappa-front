@@ -13,50 +13,28 @@ export class UserShow extends Component {
       }
     });
     return (
-      <table className="ui table">
-        <tbody>
-          <tr>
-            <td>
-              <i className="user icon"></i>
-            </td>
-            <td>{ user.name }</td>
-          </tr>
-          <tr>
-            <td>
-              <i className="mail icon"></i>
-            </td>
-            <td>{ user.email }</td>
-          </tr>
-          <tr>
-            <td>
-              <i className="student icon"></i>
-            </td>
-            <td>{ StudyField.name }</td>
-          </tr>
-        </tbody>
-      </table>
+      <div className="ui list">
+        <div>
+          <i className="user icon"></i>
+          <span>
+            { user.name }
+          </span>
+        </div>
+        <div>
+          <i className="mail icon"></i>
+          <span>
+            { user.email }
+          </span>
+        </div>
+        <div>
+          <i className="student icon"></i>
+          <span>
+            { StudyField === undefined ? "No studyfield assigned" : StudyField.name}
+          </span>
+        </div>
+      </div>
     );
   }
-      //   <div className="ui list">
-      //   <div className="item">
-
-      //     <div className="content">
-
-      //     </div>
-      //   </div>
-      //   <div className="item">
-
-      //     <div className="content">
-
-      //     </div>
-      //   </div>
-      //   <div className="item">
-
-      //     <div className="content">
-
-      //     </div>
-      //   </div>
-      // </div>
 }
 
 import { connect } from "react-redux";

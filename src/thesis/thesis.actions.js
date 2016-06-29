@@ -18,6 +18,9 @@ export const THESIS_DELETE_ONE_FAILURE = "THESIS_DELETE_ONE_FAILURE";
 // export const THESIS_GET_ONE_SUCCESS = "THESIS_GET_ONE_SUCCESS";
 // export const THESIS_GET_ONE_FAILURE = "THESIS_GET_ONE_FAILURE";
 
+export const THESIS_DOWNLOAD_SUCCESS = "THESIS_DOWNLOAD_SUCCESS";
+export const THESIS_DOWNLOAD_FAILURE = "THESIS_DOWNLOAD_FAILURE";
+
 /**
 * The action called to get a list of all the data related to the theses in the database.
 * @return getTheses The object containing the relevant information for the
@@ -119,3 +122,19 @@ export const updateThesis = (data) => {
  * @return The object containing the relevant information for the
  * reducer to handle the data accordingly.
  */
+export const downloadTheses = (data) => (
+  {
+    type: CALL_API,
+    success: THESIS_DOWNLOAD_SUCCESS,
+    successMessage: {
+      type: "success",
+      title: "Success",
+      body: "Theses were generated into PDF.",
+    },
+    failure: THESIS_DOWNLOAD_FAILURE,
+    method: "post",
+    url: `/thesis/pdf`,
+    responseType: "arraybuffer",
+    data,
+  }
+);

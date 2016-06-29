@@ -1,15 +1,8 @@
-/**
-* ThesisList.smart for displaying the data relating to all the thesis added to the
-* database. It contains the component for rendering the needed displayable data, and
-* the container containing various functions for handling the connections between the
-* component and Redux.
-*/
-
 import React, { Component } from "react";
 import { Table, Thead, Th, unsafe } from "reactable";
 import moment from "moment";
 
-export class ThesisList extends Component {
+export default class ThesisList extends Component {
   constructor() {
     super();
     this.state = {
@@ -19,13 +12,10 @@ export class ThesisList extends Component {
   }
 
   componentWillMount() {
-    this.props.getTheses();
-  }
-
-  componentWillReceiveProps(newProps) {
-    console.log("received props");
-    const formatted = this.formatThesesForReactTable(newProps.theses);
-    const filtered = this.filterOldTheses(formatted, !this.refs.checkOld.checked);
+    console.log("will mount");
+    const formatted = this.formatThesesForReactTable(this.props.theses);
+    // const filtered = this.filterOldTheses(formatted, !this.refs.checkOld.checked);
+    const filtered = this.filterOldTheses(formatted, true);
     this.setState({
       formattedTheses: formatted,
       filteredTheses: filtered,
@@ -64,7 +54,6 @@ export class ThesisList extends Component {
 
   render() {
     console.log(this.refs);
-
     const columns = [
       "status",
       "firstname",
@@ -76,13 +65,15 @@ export class ThesisList extends Component {
     ];
     return (
       <div>
-        <h2 className="ui dividing header">Theses</h2>
-        <div className="ui right input">
-          <div className="ui checkbox">
-            <input ref="checkOld" type="checkbox" onClick={this.handleCheckBoxClick.bind(this)}/>
-            <label>Show also finished theses</label>
+        <h2 className="ui dividing header">Theses {this.state.formattedTheses.length - this.state.filteredTheses.length}/{this.state.formattedTheses.length}</h2>
+          <div className="column">
+            <div className="ui right input">
+              <div className="ui checkbox">
+                <input ref="checkOld" type="checkbox" onClick={this.handleCheckBoxClick.bind(this)}/>
+                <label>Show also finished theses</label>
+              </div>
+            </div>
           </div>
-        </div>
         <Table
           className="ui table"
           noDataText="No theses found"
@@ -106,22 +97,6 @@ export class ThesisList extends Component {
   }
 }
 
-import { connect } from "react-redux";
-import { getTheses } from "./thesis.actions";
-
-const mapStateToProps = (state) => {
-  const auth = state.get("auth");
-  const thesis = state.get("thesis");
-  return {
-    theses: thesis.get("theses").toJS(),
-    user: auth.get("user").toJS(),
-  };
-};
-
-const mapDispatchToProps = (dispatch) => ({
-  getTheses() {
-    dispatch(getTheses());
-  },
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(ThesisList);
+// ThesisList.propTypes = {
+//   theses: PropTypes.array,
+// };
