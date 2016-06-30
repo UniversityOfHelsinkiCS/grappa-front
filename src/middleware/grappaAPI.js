@@ -40,6 +40,7 @@ export const callApi = (action, store) => {
 };
 
 export const handleCallApi = store => next => action => {
+  next(action);
   if (action.type === CALL_API) {
     callApi(action, store);
   } else if (action.type === CALL_API_AFTER_ACTION) {
@@ -55,6 +56,5 @@ export const handleCallApi = store => next => action => {
       callApi(actionInQueue, store);
       queue[action.type] = undefined;
     }
-    next(action);
   }
 };

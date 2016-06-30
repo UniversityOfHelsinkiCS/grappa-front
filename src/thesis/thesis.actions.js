@@ -77,6 +77,11 @@ export const saveThesis = (thesis) => {
   console.log("saveThesis-action called!");
   return {
     type: CALL_API,
+    flashMessage: {
+      type: "warning",
+      title: "Request sent",
+      body: "Waiting for Thesis to be saved.",
+    },
     success: THESIS_SAVE_ONE_SUCCESS,
     successMessage: {
       type: "success",
@@ -101,6 +106,11 @@ export const updateThesis = (data) => {
   console.log("updateThesis-action called!");
   return {
     type: CALL_API,
+    flashMessage: {
+      type: "warning",
+      title: "Request sent",
+      body: "Waiting for Thesis to be updated.",
+    },
     success: THESIS_UPDATE_ONE_SUCCESS,
     successMessage: {
       type: "success",
@@ -125,6 +135,11 @@ export const updateThesis = (data) => {
 export const downloadTheses = (data) => (
   {
     type: CALL_API,
+    flashMessage: {
+      type: "warning",
+      title: "Request sent",
+      body: "Waiting for Theses to be combined into single PDF.",
+    },
     success: THESIS_DOWNLOAD_SUCCESS,
     successMessage: {
       type: "success",

@@ -46,6 +46,11 @@ export const getInactiveUsers = () => (
 export const registerUser = (user) => (
   {
     type: CALL_API,
+    flashMessage: {
+      type: "warning",
+      title: "Request sent",
+      body: "Waiting for your account to be created.",
+    },
     success: USER_SAVE_ONE_SUCCESS,
     successMessage: {
       type: "success",
@@ -69,6 +74,11 @@ export const updateUser = (user) => {
   console.log("updateUser-action called!");
   return {
     type: CALL_API,
+    flashMessage: {
+      type: "warning",
+      title: "Request sent",
+      body: "Waiting for User to be updated.",
+    },
     success: USER_UPDATE_ONE_SUCCESS,
     successMessage: {
       type: "success",
@@ -92,6 +102,11 @@ export const deleteUser = (user) => {
   console.log("deleteUser-action called!");
   return {
     type: CALL_API,
+    flashMessage: {
+      type: "warning",
+      title: "Request sent",
+      body: "Waiting for User to be deleted.",
+    },
     success: USER_DELETE_ONE_SUCCESS,
     successMessage: {
       type: "warning",

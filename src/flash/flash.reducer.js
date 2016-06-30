@@ -6,25 +6,21 @@ import {
 
 const INITIAL_STATE = fromJS({
   messages: [],
-  nextId: 0,
 });
 
 export default function (state = INITIAL_STATE, action) {
   switch (action.type) {
     case CREATE_FLASH_MESSAGE:
-      console.log("create tuli :D");
-      const newMessage = Object.assign(
-        { id: state.get("nextId") },
-        action.message
-      );
-      const newMessages = [...state.get("messages").slice(-3), newMessage];
-      console.log(newMessage);
+      const newMessages = [...state.get("messages").slice(-3), fromJS({
+        id: action.id,
+        type: action.message.type,
+        title: action.message.title,
+        body: action.message.body,
+      })];
       return state.merge({
-        messages: fromJS(newMessages),
-        nextId: state.get("nextId") + 1,
+        messages: newMessages,
       });
     case DELETE_FLASH_MESSAGE:
-      console.log("tuli delete :0");
       return state.updateIn(["messages"], messages =>
         messages.filter(msg => {
           if (msg.get("id") !== action.id) {

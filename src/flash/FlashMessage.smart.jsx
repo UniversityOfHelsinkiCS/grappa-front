@@ -7,16 +7,6 @@ export class FlashMessage extends Component {
     this.handleMessageClose = this.handleMessageClose.bind(this);
   }
 
-  componentWillReceiveProps(newProps) {
-    if (newProps.messages.length > 0) {
-      const newMsgId = newProps.messages[newProps.messages.length - 1].id;
-      // console.log("setting timer on id: " + newMsgId);
-      setTimeout(() => {
-        this.props.deleteMessage(newMsgId);
-      }, 15000);
-    }
-  }
-
   handleMessageClose(message, event) {
     event.preventDefault();
     this.props.deleteMessage(message.id);

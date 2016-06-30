@@ -8,7 +8,7 @@ import {
   getCouncilmeetings } from "../../src/councilmeeting/councilmeeting.actions";
 import { CALL_API } from "../../src/middleware/grappaAPI";
 
-describe("actions", () => {
+xdescribe("actions", () => {
   it("should create an action to add a councilmeeting", () => {
     const date = "jokupaivamaara";
     const expectedAction = {

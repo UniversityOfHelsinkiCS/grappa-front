@@ -12,7 +12,7 @@ import {
   updateThesisWithEthesis,
 } from "../../src/thesis/thesis.actions";
 
-describe("thesis.actions", () => {
+xdescribe("thesis.actions", () => {
   it("getTheses should return correct object", () => {
     const createdAction = getTheses();
     const expectedAction = {

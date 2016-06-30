@@ -21,6 +21,11 @@ export const addCouncilmeeting = (Councilmeeting) => {
   console.log("addCouncilmeeting-action called :)");
   return {
     type: CALL_API,
+    flashMessage: {
+      type: "warning",
+      title: "Request sent",
+      body: "Waiting for Councilmeeting to be saved.",
+    },
     success: COUNCILMEETING_SAVE_ONE_SUCCESS,
     successMessage: {
       type: "success",
