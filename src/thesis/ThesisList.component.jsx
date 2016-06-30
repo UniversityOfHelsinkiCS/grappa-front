@@ -53,7 +53,7 @@ export default class ThesisList extends Component {
   }
 
   render() {
-    console.log(this.refs);
+    // console.log(this.refs);
     const columns = [
       "status",
       "firstname",

@@ -29,14 +29,30 @@ const INITIAL_STATE = fromJS({
 export default function (state = INITIAL_STATE, action) {
   switch (action.type) {
     case COUNCILMEETING_SAVE_ONE_SUCCESS:
-      return state.updateIn(["councilmeetings"], list => list.push(fromJS(action.payload)));
+      return state.updateIn(["councilmeetings"], list => {
+        const index = list.findIndex(meeting => {
+          if (new Date(meeting.get("date")) > new Date(action.payload.date)) {
+            return meeting;
+          }
+        });
+        return index !== -1 ? list.splice(index, 0, fromJS(action.payload)) : list.push(fromJS(action.payload));
+      });
     case COUNCILMEETING_SAVE_ONE_FAILURE:
       return state;
     case COUNCILMEETING_GET_ALL_SUCCESS:
-      return state.mergeIn(["councilmeetings"], fromJS(action.payload));
+      const sorted = action.payload.sort((a, b) => {
+        return new Date(a.date) - new Date(b.date);
+      });
+      return state.mergeIn(["councilmeetings"], fromJS(sorted));
     case COUNCILMEETING_GET_ALL_FAILURE:
       return state;
     default:
       return state;
   }
 }
+
+const sortMeetings = (meetings) => {
+  return meetings.sort((a, b) => {
+    return new Date(a.date) - new Date(b.date);
+  });
+};
