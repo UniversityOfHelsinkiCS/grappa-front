@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from "react";
 
+import Dropdown from "../ui/Dropdown.component";
 import { validateField, validateModel } from "../config/Validator";
 
 export default class GraderList extends Component {
@@ -56,10 +57,99 @@ export default class GraderList extends Component {
     }
   }
 
+  renderCreate() {
+    return (
+      <div className="four fields">
+        <div className=" field">
+          <label>Title</label>
+          <select className="ui fluid search dropdown" value="title"
+            onChange={this.handleGraderChange.bind(this, "title")}
+          >
+            <option value="">Select title</option>
+            <option value="Prof">Professor</option>
+            <option value="AssProf">Assistant Professor</option>
+            <option value="AdjProf">Adjunct Professor</option>
+            <option value="Doc">Doctor</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div className="field">
+          <label>Name</label>
+          <input
+            type="text" name="grader_name" value="name" placeholder="Name"
+            onChange={this.handleGraderChange.bind(this, "name")}
+          />
+        </div>
+        <div className="field">
+          <label>&nbsp;</label>
+          <button className="ui green button"
+            onClick={this.removeGrader.bind(this)}
+          >
+            Create Grader
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  renderUpdate() {
+    return (
+      <div className="four fields">
+        <div className=" field">
+          <label>Who</label>
+          <select className="ui fluid search dropdown" value="title"
+            onChange={this.handleGraderChange.bind(this, "title")}
+          >
+            <option value="">Select title</option>
+            <option value="Prof">Professor</option>
+            <option value="AssProf">Assistant Professor</option>
+            <option value="AdjProf">Adjunct Professor</option>
+            <option value="Doc">Doctor</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div className=" field">
+          <label>Title</label>
+          <select className="ui fluid search dropdown" value="title"
+            onChange={this.handleGraderChange.bind(this, "title")}
+          >
+            <option value="">Select title</option>
+            <option value="Prof">Professor</option>
+            <option value="AssProf">Assistant Professor</option>
+            <option value="AdjProf">Adjunct Professor</option>
+            <option value="Doc">Doctor</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div className="field">
+          <label>Name</label>
+          <input
+            type="text" name="grader_name" value="name" placeholder="Name"
+            onChange={this.handleGraderChange.bind(this, "name")}
+          />
+        </div>
+        <div className="field">
+          <label>&nbsp;</label>
+          <button className="ui blue button"
+            onClick={this.removeGrader.bind(this)}
+          >
+            Update Grader
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   render() {
     return (
       <div className="field">
         <h3 className="ui dividing header">Graders</h3>
+        <div className="field">
+          <label>Select Graders</label>
+          <Dropdown />
+        </div>
+        { this.renderCreate() }
+        { this.renderUpdate() }
         {
           this.props.Graders.map((grader, index) =>
             <div key={index} className="three fields">

@@ -6,7 +6,6 @@
 */
 
 import React, { Component } from "react";
-import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import { Table, Thead, Th, unsafe } from "reactable";
 
 export class NewUsersList extends Component {

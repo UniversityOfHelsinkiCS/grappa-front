@@ -101,6 +101,7 @@ export class Login extends React.Component {
 
 import { loginUser } from "./auth.actions";
 // import { getTheses } from "../thesis/thesis.actions";
+import { getGraders } from "../grader/grader.actions";
 import { getCouncilmeetings } from "../councilmeeting/councilmeeting.actions";
 import { getStudyfields } from "../studyfield/studyfield.actions";
 
@@ -117,6 +118,7 @@ const mapDispatchToProps = (dispatch) => ({
   },
   fetchAll() {
     // dispatch(getTheses());
+    dispatch(getGraders());
     dispatch(getCouncilmeetings());
     dispatch(getStudyfields());
   },

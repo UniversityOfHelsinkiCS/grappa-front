@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Dropdown from "../ui/Dropdown.component";
 
 export class UserShow extends Component {
   constructor() {
@@ -32,6 +33,17 @@ export class UserShow extends Component {
             { StudyField === undefined ? "No studyfield assigned" : StudyField.name}
           </span>
         </div>
+        <div className="ui sub header">Multiple</div>
+        <div className="ui fluid multiple search selection dropdown">
+          <input name="tags" type="hidden" />
+          <i className="dropdown icon"></i>
+          <div className="default text">Skills</div>
+          <div className="menu">
+            <div className="item" data-value="1">Prof. Koskela Matti</div>
+            <div className="item" data-value="2">AssProf. Asdf Pena</div>
+          </div>
+        </div>
+        <Dropdown />
       </div>
     );
   }

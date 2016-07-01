@@ -22,6 +22,16 @@ export default class ThesisList extends Component {
     });
   }
 
+  componentWillReceiveProps(newProps) {
+    const formatted = this.formatThesesForReactTable(newProps.theses);
+    // const filtered = this.filterOldTheses(formatted, !this.refs.checkOld.checked);
+    const filtered = this.filterOldTheses(formatted, true);
+    this.setState({
+      formattedTheses: formatted,
+      filteredTheses: filtered,
+    });
+  }
+
   formatThesesForReactTable(theses) {
     return theses.map(thesis => {
       return {
