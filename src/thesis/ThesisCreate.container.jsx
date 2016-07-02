@@ -11,7 +11,9 @@ import moment from "moment";
 import GraderContainer from "../grader/GraderListCreateUpdate.container";
 import Errors from "../ui/Errors.component";
 // import Validation from "./thesisValidation";
-import { validateField, validateModel } from "../config/Validator";
+import Validate from "../validate/Validate";
+import ValidInput from "../config/ValidInput.component";
+import { validateField, validateModel, updateErrors } from "../config/Validator";
 
 export class ThesisCreate extends React.Component {
   constructor() {
@@ -25,7 +27,6 @@ export class ThesisCreate extends React.Component {
       title: "",
       Graders: [],
       urkund: "",
-      ethesis: "",
       grade: "",
       StudyFieldId: "",
       CouncilMeetingId: "",
@@ -151,6 +152,14 @@ export class ThesisCreate extends React.Component {
               value={this.state.authorFirstname}
               onChange={this.handleChange.bind(this, "authorFirstname")}
               placeholder="First Name"
+            />
+            <ValidInput
+              name="thesis_authorFirstname"
+              type="text"
+              value={this.state.authorFirstname}
+              onChange={this.handleChange.bind(this, "authorFirstname")}
+              placeholder="First Name"
+              errors={this.state.errors}
             />
           </div>
           <div className="field">
@@ -283,7 +292,8 @@ export class ThesisCreate extends React.Component {
   filterOldDates(meetings) {
     const today = new Date();
     return meetings.filter(meeting => {
-      if (new Date(meeting.date) > today) {
+      const mdate = new Date(meeting.date);
+      if (mdate >= today || mdate.toDateString() === today.toDateString()) {
         return meeting;
       }
     });
@@ -293,7 +303,8 @@ export class ThesisCreate extends React.Component {
     console.log(this.props.CouncilMeetings);
     const today = new Date();
     const filtered = this.props.CouncilMeetings.filter(meeting => {
-      if (new Date(meeting.date) >= today) {
+      const mdate = new Date(meeting.date);
+      if (mdate >= today || mdate.toDateString() === today.toDateString()) {
         return meeting;
       }
     });
@@ -354,7 +365,7 @@ export class ThesisCreate extends React.Component {
           {this.renderThesisAuthor()}
           {this.renderThesisInformation()}
           {this.renderUploadReview()}
-          <GraderContainer Graders={this.state.Graders} editable/>
+          <GraderContainer Graders={this.state.Graders} editable={true}/>
           {this.renderPickCouncilmeeting()}
         </div>
         <Errors errors={this.state.errors}/>

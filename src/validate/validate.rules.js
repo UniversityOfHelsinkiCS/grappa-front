@@ -1,4 +1,4 @@
-const validationRules = {
+export default const rules = {
   thesis: [
     {
       name: "authorFirstname",
@@ -154,5 +154,3 @@ const validationRules = {
     },
   ],
 };
-
-export default validationRules;

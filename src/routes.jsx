@@ -1,12 +1,12 @@
 import React from "react";
 import { Route } from "react-router";
 import { redirectNonUser, redirectNonAdmin, redirectNonPrintPerson } from "./middleware/restrictAccess";
+
 import App from "./app/App.component";
 import Ethesis from "./ethesis/Ethesis.container";
 import ThesisList from "./thesis/ThesisList.container";
 import ThesisShowEdit from "./thesis/ThesisShowEdit.container";
 import ThesisCreate from "./thesis/ThesisCreate.container";
-// import CouncilmeetingCreate from "./councilmeeting/CouncilmeetingCreate.smart";
 import CouncilmeetingContainer from "./councilmeeting/CouncilmeetingListCreate.container";
 import CouncilmeetingShow from "./councilmeeting/CouncilmeetingShow.container";
 import EmailstatusList from "./emailstatus/EmailstatusList.smart";
