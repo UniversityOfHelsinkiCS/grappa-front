@@ -110,7 +110,6 @@ export class CouncilmeetingShow extends Component {
     return (
       <div>
         <div className="m-bot">
-          <h2 className="ui dividing header">Councilmeeting of { moment(new Date(this.state.currentMeeting.date)).format("DD/MM/YYYY") }</h2>
           { this.state.previousMeeting.date !== undefined ?
             <button className="ui button blue" onClick={this.handleClick.bind(this, "previous")}>Previous</button>
               :
@@ -121,6 +120,10 @@ export class CouncilmeetingShow extends Component {
               :
             <span></span>
           }
+          <h2 className="ui dividing header" style={{ "margin-top": "10px" }}>
+            Councilmeeting of { moment(new Date(this.state.currentMeeting.date)).format("DD/MM/YYYY") }
+          </h2>
+
           <p>Total theses: {this.state.filteredTheses.length}</p>
           <p>
             It will take approximately 1 min for 20 theses to be bundled into one

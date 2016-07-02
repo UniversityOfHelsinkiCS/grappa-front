@@ -3,7 +3,7 @@ import DatePicker from "react-datepicker";
 import { Table, Thead, Th, unsafe } from "reactable";
 import moment from "moment";
 
-export class CouncilmeetingList extends Component {
+export class CouncilmeetingListCreate extends Component {
 
   constructor() {
     super();
@@ -150,4 +150,4 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(CouncilmeetingList);
+export default connect(mapStateToProps, mapDispatchToProps)(CouncilmeetingListCreate);

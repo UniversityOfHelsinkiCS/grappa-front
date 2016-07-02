@@ -9,13 +9,13 @@ import {
 } from "react-addons-test-utils";
 import { Provider } from "react-redux";
 import store from "../../src/store";
-import CouncilmeetingListContainer, { CouncilmeetingList } from "../../src/councilmeeting/CouncilmeetingList.smart";
+import CouncilmeetingContainer, { CouncilmeetingListCreate } from "../../src/councilmeeting/CouncilmeetingListCreate.container";
 
 describe("CouncilmeetingList.smart", () => {
   xit("should render table headers", () => {
     const component = renderIntoDocument(
       <Provider store={store}>
-        <CouncilmeetingListContainer />
+        <CouncilmeetingContainer />
       </Provider>
     );
     const title = scryRenderedDOMComponentsWithTag(component, "h2");
@@ -27,7 +27,7 @@ describe("CouncilmeetingList.smart", () => {
   it("should call api when the page is rendered", () => {
     const spyMethod = sinon.spy();
     renderIntoDocument(
-      <CouncilmeetingList councilmeetings={[]} getCouncilmeetings={spyMethod}/>
+      <CouncilmeetingListCreate councilmeetings={[]} getCouncilmeetings={spyMethod}/>
     );
     expect(spyMethod.callCount).to.be.equal(1);
   });
