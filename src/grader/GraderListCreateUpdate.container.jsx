@@ -35,7 +35,6 @@ export class GraderListCreateUpdate extends Component {
   createGrader(event) {
     event.preventDefault();
     if (this.props.editable) {
-      this.props.saveGrader(this.state.newGrader);
       const errors = validateModel(this.state.newGrader, "grader");
       console.log("errors");
       console.log(errors);
@@ -156,10 +155,17 @@ export class GraderListCreateUpdate extends Component {
         <h3 className="ui dividing header">Graders</h3>
         <div className="field">
           <label>Select Graders</label>
-          <Dropdown Graders={ Graders }/>
+          <Dropdown Graders={ Graders } editable={ this.props.editable }/>
         </div>
-        { this.renderCreate() }
-        { this.renderUpdate() }
+        { this.props.editable ?
+          <span>
+            { this.renderCreate() }
+            { this.renderUpdate() }
+          </span>
+            :
+          <span>
+          </span>
+        }
       </div>
     );
   }

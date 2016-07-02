@@ -8,34 +8,34 @@ export default class Dropdown extends Component {
       searchValue: "",
       menuActive: false,
       data: [
-        {
-          id: 1,
-          name: "Matti Luukkainen",
-          title: "AssProf",
-          active: false,
-          filtered: false,
-        },
-        {
-          id: 2,
-          name: "Arto Vihavainen",
-          title: "Doc",
-          active: false,
-          filtered: false,
-        },
-        {
-          id: 3,
-          name: "Linus Torvalds",
-          title: "Other",
-          active: false,
-          filtered: false,
-        },
-        {
-          id: 4,
-          name: "Arto Wikla",
-          title: "Prof",
-          active: false,
-          filtered: false,
-        },
+        // {
+        //   id: 1,
+        //   name: "Matti Luukkainen",
+        //   title: "AssProf",
+        //   active: false,
+        //   filtered: false,
+        // },
+        // {
+        //   id: 2,
+        //   name: "Arto Vihavainen",
+        //   title: "Doc",
+        //   active: false,
+        //   filtered: false,
+        // },
+        // {
+        //   id: 3,
+        //   name: "Linus Torvalds",
+        //   title: "Other",
+        //   active: false,
+        //   filtered: false,
+        // },
+        // {
+        //   id: 4,
+        //   name: "Arto Wikla",
+        //   title: "Prof",
+        //   active: false,
+        //   filtered: false,
+        // },
       ]
     };
   }
@@ -53,10 +53,10 @@ export default class Dropdown extends Component {
   }
 
   handleClick(type, index, event) {
-    if (type === "unactivate") {
+    if (type === "unactivate" && this.props.editable) {
       this.state.data[index].active = false;
       this.setState({});
-    } else if (type === "activate") {
+    } else if (type === "activate" && this.props.editable) {
       this.state.data[index].active = true;
       this.setState({});
     } else if (type === "toggleMenu") {
@@ -86,7 +86,7 @@ export default class Dropdown extends Component {
 
   handleKeyPress(target) {
     // if enter
-    if (target.charCode === 13) {
+    if (target.charCode === 13 && this.props.editable) {
       let found = false;
       const activeOne = this.state.data.map(item => {
         if (!item.active && !item.filtered && !found) {
@@ -128,15 +128,15 @@ export default class Dropdown extends Component {
           { data.map((item, index) => {
             if (item.active) {
               return (
-                  <a key={index} className="ui label transition visible" data-value="angular" onFocus={this.handleFocus.bind(this)}>
-                    { `${item.title} ${item.name}` }
-                    <i className="delete icon" onClick={this.handleClick.bind(this, "unactivate", index)}></i>
-                  </a>
-                );
+                <a key={index} className="ui label transition visible" data-value="angular" onFocus={this.handleFocus.bind(this)}>
+                  { `${item.title} ${item.name}` }
+                  <i className="delete icon" onClick={this.handleClick.bind(this, "unactivate", index)}></i>
+                </a>
+              );
             } else {
               return (
-                  <a key={index} onFocus={this.handleFocus.bind(this)}></a>
-                );
+                <a key={index} onFocus={this.handleFocus.bind(this)}></a>
+              );
             }
           })
           }
@@ -156,19 +156,19 @@ export default class Dropdown extends Component {
               { data.map((item, index) => {
                 if (!item.active && !item.filtered) {
                   return (
-                      <div
-                        key={index}
-                        className="item"
-                        data-value="css"
-                        onClick={this.handleClick.bind(this, "activate", index)}
-                      >
-                        { `${item.title} ${item.name}` }
-                      </div>
-                    );
+                    <div
+                      key={index}
+                      className="item"
+                      data-value="css"
+                      onClick={this.handleClick.bind(this, "activate", index)}
+                    >
+                      { `${item.title} ${item.name}` }
+                    </div>
+                  );
                 } else {
                   return (
-                      <div key={index} className="item filtered" data-value="css">{item.name}</div>
-                    );
+                    <div key={index} className="item filtered" data-value="css">{item.name}</div>
+                  );
                 }
               })
               }

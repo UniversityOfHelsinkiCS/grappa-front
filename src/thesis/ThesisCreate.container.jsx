@@ -8,10 +8,8 @@
 import React from "react";
 import Dropzone from "react-dropzone";
 import moment from "moment";
-import { connect } from "react-redux";
 import GraderContainer from "../grader/GraderListCreateUpdate.container";
 import Errors from "../ui/Errors.component";
-// import Dropdown from "../ui/Dropdown.component";
 // import Validation from "./thesisValidation";
 import { validateField, validateModel } from "../config/Validator";
 
@@ -36,10 +34,10 @@ export class ThesisCreate extends React.Component {
     };
   }
 
-  componentDidMount() {
-    this.props.getCouncilmeetings();
-    this.props.getStudyfields();
-  }
+  // componentDidMount() {
+  //   this.props.getCouncilmeetings();
+  //   this.props.getStudyfields();
+  // }
 
   componentWillReceiveProps(newProps) {
     if (newProps.Graders.length !== 0) {
@@ -367,6 +365,8 @@ export class ThesisCreate extends React.Component {
     );
   }
 }
+
+import { connect } from "react-redux";
 
 import { saveThesis } from "./thesis.actions";
 import { getCouncilmeetings } from "../councilmeeting/councilmeeting.actions";

@@ -9,9 +9,6 @@ export const GRADER_SAVE_ONE_FAILURE = "GRADER_SAVE_ONE_FAILURE";
 export const GRADER_UPDATE_ONE_SUCCESS = "GRADER_UPDATE_ONE_SUCCESS";
 export const GRADER_UPDATE_ONE_FAILURE = "GRADER_UPDATE_ONE_FAILURE";
 
-export const GRADER_UPDATE_MANY_SUCCESS = "GRADER_UPDATE_MANY_SUCCESS";
-export const GRADER_UPDATE_MANY_FAILURE = "GRADER_UPDATE_MANY_FAILURE";
-
 export const getGraders = () => (
   {
     type: CALL_API,
@@ -64,15 +61,3 @@ export const updateGrader = (grader) => (
     data,
   }
 );
-
-export const updateGraders = (data) => {
-  console.log("updateGrader-action called!");
-  return {
-    type: CALL_API,
-    success: GRADER_UPDATE_MANY_SUCCESS,
-    failure: GRADER_UPDATE_MANY_FAILURE,
-    method: "post",
-    url: "/grader/many",
-    data,
-  };
-};
