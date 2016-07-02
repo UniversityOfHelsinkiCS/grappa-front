@@ -84,7 +84,7 @@ export class CouncilmeetingShow extends Component {
   findNextMeeting(starting, meetings) {
     return meetings.findIndex(meeting => {
       const date = new Date(meeting.date);
-      if (date >= starting) {
+      if (date >= starting || date.toDateString() === starting.toDateString()) {
         return meeting;
       }
     });

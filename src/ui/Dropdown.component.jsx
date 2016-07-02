@@ -40,6 +40,18 @@ export default class Dropdown extends Component {
     };
   }
 
+  componentWillMount() {
+    this.setState({
+      data: this.props.Graders || [],
+    });
+  }
+
+  componentWillReceiveProps(newProps) {
+    this.setState({
+      data: newProps.Graders || [],
+    });
+  }
+
   handleClick(type, index, event) {
     if (type === "unactivate") {
       this.state.data[index].active = false;
@@ -103,7 +115,7 @@ export default class Dropdown extends Component {
 
 
   render() {
-    const data = this.state.data;
+    const { data } = this.state;
     return (
       <div>
         <div
@@ -115,17 +127,17 @@ export default class Dropdown extends Component {
           <i className={this.state.menuActive ? "delete icon" : "dropdown icon"} onClick={this.handleClick.bind(this, "toggleMenu")}></i>
           { data.map((item, index) => {
             if (item.active) {
-                return (
+              return (
                   <a key={index} className="ui label transition visible" data-value="angular" onFocus={this.handleFocus.bind(this)}>
                     { `${item.title} ${item.name}` }
                     <i className="delete icon" onClick={this.handleClick.bind(this, "unactivate", index)}></i>
                   </a>
                 );
-              } else {
-                return (
+            } else {
+              return (
                   <a key={index} onFocus={this.handleFocus.bind(this)}></a>
                 );
-              }
+            }
           })
           }
           <input
@@ -143,7 +155,7 @@ export default class Dropdown extends Component {
             <div className="menu transition visible" tabIndex="-1">
               { data.map((item, index) => {
                 if (!item.active && !item.filtered) {
-                    return (
+                  return (
                       <div
                         key={index}
                         className="item"
@@ -153,11 +165,11 @@ export default class Dropdown extends Component {
                         { `${item.title} ${item.name}` }
                       </div>
                     );
-                  } else {
-                    return (
+                } else {
+                  return (
                       <div key={index} className="item filtered" data-value="css">{item.name}</div>
                     );
-                  }
+                }
               })
               }
             </div>

@@ -3,7 +3,7 @@ import { browserHistory, Link } from "react-router";
 import moment from "moment";
 
 import { validateField, validateModel } from "../config/Validator";
-import GraderList from "../grader/GraderList.component";
+import GraderContainer from "../grader/GraderListCreateUpdate.container";
 
 export class ThesisShow extends Component {
   constructor() {
@@ -335,7 +335,7 @@ export class ThesisShow extends Component {
         }
         { this.renderThesisAuthor() }
         { this.renderThesisInformation() }
-        <GraderList Graders={this.state.thesis.Graders} editable={this.state.editable}/>
+        <GraderContainer Graders={this.state.thesis.Graders} editable={this.state.editable}/>
         { this.renderPickCouncilmeeting() }
         <h2 className="ui dividing header">Grader evaluation</h2>
         <div className="field">

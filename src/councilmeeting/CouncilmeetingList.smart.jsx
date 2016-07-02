@@ -43,7 +43,8 @@ export class CouncilmeetingList extends Component {
   filterOldDates(meetings) {
     const today = new Date();
     return meetings.filter(meeting => {
-      if (new Date(meeting.date) >= today) {
+      const mdate = new Date(meeting.date);
+      if (mdate >= today || mdate.toDateString() === today.toDateString()) {
         return meeting;
       }
     });
