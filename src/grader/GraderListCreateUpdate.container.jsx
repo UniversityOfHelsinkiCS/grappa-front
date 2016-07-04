@@ -151,6 +151,7 @@ export class GraderListCreateUpdate extends Component {
   render() {
     const { Graders, activated } = this.props;
     // console.log(Graders)
+    console.log(activated)
     return (
       <div className="field">
         <h3 className="ui dividing header">Graders</h3>

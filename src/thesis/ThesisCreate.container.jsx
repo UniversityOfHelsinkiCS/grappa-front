@@ -106,9 +106,7 @@ export class ThesisCreate extends React.Component {
         authorLastname: this.state.authorLastname,
         authorEmail: this.state.authorEmail,
         title: this.state.title,
-        Graders: this.state.Graders.filter(grader => {
-          if (grader.active) return grader;
-        }),
+        Graders: this.state.Graders,
         urkund: this.state.urkund,
         grade: this.state.grade,
         StudyFieldId: this.state.StudyFieldId,
@@ -230,40 +228,6 @@ export class ThesisCreate extends React.Component {
             />
           </div>
         </div>
-      </div>
-    );
-  }
-
-  renderGraders() {
-    return (
-      <div className="m-bot">
-        <h3 className="ui dividing header">Graders</h3>
-        {
-          this.state.graders.map((grader, index) =>
-            <div key={index} className="three fields">
-              <div className="field">
-                <label>Name</label>
-                <input type="text" name="grader_name" value={grader.name} onChange={this.handleGraderChange.bind(this, index, "name")} placeholder="Name" />
-              </div>
-              <div className=" field">
-                <label>Title</label>
-                <select className="ui fluid search dropdown" value={grader.title} onChange={this.handleGraderChange.bind(this, index, "title")} >
-                  <option value="">Select title</option>
-                  <option value="Prof">Professor</option>
-                  <option value="AssProf">Assistant Professor</option>
-                  <option value="AdjProf">Adjunct Professor</option>
-                  <option value="Doc">Doctor</option>
-                  <option value="Other">Other</option>
-                </select>
-              </div>
-              <div className="field">
-                <label>&nbsp;</label>
-                <button className="ui red button" onClick={this.removeGrader.bind(this, index)}>Remove Grader</button>
-              </div>
-            </div>
-          )
-        }
-        <button className="ui primary button" onClick={this.addGrader.bind(this)}>Add Grader</button>
       </div>
     );
   }

@@ -41,17 +41,17 @@ export default class Dropdown extends Component {
     };
   }
 
-  // componentWillMount() {
-  //   this.setState({
-  //     data: this.props.graders || [],
-  //   });
-  // }
+  componentWillMount() {
+    console.log("will mount")
+    console.log(this.props.graders)
+    console.log(this.props.activated)
+  }
 
-  // componentWillReceiveProps(newProps) {
-  //   this.setState({
-  //     data: newProps.graders || [],
-  //   });
-  // }
+  componentWillReceiveProps(newProps) {
+    console.log("got props")
+    console.log(newProps.graders)
+  }
+
 
   handleClick(type, index, event) {
     if (type === "unactivate" && this.props.editable) {

@@ -335,7 +335,7 @@ export class ThesisShow extends Component {
         }
         { this.renderThesisAuthor() }
         { this.renderThesisInformation() }
-        <GraderContainer Graders={this.state.thesis.Graders} editable={this.state.editable}/>
+        <GraderContainer activated={this.state.thesis.Graders} editable={this.state.editable}/>
         { this.renderPickCouncilmeeting() }
         <h2 className="ui dividing header">Grader evaluation</h2>
         <div className="field">
