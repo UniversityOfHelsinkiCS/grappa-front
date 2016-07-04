@@ -5,7 +5,6 @@ export const CALL_API_AFTER_ACTION = "CALL_API_AFTER_ACTION";
 const queue = {};
 
 export const callApi = (action, store) => {
-  console.log("yo dawg");
   const user = store.getState().get("auth").get("user").toJS();
   const token = store.getState().get("auth").get("token");
   axios({
@@ -40,6 +39,7 @@ export const callApi = (action, store) => {
 };
 
 export const handleCallApi = store => next => action => {
+  next(action);
   if (action.type === CALL_API) {
     callApi(action, store);
   } else if (action.type === CALL_API_AFTER_ACTION) {
@@ -55,6 +55,5 @@ export const handleCallApi = store => next => action => {
       callApi(actionInQueue, store);
       queue[action.type] = undefined;
     }
-    next(action);
   }
 };

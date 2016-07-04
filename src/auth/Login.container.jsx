@@ -6,14 +6,11 @@
 */
 import React from "react";
 import { browserHistory } from "react-router";
-import { connect } from "react-redux";
 // import { validateField, validateModel } from "../config/Validator";
 
 export class Login extends React.Component {
   constructor() {
     super();
-    this.handleSubmit = this.handleSubmit.bind(this);
-
     this.state = {
       email: "ohtugrappa@gmail.com",
       password: "asdf",
@@ -92,15 +89,20 @@ export class Login extends React.Component {
               </div>
             </div>
           </div>
-          <div className="ui fluid large blue submit button" onClick={this.handleSubmit}>Login</div>
+          <div className="ui fluid large blue submit button" onClick={this.handleSubmit.bind(this)}>
+            Login
+          </div>
         </div>
       </div>
     );
   }
 }
 
+import { connect } from "react-redux";
+
 import { loginUser } from "./auth.actions";
 // import { getTheses } from "../thesis/thesis.actions";
+import { getGraders } from "../grader/grader.actions";
 import { getCouncilmeetings } from "../councilmeeting/councilmeeting.actions";
 import { getStudyfields } from "../studyfield/studyfield.actions";
 
@@ -117,6 +119,7 @@ const mapDispatchToProps = (dispatch) => ({
   },
   fetchAll() {
     // dispatch(getTheses());
+    dispatch(getGraders());
     dispatch(getCouncilmeetings());
     dispatch(getStudyfields());
   },

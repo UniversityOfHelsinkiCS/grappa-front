@@ -3,7 +3,7 @@ import DatePicker from "react-datepicker";
 import { Table, Thead, Th, unsafe } from "reactable";
 import moment from "moment";
 
-export class CouncilmeetingList extends Component {
+export class CouncilmeetingListCreate extends Component {
 
   constructor() {
     super();
@@ -43,7 +43,8 @@ export class CouncilmeetingList extends Component {
   filterOldDates(meetings) {
     const today = new Date();
     return meetings.filter(meeting => {
-      if (new Date(meeting.date) >= today) {
+      const mdate = new Date(meeting.date);
+      if (mdate >= today || mdate.toDateString() === today.toDateString()) {
         return meeting;
       }
     });
@@ -149,4 +150,4 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(CouncilmeetingList);
+export default connect(mapStateToProps, mapDispatchToProps)(CouncilmeetingListCreate);

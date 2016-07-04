@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from "react";
-import Nav from "../ui/Nav.smart";
-import FlashMessage from "../flash/FlashMessage.smart";
+import Nav from "../ui/Nav.container";
+import FlashMessage from "../flash/FlashMessage.container";
 
 export default class App extends Component {
 

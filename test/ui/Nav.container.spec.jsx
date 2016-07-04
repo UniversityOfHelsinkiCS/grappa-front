@@ -11,7 +11,7 @@ import {
 import { Provider } from "react-redux";
 import store from "../../src/store";
 import { logout } from "../../src/auth/auth.actions";
-import Nav from "../../src/ui/Nav.smart";
+import Nav from "../../src/ui/Nav.container";
 
 describe("Nav.smart", () => {
   const component = renderIntoDocument(

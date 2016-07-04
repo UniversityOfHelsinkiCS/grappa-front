@@ -96,3 +96,10 @@ export const validateModel = (values, modelname) => {
   }
   return errors;
 };
+
+export const updateErrors = (value, name, modelname, errors) => {
+  const newErrors = validateField(name, value, modelname);
+  const cloneErrors = Object.assign({}, errors);
+  cloneErrors[`${modelname}_${name}`] = newErrors;
+  return cloneErrors;
+};

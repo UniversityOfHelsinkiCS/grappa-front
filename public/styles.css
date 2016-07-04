@@ -1,6 +1,7 @@
 body {
 	background-color: white;
 }
+
 .main-container {
   /*position: absolute;
   z-index: -1;*/
@@ -41,6 +42,10 @@ body {
   margin-bottom: 15px;
 }
 
+.m-bot2 {
+  margin-bottom: 60px;
+}
+
 .m-right {
   margin-right: 15px;
 }
@@ -71,4 +76,8 @@ a.icon-link {
   height: 100%;
   width: 100%;
   pointer-events: all;
+}
+
+.fbox {
+  display: flex;
 }

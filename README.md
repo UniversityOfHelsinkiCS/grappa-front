@@ -4,7 +4,7 @@ An app to speed up and simplify the process of getting one's thesis approved. Ma
 
 This front-end is made with React + Redux + Webpack + coffee. [You can read the documentation](https://github.com/ultra-hyper-storm-ohtuprojekti/grappa-front/blob/master/DOCUMENTATION.md) in which the general structure is explained. Hopefully it's helpful.
 
-But basically you just create these "Smart Components" aptly named ```x.smart.jsx``` to their individual folder inside the ```src```-folder. And whenever you make changes to them they are automatically re-rendered onto your view on localhost:8080 thanks to Hot Loading(react-hmre).
+But basically you just create these "Smart Components" (that are just regular components but which are connected to the Redux state) named ```x.container.jsx``` to their individual folder inside the ```src```-folder. And whenever you make changes to them they are automatically re-rendered onto your view on localhost:8080 thanks to Hot Loading(react-hmre).
 
 [How to install](https://github.com/ultra-hyper-storm-ohtuprojekti/grappa-front/blob/master/INSTALLATION.md)
 

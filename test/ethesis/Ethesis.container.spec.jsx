@@ -7,11 +7,11 @@ import {
   Simulate,
 } from "react-addons-test-utils";
 import { Provider } from "react-redux";
-import Ethesis from "../../src/ethesis/Ethesis.smart";
+import Ethesis from "../../src/ethesis/Ethesis.container";
 import store from "../../src/store";
 import * as actions from "../../src/thesis/thesis.actions";
 
-describe("Ethesis.smart", () => {
+describe("Ethesis.container", () => {
   const component = renderIntoDocument(
     <Provider store={store}>
       <Ethesis params=""/>

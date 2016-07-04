@@ -12,13 +12,14 @@ import thesis from "./thesis/thesis.reducer";
 import councilmeeting from "./councilmeeting/councilmeeting.reducer";
 import thesisprogress from "./thesisprogress/thesisprogress.reducer";
 import user from "./user/user.reducer";
-import grader from "./grader/grader.reducer";
 import email from "./email/email.reducer";
 import emailstatus from "./emailstatus/emailstatus.reducer";
 import studyfield from "./studyfield/studyfield.reducer";
+import grader from "./grader/grader.reducer";
 import ethesis from "./ethesis/ethesis.reducer";
 import upload from "./upload/upload.reducer";
 import flash from "./flash/flash.reducer";
+import validate from "./validate/validate.reducer";
 import { LOGOUT_USER } from "./auth/auth.actions";
 
 const combinedReducers = combineReducers({
@@ -27,13 +28,14 @@ const combinedReducers = combineReducers({
   councilmeeting,
   thesisprogress,
   user,
-  grader,
   email,
   emailstatus,
   studyfield,
+  grader,
   ethesis,
   upload,
   flash,
+  validate,
 });
 
 /*
@@ -48,7 +50,7 @@ const rootReducer = (state, action) => {
 
 const createStoreWithMiddleware = applyMiddleware(logger, handleCallApi, manageState, triggerDownload)(createStore);
 const createPersistentStore = compose(
-  persistState(["auth", "thesis", "councilmeeting", "studyfield"], {
+  persistState(["auth", "thesis", "councilmeeting", "studyfield", "grader"], {
     slicer: (paths) => (state) => state.filter((v, k) => paths.indexOf(k) !== -1),
     serialize: (subset) => JSON.stringify(subset.toJS()),
     deserialize: (serialized) => fromJS(JSON.parse(serialized)),

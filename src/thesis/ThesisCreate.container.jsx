@@ -8,11 +8,12 @@
 import React from "react";
 import Dropzone from "react-dropzone";
 import moment from "moment";
-import { connect } from "react-redux";
+import GraderContainer from "../grader/GraderListCreateUpdate.container";
 import Errors from "../ui/Errors.component";
-// import Dropdown from "../ui/Dropdown.component";
 // import Validation from "./thesisValidation";
-import { validateField, validateModel } from "../config/Validator";
+import Validate from "../validate/Validate";
+import ValidInput from "../config/ValidInput.component";
+import { validateField, validateModel, updateErrors } from "../config/Validator";
 
 export class ThesisCreate extends React.Component {
   constructor() {
@@ -24,29 +25,14 @@ export class ThesisCreate extends React.Component {
       authorLastname: "",
       authorEmail: "",
       title: "",
-      graders: [
-        {
-          name: "",
-          title: "",
-        },
-        {
-          name: "",
-          title: "",
-        },
-      ],
+      Graders: [],
       urkund: "",
-      ethesis: "",
       grade: "",
       StudyFieldId: "",
       CouncilMeetingId: "",
       PdfFile: "",
       errors: {},
     };
-  }
-
-  componentDidMount() {
-    this.props.getCouncilmeetings();
-    this.props.getStudyfields();
   }
 
   /**
@@ -120,7 +106,7 @@ export class ThesisCreate extends React.Component {
         authorLastname: this.state.authorLastname,
         authorEmail: this.state.authorEmail,
         title: this.state.title,
-        graders: this.state.graders,
+        Graders: this.state.Graders,
         urkund: this.state.urkund,
         grade: this.state.grade,
         StudyFieldId: this.state.StudyFieldId,
@@ -133,7 +119,14 @@ export class ThesisCreate extends React.Component {
       this.setState({ errors: thesisErrors.obj });
     }
   }
-
+// <ValidInput
+//               name="thesis_authorFirstname"
+//               type="text"
+//               value={this.state.authorFirstname}
+//               onChange={this.handleChange.bind(this, "authorFirstname")}
+//               placeholder="First Name"
+//               errors={this.state.errors}
+//             />
   renderThesisAuthor() {
     return (
       <div className="m-bot">
@@ -152,6 +145,7 @@ export class ThesisCreate extends React.Component {
               onChange={this.handleChange.bind(this, "authorFirstname")}
               placeholder="First Name"
             />
+
           </div>
           <div className="field">
             <label>Last name</label>
@@ -177,7 +171,7 @@ export class ThesisCreate extends React.Component {
   }
 
   renderThesisInformation() {
-    console.log(this.props.studyfields);
+    console.log(this.props.StudyFields);
     return (
       <div className="m-bot">
         <h3 className="ui dividing header">Thesis Information</h3>
@@ -198,7 +192,7 @@ export class ThesisCreate extends React.Component {
               onChange={this.handleChange.bind(this, "StudyFieldId")}
             >
               <option key="0" value="">Select field</option>
-              { this.props.studyfields.map((field, index) =>
+              { this.props.StudyFields.map((field, index) =>
                 <option key={index} value={field.id}>
                   { field.name }
                 </option>
@@ -238,40 +232,6 @@ export class ThesisCreate extends React.Component {
     );
   }
 
-  renderGraders() {
-    return (
-      <div className="m-bot">
-        <h3 className="ui dividing header">Graders</h3>
-        {
-          this.state.graders.map((grader, index) =>
-            <div key={index} className="three fields">
-              <div className="field">
-                <label>Name</label>
-                <input type="text" name="grader_name" value={grader.name} onChange={this.handleGraderChange.bind(this, index, "name")} placeholder="Name" />
-              </div>
-              <div className=" field">
-                <label>Title</label>
-                <select className="ui fluid search dropdown" value={grader.title} onChange={this.handleGraderChange.bind(this, index, "title")} >
-                  <option value="">Select title</option>
-                  <option value="Prof">Professor</option>
-                  <option value="AssProf">Assistant Professor</option>
-                  <option value="AdjProf">Adjunct Professor</option>
-                  <option value="Doc">Doctor</option>
-                  <option value="Other">Other</option>
-                </select>
-              </div>
-              <div className="field">
-                <label>&nbsp;</label>
-                <button className="ui red button" onClick={this.removeGrader.bind(this, index)}>Remove Grader</button>
-              </div>
-            </div>
-          )
-        }
-        <button className="ui primary button" onClick={this.addGrader.bind(this)}>Add Grader</button>
-      </div>
-    );
-  }
-
   formatMeetingsForReactTable(meetings) {
     return meetings.map(meeting => {
       return {
@@ -283,17 +243,19 @@ export class ThesisCreate extends React.Component {
   filterOldDates(meetings) {
     const today = new Date();
     return meetings.filter(meeting => {
-      if (new Date(meeting.date) > today) {
+      const mdate = new Date(meeting.date);
+      if (mdate >= today || mdate.toDateString() === today.toDateString()) {
         return meeting;
       }
     });
   }
 
   renderPickCouncilmeeting() {
-    console.log(this.props.meetingDates);
+    console.log(this.props.CouncilMeetings);
     const today = new Date();
-    const filtered = this.props.meetingDates.filter(meeting => {
-      if (new Date(meeting.date) >= today) {
+    const filtered = this.props.CouncilMeetings.filter(meeting => {
+      const mdate = new Date(meeting.date);
+      if (mdate >= today || mdate.toDateString() === today.toDateString()) {
         return meeting;
       }
     });
@@ -303,14 +265,14 @@ export class ThesisCreate extends React.Component {
         date: moment(new Date(meeting.date)).format("DD/MM/YYYY"),
       };
     });
-    const meetingDates = [{ id: "", date: "Select Date" }, ...formatted];
+    const CouncilMeetings = [{ id: "", date: "Select Date" }, ...formatted];
     return (
       <div className="m-bot">
         <h3 className="ui dividing header">Choose the Councilmeeting date</h3>
         <select className="ui fluid search dropdown"
           onChange={this.handleChange.bind(this, "CouncilMeetingId")}
         >
-          { meetingDates.map((meeting, index) =>
+          { CouncilMeetings.map((meeting, index) =>
             <option key={ index } value={ meeting.id } >
               { meeting.date }
             </option>
@@ -354,7 +316,7 @@ export class ThesisCreate extends React.Component {
           {this.renderThesisAuthor()}
           {this.renderThesisInformation()}
           {this.renderUploadReview()}
-          {this.renderGraders()}
+          <GraderContainer activated={this.state.Graders} editable/>
           {this.renderPickCouncilmeeting()}
         </div>
         <Errors errors={this.state.errors}/>
@@ -365,6 +327,8 @@ export class ThesisCreate extends React.Component {
     );
   }
 }
+
+import { connect } from "react-redux";
 
 import { saveThesis } from "./thesis.actions";
 import { getCouncilmeetings } from "../councilmeeting/councilmeeting.actions";
@@ -388,8 +352,8 @@ const mapStateToProps = (state) => {
   const cmreducer = state.get("councilmeeting");
   const sfreducer = state.get("studyfield");
   return {
-    meetingDates: cmreducer.get("councilmeetings").toJS(),
-    studyfields: sfreducer.get("studyfields").toJS(),
+    CouncilMeetings: cmreducer.get("councilmeetings").toJS(),
+    StudyFields: sfreducer.get("studyfields").toJS(),
   };
 };
 

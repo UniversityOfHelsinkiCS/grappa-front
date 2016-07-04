@@ -13,6 +13,11 @@ export const uploadReview = (data) => (
     type: CALL_API_AFTER_ACTION,
     after: THESIS_SAVE_ONE_SUCCESS,
     next: UPLOAD_REQUEST,
+    flashMessage: {
+      type: "warning",
+      title: "Request sent",
+      body: "Waiting for Thesis' review to be uploaded.",
+    },
     success: UPLOAD_SUCCESS,
     successMessage: {
       type: "success",

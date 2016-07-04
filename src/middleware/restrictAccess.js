@@ -1,5 +1,4 @@
 import store from "../store";
-
 /**
  * Function for redirecting un-authorized user to /login
  *
