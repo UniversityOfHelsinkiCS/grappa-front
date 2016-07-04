@@ -137,6 +137,6 @@ const modelsWithRules = {
       ],
     },
   },
-}
+};
 
 export default modelsWithRules;

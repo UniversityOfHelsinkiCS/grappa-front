@@ -8,7 +8,7 @@ export default class ValidateCore {
       if (field.name === fieldname) return field;
     });
   }
-    
+
   /**
    * Method for validating single value according to a rule listed below
    */
@@ -38,7 +38,7 @@ export default class ValidateCore {
       return previous;
     }, []);
   }
-    
+
   /**
    * Validates one of model's fields
    *

@@ -26,17 +26,16 @@ export const THESIS_DOWNLOAD_FAILURE = "THESIS_DOWNLOAD_FAILURE";
 * @return getTheses The object containing the relevant information for the
 * reducer to handle the data accordingly.
 */
-export const getTheses = () => {
-  console.log("getTheses-action called!");
-  return {
+export const getTheses = () => (
+  {
     type: CALL_API,
     success: THESIS_GET_ALL_SUCCESS,
     failure: THESIS_GET_ALL_FAILURE,
     method: "get",
     url: "/thesis",
     data: {},
-  };
-};
+  }
+);
 
 /**
  * Action-creator for deleting a thesis
@@ -44,9 +43,8 @@ export const getTheses = () => {
  * @param {Object} thesis - Thesis to delete, needs to put into data-field for the reducer
  * @return {Object} - Action for API to handle
  */
-export const deleteThesis = (thesis) => {
-  console.log("deleteThesis-action called!");
-  return {
+export const deleteThesis = (thesis) => (
+  {
     type: CALL_API,
     success: THESIS_DELETE_ONE_SUCCESS,
     successMessage: {
@@ -63,8 +61,8 @@ export const deleteThesis = (thesis) => {
     method: "delete",
     url: `/thesis/${thesis.id}`,
     data: thesis,
-  };
-};
+  }
+);
 
 /**
 * The action called to save the given data as a new thesis in the database.
@@ -73,9 +71,8 @@ export const deleteThesis = (thesis) => {
 * @return saveThesis The object containing the relevant information for the
 * reducer to handle the data accordingly.
 */
-export const saveThesis = (thesis) => {
-  console.log("saveThesis-action called!");
-  return {
+export const saveThesis = (thesis) => (
+  {
     type: CALL_API,
     flashMessage: {
       type: "warning",
@@ -92,8 +89,8 @@ export const saveThesis = (thesis) => {
     method: "post",
     url: "/thesis",
     data: thesis,
-  };
-};
+  }
+);
 
 /**
  * The action used to change some values in a thesis.
@@ -102,9 +99,8 @@ export const saveThesis = (thesis) => {
  * @return The object containing the relevant information for the
  * reducer to handle the data accordingly.
  */
-export const updateThesis = (data) => {
-  console.log("updateThesis-action called!");
-  return {
+export const updateThesis = (data) => (
+  {
     type: CALL_API,
     flashMessage: {
       type: "warning",
@@ -121,8 +117,8 @@ export const updateThesis = (data) => {
     method: "put",
     url: `/thesis/${data.id}`,
     data,
-  };
-};
+  }
+);
 
 /**
  * The action used to change some values in a thesis.

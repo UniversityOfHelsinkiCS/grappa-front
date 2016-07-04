@@ -17,9 +17,8 @@ export const COUNCILMEETING_SAVE_ONE_FAILURE = "CONCILMEETING_SAVE_ONE_FAILURE";
 * @return Councilmeeting The object containing the relevant information for the
 * reducer to handle the data accordingly.
 */
-export const addCouncilmeeting = (Councilmeeting) => {
-  console.log("addCouncilmeeting-action called :)");
-  return {
+export const addCouncilmeeting = (Councilmeeting) => (
+  {
     type: CALL_API,
     flashMessage: {
       type: "warning",
@@ -36,22 +35,21 @@ export const addCouncilmeeting = (Councilmeeting) => {
     method: "post",
     url: "/councilmeeting",
     data: Councilmeeting,
-  };
-};
+  }
+);
 /**
 * The action called get the data concerning all the councilmeetings from the database.
 * @param FilterParams An object containing the filter for which dates to return.
 * @return getCouncilmeetings The object containing the relevant information for the
 * reducer to handle the data accordingly.
 */
-export const getCouncilmeetings = (filterParams) => {
-  console.log("getCouncilmeetings-action called :)");
-  return {
+export const getCouncilmeetings = (filterParams) => (
+  {
     type: CALL_API,
     success: COUNCILMEETING_GET_ALL_SUCCESS,
     failure: COUNCILMEETING_GET_ALL_FAILURE,
     method: "get",
     url: "/councilmeeting",
     data: filterParams,
-  };
-};
+  }
+);

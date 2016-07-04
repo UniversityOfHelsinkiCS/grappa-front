@@ -17,7 +17,7 @@ export default class Validate {
         model,
       },
       errors,
-    })
+    });
   }
 
   getErrors(name, modelname) {
@@ -36,7 +36,7 @@ export default class Validate {
       this.props.updateModel({
         data: {},
         errors,
-      })
+      });
       return errors.list.length === 0;
     } else {
       return false;

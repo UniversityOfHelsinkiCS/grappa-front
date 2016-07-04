@@ -35,19 +35,6 @@ export class ThesisCreate extends React.Component {
     };
   }
 
-  // componentDidMount() {
-  //   this.props.getCouncilmeetings();
-  //   this.props.getStudyfields();
-  // }
-
-  componentWillReceiveProps(newProps) {
-    if (newProps.Graders.length !== 0) {
-      this.setState({
-        Graders: newProps.Graders,
-      });
-    }
-  }
-
   /**
   * Handler method to handle changes happening in the different input fields in the render method.
   * @param name The id for where the change has happened. Used to designated which state parameter changes.
@@ -134,7 +121,14 @@ export class ThesisCreate extends React.Component {
       this.setState({ errors: thesisErrors.obj });
     }
   }
-
+// <ValidInput
+//               name="thesis_authorFirstname"
+//               type="text"
+//               value={this.state.authorFirstname}
+//               onChange={this.handleChange.bind(this, "authorFirstname")}
+//               placeholder="First Name"
+//               errors={this.state.errors}
+//             />
   renderThesisAuthor() {
     return (
       <div className="m-bot">
@@ -153,14 +147,7 @@ export class ThesisCreate extends React.Component {
               onChange={this.handleChange.bind(this, "authorFirstname")}
               placeholder="First Name"
             />
-            <ValidInput
-              name="thesis_authorFirstname"
-              type="text"
-              value={this.state.authorFirstname}
-              onChange={this.handleChange.bind(this, "authorFirstname")}
-              placeholder="First Name"
-              errors={this.state.errors}
-            />
+
           </div>
           <div className="field">
             <label>Last name</label>
@@ -365,7 +352,7 @@ export class ThesisCreate extends React.Component {
           {this.renderThesisAuthor()}
           {this.renderThesisInformation()}
           {this.renderUploadReview()}
-          <GraderContainer Graders={this.state.Graders} editable={true}/>
+          <GraderContainer activated={this.state.Graders} editable/>
           {this.renderPickCouncilmeeting()}
         </div>
         <Errors errors={this.state.errors}/>
@@ -400,11 +387,9 @@ const mapDispatchToProps = (dispatch) => ({
 const mapStateToProps = (state) => {
   const cmreducer = state.get("councilmeeting");
   const sfreducer = state.get("studyfield");
-  const greducer = state.get("grader");
   return {
     CouncilMeetings: cmreducer.get("councilmeetings").toJS(),
     StudyFields: sfreducer.get("studyfields").toJS(),
-    Graders: greducer.get("graders").toJS(),
   };
 };
 

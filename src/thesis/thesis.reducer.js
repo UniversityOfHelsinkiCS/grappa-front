@@ -18,7 +18,6 @@ import {
 */
 const INITIAL_STATE = fromJS({
   theses: [],
-  ethesisLinkSent: "",
 });
 
 /**

@@ -7,7 +7,6 @@ export class GraderListCreateUpdate extends Component {
   constructor() {
     super();
     this.state = {
-      chosenGraders: [],
       newGrader: {},
       updateGrader: {},
       errors: {},
@@ -96,7 +95,9 @@ export class GraderListCreateUpdate extends Component {
   }
 
   renderUpdate() {
-    const { Graders } = this.props;
+    const { Graders } = this.props || [];
+    // console.log("my graders: ")
+    // console.log(Graders)
     return (
       <div className="four fields">
         <div className=" field">
@@ -148,14 +149,14 @@ export class GraderListCreateUpdate extends Component {
   }
 
   render() {
-    const { Graders } = this.props;
+    const { Graders, activated } = this.props;
     // console.log(Graders)
     return (
       <div className="field">
         <h3 className="ui dividing header">Graders</h3>
         <div className="field">
           <label>Select Graders</label>
-          <Dropdown Graders={ Graders } editable={ this.props.editable }/>
+          <Dropdown graders={ Graders } activated={ activated } editable={ this.props.editable }/>
         </div>
         { this.props.editable ?
           <span>
@@ -184,4 +185,11 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
-export default connect(null, mapDispatchToProps)(GraderListCreateUpdate);
+const mapStateToProps = (state) => {
+  const greducer = state.get("grader");
+  return {
+    Graders: greducer.get("graders").toJS(),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(GraderListCreateUpdate);

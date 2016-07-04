@@ -7,7 +7,8 @@ export default class Dropdown extends Component {
     this.state = {
       searchValue: "",
       menuActive: false,
-      data: [
+      filtered: [],
+      // data: [
         // {
         //   id: 1,
         //   name: "Matti Luukkainen",
@@ -36,28 +37,29 @@ export default class Dropdown extends Component {
         //   active: false,
         //   filtered: false,
         // },
-      ]
+      // ]
     };
   }
 
-  componentWillMount() {
-    this.setState({
-      data: this.props.Graders || [],
-    });
-  }
+  // componentWillMount() {
+  //   this.setState({
+  //     data: this.props.graders || [],
+  //   });
+  // }
 
-  componentWillReceiveProps(newProps) {
-    this.setState({
-      data: newProps.Graders || [],
-    });
-  }
+  // componentWillReceiveProps(newProps) {
+  //   this.setState({
+  //     data: newProps.graders || [],
+  //   });
+  // }
 
   handleClick(type, index, event) {
     if (type === "unactivate" && this.props.editable) {
-      this.state.data[index].active = false;
+      this.props.activated.splice(index, 1);
       this.setState({});
     } else if (type === "activate" && this.props.editable) {
-      this.state.data[index].active = true;
+      // console.log("pushing grader to activated")
+      this.props.activated.push(this.props.graders[index]);
       this.setState({});
     } else if (type === "toggleMenu") {
       this.setState({
@@ -69,17 +71,13 @@ export default class Dropdown extends Component {
   handleChange(name, event) {
     if (name === "search") {
       const value = event.target.value;
-      const filtered = this.state.data.map(item => {
-        if (item.name.toLowerCase().indexOf(value) === -1 && item.title.toLowerCase().indexOf(value) === -1) {
-          item.filtered = true;
-        } else {
-          item.filtered = false;
-        }
-        return item;
+      const filtered = this.props.graders.map((item, index) => {
+        return item.name.toLowerCase().indexOf(value) !== -1 ||
+          item.title.toLowerCase().indexOf(value) !== -1;
       });
       this.setState({
         searchValue: value,
-        data: filtered,
+        filtered,
       });
     }
   }
@@ -87,17 +85,15 @@ export default class Dropdown extends Component {
   handleKeyPress(target) {
     // if enter
     if (target.charCode === 13 && this.props.editable) {
-      let found = false;
-      const activeOne = this.state.data.map(item => {
-        if (!item.active && !item.filtered && !found) {
-          item.active = true;
-          found = true;
+      const activated = this.props.graders.find((item, index) => {
+        if (!this.state.filtered[index] && !this.isActivated(item)) {
+          return item;
         }
-        return item;
       });
-      this.setState({
-        data: activeOne,
-      });
+      if (activated !== undefined) {
+        this.props.activated.push(activated);
+        this.setState({});
+      }
     }
   }
 
@@ -113,9 +109,18 @@ export default class Dropdown extends Component {
     // });
   }
 
+  isActivated(grader) {
+    const index = this.props.activated.findIndex(item => {
+      if (grader.id === item.id) return item;
+    });
+    return index !== -1;
+  }
 
   render() {
-    const { data } = this.state;
+    const { graders, activated } = this.props;
+    const { filtered } = this.state;
+    // console.log("activated")
+    // console.log(activated)
     return (
       <div>
         <div
@@ -125,19 +130,13 @@ export default class Dropdown extends Component {
         >
           <input name="tags" type="hidden" value="asdf" />
           <i className={this.state.menuActive ? "delete icon" : "dropdown icon"} onClick={this.handleClick.bind(this, "toggleMenu")}></i>
-          { data.map((item, index) => {
-            if (item.active) {
-              return (
-                <a key={index} className="ui label transition visible" data-value="angular" onFocus={this.handleFocus.bind(this)}>
-                  { `${item.title} ${item.name}` }
-                  <i className="delete icon" onClick={this.handleClick.bind(this, "unactivate", index)}></i>
-                </a>
-              );
-            } else {
-              return (
-                <a key={index} onFocus={this.handleFocus.bind(this)}></a>
-              );
-            }
+          { activated.map((item, index) => {
+            return (
+              <a key={index} className="ui label transition visible" data-value="angular" onFocus={this.handleFocus.bind(this)}>
+                { `${item.title} ${item.name}` }
+                <i className="delete icon" onClick={this.handleClick.bind(this, "unactivate", index)}></i>
+              </a>
+            );
           })
           }
           <input
@@ -153,8 +152,8 @@ export default class Dropdown extends Component {
           <div className="default text filtered">Skills</div>
           { this.state.menuActive ?
             <div className="menu transition visible" tabIndex="-1">
-              { data.map((item, index) => {
-                if (!item.active && !item.filtered) {
+              { graders.map((item, index) => {
+                if (!filtered[index] && !this.isActivated(item)) {
                   return (
                     <div
                       key={index}

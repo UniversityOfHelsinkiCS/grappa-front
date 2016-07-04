@@ -9,7 +9,7 @@ export const createModel = (name, model) => (
       model,
     },
   }
-)
+);
 
 export const updateModel = (data, errors) => (
   {
@@ -19,4 +19,4 @@ export const updateModel = (data, errors) => (
       errors,
     },
   }
-)
+);

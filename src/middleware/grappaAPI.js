@@ -5,7 +5,6 @@ export const CALL_API_AFTER_ACTION = "CALL_API_AFTER_ACTION";
 const queue = {};
 
 export const callApi = (action, store) => {
-  console.log("yo dawg");
   const user = store.getState().get("auth").get("user").toJS();
   const token = store.getState().get("auth").get("token");
   axios({

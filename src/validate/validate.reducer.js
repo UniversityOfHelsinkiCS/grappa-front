@@ -9,8 +9,8 @@ import Models from "./validate.models";
 const createModel = (model) => {
   return Object.keys(Models[model]).reduce((previous, current) => {
     return previous[current] = Models.model[current].default;
-  }, {})
-}
+  }, {});
+};
 
 const INITIAL_STATE = fromJS({
   models: {},
@@ -37,10 +37,10 @@ export default function (state = INITIAL_STATE, action) {
         }
       }));
     case UPDATE_MODEL:
-      const updatedValue = state.mergeIn(["models", action.payload.model, action.payload.name], 
+      const updatedValue = state.mergeIn(["models", action.payload.model, action.payload.name],
         fromJS(action.payload.value)
       );
-      return updatedValue.mergeIn(["models", action.payload.model, "errors"], 
+      return updatedValue.mergeIn(["models", action.payload.model, "errors"],
         fromJS(action.payload.errors)
       );
     default:
