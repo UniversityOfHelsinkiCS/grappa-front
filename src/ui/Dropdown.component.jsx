@@ -42,14 +42,14 @@ export default class Dropdown extends Component {
   }
 
   componentWillMount() {
-    console.log("will mount")
-    console.log(this.props.graders)
-    console.log(this.props.activated)
+    console.log("will mount");
+    console.log(this.props.graders);
+    console.log(this.props.activated);
   }
 
   componentWillReceiveProps(newProps) {
-    console.log("got props")
-    console.log(newProps.graders)
+    console.log("got props");
+    console.log(newProps.graders);
   }
 
 
