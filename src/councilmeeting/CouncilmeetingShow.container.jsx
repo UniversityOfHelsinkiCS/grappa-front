@@ -13,6 +13,7 @@ export class CouncilmeetingShow extends Component {
       currentMeeting: {},
       nextMeeting: {},
       filteredTheses: [],
+      selectedTheses: [],
     };
   }
 
@@ -28,6 +29,7 @@ export class CouncilmeetingShow extends Component {
       currentMeeting,
       nextMeeting,
       filteredTheses,
+      selectedTheses: [],
     });
   }
 
@@ -47,6 +49,7 @@ export class CouncilmeetingShow extends Component {
       currentMeeting,
       nextMeeting,
       filteredTheses,
+      selectedTheses: [],
     });
   }
 
@@ -133,7 +136,7 @@ export class CouncilmeetingShow extends Component {
           </p>
           <button className="ui button blue" onClick={this.handleClick.bind(this, "download")}>Download</button>
         </div>
-        <ThesisList theses={this.state.filteredTheses}/>
+        <ThesisList theses={this.state.filteredTheses} selected={this.state.selectedTheses}/>
       </div>
     );
   }

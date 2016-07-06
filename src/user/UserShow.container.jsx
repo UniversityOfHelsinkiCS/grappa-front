@@ -12,6 +12,12 @@ export class UserShow extends Component {
         <div>
           Thesis' deadline from councilmeeting: 10d
         </div>
+        <div>
+          Events happened since last login: 23
+        </div>
+        <div>
+          Update data with theses and councilmeetings beyond past year: button
+        </div>
       </div>
     );
   }
