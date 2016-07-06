@@ -86,6 +86,7 @@ export class NewUsersList extends Component {
   }
 
   renderRoleFormatter(user) {
+    console.log(user)
     const role = this.state[user.id] === undefined ? "" : this.state[user.id].role;
     return (
       <select value={role} className="ui dropdown" onChange={this.setUserRole.bind(this, user)}>
@@ -129,32 +130,30 @@ export class NewUsersList extends Component {
           </tr>
         </thead>
         <tbody>
-          {
-            users.map(user =>
-              <tr key={user.id}>
-                <td>{user.name}</td>
-                <td>{user.email}</td>
-                <td>{ this.renderRoleFormatter(user)}</td>
-                <td>{ this.renderStudyFieldFormatter(user)}</td>
-                <td>
-                  <button className="positive ui button" onClick={
-                    this.updateUser.bind(this, user)}
-                  >
-                    Accept
-                  </button>
-                </td>
-                <td>
-                  <button className="negative ui button" onClick={ () => {
-                    if (confirm("Are you sure you want to delete this user?")) {
-                      this.declineUser(row);
-                    }}}
-                  >
-                    Decline
-                  </button>
-                </td>
-              </tr>
-            )
-          }
+          { users.map(user =>
+            <tr key={user.id}>
+              <td>{user.name}</td>
+              <td>{user.email}</td>
+              <td>{ this.renderRoleFormatter(user)}</td>
+              <td>{ this.renderStudyFieldFormatter(user)}</td>
+              <td>
+                <button className="positive ui button" onClick={
+                  this.updateUser.bind(this, user)}
+                >
+                  Accept
+                </button>
+              </td>
+              <td>
+                <button className="negative ui button" onClick={ () => {
+                  if (confirm("Are you sure you want to delete this user?")) {
+                    this.declineUser(row);
+                  }}}
+                >
+                  Decline
+                </button>
+              </td>
+            </tr>
+          )}
         </tbody>
         <tfoot>
           {/*<tr>

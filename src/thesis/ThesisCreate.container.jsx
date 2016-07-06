@@ -171,7 +171,7 @@ export class ThesisCreate extends React.Component {
   }
 
   renderThesisInformation() {
-    console.log(this.props.StudyFields);
+    // console.log(this.props.StudyFields);
     return (
       <div className="m-bot">
         <h3 className="ui dividing header">Thesis Information</h3>
@@ -251,7 +251,7 @@ export class ThesisCreate extends React.Component {
   }
 
   renderPickCouncilmeeting() {
-    console.log(this.props.CouncilMeetings);
+    // console.log(this.props.CouncilMeetings);
     const today = new Date();
     const filtered = this.props.CouncilMeetings.filter(meeting => {
       const mdate = new Date(meeting.date);

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import moment from "moment";
+import { browserHistory, Link } from "react-router";
 import { Table, Thead, Th, unsafe } from "reactable";
 
 export default class ThesisList extends Component {
@@ -8,21 +9,22 @@ export default class ThesisList extends Component {
     this.state = {
       formattedTheses: [],
       filteredTheses: [],
+      allToggle: false,
     };
   }
 
   componentWillMount() {
-    console.log("will mount");
     const formatted = this.formatThesesForReactTable(this.props.theses);
     // const filtered = this.filterOldTheses(formatted, !this.refs.checkOld.checked);
     const filtered = this.filterOldTheses(formatted, true);
-    const selected = filtered.map(item => {
+    const selected = filtered.map(thesis => {
       return true;
     });
     this.props.selected.push(...selected);
     this.setState({
       formattedTheses: formatted,
       filteredTheses: filtered,
+      allToggle: false,
     });
   }
 
@@ -30,13 +32,14 @@ export default class ThesisList extends Component {
     const formatted = this.formatThesesForReactTable(newProps.theses);
     // const filtered = this.filterOldTheses(formatted, !this.refs.checkOld.checked);
     const filtered = this.filterOldTheses(formatted, true);
-    const selected = filtered.map(item => {
+    const selected = filtered.map(thesis => {
       return true;
     });
     newProps.selected.push(...selected);
     this.setState({
       formattedTheses: formatted,
       filteredTheses: filtered,
+      allToggle: false,
     });
   }
 
@@ -46,6 +49,13 @@ export default class ThesisList extends Component {
     } else if (type === "toggleSelect") {
       this.props.selected[index] = !this.props.selected[index];
       this.setState({});
+    } else if (type === "toggleAll") {
+      this.props.selected.forEach((item, index, array) => {
+        array[index] = this.state.allToggle;
+      })
+      this.setState({
+        allToggle: !this.state.allToggle
+      });
     }
   }
 
@@ -59,13 +69,13 @@ export default class ThesisList extends Component {
   formatThesesForReactTable(theses) {
     return theses.map(thesis => {
       return {
+        id: thesis.id,
         status: thesis.ThesisProgress.isDone ? "Done" : "In progress",
         authorFirstname: thesis.authorFirstname,
         authorLastname: thesis.authorLastname,
-        title: unsafe(`<a href="/thesis/${thesis.id}" target="_blank">${thesis.title}</a>`),
+        title: thesis.title,
         instructor: thesis.User.name,
         studyfield: thesis.StudyField.name,
-        // deadline: thesis.deadline,
         deadline: moment(new Date(thesis.deadline)).format("DD/MM/YYYY"),
       };
     });
@@ -77,10 +87,6 @@ export default class ThesisList extends Component {
         return thesis;
       }
     });
-  }
-
-  toggleSelected() {
-
   }
 
   sortByField(field) {
@@ -98,8 +104,10 @@ export default class ThesisList extends Component {
     return (
       <div>
         <div className="ui middle aligned three columns grid">
-          <div className="ui input column">
+          <div className="column">
+            <div className="ui input" style={{"width": "100%"}}>
               <input type="text" placeholder="Search..." />
+            </div>
           </div>
           <div className="column">
             <div className="ui right input">
@@ -110,7 +118,9 @@ export default class ThesisList extends Component {
             </div>
           </div>
           <div className="four wide column">
-            <button className="ui button blue">Toggle all</button>
+            <button className="ui button blue" onClick={this.handleClick.bind(this, "toggleAll")}>
+              Toggle all { this.state.allToggle ? "selected" : "unselected" }
+            </button>
           </div>
         </div>
         <table className="ui celled table">
@@ -127,15 +137,17 @@ export default class ThesisList extends Component {
             </tr>
           </thead>
           <tbody>
-            { filteredTheses.map((item, index) =>
+            { filteredTheses.map((thesis, index) =>
               <tr key={index} onClick={this.handleClick.bind(this, "toggleSelect", index)}>
-                <td>{item.status}</td>
-                <td>{item.authorFirstname}</td>
-                <td>{item.authorLastname}</td>
-                <td>{"item.title"}</td>
-                <td>{item.instructor}</td>
-                <td>{item.studyfield}</td>
-                <td>{item.deadline}</td>
+                <td>{thesis.status}</td>
+                <td>{thesis.authorFirstname}</td>
+                <td>{thesis.authorLastname}</td>
+                <td>
+                  <Link to={`/thesis/${thesis.id}`}>{thesis.title}</Link>
+                </td>
+                <td>{thesis.instructor}</td>
+                <td>{thesis.studyfield}</td>
+                <td>{thesis.deadline}</td>
                 <td>
                   <div className="ui checkbox">
                     <input ref="checkOld" type="checkbox" readOnly="true" checked={this.props.selected[index] ? "true" : ""}/>
@@ -148,59 +160,6 @@ export default class ThesisList extends Component {
           <tfoot>
           </tfoot>
         </table>
-      </div>
-    );
-  }
-
-  oldrender() {
-    // console.log(this.refs);
-    const columns = [
-      "status",
-      "authorFirstname",
-      "authorLastname",
-      "title",
-      "instructor",
-      "studyfield",
-      "deadline",
-    ];
-    return (
-      <div>
-        <h2 className="ui dividing header">Theses {this.state.formattedTheses.length - this.state.filteredTheses.length}/{this.state.formattedTheses.length}</h2>
-        <GrappaList
-          className="ui table"
-          noDataText="No theses found"
-          ref="table"
-          sortable columns={columns}
-          data={this.state.filteredTheses}
-          filterable={columns}
-        />
-        <h2 className="ui dividing header">Theses {this.state.formattedTheses.length - this.state.filteredTheses.length}/{this.state.formattedTheses.length}</h2>
-          <div className="column">
-            <div className="ui right input">
-              <div className="ui checkbox">
-                <input ref="checkOld" type="checkbox" onClick={this.handleCheckBoxClick.bind(this)}/>
-                <label>Show also finished theses</label>
-              </div>
-            </div>
-          </div>
-        <Table
-          className="ui table"
-          noDataText="No theses found"
-          ref="table"
-          sortable columns={columns}
-          data={this.state.filteredTheses}
-          filterable={columns}
-        >
-          <Thead>
-            <Th column="status">Status</Th>
-            <Th column="authorFirstname">Author firstname</Th>
-            <Th column="authorLastname">Author lastname</Th>
-            <Th column="title">Title</Th>
-            <Th column="instructor">Instructor</Th>
-            <Th column="studyfield">Studyfield</Th>
-            <Th column="deadline">Deadline</Th>
-          </Thead>
-        </Table>
       </div>
     );
   }

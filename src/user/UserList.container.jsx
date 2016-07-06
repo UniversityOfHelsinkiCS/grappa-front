@@ -8,7 +8,10 @@ export class UserList extends Component {
   }
 
   render() {
-    const users = this.props.users.map(user => {
+    const onlyActive = this.props.users.filter(user => {
+      if (user.isActive) return user;
+    })
+    const users = onlyActive.map(user => {
       let name = "";
       if (user.StudyField) {
         name = user.StudyField.name;
