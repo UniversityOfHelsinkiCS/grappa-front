@@ -8,7 +8,6 @@ export default class ThesisList extends Component {
     this.state = {
       formattedTheses: [],
       filteredTheses: [],
-      selectedTheses: [],
     };
   }
 
@@ -20,10 +19,10 @@ export default class ThesisList extends Component {
     const selected = filtered.map(item => {
       return true;
     });
+    this.props.selected.push(...selected);
     this.setState({
       formattedTheses: formatted,
       filteredTheses: filtered,
-      selectedTheses: selected,
     });
   }
 
@@ -34,10 +33,10 @@ export default class ThesisList extends Component {
     const selected = filtered.map(item => {
       return true;
     });
+    newProps.selected.push(...selected);
     this.setState({
       formattedTheses: formatted,
       filteredTheses: filtered,
-      selectedTheses: selected,
     });
   }
 
@@ -45,7 +44,7 @@ export default class ThesisList extends Component {
     if (type === "sort") {
       this.sortByField(index);
     } else if (type === "toggleSelect") {
-      this.state.selected[index] = !this.state.selected[index];
+      this.props.selected[index] = !this.props.selected[index];
       this.setState({});
     }
   }
@@ -85,30 +84,32 @@ export default class ThesisList extends Component {
   }
 
   sortByField(field) {
-    console.log("sortin yo " + field)
+    console.log("sortin yo " + field);
     this.state.filteredTheses.sort((a, b) => {
-      if(a[field] < b[field]) return -1;
-      if(a[field] > b[field]) return 1;
+      if (a[field] < b[field]) return -1;
+      if (a[field] > b[field]) return 1;
       return 0;
     });
     this.setState({});
   }
 
   render() {
-    const { filteredTheses, selectedTheses } = this.state;
+    const { filteredTheses } = this.state;
     return (
       <div>
-        <div className="column">
-          <div className="ui input m-right">
-            <input type="text" placeholder="Search..." />
-          </div>
-          <div className="ui right input">
-            <div className="ui checkbox">
-              <input ref="checkOld" type="checkbox" onClick={this.handleCheckBoxClick.bind(this)}/>
-              <label>Show also finished theses</label>
-            </div>
+        <div className="ui middle aligned three columns grid">
+          <div className="ui input column">
+              <input type="text" placeholder="Search..." />
           </div>
           <div className="column">
+            <div className="ui right input">
+              <div className="ui checkbox">
+                <input ref="checkOld" type="checkbox" onClick={this.handleCheckBoxClick.bind(this)}/>
+                <label>Show also finished theses</label>
+              </div>
+            </div>
+          </div>
+          <div className="four wide column">
             <button className="ui button blue">Toggle all</button>
           </div>
         </div>
@@ -137,7 +138,7 @@ export default class ThesisList extends Component {
                 <td>{item.deadline}</td>
                 <td>
                   <div className="ui checkbox">
-                    <input ref="checkOld" type="checkbox" checked={selectedTheses[index] ? "true" : ""}/>
+                    <input ref="checkOld" type="checkbox" readOnly="true" checked={this.props.selected[index] ? "true" : ""}/>
                     <label></label>
                   </div>
                 </td>
@@ -165,7 +166,7 @@ export default class ThesisList extends Component {
     return (
       <div>
         <h2 className="ui dividing header">Theses {this.state.formattedTheses.length - this.state.filteredTheses.length}/{this.state.formattedTheses.length}</h2>
-        <GrappaList 
+        <GrappaList
           className="ui table"
           noDataText="No theses found"
           ref="table"

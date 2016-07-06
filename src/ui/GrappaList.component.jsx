@@ -13,13 +13,13 @@ export default class GrappaList extends Component {
   }
 
  componentWillMount() {
-    const selected = this.props.data.map(item => {
+   const selected = this.props.data.map(item => {
       return true;
     });
-    this.setState({
+   this.setState({
       selected,
     });
-  }
+ }
 
   componentWillReceiveProps(newProps) {
     const selected = this.props.data.map(item => {
@@ -88,10 +88,10 @@ export default class GrappaList extends Component {
   }
 
   sortByField(field) {
-    console.log("sortin yo " + field)
+    console.log("sortin yo " + field);
     this.props.data.sort((a, b) => {
-      if(a[field] < b[field]) return -1;
-      if(a[field] > b[field]) return 1;
+      if (a[field] < b[field]) return -1;
+      if (a[field] > b[field]) return 1;
       return 0;
     });
     this.setState({});
