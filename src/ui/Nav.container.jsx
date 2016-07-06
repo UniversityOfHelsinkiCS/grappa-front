@@ -30,10 +30,9 @@ export class Nav extends Component {
   }
 
   renderUserNav() {
-    const { user } = this.props;
     return (
       <div className="ui horizontal pointing menu">
-        <Link className="item" to="/user/me">{ user.name }</Link>
+        <Link className="item" to="/user/me">{ this.props.user.name }</Link>
         <a className="item" onClick={ this.handleLogout }>Logout</a>
         <Link className="item" to="/thesis">Theses</Link>
         <Link className="item" to="/thesis/new">Add new thesis</Link>
@@ -44,18 +43,17 @@ export class Nav extends Component {
   renderPrintPersonNav() {
     return (
       <div className="ui horizontal pointing menu">
-        <Link className="item" to="/user/me">{ user.name }</Link>
+        <Link className="item" to="/user/me">{ this.props.user.name }</Link>
         <a className="item" onClick={ this.handleLogout }>Logout</a>
-        <Link className="item" to="/print">Print theses</Link>
+        <Link className="item" to="/councilmeeting/next">Next meeting</Link>
       </div>
     );
   }
 
   renderAdminNav() {
-    const { user } = this.props;
     return (
       <div className="ui horizontal pointing menu">
-        <Link className="item" to="/user/me">{ user.name }</Link>
+        <Link className="item" to="/user/me">{ this.props.user.name }</Link>
         <a className="item" onClick={ this.handleLogout }>Logout</a>
         <Link className="item" to="/thesis">Theses</Link>
         <Link className="item" to="/thesis/new">Add new thesis</Link>

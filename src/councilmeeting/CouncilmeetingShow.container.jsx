@@ -13,6 +13,7 @@ export class CouncilmeetingShow extends Component {
       currentMeeting: {},
       nextMeeting: {},
       filteredTheses: [],
+      selectedTheses: [],
     };
   }
 
@@ -28,6 +29,7 @@ export class CouncilmeetingShow extends Component {
       currentMeeting,
       nextMeeting,
       filteredTheses,
+      selectedTheses: [],
     });
   }
 
@@ -47,6 +49,7 @@ export class CouncilmeetingShow extends Component {
       currentMeeting,
       nextMeeting,
       filteredTheses,
+      selectedTheses: [],
     });
   }
 
@@ -93,8 +96,12 @@ export class CouncilmeetingShow extends Component {
   handleClick(name, event) {
     event.preventDefault();
     if (name === "download") {
-      const IDs = this.state.filteredTheses.reduce((previousValue, currentValue) => {
-        return [...previousValue, currentValue.id];
+      console.log(this.state.selectedTheses);
+      const IDs = this.state.filteredTheses.reduce((previousValue, currentValue, index) => {
+        if (this.state.selectedTheses[index]) {
+          return [...previousValue, currentValue.id];
+        }
+        return previousValue;
       }, []);
       this.props.downloadTheses(IDs);
     } else if (name === "previous" && this.state.previousMeeting.id !== undefined) {
@@ -120,7 +127,7 @@ export class CouncilmeetingShow extends Component {
               :
             <span></span>
           }
-          <h2 className="ui dividing header" style={{ "margin-top": "10px" }}>
+          <h2 className="ui dividing header" style={{ "marginTop": "10px" }}>
             Councilmeeting of { moment(new Date(this.state.currentMeeting.date)).format("DD/MM/YYYY") }
           </h2>
 
@@ -131,9 +138,9 @@ export class CouncilmeetingShow extends Component {
             through theses in the "Theses" view and click "Download as PDF" to get single
             PDF documents.
           </p>
-          <button className="ui button blue" onClick={this.handleClick.bind(this, "download")}>Download</button>
+          <button className="ui button blue" onClick={this.handleClick.bind(this, "download")}>Download selected</button>
         </div>
-        <ThesisList theses={this.state.filteredTheses}/>
+        <ThesisList theses={this.state.filteredTheses} selected={this.state.selectedTheses}/>
       </div>
     );
   }

@@ -42,14 +42,14 @@ export default class Dropdown extends Component {
   }
 
   componentWillMount() {
-    console.log("will mount")
-    console.log(this.props.graders)
-    console.log(this.props.activated)
+    console.log("will mount");
+    console.log(this.props.graders);
+    console.log(this.props.activated);
   }
 
   componentWillReceiveProps(newProps) {
-    console.log("got props")
-    console.log(newProps.graders)
+    console.log("got props");
+    console.log(newProps.graders);
   }
 
 
@@ -72,8 +72,8 @@ export default class Dropdown extends Component {
     if (name === "search") {
       const value = event.target.value;
       const filtered = this.props.graders.map((item, index) => {
-        return item.name.toLowerCase().indexOf(value) !== -1 ||
-          item.title.toLowerCase().indexOf(value) !== -1;
+        return item.name.toLowerCase().indexOf(value) === -1 &&
+          item.title.toLowerCase().indexOf(value) === -1;
       });
       this.setState({
         searchValue: value,
@@ -119,6 +119,8 @@ export default class Dropdown extends Component {
   render() {
     const { graders, activated } = this.props;
     const { filtered } = this.state;
+    // console.log("filtered")
+    // console.log(filtered)
     // console.log("activated")
     // console.log(activated)
     return (

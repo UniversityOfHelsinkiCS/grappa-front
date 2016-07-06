@@ -293,7 +293,7 @@ export class ThesisCreate extends React.Component {
     console.log(this.state.PdfFile);
     return (
       <div>
-        <h3 className="ui dividing header">Upload Thesis review as PDF</h3>
+        <h3 className="ui dividing header">Upload Thesis review as PDF (max. 1 MB)</h3>
         <div className="m-bot">
           <Dropzone className="field upload-box" onDrop={this.onDrop.bind(this)} multiple={false}>
             <p className="upload-p">Click to navigate to the file or drop them from your file system.</p>
