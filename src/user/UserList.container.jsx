@@ -10,7 +10,7 @@ export class UserList extends Component {
   render() {
     const onlyActive = this.props.users.filter(user => {
       if (user.isActive) return user;
-    })
+    });
     const users = onlyActive.map(user => {
       let name = "";
       if (user.StudyField) {

@@ -67,6 +67,8 @@ export class ThesisShow extends Component {
     } else if (button === "save") {
       this.props.updateThesis(this.state.thesis);
       // this.props.updateGraders(this.state.Graders);
+    } else if (button === "download") {
+      this.props.downloadTheses([this.state.thesis.id]);
     }
   }
 
@@ -327,7 +329,7 @@ export class ThesisShow extends Component {
             { this.state.grading ?
               <div className="ui blue button" onClick={this.handleClick.bind(this, "save")}>Save</div>
               :
-              <div className="ui green button" onClick={this.handleClick.bind(this, "grade")}>Grade</div>
+              <div className="ui green button" onClick={this.handleClick.bind(this, "grade")}>Evaluate graders</div>
             }
           </div>
            :
@@ -351,7 +353,7 @@ export class ThesisShow extends Component {
         }
         <h2 className="ui dividing header">Print documents</h2>
         <div className="field">
-          <button className="ui blue button">Download as PDF</button>
+          <button className="ui blue button" onClick={this.handleClick.bind(this, "download")}>Download as PDF</button>
         </div>
       </div>
     );
@@ -360,7 +362,7 @@ export class ThesisShow extends Component {
 
 import { connect } from "react-redux";
 
-import { updateThesis, deleteThesis } from "./thesis.actions";
+import { updateThesis, deleteThesis, downloadTheses } from "./thesis.actions";
 import { updateGraders } from "../grader/grader.actions";
 import { updateUser } from "../user/user.actions";
 import { sendNotification } from "../email/email.actions";
@@ -395,9 +397,9 @@ const mapDispatchToProps = (dispatch) => ({
   deleteThesis(thesis) {
     dispatch(deleteThesis(thesis));
   },
-  // updateThesisProgress(thesis) {
-  //   dispatch(updateThesisProgress(thesis));
-  // },
+  downloadTheses(theses) {
+    dispatch(downloadTheses(theses));
+  },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ThesisShow);

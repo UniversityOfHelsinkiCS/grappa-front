@@ -6,21 +6,21 @@ export class NewUsersList extends Component {
     super();
     this.state = {
       users: [],
-    }
+    };
   }
 
   componentDidMount() {
     this.props.getUsers();
     this.setState({
-      users: this.filterNotActiveUsers(this.props.Users),
-    })
+      users: this.filterAndInitUsers(this.props.Users),
+    });
   }
 
   componentWillReceiveProps(newProps) {
     if (newProps.Users !== undefined) {
       this.setState({
-        users: this.filterNotActiveUsers(newProps.Users),
-      })
+        users: this.filterAndInitUsers(newProps.Users),
+      });
     }
   }
 
@@ -38,7 +38,7 @@ export class NewUsersList extends Component {
 
   handleClick(name, index, event) {
     event.preventDefault();
-    console.log("yo clicking " + name)
+    console.log("yo clicking " + name);
     if (name === "accept") {
       const newUser = this.state.users[index];
       if (!newUser.StudyFieldId) {
@@ -52,11 +52,15 @@ export class NewUsersList extends Component {
         this.props.deleteUser(this.state.users[index]);
       }
     }
-  }  
+  }
 
-  filterNotActiveUsers(users) {
-    return users.filter(user => {
+  filterAndInitUsers(users) {
+    const notActive = users.filter(user => {
       if (!user.isActive) return user;
+    });
+    return notActive.map(user => {
+      user.role = "instructor";
+      return user;
     });
   }
 
@@ -124,7 +128,7 @@ export class NewUsersList extends Component {
       <div>
         <h2 className="ui dividing header">New users</h2>
         <p>
-          Role must be set for each user but studyfield can be left unselected for admin or print-person. 
+          Role must be set for each user but studyfield can be left unselected for admin or print-person.
           Declining an user deletes it completely.
         </p>
         { this.renderTable(users) }

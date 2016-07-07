@@ -52,7 +52,7 @@ export default class ThesisList extends Component {
     } else if (type === "toggleAll") {
       this.props.selected.forEach((item, index, array) => {
         array[index] = this.state.allToggle;
-      })
+      });
       this.setState({
         allToggle: !this.state.allToggle
       });
@@ -105,7 +105,7 @@ export default class ThesisList extends Component {
       <div>
         <div className="ui middle aligned three columns grid">
           <div className="column">
-            <div className="ui input" style={{"width": "100%"}}>
+            <div className="ui input" style={{ "width": "100%" }}>
               <input type="text" placeholder="Search..." />
             </div>
           </div>

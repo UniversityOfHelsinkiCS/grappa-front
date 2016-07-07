@@ -14,11 +14,11 @@ export default class GrappaList extends Component {
 
  componentWillMount() {
    const selected = this.props.data.map(item => {
-      return true;
-    });
+     return true;
+   });
    this.setState({
-      selected,
-    });
+     selected,
+   });
  }
 
   componentWillReceiveProps(newProps) {
