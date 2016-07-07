@@ -1,122 +1,67 @@
-/**
-* NewUsersList.smart for displaying the data relating to new users added to the
-* database. It contains the component for rendering the needed displayable data, and
-* the container containing various functions for handling the connections between the
-* component and Redux.
-*/
-
 import React, { Component } from "react";
-import { Table, Thead, Th, unsafe } from "reactable";
 
 export class NewUsersList extends Component {
 
+  constructor() {
+    super();
+    this.state = {
+      users: [],
+    }
+  }
+
   componentDidMount() {
     this.props.getUsers();
+    this.setState({
+      users: this.filterNotActiveUsers(this.props.Users),
+    })
   }
 
   componentWillReceiveProps(newProps) {
-    if (newProps.users !== undefined) {
-      const init = {};
-      newProps.users.map(user => {
-        if (!user.isActive) {
-          init[user.id] = {};
-          init[user.id].id = user.id;
-          init[user.id].role = "instructor";
-          init[user.id].StudyFieldId = "";
-        }
-      });
-      this.setState(init);
+    if (newProps.Users !== undefined) {
+      this.setState({
+        users: this.filterNotActiveUsers(newProps.Users),
+      })
     }
   }
 
-  setUserRole(user, event) {
+  handleChange(name, index, event) {
     event.preventDefault();
-    const change = {};
-    change[user.id] = this.state[user.id];
-    change[user.id].role = event.target.value;
-    this.setState(change);
-  }
-
-  setUserField(user, event) {
-    event.preventDefault();
-    const change = {};
-    change[user.id] = this.state[user.id];
-    change[user.id].StudyFieldId = event.target.value;
-    this.setState(change);
-  }
-
-  updateUser(user) {
-    const newUser = Object.assign({}, this.state[user.id]);
-    if (!newUser.StudyFieldId) {
-      delete newUser.StudyFieldId;
+    console.log("yo handling " + name);
+    if (name === "role") {
+      this.state.users[index].role = event.target.value;
+      this.setState({});
+    } else if (name === "StudyFieldId") {
+      this.state.users[index].StudyFieldId = event.target.value;
+      this.setState({});
     }
-    newUser.isActive = true;
-    console.log(newUser);
-    this.props.updateUser(newUser);
   }
 
-  declineUser(user) {
-    this.props.declineUser(user);
-  }
+  handleClick(name, index, event) {
+    event.preventDefault();
+    console.log("yo clicking " + name)
+    if (name === "accept") {
+      const newUser = this.state.users[index];
+      if (!newUser.StudyFieldId) {
+        delete newUser.StudyFieldId;
+      }
+      newUser.isActive = true;
+      console.log(newUser);
+      this.props.updateUser(newUser);
+    } else if (name === "decline") {
+      if (confirm("Are you sure you want to delete this user?")) {
+        this.props.deleteUser(this.state.users[index]);
+      }
+    }
+  }  
 
-  /**
-  * Formatter-methods are in charge of formatting the correct
-  * views and actions into the react-bootstrap-table.
-  */
-  acceptButtonFormatter(cell, row) {
-    return (
-      <button className="positive ui button" onClick={
-        this.updateUser.bind(this, cell, row)}
-      >
-        Accept
-      </button>
-    );
-  }
-
-  declineButtonFormatter(cell, row) {
-    return (
-      <button className="negative ui button" onClick={ () => {
-        if (confirm("Are you sure you want to delete this user?")) {
-          this.declineUser(row);
-        }}}
-      >
-        Decline
-      </button>
-    );
-  }
-
-  renderRoleFormatter(user) {
-    console.log(user)
-    const role = this.state[user.id] === undefined ? "" : this.state[user.id].role;
-    return (
-      <select value={role} className="ui dropdown" onChange={this.setUserRole.bind(this, user)}>
-        <option value="instructor">Instructor</option>
-        <option value="print-person">Print-person</option>
-        <option value="professor">Professor</option>
-        <option value="admin">Admin</option>
-      </select>
-    );
-  }
-
-  renderStudyFieldFormatter(user) {
-    const fieldId = this.state[user.id] === undefined ? "" : this.state[user.id].StudyFieldId;
-    return (
-      <select
-        value={ fieldId }
-        className="ui fluid search dropdown"
-        onChange={this.setUserField.bind(this, user)}
-      >
-        <option key="" value="">Select field</option>
-        { this.props.studyfields.map((field, index) =>
-          <option key={index} value={field.id}>
-            { field.name }
-          </option>
-        )}
-      </select>
-    );
+  filterNotActiveUsers(users) {
+    return users.filter(user => {
+      if (!user.isActive) return user;
+    });
   }
 
   renderTable(users) {
+    const { StudyFields } = this.props;
     return (
       <table className="ui celled table">
         <thead>
@@ -130,90 +75,65 @@ export class NewUsersList extends Component {
           </tr>
         </thead>
         <tbody>
-          { users.map(user =>
-            <tr key={user.id}>
+          { users.map((user, index) =>
+            <tr key={index}>
               <td>{user.name}</td>
               <td>{user.email}</td>
-              <td>{ this.renderRoleFormatter(user)}</td>
-              <td>{ this.renderStudyFieldFormatter(user)}</td>
               <td>
-                <button className="positive ui button" onClick={
-                  this.updateUser.bind(this, user)}
+                <select value={user.role} className="ui dropdown" onChange={this.handleChange.bind(this, "role", index)}>
+                  <option value="instructor">Instructor</option>
+                  <option value="print-person">Print-person</option>
+                  <option value="professor">Professor</option>
+                  <option value="admin">Admin</option>
+                </select>
+              </td>
+              <td>
+                <select
+                  value={ user.StudyFieldId }
+                  className="ui fluid search dropdown"
+                  onChange={this.handleChange.bind(this, "StudyFieldId", index)}
                 >
+                  <option key="" value="">Select field</option>
+                  { StudyFields.map((field, index) =>
+                    <option key={field.id} value={field.id}>
+                      { field.name }
+                    </option>
+                  )}
+                </select>
+              </td>
+              <td>
+                <button className="positive ui button" onClick={this.handleClick.bind(this, "accept", index)}>
                   Accept
                 </button>
               </td>
               <td>
-                <button className="negative ui button" onClick={ () => {
-                  if (confirm("Are you sure you want to delete this user?")) {
-                    this.declineUser(row);
-                  }}}
-                >
+                <button className="negative ui button" onClick={this.handleClick.bind(this, "decline", index)}>
                   Decline
                 </button>
               </td>
             </tr>
           )}
         </tbody>
-        <tfoot>
-          {/*<tr>
-            <th>
-              <div className="ui right floated pagination menu">
-                <a className="icon item">
-                  <i className="left chevron icon"></i>
-                </a>
-                <a className="item">1</a>
-                <a className="item">2</a>
-                <a className="item">3</a>
-                <a className="item">4</a>
-                <a className="icon item">
-                  <i className="right chevron icon"></i>
-                </a>
-              </div>
-            </th>
-          </tr>*/}
-        </tfoot>
       </table>
     );
   }
 
-  /**
-  * The method in charge of rendering the outlook of the page. Contains all the html elements.
-  * Contains a react-bootstrap-table library styled table.
-  * @return <div>-container Container wrapping all the html elements to be rendered.
-  */
   render() {
-    const users = this.props.users.filter(user => {
-      if (!user.isActive) {
-        return user;
-      }
-    });
-    const noUsers = users.length === 0;
+    const { users } = this.state;
     return (
       <div>
         <h2 className="ui dividing header">New users</h2>
-        <p>Role must be set for each user but studyfield can be left unselected for admin or print-person. Declining an user deletes it completely.</p>
+        <p>
+          Role must be set for each user but studyfield can be left unselected for admin or print-person. 
+          Declining an user deletes it completely.
+        </p>
         { this.renderTable(users) }
       </div>
     );
-    // return (
-    //   <div>
-    //     { noUsers ?
-    //       <h2 className="ui dividing header">No new users</h2>
-    //       :
-    //       <div>
-    //         <h2 className="ui dividing header">New users</h2>
-    //         <p>Role must be set for each user but studyfield can be set as null (empty). Declining a user deletes it completely.</p>
-    //         { this.renderTable(users) }
-    //       </div>
-    //     }
-    //   </div>
-    // );
   }
 }
 import { connect } from "react-redux";
 import { getUsers, updateUser, deleteUser } from "./user.actions";
-import { getStudyfields } from "../studyfield/studyfield.actions";
 
 const mapDispatchToProps = (dispatch) => ({
   getUsers() {
@@ -222,11 +142,8 @@ const mapDispatchToProps = (dispatch) => ({
   updateUser(user) {
     dispatch(updateUser(user));
   },
-  declineUser(user) {
+  deleteUser(user) {
     dispatch(deleteUser(user));
-  },
-  getStudyfields() {
-    dispatch(getStudyfields());
   },
 });
 
@@ -234,8 +151,8 @@ const mapStateToProps = (state) => {
   const user = state.get("user");
   const sfreducer = state.get("studyfield");
   return {
-    users: user.get("users").toJS(),
-    studyfields: sfreducer.get("studyfields").toJS(),
+    Users: user.get("users").toJS(),
+    StudyFields: sfreducer.get("studyfields").toJS(),
   };
 };
 
