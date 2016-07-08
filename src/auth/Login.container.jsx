@@ -103,8 +103,8 @@ import { connect } from "react-redux";
 import { loginUser } from "./auth.actions";
 // import { getTheses } from "../thesis/thesis.actions";
 import { getGraders } from "../grader/grader.actions";
-import { getCouncilmeetings } from "../councilmeeting/councilmeeting.actions";
-import { getStudyfields } from "../studyfield/studyfield.actions";
+import { getCouncilMeetings } from "../councilmeeting/councilmeeting.actions";
+import { getStudyFields } from "../studyfield/studyfield.actions";
 
 const mapStateToProps = (state) => {
   const auth = state.get("auth");
@@ -120,8 +120,8 @@ const mapDispatchToProps = (dispatch) => ({
   fetchAll() {
     // dispatch(getTheses());
     dispatch(getGraders());
-    dispatch(getCouncilmeetings());
-    dispatch(getStudyfields());
+    dispatch(getCouncilMeetings());
+    dispatch(getStudyFields());
   },
 });
 

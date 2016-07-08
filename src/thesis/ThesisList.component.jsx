@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import moment from "moment";
-import { browserHistory, Link } from "react-router";
-import { Table, Thead, Th, unsafe } from "reactable";
+import { Link } from "react-router";
 
 export default class ThesisList extends Component {
   constructor() {
@@ -10,11 +9,13 @@ export default class ThesisList extends Component {
       formattedTheses: [],
       filteredTheses: [],
       allToggle: false,
+      sortColumnToggle: [],
+      searchValue: "",
     };
   }
 
   componentWillMount() {
-    const formatted = this.formatThesesForReactTable(this.props.theses);
+    const formatted = this.formatTheses(this.props.theses);
     // const filtered = this.filterOldTheses(formatted, !this.refs.checkOld.checked);
     const filtered = this.filterOldTheses(formatted, true);
     const selected = filtered.map(thesis => {
@@ -29,7 +30,7 @@ export default class ThesisList extends Component {
   }
 
   componentWillReceiveProps(newProps) {
-    const formatted = this.formatThesesForReactTable(newProps.theses);
+    const formatted = this.formatTheses(newProps.theses);
     // const filtered = this.filterOldTheses(formatted, !this.refs.checkOld.checked);
     const filtered = this.filterOldTheses(formatted, true);
     const selected = filtered.map(thesis => {
@@ -43,7 +44,23 @@ export default class ThesisList extends Component {
     });
   }
 
+  handleChange(type, event) {
+    event.preventDefault();
+    if (type === "search") {
+      const value = event.target.value;
+      const filtered = this.props.graders.map((item, index) => {
+        return item.name.toLowerCase().indexOf(value) === -1 &&
+          item.title.toLowerCase().indexOf(value) === -1;
+      });
+      this.setState({
+        searchValue: value,
+        filtered,
+      });
+    }
+  }
+
   handleClick(type, index, event) {
+    event.preventDefault();
     if (type === "sort") {
       this.sortByField(index);
     } else if (type === "toggleSelect") {
@@ -60,13 +77,14 @@ export default class ThesisList extends Component {
   }
 
   handleCheckBoxClick(event) {
+    event.preventDefault();
     const filtered = this.filterOldTheses(this.state.formattedTheses, !this.refs.checkOld.checked);
     this.setState({
       filteredTheses: filtered,
     });
   }
 
-  formatThesesForReactTable(theses) {
+  formatTheses(theses) {
     return theses.map(thesis => {
       return {
         id: thesis.id,
@@ -106,7 +124,11 @@ export default class ThesisList extends Component {
         <div className="ui middle aligned three columns grid">
           <div className="column">
             <div className="ui input" style={{ "width": "100%" }}>
-              <input type="text" placeholder="Search..." />
+              <input
+                type="text"
+                placeholder="Search..."
+                onChange={this.handleChange.bind(this, "search")}
+              />
             </div>
           </div>
           <div className="column">
@@ -118,7 +140,7 @@ export default class ThesisList extends Component {
             </div>
           </div>
           <div className="four wide column">
-            <button className="ui button blue" onClick={this.handleClick.bind(this, "toggleAll")}>
+            <button className="ui button blue" onClick={this.handleClick.bind(this, "toggleAll", "")}>
               Toggle all { this.state.allToggle ? "selected" : "unselected" }
             </button>
           </div>
@@ -129,10 +151,10 @@ export default class ThesisList extends Component {
               <th onClick={this.handleClick.bind(this, "sort", "status")}>Status</th>
               <th onClick={this.handleClick.bind(this, "sort", "authorFirstname")}>Author firstname</th>
               <th onClick={this.handleClick.bind(this, "sort", "authorLastname")}>Author lastname</th>
-              <th>Title</th>
-              <th>Instructor</th>
+              <th onClick={this.handleClick.bind(this, "sort", "title")}>Title</th>
+              <th onClick={this.handleClick.bind(this, "sort", "instructor")}>Instructor</th>
               <th onClick={this.handleClick.bind(this, "sort", "studyfield")}>Studyfield</th>
-              <th>Deadline</th>
+              <th onClick={this.handleClick.bind(this, "sort", "deadline")}>Deadline</th>
               <th>Selected</th>
             </tr>
           </thead>
@@ -150,15 +172,17 @@ export default class ThesisList extends Component {
                 <td>{thesis.deadline}</td>
                 <td>
                   <div className="ui checkbox">
-                    <input ref="checkOld" type="checkbox" readOnly="true" checked={this.props.selected[index] ? "true" : ""}/>
+                    <input
+                      type="checkbox"
+                      readOnly="true"
+                      checked={this.props.selected[index] ? "true" : ""}
+                    />
                     <label></label>
                   </div>
                 </td>
               </tr>
             )}
           </tbody>
-          <tfoot>
-          </tfoot>
         </table>
       </div>
     );

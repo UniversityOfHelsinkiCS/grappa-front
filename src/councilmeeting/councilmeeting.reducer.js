@@ -21,7 +21,8 @@ export default function (state = INITIAL_STATE, action) {
   switch (action.type) {
     case COUNCILMEETING_SAVE_ONE_SUCCESS:
       return state.updateIn(["councilmeetings"], list => {
-        // searches the index for the new meeting to be inserted to keep the dates in ascending order
+        // searches for the index where the new meeting should be inserted at
+        // to keep the dates in ascending order
         // returns -1 if in last position
         const index = list.findIndex(meeting => {
           if (new Date(meeting.get("date")) > new Date(action.payload.date)) {

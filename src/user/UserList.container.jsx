@@ -45,6 +45,7 @@ export class UserList extends Component {
             <Th column="name">Name</Th>
             <Th column="email">Email</Th>
             <Th column="edit">Edit</Th>
+            <Th column="retire">Retire</Th>
           </Thead>
         </Table>
       </div>
