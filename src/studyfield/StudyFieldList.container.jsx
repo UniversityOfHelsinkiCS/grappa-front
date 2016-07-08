@@ -3,12 +3,24 @@ import { Table, Thead, Th, unsafe } from "reactable";
 
 export class StudyFieldList extends Component {
 
-  handleChange(type, event) {
+  constructor() {
+    super();
+    this.state = {
+      newStudyField: {},
+    }
+  }
 
+  handleChange(type, index, event) {
+    if (type === "newStudyField") {
+      this.state.newStudyField[index] = event.target.value
+      this.setState({});
+    }
   }
 
   handleClick(type, event) {
-
+    if (type === "submit") {
+      this.props.saveStudyField(this.state.newStudyField);
+    }
   }
 
   render() {
@@ -29,11 +41,11 @@ export class StudyFieldList extends Component {
                 <input
                   type="text"
                   placeholder="Name"
-                  onChange={this.handleChange.bind(this, "newStudyField")}
+                  onChange={this.handleChange.bind(this, "newStudyField", "name")}
                 />
               </div>
               <div className="field">
-                <button className="ui primary button" onClick={this.handleSubmit}>Submit</button>
+                <button className="ui primary button" onClick={this.handleClick.bind(this, "submit")}>Submit</button>
               </div>
             </div>
           </div>
@@ -54,37 +66,12 @@ export class StudyFieldList extends Component {
                 <Th column="isActive">Active</Th>
                 <Th column="name">Name</Th>
                 <Th column="professor">Professor</Th>
-                <Th column="title">Edit</Th>
-                <Th column="title">Retire</Th>
+                <Th column="edit">Edit</Th>
+                <Th column="retire">Retire</Th>
               </Thead>
             </Table>
           </div>
         </div>
-      </div>
-    );
-
-    return (
-      <div>
-        <h2 className="ui dividing header">Studyfields</h2>
-        <p>
-          All old and current studyfields. Press retire to disable a studyfield.
-        </p>
-        <Table
-          className="ui table"
-          noDataText="No users found"
-          ref="table"
-          sortable columns={columns}
-          data={StudyFields}
-          filterable={columns}
-        >
-          <Thead>
-            <Th column="isActive">Active</Th>
-            <Th column="name">Name</Th>
-            <Th column="professor">Professor</Th>
-            <Th column="title">Edit</Th>
-            <Th column="title">Retire</Th>
-          </Thead>
-        </Table>
       </div>
     );
   }
@@ -102,6 +89,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => ({
   getStudyFields() {
     dispatch(getStudyFields());
+  },
+  saveStudyField(data) {
+    dispatch(saveStudyField(data));
   },
 });
 

@@ -20,24 +20,44 @@ export const getStudyFields = () => (
   }
 );
 
-export const createStudyField = () => (
+export const saveStudyField = (data) => (
   {
     type: CALL_API,
-    success: STUDYFIELD_GET_ALL_SUCCESS,
-    failure: STUDYFIELD_GET_ALL_FAILURE,
-    method: "get",
+    flashMessage: {
+      type: "warning",
+      title: "Request sent",
+      body: "Waiting for Studyfield to be saved.",
+    },
+    success: STUDYFIELD_SAVE_ONE_SUCCESS,
+    successMessage: {
+      type: "success",
+      title: "Success",
+      body: "Studyfield was saved.",
+    },
+    failure: STUDYFIELD_SAVE_ONE_FAILURE,
+    method: "post",
     url: "/studyfield",
-    data: {},
+    data,
   }
 );
 
-export const updateStudyField = () => (
+export const updateStudyField = (data) => (
   {
     type: CALL_API,
-    success: STUDYFIELD_GET_ALL_SUCCESS,
-    failure: STUDYFIELD_GET_ALL_FAILURE,
-    method: "get",
-    url: "/studyfield",
-    data: {},
+    flashMessage: {
+      type: "warning",
+      title: "Request sent",
+      body: "Waiting for Studyfield to be updated.",
+    },
+    success: STUDYFIELD_UPDATE_ONE_SUCCESS,
+    successMessage: {
+      type: "success",
+      title: "Success",
+      body: "Studyfield was updated.",
+    },
+    failure: STUDYFIELD_UPDATE_ONE_FAILURE,
+    method: "put",
+    url: `/studyfield/${data.id}`,
+    data,
   }
 );
