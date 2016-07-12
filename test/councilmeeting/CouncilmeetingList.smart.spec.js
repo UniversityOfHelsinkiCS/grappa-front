@@ -11,7 +11,7 @@ import { Provider } from "react-redux";
 import store from "../../src/store";
 import CouncilmeetingContainer, { CouncilmeetingListCreate } from "../../src/councilmeeting/CouncilmeetingListCreate.container";
 
-describe("CouncilmeetingList.smart", () => {
+xdescribe("CouncilmeetingList.smart", () => {
   xit("should render table headers", () => {
     const component = renderIntoDocument(
       <Provider store={store}>
