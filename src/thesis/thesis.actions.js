@@ -64,34 +64,6 @@ export const deleteThesis = (thesis) => (
   }
 );
 
-/**
-* The action called to save the given data as a new thesis in the database.
-* @param thesis An object cantaining all the relevant data of the new thesis thats
-* to be added.
-* @return saveThesis The object containing the relevant information for the
-* reducer to handle the data accordingly.
-*/
-export const saveThesis = (thesis) => (
-  {
-    type: CALL_API,
-    flashMessage: {
-      type: "warning",
-      title: "Request sent",
-      body: "Waiting for Thesis to be saved.",
-    },
-    success: THESIS_SAVE_ONE_SUCCESS,
-    successMessage: {
-      type: "success",
-      title: "Success",
-      body: "Thesis was saved.",
-    },
-    failure: THESIS_SAVE_ONE_FAILURE,
-    method: "post",
-    url: "/thesis",
-    data: thesis,
-  }
-);
-
 export const saveThesisWithReview = (data) => (
   {
     type: CALL_API,

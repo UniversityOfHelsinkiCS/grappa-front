@@ -50,7 +50,7 @@ const rootReducer = (state, action) => {
 
 const createStoreWithMiddleware = applyMiddleware(logger, handleCallApi, manageState, triggerDownload)(createStore);
 const createPersistentStore = compose(
-  persistState(["auth", "thesis", "councilmeeting", "studyfield", "grader"], {
+  persistState(["auth", "thesis", "councilmeeting", "studyfield", "grader", "email"], {
     slicer: (paths) => (state) => state.filter((v, k) => paths.indexOf(k) !== -1),
     serialize: (subset) => JSON.stringify(subset.toJS()),
     deserialize: (serialized) => fromJS(JSON.parse(serialized)),

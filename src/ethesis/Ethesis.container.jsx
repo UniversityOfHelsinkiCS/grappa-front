@@ -55,7 +55,7 @@ export class Ethesis extends Component {
             <input
               type="text"
               name="ethesislink"
-              placeholder="eThesis link"
+              placeholder="eThesis link to the PDF file"
               onChange={this.handleChange.bind(this, "ethesislink")}
             />
           </div>

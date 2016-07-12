@@ -132,7 +132,7 @@ export class CouncilmeetingShow extends Component {
 
           <p>Total theses: {this.state.filteredTheses.length}</p>
           <p>
-            It will take approximately 5-15 seconds for 20 theses to be bundled into one
+            It will take approximately 30 seconds for 20 theses to be bundled into one
             downloadable document.
           </p>
           <button className="ui button blue" onClick={this.handleClick.bind(this, "download")}>Download selected</button>
