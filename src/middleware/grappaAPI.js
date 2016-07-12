@@ -24,18 +24,19 @@ export const callApi = (action, store) => {
       sent: action.data,
       flashMessage: action.successMessage,
     });
+  })
+  .catch(err => {
+    store.dispatch({
+      type: action.failure,
+      error: err,
+      flashMessage: {
+        type: "error",
+        title: "Error",
+        body: err.data.message,
+        // body: `Calling GrappaAPI produced an error on path ${action.url}.`,
+      },
+    });
   });
-  // .catch(err => {
-  //   store.dispatch({
-  //     type: action.failure,
-  //     error: err,
-  //     flashMessage: {
-  //       type: "error",
-  //       title: "Error",
-  //       body: `Calling GrappaAPI produced an error on path ${action.url}.`,
-  //     },
-  //   });
-  // });
 };
 
 export const handleCallApi = store => next => action => {

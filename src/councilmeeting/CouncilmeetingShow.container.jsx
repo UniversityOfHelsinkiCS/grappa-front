@@ -96,7 +96,6 @@ export class CouncilmeetingShow extends Component {
   handleClick(name, event) {
     event.preventDefault();
     if (name === "download") {
-      console.log(this.state.selectedTheses);
       const IDs = this.state.filteredTheses.reduce((previousValue, currentValue, index) => {
         if (this.state.selectedTheses[index]) {
           return [...previousValue, currentValue.id];
@@ -133,10 +132,8 @@ export class CouncilmeetingShow extends Component {
 
           <p>Total theses: {this.state.filteredTheses.length}</p>
           <p>
-            It will take approximately 1 min for 20 theses to be bundled into one
-            downloadable document. Be patient. If nothing works you can manually go
-            through theses in the "Theses" view and click "Download as PDF" to get single
-            PDF documents.
+            It will take approximately 30 seconds for 20 theses to be bundled into one
+            downloadable document.
           </p>
           <button className="ui button blue" onClick={this.handleClick.bind(this, "download")}>Download selected</button>
         </div>

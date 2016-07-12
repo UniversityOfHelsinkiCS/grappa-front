@@ -1,12 +1,16 @@
 import Validator from "validator";
-import Models from "./validate.models";
+import Schemas from "./validate.schemas";
 
 export default class ValidateCore {
 
-  findValidationRule(fieldname, modelname) {
-    return Models[modelname].find(field => {
-      if (field.name === fieldname) return field;
+  findValidationRule(field, model) {
+    return Schemas[model].find(modelfield => {
+      if (modelfield.name === field) return modelfield;
     });
+  }
+
+  customValidate(rules, value) {
+    // overridable method for custom validation rules
   }
 
   /**
@@ -47,9 +51,9 @@ export default class ValidateCore {
    * @param {String} modelname - Name of the model that can be found in rules-file
    * @return {Array} - Found errors
    */
-  validateField(name, value, modelname) {
+  validateField(value, field, model) {
     // console.log(name + value + modelname);
-    const validation = findValidationRule(name, modelname);
+    const validation = findValidationRule(field, model);
     if (validation === undefined) {
       return [];
     }
@@ -59,9 +63,11 @@ export default class ValidateCore {
   /**
    * Validates all of models' fields
    */
-  validateModel(values, modelname) {
+  validateForm(form) {
     // console.log(modelname);
     // console.log(values);
+    const model = form.model;
+    const values = form.values;
     let errors = {
       obj: {},
       list: [],
@@ -69,12 +75,12 @@ export default class ValidateCore {
     if (values.constructor === Object) {
       for (const key in values) {
         if ({}.hasOwnProperty.call(values, key)) {
-          const fieldErrors = validateField(key, values[key], modelname);
+          const fieldErrors = validateField(key, values[key], model);
           if (fieldErrors.length > 0) {
-            errors.obj[`${modelname}_${key}`] = fieldErrors;
+            errors.obj[`${model}_${key}`] = fieldErrors;
             errors.list.push(...fieldErrors);
           }
-          const validation = findValidationRule(key, modelname);
+          const validation = findValidationRule(key, model);
           if (validation !== undefined && validation.model !== undefined) {
             const modelErrors = validateModel(values[key], validation.model);
             console.log(modelErrors);
@@ -83,13 +89,16 @@ export default class ValidateCore {
           }
         }
       }
-    // array of models
+    // array of instances of models
     } else if (values.constructor === Array) {
-      console.log("array of models!");
+
+      throw new Error("doesnt work");
+
+      console.log("array of forms????!");
       console.log(values);
       errors = values.reduce((previous, item) => {
         console.log(previous);
-        const modelErrors = validateModel(item, modelname);
+        const modelErrors = validateForm(item, modelname);
         console.log(modelErrors);
         const newErrors = {
           list: Object.assign(previous.list, modelErrors.list),
@@ -102,10 +111,10 @@ export default class ValidateCore {
     return errors;
   }
 
-  updateErrors(value, name, modelname, errors) {
-    const newErrors = validateField(name, value, modelname);
-    const cloneErrors = Object.assign({}, errors);
-    cloneErrors[`${modelname}_${name}`] = newErrors;
-    return cloneErrors;
-  }
+  // updateErrors(value, name, modelname, errors) {
+  //   const newErrors = validateField(name, value, modelname);
+  //   const cloneErrors = Object.assign({}, errors);
+  //   cloneErrors[`${modelname}_${name}`] = newErrors;
+  //   return cloneErrors;
+  // }
 }

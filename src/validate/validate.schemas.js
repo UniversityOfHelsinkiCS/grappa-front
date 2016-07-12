@@ -1,31 +1,4 @@
-// export const models = {
-//   thesis: {
-//     authorFirstname: "",
-//     authorLastname: "",
-//     authorEmail: "",
-//     title: "",
-//     Graders: [],
-//     urkund: "",
-//     grade: "",
-//     StudyFieldId: "",
-//     CouncilMeetingId: "",
-//     PdfFile: "",
-//   },
-//   grader: {
-//     name: "",
-//     title: "",
-//   },
-//   councilmeeting: {
-//     date: "",
-//   },
-//   user: {
-//     email: "",
-//     password: "",
-//     passwordConf: "",
-//   }
-// }
-
-const modelsWithRules = {
+const schemas = {
   thesis: {
     authorFirstname: {
       default: "",
@@ -33,7 +6,7 @@ const modelsWithRules = {
       rules: [
         {
           type: "notEmpty",
-          prompt: "First name can't be empty.",
+          error: "First name can't be empty.",
         },
       ],
     },
@@ -43,7 +16,7 @@ const modelsWithRules = {
       rules: [
         {
           type: "notEmpty",
-          prompt: "First name can't be empty.",
+          error: "First name can't be empty.",
         },
       ],
     },
@@ -53,11 +26,11 @@ const modelsWithRules = {
       rules: [
         {
           type: "notEmpty",
-          prompt: "Email can't be empty.",
+          error: "Email can't be empty.",
         },
         {
           type: "validEmail",
-          prompt: "Not a valid email.",
+          error: "Not a valid email.",
         },
       ],
     },
@@ -67,7 +40,7 @@ const modelsWithRules = {
       rules: [
         {
           type: "notEmpty",
-          prompt: "Title can't be empty.",
+          error: "Title can't be empty.",
         },
       ],
     },
@@ -77,11 +50,11 @@ const modelsWithRules = {
       rules: [
         {
           type: "notEmpty",
-          prompt: "Urkund link can't be empty.",
+          error: "Urkund link can't be empty.",
         },
         {
           type: "isLink",
-          prompt: "Urkund link isn't a valid link.",
+          error: "Urkund link isn't a valid link.",
         },
       ],
     },
@@ -91,7 +64,7 @@ const modelsWithRules = {
       rules: [
         {
           type: "notEmpty",
-          prompt: "You must choose a grade.",
+          error: "You must choose a grade.",
         },
       ],
     },
@@ -102,7 +75,7 @@ const modelsWithRules = {
       rules: [
         {
           type: "minCount[2]",
-          prompt: "You must have at least two graders.",
+          error: "You must have at least two graders.",
         },
       ],
     },
@@ -112,7 +85,7 @@ const modelsWithRules = {
       rules: [
         {
           type: "notEmpty",
-          prompt: "You must choose a studyfield.",
+          error: "You must choose a studyfield.",
         },
       ],
     },
@@ -122,7 +95,7 @@ const modelsWithRules = {
       rules: [
         {
           type: "notEmpty",
-          prompt: "You must choose a council meeting.",
+          error: "You must choose a council meeting.",
         },
       ],
     },
@@ -132,11 +105,11 @@ const modelsWithRules = {
       rules: [
         {
           type: "notEmpty",
-          prompt: "You must upload a review.",
+          error: "You must choose a file to upload.",
         },
       ],
     },
   },
 };
 
-export default modelsWithRules;
+export default schemas;

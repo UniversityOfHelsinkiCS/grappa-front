@@ -8,7 +8,10 @@ export class UserList extends Component {
   }
 
   render() {
-    const users = this.props.users.map(user => {
+    const onlyActive = this.props.users.filter(user => {
+      if (user.isActive) return user;
+    });
+    const users = onlyActive.map(user => {
       let name = "";
       if (user.StudyField) {
         name = user.StudyField.name;
@@ -42,6 +45,7 @@ export class UserList extends Component {
             <Th column="name">Name</Th>
             <Th column="email">Email</Th>
             <Th column="edit">Edit</Th>
+            <Th column="retire">Retire</Th>
           </Thead>
         </Table>
       </div>

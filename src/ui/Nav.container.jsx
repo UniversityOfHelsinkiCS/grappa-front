@@ -61,6 +61,7 @@ export class Nav extends Component {
         <Link className="item" to="/councilmeeting/next">Next meeting</Link>
         <Link className="item" to="/user/inactive">Accept new users</Link>
         <Link className="item" to="/user">All users</Link>
+        <Link className="item" to="/studyfield">Studyfields</Link>
         <Link className="item" to="/emaildraft">Email drafts</Link>
         <Link className="item" to="/emailstatus">Email statuses</Link>
       </div>

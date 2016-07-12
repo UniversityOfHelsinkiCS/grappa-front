@@ -13,12 +13,10 @@ export class CouncilmeetingListCreate extends Component {
       formattedDates: [],
       filteredDates: [],
     };
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
   }
 
   componentDidMount() {
-    this.props.getCouncilmeetings();
+    this.props.getCouncilMeetings();
   }
 
   componentWillReceiveProps(newProps) {
@@ -70,7 +68,7 @@ export class CouncilmeetingListCreate extends Component {
     const newCouncilmeeting = {
       date: this.state.date.toDate(),
     };
-    this.props.addCouncilmeeting(newCouncilmeeting);
+    this.props.saveCouncilMeeting(newCouncilmeeting);
   }
 
   /**
@@ -92,16 +90,19 @@ export class CouncilmeetingListCreate extends Component {
         <div className="ui two fields">
           <div className="field">
             <h2 className="ui dividing header">Create a councilmeeting date</h2>
+            <p>
+              There can be only one meeting per date.
+            </p>
             <div className="two fields">
               <div className="field">
                 <DatePicker
                   dateFormat="DD/MM/YYYY"
                   selected={this.state.date}
-                  onChange={this.handleChange}
+                  onChange={this.handleChange.bind(this)}
                 />
               </div>
               <div className="field">
-                <button className="ui primary button" onClick={this.handleSubmit}>Submit</button>
+                <button className="ui primary button" onClick={this.handleSubmit.bind(this)}>Submit</button>
               </div>
             </div>
           </div>
@@ -131,8 +132,7 @@ export class CouncilmeetingListCreate extends Component {
 }
 
 import { connect } from "react-redux";
-import { getCouncilmeetings } from "./councilmeeting.actions";
-import { addCouncilmeeting } from "./councilmeeting.actions";
+import { getCouncilMeetings, saveCouncilMeeting } from "./councilmeeting.actions";
 
 const mapStateToProps = (state) => {
   const councilmeeting = state.get("councilmeeting");
@@ -142,11 +142,11 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  getCouncilmeetings() {
-    dispatch(getCouncilmeetings());
+  getCouncilMeetings() {
+    dispatch(getCouncilMeetings());
   },
-  addCouncilmeeting(newCouncilmeeting) {
-    dispatch(addCouncilmeeting(newCouncilmeeting));
+  saveCouncilMeeting(data) {
+    dispatch(saveCouncilMeeting(data));
   },
 });
 

@@ -1,9 +1,9 @@
-export const CREATE_MODEL = "CREATE_MODEL";
-export const UPDATE_MODEL = "UPDATE_MODEL";
+export const CREATE_FORM = "CREATE_FORM";
+export const UPDATE_FORM = "UPDATE_FORM";
 
-export const createModel = (name, model) => (
+export const createForm = (name, model) => (
   {
-    type: CREATE_MODEL,
+    type: CREATE_FORM,
     payload: {
       name,
       model,
@@ -11,12 +11,21 @@ export const createModel = (name, model) => (
   }
 );
 
-export const updateModel = (data, errors) => (
+export const updateForm = (data, errors) => (
   {
-    type: UPDATE_MODEL,
+    type: UPDATE_FORM,
     payload: {
       data,
       errors,
     },
   }
 );
+
+// export const resetForm = (name) => (
+//   {
+//     type: RESET_FORM,
+//     payload: {
+//       name,
+//     },
+//   }
+// );

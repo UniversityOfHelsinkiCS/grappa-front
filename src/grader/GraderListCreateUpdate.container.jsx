@@ -31,6 +31,25 @@ export class GraderListCreateUpdate extends Component {
     }
   }
 
+  handleClick(type, event) {
+    event.preventDefault();
+    if (this.props.editable) {
+      if (type === "create") {
+        console.log("yo create");
+        const errors = validateModel(this.state.newGrader, "grader");
+        if (errors.list.length === 0) {
+          this.props.saveGrader(this.state.newGrader);
+        }
+      } else if (type === "update") {
+        console.log("yo update");
+        const errors = validateModel(this.state.updateGrader, "grader");
+        if (errors.list.length === 0) {
+          this.props.updateGrader(this.state.updateGrader);
+        }
+      }
+    }
+  }
+
   createGrader(event) {
     event.preventDefault();
     if (this.props.editable) {
@@ -85,7 +104,7 @@ export class GraderListCreateUpdate extends Component {
         <div className="field">
           <label>&nbsp;</label>
           <button className="ui green button"
-            onClick={this.createGrader.bind(this)}
+            onClick={this.handleClick.bind(this, "create")}
           >
             Create Grader
           </button>
@@ -139,7 +158,7 @@ export class GraderListCreateUpdate extends Component {
         <div className="field">
           <label>&nbsp;</label>
           <button className="ui blue button"
-            onClick={this.updateGrader.bind(this)}
+            onClick={this.handleClick.bind(this, "update")}
           >
             Update Grader
           </button>

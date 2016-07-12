@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import moment from "moment";
 import { Link } from "react-router";
 
-export default class ThesisList extends Component {
+export default class SimpleTable extends Component {
   constructor() {
     super();
     this.state = {
@@ -118,6 +118,27 @@ export default class ThesisList extends Component {
   }
 
   render() {
+    const { options } = this.props;
+    return (
+      <table {...this.props}>
+         { options.search ?
+          <div className="column">
+            <div className="ui input" style={{ "width": "100%" }}>
+              <input
+                type="text"
+                placeholder="Search..."
+                onChange={this.handleChange.bind(this, "search")}
+              />
+            </div>
+          </div>
+            :
+          <div className="column">
+           "no search"
+          </div>
+        }
+      </table>
+    );
+
     const { filteredTheses } = this.state;
     return (
       <div>
@@ -187,8 +208,72 @@ export default class ThesisList extends Component {
       </div>
     );
   }
-}
 
-// ThesisList.propTypes = {
-//   theses: PropTypes.array,
-// };
+  renderOld() {
+    const onlyActive = this.props.users.filter(user => {
+      if (user.isActive) return user;
+    });
+    const users = onlyActive.map(user => {
+      let name = "";
+      if (user.StudyField) {
+        name = user.StudyField.name;
+      }
+      user.studyfield = name;
+      return user;
+    });
+    const columns = [
+      "role",
+      "studyfield",
+      "name",
+      "email",
+    ];
+    return (
+      <div>
+        <h2 className="ui dividing header">Users</h2>
+        <p>
+          All registered and activated users. Retiring an user disables the account but doesn't delete it from the database and it can be reversed.
+        </p>
+        <STable
+          className="ui table"
+          ref="table"
+          options={
+            {
+              data: users,
+              selected: selected,
+              sortable: columns,
+              filterable: columns,
+              noDataText: "No users found dawg",
+              rowClass: "ui row lolz"
+            }
+          }
+        >
+          <SHead>
+            <STh className="penis" column="name" customColumn={(item, index) => {
+              return (
+                <td><Link to={`/user/${item.id}`}>{item.name}</Link></td>
+              );
+            }}>
+            </STh>
+          </SHead>
+        </STable>
+        <Table
+          className="ui table"
+          noDataText="No users found"
+          ref="table"
+          sortable columns={columns}
+          data={users}
+          filterable={columns}
+        >
+          <Thead>
+            <Th column="role">Role</Th>
+            <Th column="studyfield">Field</Th>
+            <Th column="name">Name</Th>
+            <Th column="email">Email</Th>
+            <Th column="edit">Edit</Th>
+            <Th column="retire">Retire</Th>
+          </Thead>
+        </Table>
+      </div>
+    );
+  }
+}

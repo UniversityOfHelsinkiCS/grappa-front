@@ -20,7 +20,7 @@ export const getGraders = () => (
   }
 );
 
-export const saveGrader = (grader) => (
+export const saveGrader = (data) => (
   {
     type: CALL_API,
     flashMessage: {
@@ -37,11 +37,11 @@ export const saveGrader = (grader) => (
     failure: GRADER_SAVE_ONE_FAILURE,
     method: "post",
     url: "/grader",
-    data: grader,
+    data,
   }
 );
 
-export const updateGrader = (grader) => (
+export const updateGrader = (data) => (
   {
     type: CALL_API,
     flashMessage: {
