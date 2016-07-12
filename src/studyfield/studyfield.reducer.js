@@ -15,7 +15,7 @@ const INITIAL_STATE = fromJS({
 export default function (state = INITIAL_STATE, action) {
   switch (action.type) {
     case STUDYFIELD_GET_ALL_SUCCESS:
-       return state.mergeIn(["studyfields"], fromJS(action.payload));
+      return state.mergeIn(["studyfields"], fromJS(action.payload));
     case STUDYFIELD_GET_ALL_FAILURE:
       return state;
     case STUDYFIELD_SAVE_ONE_SUCCESS:

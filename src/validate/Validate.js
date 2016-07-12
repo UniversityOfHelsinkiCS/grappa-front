@@ -4,36 +4,46 @@ import Core from "./Core";
 
 export default class Validate {
 
-  createModel(name, model) {
-    this.props.createModel(name, model);
+  createForm(name, model) {
+    this.props.createForm(name, model);
   }
 
-  updateModel(value, name, model) {
-    const errors = Core.validateField(value, name, model);
-    this.props.updateModel({
+  updateForm(value, field, formname) {
+    const model = this.props.forms[formname].model;
+    const errors = Core.validateField(value, field, model);
+    this.props.updateForm({
       data: {
         value,
-        name,
-        model,
+        field,
+        formname,
       },
       errors,
     });
   }
 
-  getErrors(name, modelname) {
-    const model = this.props.models[modelname];
-    if (model) {
-      return model.obj[name];
+  getErrors(formname) {
+    const form = this.props.forms[formname];
+    if (form) {
+      return form.errors;
     } else {
-      return [];
+      return "";
     }
   }
 
-  isModelValid(modelname) {
-    const model = this.props.models[modelname];
-    if (model) {
-      const errors = Core.validateModel(modelname);
-      this.props.updateModel({
+  getFieldErrors(field, formname) {
+    const form = this.props.forms[formname];
+    if (form) {
+      return form.errors.obj[field];
+    } else {
+      return "";
+    }
+  }
+
+  isFormValid(formname) {
+    const form = this.props.forms[formname];
+    if (form) {
+      const errors = Core.validateForm(form);
+      this.props.updateForm({
         data: {},
         errors,
       });
@@ -42,24 +52,37 @@ export default class Validate {
       return false;
     }
   }
+
+  validateDataToModel(data, model) {
+    const form = {
+      model,
+      values: data,
+      errors: {
+        obj: {},
+        list: [],
+      }
+    };
+    const errors = Core.validateForm(form);
+    return errors;
+  }
 }
 
 import { connect } from "react-redux";
-import { createModel, updateModel } from "./validate.actions";
+import { createForm, updateForm } from "./validate.actions";
 
 const mapStateToProps = (state) => {
-  const validate = state.get("validate");
+  const validate_r = state.get("validate");
   return {
-    models: validate.get("models").toJS(),
+    forms: validate_r.get("forms").toJS(),
   };
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  createModel(name, model) {
-    dispatch(createModel(name, model));
+  createForm(name, model) {
+    dispatch(createForm(name, model));
   },
-  updateModel(data, errors) {
-    dispatch(updateModel(data, errors));
+  updateForm(data, errors) {
+    dispatch(updateForm(data, errors));
   },
 });
 

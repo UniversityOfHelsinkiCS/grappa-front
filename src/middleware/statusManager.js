@@ -1,4 +1,4 @@
-import { createMessage, deleteMessage } from "../flash/flash.actions";
+import { createMessage, hideMessage } from "../flash/flash.actions";
 import {
   CREATE_FLASH_MESSAGE,
 } from "../flash/flash.actions";
@@ -12,7 +12,7 @@ export const manageState = store => next => action => {
   }
   if (action.type === CREATE_FLASH_MESSAGE) {
     setTimeout(() => {
-      store.dispatch(deleteMessage(action.id));
+      store.dispatch(hideMessage(action.id));
     }, 15000);
   }
   if (action.redirect !== undefined && action.redirect !== null) {

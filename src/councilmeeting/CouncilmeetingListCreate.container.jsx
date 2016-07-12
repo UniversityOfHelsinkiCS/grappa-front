@@ -90,6 +90,9 @@ export class CouncilmeetingListCreate extends Component {
         <div className="ui two fields">
           <div className="field">
             <h2 className="ui dividing header">Create a councilmeeting date</h2>
+            <p>
+              There can be only one meeting per date.
+            </p>
             <div className="two fields">
               <div className="field">
                 <DatePicker

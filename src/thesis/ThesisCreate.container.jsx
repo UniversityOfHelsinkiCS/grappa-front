@@ -53,44 +53,6 @@ export class ThesisCreate extends React.Component {
     this.setState(change);
   }
 
-  handleGraderChange(index, name, event) {
-    event.preventDefault();
-    const change = {
-      graders: this.state.graders,
-      errors: this.state.errors,
-    };
-    change.graders[index][name] = event.target.value;
-    const newErrors = validateField(name, event.target.value, "grader");
-    change.errors[`grader_${name}`] = newErrors;
-    this.setState(change);
-  }
-
-  addGrader(event) {
-    event.preventDefault();
-    const newGrader = {
-      name: "",
-      title: "",
-    };
-    const change = {
-      graders: [...this.state.graders, newGrader],
-      errors: this.state.errors,
-    };
-    const newErrors = validateField("graders", change.graders, "thesis");
-    change.errors.thesis_graders = newErrors;
-    this.setState(change);
-  }
-
-  removeGrader(index, event) {
-    event.preventDefault();
-    this.state.graders.splice(index, 1);
-    const change = {
-      graders: this.state.graders,
-      errors: this.state.errors,
-    };
-    const newErrors = validateField("graders", change.graders, "thesis");
-    change.errors.thesis_graders = newErrors;
-    this.setState(change);
-  }
   /**
    * Handler method to handle what to do when the submit button is clicked.
    * @param event Used to get a hold of what the input of the user was.
@@ -112,9 +74,10 @@ export class ThesisCreate extends React.Component {
         StudyFieldId: this.state.StudyFieldId,
         CouncilMeetingId: this.state.CouncilMeetingId,
       };
-      const data = new FormData();
-      data.append("file", this.state.PdfFile);
-      this.props.saveThesis(newThesis, data);
+      const form = new FormData();
+      form.append("json", JSON.stringify(newThesis));
+      form.append("file", this.state.PdfFile);
+      this.props.saveThesisWithReview(form);
     } else {
       this.setState({ errors: thesisErrors.obj });
     }
@@ -330,7 +293,7 @@ export class ThesisCreate extends React.Component {
 
 import { connect } from "react-redux";
 
-import { saveThesis } from "./thesis.actions";
+import { saveThesis, saveThesisWithReview } from "./thesis.actions";
 import { getCouncilmeetings } from "../councilmeeting/councilmeeting.actions";
 import { getStudyfields } from "../studyfield/studyfield.actions";
 import { uploadReview } from "../upload/upload.actions";
@@ -339,6 +302,9 @@ const mapDispatchToProps = (dispatch) => ({
   saveThesis(newThesis, pdfFile) {
     dispatch(saveThesis(newThesis));
     dispatch(uploadReview(pdfFile));
+  },
+  saveThesisWithReview(data) {
+    dispatch(saveThesisWithReview(data));
   },
   getCouncilmeetings() {
     dispatch(getCouncilmeetings());

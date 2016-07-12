@@ -2,20 +2,15 @@ import React, { Component } from "react";
 
 export class FlashMessage extends Component {
 
-  constructor() {
-    super();
-    this.handleMessageClose = this.handleMessageClose.bind(this);
-  }
-
-  handleMessageClose(message, event) {
+  handleClick(message, event) {
     event.preventDefault();
-    this.props.deleteMessage(message.id);
+    this.props.hideMessage(message.id);
   }
 
   renderMessage(message) {
     return (
       <div key={message.id} className={`ui ${message.type} message`}>
-        <i className="close icon" onClick={this.handleMessageClose.bind(this, message)}></i>
+        <i className="close icon" onClick={this.handleClick.bind(this, message)}></i>
         <div className="header">
           { message.title }
         </div>
@@ -25,28 +20,36 @@ export class FlashMessage extends Component {
   }
 
   render() {
-    const { messages } = this.props;
+    const { showable } = this.props;
+    const lastFour = showable.slice(showable.length - 4);
     return (
       <div className="flashmessage-container">
-        { messages.map(msg => this.renderMessage(msg)) }
+        { lastFour.map(msg => this.renderMessage(msg)) }
+        <div className="ui info message">
+          <span style={{ "marginRight": "10px" }}>
+            Show all
+          </span>
+          <i className="arrow down icon" onClick={this.handleClick.bind(this, "displayMsgLog")}></i>
+        </div>
       </div>
     );
   }
 }
 
 import { connect } from "react-redux";
-import { deleteMessage } from "./flash.actions";
+import { hideMessage } from "./flash.actions";
 
 const mapStateToProps = (state) => {
-  const freducer = state.get("flash");
+  const flash_r = state.get("flash");
   return {
-    messages: freducer.get("messages").toJS(),
+    messages: flash_r.get("messages").toJS(),
+    showable: flash_r.get("showableMessages").toJS(),
   };
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  deleteMessage(id) {
-    dispatch(deleteMessage(id));
+  hideMessage(id) {
+    dispatch(hideMessage(id));
   },
 });
 

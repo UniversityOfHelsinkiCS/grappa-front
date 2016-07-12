@@ -105,6 +105,7 @@ import { loginUser } from "./auth.actions";
 import { getGraders } from "../grader/grader.actions";
 import { getCouncilMeetings } from "../councilmeeting/councilmeeting.actions";
 import { getStudyFields } from "../studyfield/studyfield.actions";
+import { getUsers } from "../user/user.actions";
 
 const mapStateToProps = (state) => {
   const auth = state.get("auth");
@@ -122,6 +123,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(getGraders());
     dispatch(getCouncilMeetings());
     dispatch(getStudyFields());
+    dispatch(getUsers());
   },
 });
 

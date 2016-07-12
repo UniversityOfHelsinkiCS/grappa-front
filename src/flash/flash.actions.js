@@ -1,5 +1,5 @@
 export const CREATE_FLASH_MESSAGE = "CREATE_FLASH_MESSAGE";
-export const DELETE_FLASH_MESSAGE = "DELETE_FLASH_MESSAGE";
+export const HIDE_FLASH_MESSAGE = "HIDE_FLASH_MESSAGE";
 
 export const createMessage = (message, id) => (
   {
@@ -9,9 +9,9 @@ export const createMessage = (message, id) => (
   }
 );
 
-export const deleteMessage = (id) => (
+export const hideMessage = (id) => (
   {
-    type: DELETE_FLASH_MESSAGE,
+    type: HIDE_FLASH_MESSAGE,
     id,
   }
 );

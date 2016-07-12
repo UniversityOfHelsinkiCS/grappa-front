@@ -92,6 +92,27 @@ export const saveThesis = (thesis) => (
   }
 );
 
+export const saveThesisWithReview = (data) => (
+  {
+    type: CALL_API,
+    flashMessage: {
+      type: "warning",
+      title: "Request sent",
+      body: "Waiting for Thesis to be saved.",
+    },
+    success: THESIS_SAVE_ONE_SUCCESS,
+    successMessage: {
+      type: "success",
+      title: "Success",
+      body: "Thesis and review were saved.",
+    },
+    failure: THESIS_SAVE_ONE_FAILURE,
+    method: "post",
+    url: "/thesis",
+    data,
+  }
+);
+
 /**
  * The action used to change some values in a thesis.
  *
