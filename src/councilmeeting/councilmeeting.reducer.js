@@ -8,6 +8,8 @@ import {
   COUNCILMEETING_GET_ALL_FAILURE,
   COUNCILMEETING_SAVE_ONE_SUCCESS,
   COUNCILMEETING_SAVE_ONE_FAILURE,
+  COUNCILMEETING_UPDATE_ONE_SUCCESS,
+  COUNCILMEETING_UPDATE_ONE_FAILURE,
 } from "./councilmeeting.actions";
 
 /**
@@ -19,6 +21,13 @@ const INITIAL_STATE = fromJS({
 
 export default function (state = INITIAL_STATE, action) {
   switch (action.type) {
+    case COUNCILMEETING_GET_ALL_SUCCESS:
+      const sorted = action.payload.sort((a, b) => {
+        return new Date(a.date) - new Date(b.date);
+      });
+      return state.mergeIn(["councilmeetings"], fromJS(sorted));
+    case COUNCILMEETING_GET_ALL_FAILURE:
+      return state;
     case COUNCILMEETING_SAVE_ONE_SUCCESS:
       return state.updateIn(["councilmeetings"], list => {
         // searches for the index where the new meeting should be inserted at
@@ -33,12 +42,21 @@ export default function (state = INITIAL_STATE, action) {
       });
     case COUNCILMEETING_SAVE_ONE_FAILURE:
       return state;
-    case COUNCILMEETING_GET_ALL_SUCCESS:
-      const sorted = action.payload.sort((a, b) => {
-        return new Date(a.date) - new Date(b.date);
-      });
-      return state.mergeIn(["councilmeetings"], fromJS(sorted));
-    case COUNCILMEETING_GET_ALL_FAILURE:
+    case COUNCILMEETING_UPDATE_ONE_SUCCESS:
+      const updatedState = state.updateIn(["councilmeetings"], councilmeetings =>
+        councilmeetings.map(councilmeeting => {
+          if (councilmeeting.get("id") === action.sent.id) {
+            return fromJS(action.sent);
+          }
+          return councilmeeting;
+        })
+      );
+      return updatedState.updateIn(["councilmeetings"], councilmeetings => 
+        councilmeetings.sort((a, b) => {
+          return new Date(a.get("date")) - new Date(b.get("date"));
+        })
+      )
+    case COUNCILMEETING_UPDATE_ONE_FAILURE:
       return state;
     default:
       return state;

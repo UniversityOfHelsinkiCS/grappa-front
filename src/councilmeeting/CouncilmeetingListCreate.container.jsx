@@ -1,27 +1,37 @@
 import React, { Component } from "react";
 import DatePicker from "react-datepicker";
-import { Table, Thead, Th, unsafe } from "reactable";
 import moment from "moment";
+import { Link } from "react-router";
 
 export class CouncilmeetingListCreate extends Component {
 
   constructor() {
     super();
     this.state = {
-      date: moment(),
+      newCM: {
+        date: moment(),
+      },
+      editCM: {},
       shownDates: [],
       formattedDates: [],
       filteredDates: [],
     };
   }
 
-  componentDidMount() {
-    this.props.getCouncilMeetings();
+  componentWillMount() {
+    const formatted = this.formatMeetingsForReactTable(this.props.CouncilMeetings);
+    const filtered = this.filterOldDates(this.props.CouncilMeetings);
+    const filteredAndFormatted = this.formatMeetingsForReactTable(filtered);
+    this.setState({
+      shownDates: filteredAndFormatted,
+      formattedDates: formatted,
+      filteredDates: filteredAndFormatted,
+    });
   }
 
   componentWillReceiveProps(newProps) {
-    const formatted = this.formatMeetingsForReactTable(newProps.councilmeetings);
-    const filtered = this.filterOldDates(newProps.councilmeetings);
+    const formatted = this.formatMeetingsForReactTable(newProps.CouncilMeetings);
+    const filtered = this.filterOldDates(newProps.CouncilMeetings);
     const filteredAndFormatted = this.formatMeetingsForReactTable(filtered);
     this.setState({
       shownDates: !this.refs.checkOld.checked ? filteredAndFormatted : formatted,
@@ -31,10 +41,10 @@ export class CouncilmeetingListCreate extends Component {
   }
 
   formatMeetingsForReactTable(meetings) {
+    // return meetings;
     return meetings.map(meeting => {
-      return {
-        date: moment(new Date(meeting.date)).format("DD/MM/YYYY"),
-      };
+      meeting.date = moment(new Date(meeting.date));
+      return meeting;
     });
   }
 
@@ -59,50 +69,70 @@ export class CouncilmeetingListCreate extends Component {
       });
     }
   }
-  /**
-   * Handler method to handle what to do when the submit button is clicked.
-   * @param event Used to get a hold of what the input of the user was.
-   */
-  handleSubmit(event) {
-    event.preventDefault();
-    const newCouncilmeeting = {
-      date: this.state.date.toDate(),
-    };
-    this.props.saveCouncilMeeting(newCouncilmeeting);
+
+  handleChange(type, date) {
+    if (type === "newCM") {
+      this.state.newCM.date = date;
+      this.setState({});
+    } else if (type === "editCM") {
+      this.state.editCM.date = date;
+      this.setState({});
+    }
   }
 
-  /**
-  * Handler method to handle changes happening in the date selection field in the render method.
-  * @param date Used to get a hold of what the input of the user was.
-  */
-  handleChange(date) {
-    this.setState({
-      date,
-    });
+  handleClick(type, index, event) {
+    event.preventDefault();
+    if (type === "save") {
+      const newCM = this.state.newCM;
+      newCM.date = newCM.date.toDate(),
+      this.props.saveCouncilMeeting(newCM);
+    } else if (type === "update") {
+      const editCM = Object.assign({}, this.state.editCM);
+      editCM.date = editCM.date.toDate(),
+      this.props.updateCouncilMeeting(editCM);
+    } else if (type === "selectCM") {
+      this.state.editCM = this.state.shownDates[index];
+      this.setState({});
+    }
   }
 
   render() {
-    const columns = [
-      "date",
-    ];
+    const { shownDates } = this.state;
     return (
       <div className="ui form">
         <div className="ui two fields">
-          <div className="field">
-            <h2 className="ui dividing header">Create a councilmeeting date</h2>
-            <p>
-              There can be only one meeting per date.
-            </p>
-            <div className="two fields">
-              <div className="field">
-                <DatePicker
-                  dateFormat="DD/MM/YYYY"
-                  selected={this.state.date}
-                  onChange={this.handleChange.bind(this)}
-                />
+         <div className="field">
+            <div className="field">
+              <h2 className="ui dividing header">Create a councilmeeting date</h2>
+              <p>
+                There can be only one meeting per date.
+              </p>
+              <div className="two fields">
+                <div className="field">
+                  <DatePicker
+                    dateFormat="DD/MM/YYYY"
+                    selected={this.state.newCM.date}
+                    onChange={this.handleChange.bind(this, "newCM")}
+                  />
+                </div>
+                <div className="field">
+                  <button className="ui primary button" onClick={this.handleClick.bind(this, "save", "")}>Submit</button>
+                </div>
               </div>
-              <div className="field">
-                <button className="ui primary button" onClick={this.handleSubmit.bind(this)}>Submit</button>
+            </div>
+            <div className="field">
+              <h2 className="ui dividing header">Change meetings date {this.state.editCM.date ? this.state.editCM.date.format("DD/MM/YYYY") : ""}</h2>
+              <div className="two fields">
+                <div className="field">
+                  <DatePicker
+                    dateFormat="DD/MM/YYYY"
+                    selected={this.state.editCM.date}
+                    onChange={this.handleChange.bind(this, "editCM")}
+                  />
+                </div>
+                <div className="field">
+                  <button className="ui green button" onClick={this.handleClick.bind(this, "update", "")}>Update</button>
+                </div>
               </div>
             </div>
           </div>
@@ -112,18 +142,24 @@ export class CouncilmeetingListCreate extends Component {
               <input ref="checkOld" type="checkbox" onClick={this.handleCheckBoxClick.bind(this)}/>
               <label>Show also past dates</label>
             </div>
-            <Table
-              className="ui table"
-              noDataText="No meetings found"
-              ref="table"
-              sortable columns={columns}
-              data={this.state.shownDates}
-              filterable={columns}
-            >
-              <Thead>
-                <Th column="date">Date</Th>
-              </Thead>
-            </Table>
+            <table className="ui celled table">
+              <thead>
+                <tr>
+                  <th onClick={this.handleClick.bind(this, "sort", "status")}>Date</th>
+                  <th onClick={this.handleClick.bind(this, "sort", "authorFirstname")}>Theses</th>
+                </tr>
+              </thead>
+              <tbody>
+                { shownDates.map((item, index) =>
+                  <tr key={index} onClick={this.handleClick.bind(this, "selectCM", index)}>
+                    <td>
+                      <Link to={`/councilmeeting/${item.id}`}>{item.date.format("DD/MM/YYYY")}</Link>
+                    </td>
+                    <td>66</td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
@@ -132,12 +168,12 @@ export class CouncilmeetingListCreate extends Component {
 }
 
 import { connect } from "react-redux";
-import { getCouncilMeetings, saveCouncilMeeting } from "./councilmeeting.actions";
+import { getCouncilMeetings, saveCouncilMeeting, updateCouncilMeeting } from "./councilmeeting.actions";
 
 const mapStateToProps = (state) => {
   const councilmeeting = state.get("councilmeeting");
   return {
-    councilmeetings: councilmeeting.get("councilmeetings").toJS(),
+    CouncilMeetings: councilmeeting.get("councilmeetings").toJS(),
   };
 };
 
@@ -147,6 +183,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   saveCouncilMeeting(data) {
     dispatch(saveCouncilMeeting(data));
+  },
+  updateCouncilMeeting(data) {
+    dispatch(updateCouncilMeeting(data))
   },
 });
 

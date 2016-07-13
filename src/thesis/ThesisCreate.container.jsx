@@ -135,6 +135,10 @@ export class ThesisCreate extends React.Component {
 
   renderThesisInformation() {
     // console.log(this.props.StudyFields);
+    const { StudyFields } = this.props;
+    const activeFields = StudyFields.filter(field => {
+      if (field.isActive) return field;
+    })
     return (
       <div className="m-bot">
         <h3 className="ui dividing header">Thesis Information</h3>
@@ -155,7 +159,7 @@ export class ThesisCreate extends React.Component {
               onChange={this.handleChange.bind(this, "StudyFieldId")}
             >
               <option key="0" value="">Select field</option>
-              { this.props.StudyFields.map((field, index) =>
+              { activeFields.map((field, index) =>
                 <option key={index} value={field.id}>
                   { field.name }
                 </option>
