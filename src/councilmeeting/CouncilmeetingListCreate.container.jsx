@@ -30,14 +30,16 @@ export class CouncilmeetingListCreate extends Component {
   }
 
   componentWillReceiveProps(newProps) {
-    const formatted = this.formatMeetingsForReactTable(newProps.CouncilMeetings);
-    const filtered = this.filterOldDates(newProps.CouncilMeetings);
-    const filteredAndFormatted = this.formatMeetingsForReactTable(filtered);
-    this.setState({
-      shownDates: !this.refs.checkOld.checked ? filteredAndFormatted : formatted,
-      formattedDates: formatted,
-      filteredDates: filteredAndFormatted,
-    });
+    if (newProps.CouncilMeetings) {
+      const formatted = this.formatMeetingsForReactTable(newProps.CouncilMeetings);
+      const filtered = this.filterOldDates(newProps.CouncilMeetings);
+      const filteredAndFormatted = this.formatMeetingsForReactTable(filtered);
+      this.setState({
+        shownDates: !this.refs.checkOld.checked ? filteredAndFormatted : formatted,
+        formattedDates: formatted,
+        filteredDates: filteredAndFormatted,
+      });
+    }
   }
 
   formatMeetingsForReactTable(meetings) {
@@ -172,8 +174,10 @@ import { getCouncilMeetings, saveCouncilMeeting, updateCouncilMeeting } from "./
 
 const mapStateToProps = (state) => {
   const councilmeeting = state.get("councilmeeting");
+  const thesis_r = state.get("thesis");
   return {
     CouncilMeetings: councilmeeting.get("councilmeetings").toJS(),
+    Theses: thesis_r.get("theses").toJS(),
   };
 };
 
