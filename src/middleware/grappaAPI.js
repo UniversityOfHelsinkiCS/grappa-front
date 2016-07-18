@@ -26,6 +26,7 @@ export const callApi = (action, store) => {
     });
   })
   .catch(err => {
+    console.log("caugth error");
     store.dispatch({
       type: action.failure,
       error: err,

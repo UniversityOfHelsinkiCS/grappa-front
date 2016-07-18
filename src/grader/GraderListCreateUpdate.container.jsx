@@ -180,6 +180,7 @@ export class GraderListCreateUpdate extends Component {
         </div>
         { this.props.editable ?
           <span>
+            <h3 className="ui dividing header">Create or update Graders</h3>
             { this.renderCreate() }
             { this.renderUpdate() }
           </span>

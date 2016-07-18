@@ -94,7 +94,7 @@ export class ThesisCreate extends React.Component {
     return (
       <div className="m-bot">
         <p>
-          Please fill in all the fields. Thesis has to have a minimun of two graders and if
+          Thesis has to have a minimun of two graders and if
           one of them isn't at least a professor and the other a doctor an evaluation of
           the graders will be done by the thesis' studyfield's professor.
         </p>
@@ -138,7 +138,7 @@ export class ThesisCreate extends React.Component {
     const { StudyFields } = this.props;
     const activeFields = StudyFields.filter(field => {
       if (field.isActive) return field;
-    })
+    });
     return (
       <div className="m-bot">
         <h3 className="ui dividing header">Thesis Information</h3>

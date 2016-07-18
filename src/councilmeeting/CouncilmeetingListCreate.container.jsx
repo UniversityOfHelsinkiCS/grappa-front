@@ -19,6 +19,7 @@ export class CouncilmeetingListCreate extends Component {
   }
 
   componentWillMount() {
+    console.log("componentWillMount");
     const formatted = this.formatMeetingsForReactTable(this.props.CouncilMeetings);
     const filtered = this.filterOldDates(this.props.CouncilMeetings);
     const filteredAndFormatted = this.formatMeetingsForReactTable(filtered);
@@ -30,6 +31,7 @@ export class CouncilmeetingListCreate extends Component {
   }
 
   componentWillReceiveProps(newProps) {
+    console.log("componentWillReceiveProps");
     if (newProps.CouncilMeetings) {
       const formatted = this.formatMeetingsForReactTable(newProps.CouncilMeetings);
       const filtered = this.filterOldDates(newProps.CouncilMeetings);
@@ -85,7 +87,7 @@ export class CouncilmeetingListCreate extends Component {
   handleClick(type, index, event) {
     event.preventDefault();
     if (type === "save") {
-      const newCM = this.state.newCM;
+      const newCM = Object.assign({}, this.state.newCM);
       newCM.date = newCM.date.toDate(),
       this.props.saveCouncilMeeting(newCM);
     } else if (type === "update") {
@@ -118,12 +120,21 @@ export class CouncilmeetingListCreate extends Component {
                   />
                 </div>
                 <div className="field">
-                  <button className="ui primary button" onClick={this.handleClick.bind(this, "save", "")}>Submit</button>
+                  <button className="ui primary button" onClick={this.handleClick.bind(this, "save", "")}>
+                    Submit
+                  </button>
                 </div>
               </div>
             </div>
             <div className="field">
-              <h2 className="ui dividing header">Change meetings date {this.state.editCM.date ? this.state.editCM.date.format("DD/MM/YYYY") : ""}</h2>
+              <h2 className="ui dividing header">
+                Change meetings date {this.state.editCM.date ? this.state.editCM.date.format("DD/MM/YYYY") : ""}
+              </h2>
+              <p>
+                NOTE: does not change deadlines for already created theses. Meaning that they'll show up being
+                late/early in the system and while not damaging to the app's logic it might be worth reminding
+                the people about.
+              </p>
               <div className="two fields">
                 <div className="field">
                   <DatePicker
@@ -189,7 +200,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(saveCouncilMeeting(data));
   },
   updateCouncilMeeting(data) {
-    dispatch(updateCouncilMeeting(data))
+    dispatch(updateCouncilMeeting(data));
   },
 });
 

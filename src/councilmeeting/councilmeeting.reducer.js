@@ -51,14 +51,18 @@ export default function (state = INITIAL_STATE, action) {
           return councilmeeting;
         })
       );
-      return updatedState.updateIn(["councilmeetings"], councilmeetings => 
+      return updatedState.updateIn(["councilmeetings"], councilmeetings =>
         councilmeetings.sort((a, b) => {
           return new Date(a.get("date")) - new Date(b.get("date"));
         })
-      )
+      );
     case COUNCILMEETING_UPDATE_ONE_FAILURE:
       return state;
+    // case undefined:
+    //   return INITIAL_STATE;
     default:
+      // console.log("Hi state")
+      // console.log(action)
       return state;
   }
 }

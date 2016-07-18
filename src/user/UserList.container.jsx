@@ -18,7 +18,7 @@ export class UserList extends Component {
 
   componentWillReceiveProps(newProps) {
     if (newProps.Users) {
-      console.log("receiving props")
+      console.log("receiving props");
       this.setState({
         Users: newProps.Users,
       });
@@ -40,7 +40,7 @@ export class UserList extends Component {
     if (type === "selectUser") {
       this.state.editUser = this.props.Users[index];
       this.setState({});
-    } else if (type === "update") {
+    } else if (type === "update" && this.state.editUser.id) {
       const user = this.state.editUser;
       user.StudyField = this.props.StudyFields.find(field => {
         if (field.id.toString() === user.StudyFieldId) return field;
@@ -64,7 +64,7 @@ export class UserList extends Component {
     const { StudyFields } = this.props;
     const activeFields = StudyFields.filter(field => {
       if (field.isActive) return field;
-    })
+    });
     return (
       <div className="ui form">
         <div className="field">
@@ -87,7 +87,8 @@ export class UserList extends Component {
               <label>Studyfield</label>
               <select
                 className="ui fluid search dropdown"
-                onChange={this.handleChange.bind(this, "updateUser",  "StudyFieldId")}
+                value={this.state.editUser.StudyFieldId}
+                onChange={this.handleChange.bind(this, "updateUser", "StudyFieldId")}
               >
                 <option value="">None</option>
                 { activeFields.map((field, index) =>

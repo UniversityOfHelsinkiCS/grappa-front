@@ -50,7 +50,7 @@ export class StudyFieldList extends Component {
   handleClick(type, index, event) {
     if (type === "save") {
       this.props.saveStudyField(this.state.newStudyField);
-    } else if (type === "update") {
+    } else if (type === "update" && this.state.editStudyField.id) {
       this.props.updateStudyField(this.state.editStudyField);
     } else if (type === "selectField") {
       this.state.editStudyField = this.state.StudyFields[index];
