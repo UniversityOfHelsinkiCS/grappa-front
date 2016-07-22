@@ -25,17 +25,6 @@ export const getUsers = () => (
   }
 );
 
-export const getInactiveUsers = () => (
-  {
-    type: CALL_API,
-    success: USER_GET_ALL_SUCCESS,
-    failure: USER_GET_ALL_FAILURE,
-    method: "get",
-    url: "/user/inactive",
-    data: {},
-  }
-);
-
 /**
  * The action called to save the given data as a new user in the database.
  * @param user An object cantaining all the relevant data of the new user thats

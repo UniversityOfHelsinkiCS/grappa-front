@@ -6,11 +6,11 @@ export class EmailDraftList extends Component {
     super();
     this.state = {
       EmailDrafts: [],
-    }
+    };
   }
 
   componentWillMount() {
-    console.log(this.props.EmailDrafts)
+    console.log(this.props.EmailDrafts);
     this.setState({
       EmailDrafts: this.props.EmailDrafts,
     });
@@ -26,8 +26,8 @@ export class EmailDraftList extends Component {
 
   handleChange(index, field, event) {
     event.preventDefault();
-    console.log(this.state.EmailDrafts[index][field])
-    console.log(event.target.value)
+    console.log(this.state.EmailDrafts[index][field]);
+    console.log(event.target.value);
     this.state.EmailDrafts[index][field] = event.target.value;
     this.setState({});
   }
@@ -40,7 +40,7 @@ export class EmailDraftList extends Component {
   }
 
   renderDraft(draft, index) {
-    return(
+    return (
       <div>
         <h3 className="ui dividing header">{draft.type}</h3>
         <div className="field">
@@ -54,7 +54,7 @@ export class EmailDraftList extends Component {
         </div>
         <div className="field">
           <label>Body</label>
-          <textarea 
+          <textarea
             value={draft.body}
             onChange={this.handleChange.bind(this, index, "body")}
           />
@@ -66,7 +66,7 @@ export class EmailDraftList extends Component {
 
   render() {
     const { EmailDrafts } = this.state;
-    console.log(EmailDrafts)
+    console.log(EmailDrafts);
     return (
       <div>
         <h2 className="ui dividing header">Email drafts</h2>

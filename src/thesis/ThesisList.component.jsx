@@ -9,6 +9,7 @@ export default class ThesisList extends Component {
       formattedTheses: [],
       filteredTheses: [],
       allToggle: false,
+      showOld: false,
       sortColumnToggle: [],
       searchValue: "",
     };
@@ -45,7 +46,6 @@ export default class ThesisList extends Component {
   }
 
   handleChange(type, event) {
-    event.preventDefault();
     if (type === "search") {
       const value = event.target.value;
       const filtered = this.props.graders.map((item, index) => {
@@ -55,6 +55,12 @@ export default class ThesisList extends Component {
       this.setState({
         searchValue: value,
         filtered,
+      });
+    } else if (type === "toggleShowOld") {
+      const filtered = this.filterOldTheses(this.state.formattedTheses, this.state.showOld);
+      this.setState({
+        filteredTheses: filtered,
+        showOld: !this.state.showOld,
       });
     }
   }
@@ -76,19 +82,11 @@ export default class ThesisList extends Component {
     }
   }
 
-  handleCheckBoxClick(event) {
-    event.preventDefault();
-    const filtered = this.filterOldTheses(this.state.formattedTheses, !this.refs.checkOld.checked);
-    this.setState({
-      filteredTheses: filtered,
-    });
-  }
-
   formatTheses(theses) {
     return theses.map(thesis => {
       return {
         id: thesis.id,
-        status: thesis.ThesisProgress.isDone ? "Done" : "In progress",
+        status: thesis.ThesisProgress.done ? "Done" : "In progress",
         authorFirstname: thesis.authorFirstname,
         authorLastname: thesis.authorLastname,
         title: thesis.title,
@@ -134,7 +132,11 @@ export default class ThesisList extends Component {
           <div className="column">
             <div className="ui right input">
               <div className="ui checkbox">
-                <input ref="checkOld" type="checkbox" onClick={this.handleCheckBoxClick.bind(this)}/>
+                <input 
+                  type="checkbox" 
+                  checked={this.state.showOld ? "true" : ""}
+                  onChange={this.handleChange.bind(this, "toggleShowOld")}
+                />
                 <label>Show also finished theses</label>
               </div>
             </div>

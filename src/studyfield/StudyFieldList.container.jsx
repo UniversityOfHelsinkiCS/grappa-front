@@ -8,9 +8,7 @@ export class StudyFieldList extends Component {
     this.state = {
       StudyFields: [],
       newStudyField: {},
-      updateStudyField: {
-        isActive: false,
-      },
+      editStudyField: {},
     };
   }
 
@@ -40,20 +38,23 @@ export class StudyFieldList extends Component {
       this.setState({});
     } else if (type === "updateStudyField") {
       if (field === "isActive") {
-        this.state.updateStudyField[field] = !this.state.updateStudyField[field];
+        this.state.editStudyField[field] = !this.state.editStudyField[field];
         this.setState({});
       } else {
-        this.state.updateStudyField[field] = event.target.value;
+        this.state.editStudyField[field] = event.target.value;
         this.setState({});
       }
     }
   }
 
-  handleClick(type, event) {
+  handleClick(type, index, event) {
     if (type === "save") {
       this.props.saveStudyField(this.state.newStudyField);
-    } else if (type === "update") {
-      this.props.updateStudyField(this.state.updateStudyField);
+    } else if (type === "update" && this.state.editStudyField.id) {
+      this.props.updateStudyField(this.state.editStudyField);
+    } else if (type === "selectField") {
+      this.state.editStudyField = this.state.StudyFields[index];
+      this.setState({});
     }
   }
 
@@ -68,12 +69,6 @@ export class StudyFieldList extends Component {
 
   render() {
     const { StudyFields } = this.state;
-    const columns = [
-      "isActive",
-      "name",
-      "",
-      "",
-    ];
     return (
       <div className="ui form">
         <div className="ui two fields">
@@ -92,12 +87,13 @@ export class StudyFieldList extends Component {
               </div>
             </div>
             <div className="field">
-              <h2 className="ui dividing header">Update a studyfield</h2>
+              <h2 className="ui dividing header">Update studyfield {this.state.editStudyField.name}</h2>
               <div className="three fields">
                 <div className="field">
                   <input
                     type="text"
                     placeholder="Name"
+                    value={this.state.editStudyField.name}
                     onChange={this.handleChange.bind(this, "updateStudyField", "name")}
                   />
                 </div>
@@ -105,7 +101,7 @@ export class StudyFieldList extends Component {
                   <div className="ui checkbox">
                     <input
                       type="checkbox"
-                      checked={this.state.updateStudyField.isActive ? "true" : ""}
+                      checked={this.state.editStudyField.isActive ? "true" : ""}
                       onChange={this.handleChange.bind(this, "updateStudyField", "isActive")}
                     />
                     <label>Active</label>
@@ -124,21 +120,26 @@ export class StudyFieldList extends Component {
               name changes it for every thesis connected to that field. If a field is no longer valid set it inactive
               and create a new one rather than changing old one's name.
             </p>
-            <Table
-              className="ui table"
-              noDataText="No users found"
-              ref="table"
-              sortable columns={columns}
-              data={StudyFields}
-              filterable={columns}
-            >
-              <Thead>
-                <Th column="isActive">Active</Th>
-                <Th column="name">Name</Th>
-                <Th column="professor">Professor</Th>
-                <Th column="users">Users</Th>
-              </Thead>
-            </Table>
+            <table className="ui celled table">
+              <thead>
+                <tr>
+                  <th onClick={this.handleClick.bind(this, "sort", "status")}>Active</th>
+                  <th onClick={this.handleClick.bind(this, "sort", "authorFirstname")}>Name</th>
+                  <th onClick={this.handleClick.bind(this, "sort", "authorLastname")}>Professor</th>
+                  <th onClick={this.handleClick.bind(this, "sort", "title")}>Users</th>
+                </tr>
+              </thead>
+              <tbody>
+                { StudyFields.map((item, index) =>
+                  <tr key={index} onClick={this.handleClick.bind(this, "selectField", index)}>
+                    <td>{item.isActive ? "true" : "false"}</td>
+                    <td>{item.name}</td>
+                    <td>User</td>
+                    <td>All users</td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
@@ -164,6 +165,9 @@ const mapDispatchToProps = (dispatch) => ({
   saveStudyField(data) {
     dispatch(saveStudyField(data));
   },
+  updateStudyField(data) {
+    dispatch(updateStudyField(data));
+  }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(StudyFieldList);

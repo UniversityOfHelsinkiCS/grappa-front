@@ -26,13 +26,21 @@ export const callApi = (action, store) => {
     });
   })
   .catch(err => {
+    let data;
+    if (action.responseType === "arraybuffer") {
+      const arr = new Uint8Array(err.data);
+      const str = String.fromCharCode.apply(String, arr);
+      data = JSON.parse(str);
+    } else {
+      data = err.data;
+    }
     store.dispatch({
       type: action.failure,
       error: err,
       flashMessage: {
         type: "error",
         title: "Error",
-        body: err.data.message,
+        body: data.message,
         // body: `Calling GrappaAPI produced an error on path ${action.url}.`,
       },
     });

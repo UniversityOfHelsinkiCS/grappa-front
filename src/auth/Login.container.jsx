@@ -27,9 +27,14 @@ export class Login extends React.Component {
    * @param {Object} nextProps - The new props received from Redux
    */
   componentWillReceiveProps(nextProps) {
-    if (nextProps.user.role !== undefined) {
+    if (nextProps.user.role) {
       browserHistory.replace("/thesis");
-      this.props.fetchAll();
+      console.log(nextProps.user);
+      if (nextProps.user.role === "admin") {
+        this.props.fetchAdminData();
+      } else {
+        this.props.fetchUserData();
+      }
     }
   }
 
@@ -119,7 +124,13 @@ const mapDispatchToProps = (dispatch) => ({
   loginUser(userData) {
     dispatch(loginUser(userData));
   },
-  fetchAll() {
+  fetchUserData() {
+    // dispatch(getTheses());
+    dispatch(getGraders());
+    dispatch(getCouncilMeetings());
+    dispatch(getStudyFields());
+  },
+  fetchAdminData() {
     // dispatch(getTheses());
     dispatch(getGraders());
     dispatch(getCouncilMeetings());
