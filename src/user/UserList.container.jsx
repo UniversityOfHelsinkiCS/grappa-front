@@ -18,7 +18,6 @@ export class UserList extends Component {
 
   componentWillReceiveProps(newProps) {
     if (newProps.Users) {
-      console.log("receiving props");
       this.setState({
         Users: newProps.Users,
       });
@@ -40,6 +39,7 @@ export class UserList extends Component {
     if (type === "selectUser") {
       this.state.editUser = this.props.Users[index];
       this.setState({});
+      console.log(this.state.editUser)
     } else if (type === "update" && this.state.editUser.id) {
       const user = this.state.editUser;
       user.StudyField = this.props.StudyFields.find(field => {
@@ -60,7 +60,9 @@ export class UserList extends Component {
   // }
 
   render() {
-    const { Users } = this.props;
+    const Users = this.props.Users.filter(user => {
+      if (user.isActive) return user;
+    });
     const { StudyFields } = this.props;
     const activeFields = StudyFields.filter(field => {
       if (field.isActive) return field;
@@ -121,10 +123,10 @@ export class UserList extends Component {
               <div className="ui checkbox">
                 <input
                   type="checkbox"
-                  checked={this.state.editUser.isActive ? "true" : ""}
-                  onChange={this.handleChange.bind(this, "updateUser", "isActive")}
+                  checked={this.state.editUser.isRetired ? "true" : ""}
+                  onChange={this.handleChange.bind(this, "updateUser", "isRetired")}
                 />
-                <label>Active</label>
+                <label>Retired</label>
               </div>
             </div>
             <div className="field">
@@ -144,7 +146,7 @@ export class UserList extends Component {
               <th onClick={this.handleClick.bind(this, "sort", "authorFirstname")}>Field</th>
               <th onClick={this.handleClick.bind(this, "sort", "authorLastname")}>Name</th>
               <th onClick={this.handleClick.bind(this, "sort", "title")}>Email</th>
-              <th onClick={this.handleClick.bind(this, "sort", "studyfield")}>Active</th>
+              <th onClick={this.handleClick.bind(this, "sort", "studyfield")}>Retired</th>
             </tr>
           </thead>
           <tbody>
@@ -159,7 +161,7 @@ export class UserList extends Component {
                     <input
                       type="checkbox"
                       readOnly="true"
-                      checked={item.isActive ? "true" : ""}
+                      checked={item.isRetired ? "true" : ""}
                     />
                     <label></label>
                   </div>
