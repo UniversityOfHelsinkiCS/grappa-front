@@ -120,7 +120,7 @@ export const updateThesis = (data) => (
  * @param data object containing the fields we want to change
  * @return The object containing the relevant information for the
  * reducer to handle the data accordingly.
- */ 
+ */
 export const downloadTheses = (data) => (
   {
     type: CALL_API,

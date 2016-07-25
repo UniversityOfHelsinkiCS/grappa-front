@@ -31,7 +31,7 @@ describe("Auth reducer", () => {
       expect(newState).to.equal(stateWithUserLoggedIn);
     });
   });
-  // otherwise good test but the current way of resetting all reducers also resets auth reducer 
+  // otherwise good test but the current way of resetting all reducers also resets auth reducer
   // so no need for this special thing
   xdescribe("when receiving LOGOUT_USER type of action", () => {
     it("should return the state back to the initial state", () => {

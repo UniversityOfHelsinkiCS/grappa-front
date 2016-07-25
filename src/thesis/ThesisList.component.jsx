@@ -7,7 +7,7 @@ export default class ThesisList extends Component {
     super();
     this.state = {
       allTheses: [],
-      filteredTheses: [],
+      inprogressTheses: [],
       allToggle: true,
       showOld: false,
       sortColumnToggle: [],
@@ -17,42 +17,12 @@ export default class ThesisList extends Component {
 
   componentWillMount() {
     this.initState(this.props);
-    // const formatted = this.formatTheses(this.props.theses);
-    // const filtered = formatted.filter(thesis => {
-    //   if (thesis.status === "In progress") {
-    //     return thesis;
-    //   }
-    // })
-    // const selected = formatted.map(thesis => {
-    //   return thesis.status === "In progress";
-    // });
-    // this.props.selected.push(...selected);
-    // this.setState({
-    //   allTheses: formatted,
-    //   filteredTheses: filtered,
-    //   allToggle: true,
-    // });
   }
 
   componentWillReceiveProps(newProps) {
-    // if old theses aren't the same as the new, comparing their pointers
+    // if old theses aren't the same as the new by comparing their pointers
     if (this.props.theses !== newProps.theses) {
       this.initState(newProps);
-      // const formatted = this.formatTheses(newProps.theses);
-      // const filtered = formatted.filter(thesis => {
-      //   if (thesis.status === "In progress") {
-      //     return thesis;
-      //   }
-      // })
-      // const selected = formatted.map(thesis => {
-      //   return thesis.status === "In progress";
-      // });
-      // newProps.selected.push(...selected);
-      // this.setState({
-      //   allTheses: formatted,
-      //   filteredTheses: filtered,
-      //   allToggle: true,
-      // });
     }
   }
 
@@ -62,28 +32,38 @@ export default class ThesisList extends Component {
       if (thesis.status === "In progress") {
         return thesis;
       }
-    })
+    });
     const selected = formatted.map(thesis => {
       return thesis.status === "In progress";
     });
+    const searched = formatted.map(thesis => {
+      return true;
+    });
     props.selected.push(...selected);
+    props.searched.push(...searched);
     this.setState({
       allTheses: formatted,
-      filteredTheses: filtered,
+      inprogressTheses: filtered,
+      searchedTheses: filtered,
       allToggle: true,
     });
   }
 
   handleChange(type, event) {
     if (type === "search") {
-      const value = event.target.value;
-      const filtered = this.props.graders.map((item, index) => {
-        return item.name.toLowerCase().indexOf(value) === -1 &&
-          item.title.toLowerCase().indexOf(value) === -1;
+      const value = event.target.value.toLowerCase();
+      this.props.searched.forEach((item, index, array) => {
+        const thesis = this.state.allTheses[index];
+        for (const key in thesis) {
+          if (thesis.hasOwnProperty(key) && key !== "id" && thesis[key].toLowerCase().indexOf(value) !== -1) {
+            array[index] = true;
+            return;
+          }
+        }
+        array[index] = false;
       });
       this.setState({
         searchValue: value,
-        filtered,
       });
     } else if (type === "toggleShowOld") {
       this.props.selected.forEach((item, index, array) => {
@@ -94,6 +74,7 @@ export default class ThesisList extends Component {
           array[index] = false;
         }
       });
+      const theses = !this.state.showOld ? this.state.allTheses : this.state.inprogressTheses;
       this.setState({
         showOld: !this.state.showOld,
       });
@@ -110,7 +91,6 @@ export default class ThesisList extends Component {
     } else if (type === "toggleAll") {
       this.props.selected.forEach((item, index, array) => {
         const status = this.state.allTheses[index].status;
-        console.log(status)
         if (status === "In progress" || (status === "Done" && this.state.showOld)) {
           array[index] = !this.state.allToggle;
         } else {
@@ -138,32 +118,29 @@ export default class ThesisList extends Component {
     });
   }
 
-  toggleSelected(toggle, showOld) {
-    this.props.selected.forEach((item, index, array) => {
-      const status = this.state.allTheses[index].status;
-      if (status === "In progress" || (status === "Done" && showOld)) {
-        array[index] = toggle;
-      } else {
-        array[index] = false;
-      }
-    });
-  }
-
-  sortByField(field) {
-    console.log("sortin yo " + field);
-    this.state.filteredTheses.sort((a, b) => {
-      if (a[field] < b[field]) return -1;
-      if (a[field] > b[field]) return 1;
-      return 0;
-    });
-    this.setState({});
-  }
+  // sortByField(field) {
+  //   console.log("sortin yo " + field);
+  //   this.state.inprogressTheses.sort((a, b) => {
+  //     if (a[field] < b[field]) return -1;
+  //     if (a[field] > b[field]) return 1;
+  //     return 0;
+  //   });
+  //   this.setState({});
+  // }
 
   render() {
-    const { allTheses, filteredTheses, showOld } = this.state;
-    const theses = showOld ? allTheses : filteredTheses;
+    const { allTheses, inprogressTheses } = this.state;
+    const { searched } = this.props;
+    const theses = allTheses.reduce((previousValue, thesis, index) => {
+      if ((thesis.status === "In progress" || (thesis.status === "Done" && this.state.showOld)) && searched[index]) {
+        const copy = Object.assign({ selected: this.props.selected[index] }, thesis);
+        return [...previousValue, copy];
+      }
+      return previousValue;
+    }, []);
     return (
       <div>
+        <p>Theses done/all theses: {allTheses.length - inprogressTheses.length}/{allTheses.length}</p>
         <div className="ui middle aligned three columns grid">
           <div className="column">
             <div className="ui input" style={{ "width": "100%" }}>
@@ -177,8 +154,8 @@ export default class ThesisList extends Component {
           <div className="column">
             <div className="ui right input">
               <div className="ui checkbox">
-                <input 
-                  type="checkbox" 
+                <input
+                  type="checkbox"
                   checked={this.state.showOld ? "true" : ""}
                   onChange={this.handleChange.bind(this, "toggleShowOld")}
                 />
@@ -222,7 +199,7 @@ export default class ThesisList extends Component {
                     <input
                       type="checkbox"
                       readOnly="true"
-                      checked={this.props.selected[index] ? "true" : ""}
+                      checked={thesis.selected ? "true" : ""}
                     />
                     <label></label>
                   </div>
@@ -239,4 +216,5 @@ export default class ThesisList extends Component {
 ThesisList.propTypes = {
   theses: PropTypes.array,
   selected: PropTypes.array,
+  searched: PropTypes.array,
 };

@@ -39,7 +39,7 @@ export class UserList extends Component {
     if (type === "selectUser") {
       this.state.editUser = this.props.Users[index];
       this.setState({});
-      console.log(this.state.editUser)
+      console.log(this.state.editUser);
     } else if (type === "update" && this.state.editUser.id) {
       const user = this.state.editUser;
       user.StudyField = this.props.StudyFields.find(field => {
