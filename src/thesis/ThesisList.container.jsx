@@ -6,107 +6,71 @@
 */
 
 import React, { Component } from "react";
-import { Table, Thead, Th, unsafe } from "reactable";
 import moment from "moment";
+import ThesisListC from "../thesis/ThesisList.component";
 
 export class ThesisList extends Component {
   constructor() {
     super();
     this.state = {
-      formattedTheses: [],
       filteredTheses: [],
+      selectedTheses: [],
+      searchedTheses: [],
     };
   }
 
   componentWillMount() {
     this.props.getTheses();
+    this.setState({
+      filteredTheses: this.props.theses,
+      selectedTheses: [],
+      searchedTheses: [],
+    });
   }
 
   componentWillReceiveProps(newProps) {
-    const formatted = this.formatThesesForReactTable(newProps.theses);
-    const filtered = this.filterOldTheses(formatted, !this.refs.checkOld.checked);
-    this.setState({
-      formattedTheses: formatted,
-      filteredTheses: filtered,
-    });
+    if (this.props.theses !== newProps.theses) {
+      this.setState({
+        filteredTheses: newProps.theses.map(thesis => thesis),
+        selectedTheses: [],
+        searchedTheses: [],
+      });
+    }
   }
 
-  formatThesesForReactTable(theses) {
-    return theses.map(thesis => {
-      return {
-        status: thesis.ThesisProgress.isDone ? "Done" : "In progress",
-        firstname: thesis.authorFirstname,
-        lastname: thesis.authorLastname,
-        title: unsafe(`<a href="/thesis/${thesis.id}" target="_blank">${thesis.title}</a>`),
-        instructor: thesis.User.name,
-        studyfield: thesis.StudyField.name,
-        // deadline: thesis.deadline,
-        deadline: moment(new Date(thesis.deadline)).format("DD/MM/YYYY"),
-      };
-    });
-  }
-
-  filterOldTheses(theses, condition) {
-    return theses.filter(thesis => {
-      if (thesis.status === "In progress" || (thesis.status === "Done" && !condition)) {
-        return thesis;
-      }
-    });
-  }
-
-  handleCheckBoxClick(event) {
-    const filtered = this.filterOldTheses(this.state.formattedTheses, !this.refs.checkOld.checked);
-    this.setState({
-      filteredTheses: filtered,
-    });
+  handleClick(name, event) {
+    event.preventDefault();
+    if (name === "download") {
+      const IDs = this.state.filteredTheses.reduce((previousValue, currentValue, index) => {
+        if (this.state.selectedTheses[index] && this.state.searchedTheses[index]) {
+          return [...previousValue, currentValue.id];
+        }
+        return previousValue;
+      }, []);
+      this.props.downloadTheses(IDs);
+    }
   }
 
   render() {
-    console.log(this.refs);
-
-    const columns = [
-      "status",
-      "firstname",
-      "lastname",
-      "title",
-      "instructor",
-      "studyfield",
-      "deadline",
-    ];
     return (
       <div>
-        <h2 className="ui dividing header">Theses</h2>
-        <div className="ui right input">
-          <div className="ui checkbox">
-            <input ref="checkOld" type="checkbox" onClick={this.handleCheckBoxClick.bind(this)}/>
-            <label>Show also finished theses</label>
-          </div>
+        <div className="m-bot">
+          <h2 className="ui dividing header">Theses</h2>
+          <p>
+            All theses.
+          </p>
+          <button className="ui button blue" onClick={this.handleClick.bind(this, "download")}>Download selected</button>
         </div>
-        <Table
-          className="ui table"
-          noDataText="No theses found"
-          ref="table"
-          sortable columns={columns}
-          data={this.state.filteredTheses}
-          filterable={columns}
-        >
-          <Thead>
-            <Th column="status">Status</Th>
-            <Th column="firstname">Author firstname</Th>
-            <Th column="lastname">Author lastname</Th>
-            <Th column="title">Title</Th>
-            <Th column="instructor">Instructor</Th>
-            <Th column="studyfield">Studyfield</Th>
-            <Th column="deadline">Deadline</Th>
-          </Thead>
-        </Table>
+        <ThesisListC theses={this.state.filteredTheses} selected={this.state.selectedTheses}
+          searched={this.state.searchedTheses}
+        />
       </div>
-    );
+    )
   }
 }
 
 import { connect } from "react-redux";
-import { getTheses } from "./thesis.actions";
+import { getTheses, downloadTheses } from "../thesis/thesis.actions";
 
 const mapStateToProps = (state) => {
   const auth = state.get("auth");
@@ -120,6 +84,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => ({
   getTheses() {
     dispatch(getTheses());
+  },
+  downloadTheses(theses) {
+    dispatch(downloadTheses(theses));
   },
 });
 

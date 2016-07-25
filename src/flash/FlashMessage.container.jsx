@@ -19,18 +19,19 @@ export class FlashMessage extends Component {
     );
   }
 
+        // <div className="ui info message">
+        //   <span style={{ "marginRight": "10px" }}>
+        //     Show all
+        //   </span>
+        //   <i className="arrow down icon" onClick={this.handleClick.bind(this, "displayMsgLog")}></i>
+        // </div>
+
   render() {
     const { showable } = this.props;
     const lastFour = showable.slice(showable.length - 4);
     return (
       <div className="flashmessage-container">
         { lastFour.map(msg => this.renderMessage(msg)) }
-        <div className="ui info message">
-          <span style={{ "marginRight": "10px" }}>
-            Show all
-          </span>
-          <i className="arrow down icon" onClick={this.handleClick.bind(this, "displayMsgLog")}></i>
-        </div>
       </div>
     );
   }

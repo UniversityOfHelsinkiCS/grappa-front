@@ -26,7 +26,7 @@ export class UserList extends Component {
 
   handleChange(type, field, event) {
     if (type === "updateUser") {
-      if (field === "isActive") {
+      if (field === "isActive" || field === "isRetired") {
         this.state.editUser[field] = !this.state.editUser[field];
       } else {
         this.state.editUser[field] = event.target.value;
