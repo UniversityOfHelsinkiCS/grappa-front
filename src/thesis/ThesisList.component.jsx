@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, PropTypes } from "react";
 import moment from "moment";
 import { Link } from "react-router";
 
@@ -6,9 +6,9 @@ export default class ThesisList extends Component {
   constructor() {
     super();
     this.state = {
-      formattedTheses: [],
+      allTheses: [],
       filteredTheses: [],
-      allToggle: false,
+      allToggle: true,
       showOld: false,
       sortColumnToggle: [],
       searchValue: "",
@@ -16,32 +16,61 @@ export default class ThesisList extends Component {
   }
 
   componentWillMount() {
-    const formatted = this.formatTheses(this.props.theses);
-    // const filtered = this.filterOldTheses(formatted, !this.refs.checkOld.checked);
-    const filtered = this.filterOldTheses(formatted, true);
-    const selected = filtered.map(thesis => {
-      return true;
-    });
-    this.props.selected.push(...selected);
-    this.setState({
-      formattedTheses: formatted,
-      filteredTheses: filtered,
-      allToggle: false,
-    });
+    this.initState(this.props);
+    // const formatted = this.formatTheses(this.props.theses);
+    // const filtered = formatted.filter(thesis => {
+    //   if (thesis.status === "In progress") {
+    //     return thesis;
+    //   }
+    // })
+    // const selected = formatted.map(thesis => {
+    //   return thesis.status === "In progress";
+    // });
+    // this.props.selected.push(...selected);
+    // this.setState({
+    //   allTheses: formatted,
+    //   filteredTheses: filtered,
+    //   allToggle: true,
+    // });
   }
 
   componentWillReceiveProps(newProps) {
-    const formatted = this.formatTheses(newProps.theses);
-    // const filtered = this.filterOldTheses(formatted, !this.refs.checkOld.checked);
-    const filtered = this.filterOldTheses(formatted, true);
-    const selected = filtered.map(thesis => {
-      return true;
+    // if old theses aren't the same as the new, comparing their pointers
+    if (this.props.theses !== newProps.theses) {
+      this.initState(newProps);
+      // const formatted = this.formatTheses(newProps.theses);
+      // const filtered = formatted.filter(thesis => {
+      //   if (thesis.status === "In progress") {
+      //     return thesis;
+      //   }
+      // })
+      // const selected = formatted.map(thesis => {
+      //   return thesis.status === "In progress";
+      // });
+      // newProps.selected.push(...selected);
+      // this.setState({
+      //   allTheses: formatted,
+      //   filteredTheses: filtered,
+      //   allToggle: true,
+      // });
+    }
+  }
+
+  initState(props) {
+    const formatted = this.formatTheses(props.theses);
+    const filtered = formatted.filter(thesis => {
+      if (thesis.status === "In progress") {
+        return thesis;
+      }
+    })
+    const selected = formatted.map(thesis => {
+      return thesis.status === "In progress";
     });
-    newProps.selected.push(...selected);
+    props.selected.push(...selected);
     this.setState({
-      formattedTheses: formatted,
+      allTheses: formatted,
       filteredTheses: filtered,
-      allToggle: false,
+      allToggle: true,
     });
   }
 
@@ -57,9 +86,15 @@ export default class ThesisList extends Component {
         filtered,
       });
     } else if (type === "toggleShowOld") {
-      const filtered = this.filterOldTheses(this.state.formattedTheses, this.state.showOld);
+      this.props.selected.forEach((item, index, array) => {
+        const status = this.state.allTheses[index].status;
+        if (status === "In progress" || (status === "Done" && !this.state.showOld)) {
+          array[index] = array[index];
+        } else {
+          array[index] = false;
+        }
+      });
       this.setState({
-        filteredTheses: filtered,
         showOld: !this.state.showOld,
       });
     }
@@ -74,7 +109,13 @@ export default class ThesisList extends Component {
       this.setState({});
     } else if (type === "toggleAll") {
       this.props.selected.forEach((item, index, array) => {
-        array[index] = this.state.allToggle;
+        const status = this.state.allTheses[index].status;
+        console.log(status)
+        if (status === "In progress" || (status === "Done" && this.state.showOld)) {
+          array[index] = !this.state.allToggle;
+        } else {
+          array[index] = false;
+        }
       });
       this.setState({
         allToggle: !this.state.allToggle
@@ -97,10 +138,13 @@ export default class ThesisList extends Component {
     });
   }
 
-  filterOldTheses(theses, condition) {
-    return theses.filter(thesis => {
-      if (thesis.status === "In progress" || (thesis.status === "Done" && !condition)) {
-        return thesis;
+  toggleSelected(toggle, showOld) {
+    this.props.selected.forEach((item, index, array) => {
+      const status = this.state.allTheses[index].status;
+      if (status === "In progress" || (status === "Done" && showOld)) {
+        array[index] = toggle;
+      } else {
+        array[index] = false;
       }
     });
   }
@@ -116,7 +160,8 @@ export default class ThesisList extends Component {
   }
 
   render() {
-    const { filteredTheses } = this.state;
+    const { allTheses, filteredTheses, showOld } = this.state;
+    const theses = showOld ? allTheses : filteredTheses;
     return (
       <div>
         <div className="ui middle aligned three columns grid">
@@ -143,7 +188,7 @@ export default class ThesisList extends Component {
           </div>
           <div className="four wide column">
             <button className="ui button blue" onClick={this.handleClick.bind(this, "toggleAll", "")}>
-              Toggle all { this.state.allToggle ? "selected" : "unselected" }
+              Toggle all { this.state.allToggle ? "unselected" : "selected"}
             </button>
           </div>
         </div>
@@ -161,7 +206,7 @@ export default class ThesisList extends Component {
             </tr>
           </thead>
           <tbody>
-            { filteredTheses.map((thesis, index) =>
+            { theses.map((thesis, index) =>
               <tr key={index} onClick={this.handleClick.bind(this, "toggleSelect", index)}>
                 <td>{thesis.status}</td>
                 <td>{thesis.authorFirstname}</td>
@@ -191,6 +236,7 @@ export default class ThesisList extends Component {
   }
 }
 
-// ThesisList.propTypes = {
-//   theses: PropTypes.array,
-// };
+ThesisList.propTypes = {
+  theses: PropTypes.array,
+  selected: PropTypes.array,
+};
