@@ -19,15 +19,16 @@ const INITIAL_STATE = fromJS({
 export default function (state = INITIAL_STATE, action) {
   switch (action.type) {
     case CREATE_FORM:
-      const defaultValues = createDefaultValues(action.payload.model);
-      return state.mergeIn(["forms", action.payload.name], fromJS({
-        model: action.payload.model,
-        values: defaultValues,
-        errors: {
-          obj: {},
-          list: [],
-        }
-      }));
+      return state;
+      // const defaultValues = createDefaultValues(action.payload.model);
+      // return state.mergeIn(["forms", action.payload.name], fromJS({
+      //   model: action.payload.model,
+      //   values: defaultValues,
+      //   errors: {
+      //     obj: {},
+      //     list: [],
+      //   }
+      // }));
     case UPDATE_FORM:
       const updatedValue = state.mergeIn(["forms", action.payload.formname, action.payload.field],
         fromJS(action.payload.value)

@@ -8,36 +8,6 @@ export default class Dropdown extends Component {
       searchValue: "",
       menuActive: false,
       filtered: [],
-      // data: [
-        // {
-        //   id: 1,
-        //   name: "Matti Luukkainen",
-        //   title: "AssProf",
-        //   active: false,
-        //   filtered: false,
-        // },
-        // {
-        //   id: 2,
-        //   name: "Arto Vihavainen",
-        //   title: "Doc",
-        //   active: false,
-        //   filtered: false,
-        // },
-        // {
-        //   id: 3,
-        //   name: "Linus Torvalds",
-        //   title: "Other",
-        //   active: false,
-        //   filtered: false,
-        // },
-        // {
-        //   id: 4,
-        //   name: "Arto Wikla",
-        //   title: "Prof",
-        //   active: false,
-        //   filtered: false,
-        // },
-      // ]
     };
   }
 
@@ -98,12 +68,18 @@ export default class Dropdown extends Component {
   }
 
   handleFocus() {
+    console.log("DIV FOCUSS")
     this.setState({
       menuActive: true,
     });
   }
 
+  handleMenuFocus() {
+    console.log("MENU FOCUSS")
+  }
+
   handleBlur() {
+    console.log("BLURR")
     // this.setState({
     //   menuActive: false,
     // });
@@ -139,8 +115,7 @@ export default class Dropdown extends Component {
                 <i className="delete icon" onClick={this.handleClick.bind(this, "unactivate", index)}></i>
               </a>
             );
-          })
-          }
+          })}
           <input
             className="search"
             autoComplete="off"
@@ -150,10 +125,8 @@ export default class Dropdown extends Component {
             onChange={this.handleChange.bind(this, "search")}
             onKeyPress={this.handleKeyPress.bind(this)}
           />
-          <span className="sizer">asdf</span>
-          <div className="default text filtered">Skills</div>
           { this.state.menuActive ?
-            <div className="menu transition visible" tabIndex="-1">
+            <div onFocus={this.handleMenuFocus.bind(this)} className="menu transition visible" tabIndex="-1">
               { graders.map((item, index) => {
                 if (!filtered[index] && !this.isActivated(item)) {
                   return (
@@ -162,6 +135,7 @@ export default class Dropdown extends Component {
                       className="item"
                       data-value="css"
                       onClick={this.handleClick.bind(this, "activate", index)}
+                      onFocus={this.handleMenuFocus.bind(this)}
                     >
                       { `${item.title} ${item.name}` }
                     </div>

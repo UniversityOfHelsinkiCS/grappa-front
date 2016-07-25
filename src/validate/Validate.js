@@ -1,52 +1,59 @@
+
+import reducer from "./validate.reducer";
 import Core from "./Core";
+import { createForm, updateForm } from "./validate.actions";
 
 // react-redux-validate
 
-export default class Validate {
+class Validate {
+
+  constructor() {
+    this.state = reducer(undefined, { type: "INIT" });
+  }
+
+  getForms() {
+    return this.state.get("forms").toJS();
+  }
 
   createForm(name, model) {
-    this.props.createForm(name, model);
+    this.state = reducer(this.state, createForm(name, model));
   }
 
   updateForm(value, field, formname) {
-    const model = this.props.forms[formname].model;
+    const model = this.getForms()[formname].model;
     const errors = Core.validateField(value, field, model);
-    this.props.updateForm({
+    this.state = reducer(this.state, updateForm({
       data: {
         value,
         field,
         formname,
       },
       errors,
-    });
+    }))
   }
 
   getErrors(formname) {
-    const form = this.props.forms[formname];
-    if (form) {
-      return form.errors;
-    } else {
-      return "";
-    }
+    const form = this.getForms()[formname];
+    return form ? form.errors : "";
   }
 
   getFieldErrors(field, formname) {
-    const form = this.props.forms[formname];
-    if (form) {
-      return form.errors.obj[field];
-    } else {
-      return "";
-    }
+    const form = this.getForms()[formname];
+    return form ? form.errors.obj[field] : "";
   }
 
   isFormValid(formname) {
-    const form = this.props.forms[formname];
+    const form = this.getForms()[formname];
     if (form) {
       const errors = Core.validateForm(form);
-      this.props.updateForm({
+      this.state = reducer(this.state, updateForm({
         data: {},
         errors,
-      });
+      }));
+      // this.props.updateForm({
+      //   data: {},
+      //   errors,
+      // });
       return errors.list.length === 0;
     } else {
       return false;
@@ -67,23 +74,4 @@ export default class Validate {
   }
 }
 
-import { connect } from "react-redux";
-import { createForm, updateForm } from "./validate.actions";
-
-const mapStateToProps = (state) => {
-  const validate_r = state.get("validate");
-  return {
-    forms: validate_r.get("forms").toJS(),
-  };
-};
-
-const mapDispatchToProps = (dispatch) => ({
-  createForm(name, model) {
-    dispatch(createForm(name, model));
-  },
-  updateForm(data, errors) {
-    dispatch(updateForm(data, errors));
-  },
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Validate);
+export default new Validate();

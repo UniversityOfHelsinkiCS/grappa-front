@@ -33,6 +33,7 @@ export class ThesisCreate extends React.Component {
       PdfFile: "",
       errors: {},
     };
+    const thesis = Validate.createForm("thesis");
   }
 
   /**
