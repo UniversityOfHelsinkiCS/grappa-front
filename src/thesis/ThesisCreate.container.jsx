@@ -24,7 +24,14 @@ export class ThesisCreate extends React.Component {
   }
 
   componentWillMount() {
-    Validate.subscribeToForm("newThesis", this, this.setState);
+    // Validate.subscribeToForm("newThesis", this, this.setState);
+    Validate.subscribeToForm("newThesis", "tc", (newThesis) => { 
+      this.setState({ newThesis, });
+    });
+  }
+
+  componentWillUnmount() {
+    Validate.unsubscribe("tc");
   }
 
   /**
@@ -51,8 +58,6 @@ export class ThesisCreate extends React.Component {
       console.log(newThesis);
       form.append("json", JSON.stringify(newThesis));
       this.props.saveThesisWithReview(form);
-    } else {
-      this.setState(Validate.getForm("newThesis"));
     }
   }
 

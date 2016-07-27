@@ -8,21 +8,19 @@ import { updateErrors, validateField, validateModel } from "../config/Validator"
 export class GraderListCreateUpdate extends Component {
   constructor() {
     super();
-    // this.state = {
-    //   newGrader: {},
-    //   updateGrader: {},
-    //   errors: {},
-    // };
     this.state = {
       newGrader: Validate.createForm("newGrader", "grader"),
       updateGrader: Validate.createForm("updateGrader", "grader"),
-      errors: {},
     };
   }
 
   componentWillMount() {
-    Validate.subscribeToForm("newGrader", this, this.setState);
-    Validate.subscribeToForm("updateGrader", this, this.setState);
+    Validate.subscribeToForm("newGrader", "g", (newGrader) => { this.setState({ newGrader, })});
+    Validate.subscribeToForm("newGrader", "g", (updateGrader) => { this.setState({ updateGrader, })});
+  }
+
+  componentWillUnmount() {
+    Validate.unsubscribe("g");
   }
 
   handleChange(name, type, event) {

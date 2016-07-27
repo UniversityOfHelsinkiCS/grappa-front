@@ -16,7 +16,7 @@ class Validate {
     this.state = reducer(this.state, action);
     this.subscribers.map(subscriber => {
       if (subscriber.formname === formname) {
-        subscriber.update();
+        subscriber.update(this.getForm(formname));
       }
     });
   }
@@ -41,24 +41,20 @@ class Validate {
     return this.state.get("forms").toJS()[formname].errors[`${model}_${field}`];
   }
 
-  subscribeToForm(formname, scope, setState) {
+  subscribeToForm(formname, subscriber, update) {
     const subscription = {
       formname,
-      scope,
-      update: () => {
-        // console.log("updating", formname)
-        const newState = {};
-        newState[formname] = this.getForm(formname);
-        // console.log(newState);
-        scope.setState(newState);
-      }
+      subscriber,
+      update,
     };
-    subscription.update();
+    subscription.update(this.getForm(formname));
     this.subscribers.push(subscription);
   }
 
-  unsubscribeFromForm(formname, id) {
-
+  unsubscribe(subscriber) {
+    this.subscribers = this.subscribers.filter(s => {
+      if (s.subscriber !== subscriber) return s;
+    });
   }
 
   createForm(name, model) {
@@ -76,8 +72,8 @@ class Validate {
   }
 
   updateForm(formname, field, value) {
-    const model = this.getForm(formname).model;
-    const errors = Core.validateField(model, field, value);
+    const form = this.getForm(formname);
+    const errors = Core.validateField(form.values, form.model, field, value);
     this._reduce(formname, updateForm(formname, field, value, errors));
   }
 
@@ -89,9 +85,7 @@ class Validate {
       const count = Object.keys(errors).reduce((previousValue, key) => {
         return previousValue + errors[key].length;
       }, 0);
-      console.log(count);
       return count === 0;
-      // return errors.length === 0;
     } else {
       return false;
     }
@@ -110,7 +104,7 @@ class Validate {
     return errors;
   }
 
-  overrideCustomRules(customRules) {
+  setCustomRules(customRules) {
     // Core.setCustomRules(customRules);
   }
 }

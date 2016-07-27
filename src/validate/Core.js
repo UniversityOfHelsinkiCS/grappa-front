@@ -3,70 +3,43 @@ import Schemas from "./validate.schemas";
 
 class ValidateCore {
 
-  findValidationRule(field, model) {
-    return Schemas[model][field].rules.find(modelfield => {
-      if (modelfield.name === field) return modelfield;
-    });
-  }
-
   setCustomRules(customRules) {
     this.customRules = customRules;
   }
 
-  customValidate(rules, value) {
-    // overridable method for custom validation rules
-  }
-
-  /**
-   * Method for validating single value according to a rule listed below
-   */
-  validate(rules, value) {
-    return rules.reduce((previous, rule) => {
-      if (rule.type === "notEmpty" && Validator.isNull(value)) {
-        return [...previous, rule.error];
-      } else if (rule.type === "validEmail" && !Validator.isEmail(value)) {
-        return [...previous, rule.error];
-      } else if (rule.type.substring(0, 3) === "min" || rule.type.substring(0, 3) === "max") {
-        const prefix = rule.type.substring(0, 3);
-        if (rule.type.substring(3, 8) === "Count") {
-          // Amount is between square brackets : minCount[2]
-          const amount = parseInt(rule.type.substring(rule.type.indexOf("[") + 1, rule.type.lastIndexOf("]")), 10);
-          if ((prefix === "min" && value.length < amount) || (prefix === "max" && value.length > amount)) {
-            return [...previous, rule.error];
-          }
-        } else if (rule.type.substring(3, 9) === "Length") {
-          const amount = parseInt(rule.type.substring(rule.type.indexOf("[") + 1, rule.type.lastIndexOf("]")), 10);
-          if ((prefix === "min" && value.length < amount) || (prefix === "max" && value.length > amount)) {
-            return [...previous, rule.error];
-          }
+  isNotValid(values, rule, value) {
+    // console.log(values, rule, value)
+    const type = rule.type;
+    if (type === "notEmpty") {
+      return Validator.isNull(value);
+    } else if (type === "validEmail") {
+      return !Validator.isEmail(value);
+    } else if (type.substring(0, 3) === "min" || type.substring(0, 3) === "max") {
+      const prefix = rule.type.substring(0, 3);
+      if (rule.type.substring(3, 8) === "Count") {
+        // Amount is between square brackets : minCount[2]
+        const amount = parseInt(rule.type.substring(rule.type.indexOf("[") + 1, rule.type.lastIndexOf("]")), 10);
+        if ((prefix === "min" && value.length < amount) || (prefix === "max" && value.length > amount)) {
+          return true;
+        }
+      } else if (rule.type.substring(3, 9) === "Length") {
+        const amount = parseInt(rule.type.substring(rule.type.indexOf("[") + 1, rule.type.lastIndexOf("]")), 10);
+        if ((prefix === "min" && value.length < amount) || (prefix === "max" && value.length > amount)) {
+          return true;
         }
       }
-      return previous;
-    }, []);
+    } else if (rule.type.substring(0, 5) === "equal") {
+      const field = rule.type.substring(rule.type.indexOf("[") + 1, rule.type.lastIndexOf("]"));
+      // console.log(values[field], value)
+      // console.log(values[field] !== value)
+      return values[field] !== value;
+    }
+    return false;
   }
 
-  validate2(rules, value) {
+  validate(values, rules, value) {
     return rules.reduce((previous, rule) => {
-      if (rule.type === "notEmpty" && Validator.isNull(value)) {
-        return [...previous, rule.error];
-      } else if (rule.type === "validEmail" && !Validator.isEmail(value)) {
-        return [...previous, rule.error];
-      } else if (rule.type.substring(0, 3) === "min" || rule.type.substring(0, 3) === "max") {
-        const prefix = rule.type.substring(0, 3);
-        if (rule.type.substring(3, 8) === "Count") {
-          // Amount is between square brackets : minCount[2]
-          const amount = parseInt(rule.type.substring(rule.type.indexOf("[") + 1, rule.type.lastIndexOf("]")), 10);
-          if ((prefix === "min" && value.length < amount) || (prefix === "max" && value.length > amount)) {
-            return [...previous, rule.error];
-          }
-        } else if (rule.type.substring(3, 9) === "Length") {
-          const amount = parseInt(rule.type.substring(rule.type.indexOf("[") + 1, rule.type.lastIndexOf("]")), 10);
-          if ((prefix === "min" && value.length < amount) || (prefix === "max" && value.length > amount)) {
-            return [...previous, rule.error];
-          }
-        }
-      }
-      return previous;
+      return this.isNotValid(values, rule, value) ? [...previous, rule.error] : previous;
     }, []);
   }
 
@@ -78,11 +51,10 @@ class ValidateCore {
    * @param {String} modelname - Name of the model that can be found in rules-file
    * @return {Array} - Found errors
    */
-  validateField(model, field, value) {
+  validateField(values, model, field, value) {
     // console.log(model, field, value)
     const errors = {};
-    const fieldErrors = this.validate(Schemas[model][field].rules, value);
-    errors[`${model}_${field}`] = fieldErrors;
+    errors[`${model}_${field}`] = this.validate(values, Schemas[model][field].rules, value);
     // console.log(errors)
     return errors;
   }
@@ -97,12 +69,8 @@ class ValidateCore {
     if (values.constructor === Object) {
       for (const key in values) {
         if ({}.hasOwnProperty.call(values, key)) {
-          // errors[`${model}_${key}`] = this.validateField(model, key, values[key]);
-          Object.assign(errors, this.validateField(model, key, values[key]));
-          // if (fieldErrors.length > 0) {
-          //   errors[`${model}_${key}`] = fieldErrors;
-          // }
-          const validation = this.findValidationRule(key, model);
+          Object.assign(errors, this.validateField(values, model, key, values[key]));
+          const validation = Schemas[model][key].rules;
           if (validation !== undefined && validation.model !== undefined) {
             const modelErrors = this.validateForm(values[key], validation.model);
             console.log(modelErrors);

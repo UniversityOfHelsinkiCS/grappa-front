@@ -81,7 +81,7 @@ export class NewUsersList extends Component {
         <tbody>
           { users.map((user, index) =>
             <tr key={index}>
-              <td>{user.name}</td>
+              <td>{ `${user.firstname} ${user.lastname}` }</td>
               <td>{user.email}</td>
               <td>
                 <select value={user.role} className="ui dropdown" onChange={this.handleChange.bind(this, "role", index)}>

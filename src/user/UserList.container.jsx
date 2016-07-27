@@ -101,12 +101,21 @@ export class UserList extends Component {
               </select>
             </div>
             <div className="field">
-              <label>Name</label>
+              <label>Firstname</label>
               <input
                 type="text"
-                placeholder="Name"
-                value={this.state.editUser.name}
-                onChange={this.handleChange.bind(this, "updateUser", "name")}
+                placeholder="First name"
+                value={this.state.editUser.firstname}
+                onChange={this.handleChange.bind(this, "updateUser", "firstname")}
+              />
+            </div>
+            <div className="field">
+              <label>Lastname</label>
+              <input
+                type="text"
+                placeholder="Last name"
+                value={this.state.editUser.lastname}
+                onChange={this.handleChange.bind(this, "updateUser", "lastname")}
               />
             </div>
             <div className="field">
@@ -144,7 +153,8 @@ export class UserList extends Component {
             <tr>
               <th onClick={this.handleClick.bind(this, "sort", "status")}>Role</th>
               <th onClick={this.handleClick.bind(this, "sort", "authorFirstname")}>Field</th>
-              <th onClick={this.handleClick.bind(this, "sort", "authorLastname")}>Name</th>
+              <th onClick={this.handleClick.bind(this, "sort", "authorLastname")}>Firstname</th>
+              <th onClick={this.handleClick.bind(this, "sort", "authorLastname")}>Lastname</th>
               <th onClick={this.handleClick.bind(this, "sort", "title")}>Email</th>
               <th onClick={this.handleClick.bind(this, "sort", "studyfield")}>Retired</th>
             </tr>
@@ -154,7 +164,8 @@ export class UserList extends Component {
               <tr key={index} onClick={this.handleClick.bind(this, "selectUser", index)}>
                 <td>{item.role}</td>
                 <td>{item.StudyField ? item.StudyField.name : ""}</td>
-                <td>{item.name}</td>
+                <td>{item.firstname}</td>
+                <td>{item.lastname}</td>
                 <td>{item.email}</td>
                 <td>
                   <div className="ui checkbox">

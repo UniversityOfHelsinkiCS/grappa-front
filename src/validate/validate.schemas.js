@@ -139,7 +139,7 @@ const schemas = {
       rules: [
         {
           type: "notEmpty",
-          error: "Email can't be empty.",
+          error: "First name can't be empty.",
         },
       ],
     },
@@ -149,7 +149,7 @@ const schemas = {
       rules: [
         {
           type: "notEmpty",
-          error: "Title can't be empty.",
+          error: "Second name can't be empty.",
         },
       ],
     },
@@ -173,7 +173,11 @@ const schemas = {
       rules: [
         {
           type: "notEmpty",
-          error: "Title can't be empty.",
+          error: "Password can't be empty.",
+        },
+        {
+          type: "minLength[8]",
+          error: "Password must be at least 8 characters.",
         },
       ],
     },
@@ -183,7 +187,11 @@ const schemas = {
       rules: [
         {
           type: "notEmpty",
-          error: "Title can't be empty.",
+          error: "Password confirmation can't be empty.",
+        },
+        {
+          type: "equal[password]",
+          error: "Passwords must match.",
         },
       ],
     },
