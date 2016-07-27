@@ -7,7 +7,7 @@ export default class Error extends Component {
     const list = errors[`${model}_${field}`] || [];
     // console.log(errors)
     // console.log(field)
-    // console.log(list)
+    // console.log("list is: ", list)
     if (list.length === 0) {
       return (
         <div></div>

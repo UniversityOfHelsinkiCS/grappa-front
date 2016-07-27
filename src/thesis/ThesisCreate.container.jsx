@@ -12,32 +12,15 @@ import GraderContainer from "../grader/GraderListCreateUpdate.container";
 import ValidateError from "../ui/Error.component";
 import Errors from "../ui/Errors.component";
 import Validate from "../validate/Validate";
-import ValidInput from "../config/ValidInput.component";
-import { validateField, validateModel, updateErrors } from "../config/Validator";
+// import ValidInput from "../config/ValidInput.component";
+// import { validateField, validateModel, updateErrors } from "../config/Validator";
 
 export class ThesisCreate extends React.Component {
   constructor() {
     super();
-    // this.state = {
-    //   authorFirstname: "",
-    //   authorLastname: "",
-    //   authorEmail: "",
-    //   title: "",
-    //   Graders: [],
-    //   urkund: "",
-    //   grade: "",
-    //   StudyFieldId: "",
-    //   CouncilMeetingId: "",
-    //   PdfFile: "",
-    //   errors: {},
-    // };
     this.state = {
       newThesis: Validate.createForm("newThesis", "thesis"),
-    }
-    // const form = Validate.createForm("newThesis", "thesis");
-    // this.state = form.values;
-    // this.state.errors = form.errors;
-    // console.log(this.state)
+    };
   }
 
   componentWillMount() {
@@ -51,28 +34,7 @@ export class ThesisCreate extends React.Component {
   * @param type Type of validation needed: text, email or link
   */
   handleChange(name, event) {
-    // console.log(name);
-    // event.preventDefault();
-    // const change = {
-    //   errors: this.state.errors,
-    // };
-    // change[name] = event.target.value;
-    // const newErrors = validateField(name, event.target.value, "thesis");
-    // change.errors[`thesis_${name}`] = newErrors;
-    // this.setState(change);
     Validate.updateForm("newThesis", name, event.target.value);
-    // console.log(this.state)
-    // this.setState({});
-    // console.log(this.state)
-    // this.setState(Validate.getForm("newThesis"));
-    // const form = Validate.getForm("newThesis");
-    // this.setState(form.values);
-    // this.setState({ errors: form.errors });
-    // this.setState({
-    //   errors: Validate.getErrors("newThesis")
-    // })
-    // console.log("errors", Validate.getFormErrors("newThesis"));
-    // console.log("getForm", Validate.getForm("newThesis"));
   }
 
   /**
@@ -85,35 +47,13 @@ export class ThesisCreate extends React.Component {
       const form = new FormData();
       form.append("file", this.state.newThesis.values.PdfFile);
       const newThesis = this.state.newThesis.values;
-      newThesis.PdfFile = undefined;
-      console.log(newThesis)
+      delete newThesis.PdfFile;
+      console.log(newThesis);
       form.append("json", JSON.stringify(newThesis));
       this.props.saveThesisWithReview(form);
     } else {
       this.setState(Validate.getForm("newThesis"));
     }
-    // const thesisErrors = validateModel(this.state, "thesis");
-    // // const graderErrors = validateModel(this.state.graders, "grader");
-    // // console.log(thesisErrors);
-    // if (thesisErrors.list.length === 0) {
-    //   const newThesis = {
-    //     authorFirstname: this.state.authorFirstname,
-    //     authorLastname: this.state.authorLastname,
-    //     authorEmail: this.state.authorEmail,
-    //     title: this.state.title,
-    //     Graders: this.state.Graders,
-    //     urkund: this.state.urkund,
-    //     grade: this.state.grade,
-    //     StudyFieldId: this.state.StudyFieldId,
-    //     CouncilMeetingId: this.state.CouncilMeetingId,
-    //   };
-    //   const form = new FormData();
-    //   form.append("json", JSON.stringify(newThesis));
-    //   form.append("file", this.state.PdfFile);
-    //   this.props.saveThesisWithReview(form);
-    // } else {
-    //   this.setState({ errors: thesisErrors.obj });
-    // }
   }
 
   renderThesisAuthor() {
@@ -128,33 +68,33 @@ export class ThesisCreate extends React.Component {
         <div className="three fields">
           <div className="field">
             <label>First name</label>
-            <ValidateError errors={this.state.newThesis.errors} model="thesis" field="authorFirstname" />
             <input
               type="text"
               value={this.state.newThesis.values.authorFirstname}
               onChange={this.handleChange.bind(this, "authorFirstname")}
               placeholder="First Name"
             />
+            <ValidateError errors={this.state.newThesis.errors} model="thesis" field="authorFirstname" />
           </div>
           <div className="field">
             <label>Last name</label>
-            <ValidateError errors={this.state.newThesis.errors} model="thesis" field="authorLastname" />
             <input
               type="text"
               value={this.state.newThesis.values.authorLastname}
               onChange={this.handleChange.bind(this, "authorLastname")}
               placeholder="Last Name"
             />
+            <ValidateError errors={this.state.newThesis.errors} model="thesis" field="authorLastname" />
           </div>
           <div className="field">
             <label>Email</label>
-            <ValidateError errors={this.state.newThesis.errors} model="thesis" field="authorEmail" />
             <input
               type="text"
               value={this.state.newThesis.values.authorEmail}
               onChange={this.handleChange.bind(this, "authorEmail")}
               placeholder="Email Address"
             />
+            <ValidateError errors={this.state.newThesis.errors} model="thesis" field="authorEmail" />
           </div>
         </div>
       </div>
@@ -173,17 +113,16 @@ export class ThesisCreate extends React.Component {
         <div className="three fields">
           <div className="field">
             <label>Title</label>
-            <ValidateError errors={this.state.newThesis.errors} model="thesis" field="title" />
             <input
               type="text"
               value={this.state.newThesis.values.title}
               onChange={this.handleChange.bind(this, "title")}
               placeholder="Title"
             />
+            <ValidateError errors={this.state.newThesis.errors} model="thesis" field="title" />
           </div>
           <div className="field">
             <label>Studyfield</label>
-            <ValidateError errors={this.state.newThesis.errors} model="thesis" field="StudyFieldId" />
             <select
               className="ui fluid search dropdown"
               onChange={this.handleChange.bind(this, "StudyFieldId")}
@@ -195,10 +134,10 @@ export class ThesisCreate extends React.Component {
                 </option>
               )}
             </select>
+            <ValidateError errors={this.state.newThesis.errors} model="thesis" field="StudyFieldId" />
           </div>
           <div className="field">
             <label>Grade</label>
-            <ValidateError errors={this.state.newThesis.errors} model="thesis" field="grade" />
             <select
               className="ui fluid search dropdown"
               value={this.state.newThesis.values.grade}
@@ -213,18 +152,19 @@ export class ThesisCreate extends React.Component {
               <option value="Eximia Cum Laude Approbatur">Eximia Cum Laude Approbatur</option>
               <option value="Laudatur">Laudatur</option>
             </select>
+            <ValidateError errors={this.state.newThesis.errors} model="thesis" field="grade" />
           </div>
         </div>
         <div className="three fields">
           <div className="field">
             <label>Urkund-link</label>
-            <ValidateError errors={this.state.newThesis.errors} model="thesis" field="urkund" />
             <input
               type="text"
               value={this.state.newThesis.values.urkund}
               onChange={this.handleChange.bind(this, "urkund")}
               placeholder="Link to Urkund"
             />
+            <ValidateError errors={this.state.newThesis.errors} model="thesis" field="urkund" />
           </div>
         </div>
       </div>
@@ -277,6 +217,7 @@ export class ThesisCreate extends React.Component {
             </option>
           )}
         </select>
+        <ValidateError errors={this.state.newThesis.errors} model="thesis" field="CouncilMeetingId" />
       </div>
     );
   }
@@ -287,11 +228,10 @@ export class ThesisCreate extends React.Component {
     //   PdfFile: files[0],
     // });
     Validate.updateForm("newThesis", "PdfFile", files[0]);
-    this.setState(Validate.getForm("newThesis"));
   }
 
   renderUploadReview() {
-    console.log(this.state.newThesis.values.PdfFile);
+    // console.log(this.state.newThesis.values.PdfFile);
     return (
       <div>
         <h3 className="ui dividing header">Upload Thesis review as PDF (max. 1 MB)</h3>
@@ -301,6 +241,7 @@ export class ThesisCreate extends React.Component {
             <p className="upload-p">Current file: {this.state.newThesis.values.PdfFile.name}</p>
           </Dropzone>
         </div>
+        <ValidateError errors={this.state.newThesis.errors} model="thesis" field="PdfFile" />
       </div>
     );
   }
@@ -310,7 +251,6 @@ export class ThesisCreate extends React.Component {
 * @return <div> thesis-container Container wrapping all the html elements to be rendered.
 */
   render() {
-    console.log(this.props.newThesis)
     return (
       <div>
         <div className="ui form">
@@ -318,7 +258,7 @@ export class ThesisCreate extends React.Component {
           {this.renderThesisAuthor()}
           {this.renderThesisInformation()}
           {this.renderUploadReview()}
-          <GraderContainer formname="newThesis" activated={this.state.newThesis.values.Graders} editable/>
+          <GraderContainer formname="newThesis" selected={this.state.newThesis.values.Graders} editable/>
           {this.renderPickCouncilmeeting()}
         </div>
         <Errors errors={this.state.newThesis.errors}/>

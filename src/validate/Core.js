@@ -9,6 +9,10 @@ class ValidateCore {
     });
   }
 
+  setCustomRules(customRules) {
+    this.customRules = customRules;
+  }
+
   customValidate(rules, value) {
     // overridable method for custom validation rules
   }
@@ -17,6 +21,31 @@ class ValidateCore {
    * Method for validating single value according to a rule listed below
    */
   validate(rules, value) {
+    return rules.reduce((previous, rule) => {
+      if (rule.type === "notEmpty" && Validator.isNull(value)) {
+        return [...previous, rule.error];
+      } else if (rule.type === "validEmail" && !Validator.isEmail(value)) {
+        return [...previous, rule.error];
+      } else if (rule.type.substring(0, 3) === "min" || rule.type.substring(0, 3) === "max") {
+        const prefix = rule.type.substring(0, 3);
+        if (rule.type.substring(3, 8) === "Count") {
+          // Amount is between square brackets : minCount[2]
+          const amount = parseInt(rule.type.substring(rule.type.indexOf("[") + 1, rule.type.lastIndexOf("]")), 10);
+          if ((prefix === "min" && value.length < amount) || (prefix === "max" && value.length > amount)) {
+            return [...previous, rule.error];
+          }
+        } else if (rule.type.substring(3, 9) === "Length") {
+          const amount = parseInt(rule.type.substring(rule.type.indexOf("[") + 1, rule.type.lastIndexOf("]")), 10);
+          if ((prefix === "min" && value.length < amount) || (prefix === "max" && value.length > amount)) {
+            return [...previous, rule.error];
+          }
+        }
+      }
+      return previous;
+    }, []);
+  }
+
+  validate2(rules, value) {
     return rules.reduce((previous, rule) => {
       if (rule.type === "notEmpty" && Validator.isNull(value)) {
         return [...previous, rule.error];
@@ -50,45 +79,34 @@ class ValidateCore {
    * @return {Array} - Found errors
    */
   validateField(model, field, value) {
-    console.log(model, field, value)
+    // console.log(model, field, value)
     const errors = {};
     const fieldErrors = this.validate(Schemas[model][field].rules, value);
     errors[`${model}_${field}`] = fieldErrors;
+    // console.log(errors)
     return errors;
-    // console.log(name + value + modelname);
-    // const validation = this.findValidationRule(field, model);
-    // if (validation === undefined) {
-    //   return [];
-    // }
-    // return this.validate(validation.rules, value);
   }
 
   /**
    * Validates all of models' fields
    */
-  validateForm(form) {
+  validateForm(values, model) {
     // console.log(modelname);
     // console.log(values);
-    const model = form.model;
-    const values = form.values;
-    let errors = {
-      obj: {},
-      list: [],
-    };
+    let errors = {};
     if (values.constructor === Object) {
       for (const key in values) {
         if ({}.hasOwnProperty.call(values, key)) {
-          const fieldErrors = validateField(key, values[key], model);
-          if (fieldErrors.length > 0) {
-            errors.obj[`${model}_${key}`] = fieldErrors;
-            errors.list.push(...fieldErrors);
-          }
-          const validation = findValidationRule(key, model);
+          // errors[`${model}_${key}`] = this.validateField(model, key, values[key]);
+          Object.assign(errors, this.validateField(model, key, values[key]));
+          // if (fieldErrors.length > 0) {
+          //   errors[`${model}_${key}`] = fieldErrors;
+          // }
+          const validation = this.findValidationRule(key, model);
           if (validation !== undefined && validation.model !== undefined) {
-            const modelErrors = validateModel(values[key], validation.model);
+            const modelErrors = this.validateForm(values[key], validation.model);
             console.log(modelErrors);
-            errors.obj = Object.assign(errors.obj, modelErrors.obj);
-            errors.list.push(...modelErrors.list);
+            errors = Object.assign(errors.obj, modelErrors.obj);
           }
         }
       }
@@ -111,15 +129,9 @@ class ValidateCore {
       }, { list: [], obj: {} });
       console.log(errors);
     }
+    // console.log(errors)
     return errors;
   }
-
-  // updateErrors(value, name, modelname, errors) {
-  //   const newErrors = validateField(name, value, modelname);
-  //   const cloneErrors = Object.assign({}, errors);
-  //   cloneErrors[`${modelname}_${name}`] = newErrors;
-  //   return cloneErrors;
-  // }
 }
 
 export default new ValidateCore();

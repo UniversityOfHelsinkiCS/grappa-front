@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from "react";
 
-import Dropdown from "../ui/Dropdown.component";
+import GradersDropdown from "../ui/GradersDropdown.component";
 import Validate from "../validate/Validate";
 import ValidateError from "../ui/Error.component";
 import { updateErrors, validateField, validateModel } from "../config/Validator";
@@ -164,15 +164,15 @@ export class GraderListCreateUpdate extends Component {
   }
 
   render() {
-    const { formname, Graders, activated, editable } = this.props;
+    const { formname, Graders, selected, editable } = this.props;
     // console.log(Graders)
-    // console.log(activated);
+    // console.log(selected);
     return (
       <div className="field">
         <h3 className="ui dividing header">Graders</h3>
         <div className="field">
           <label>Select Graders</label>
-          <Dropdown formname={formname} graders={Graders} activated={activated} editable={editable}/>
+          <GradersDropdown formname={formname} graders={Graders} selected={selected} editable={editable}/>
         </div>
         { this.props.editable ?
           <span>

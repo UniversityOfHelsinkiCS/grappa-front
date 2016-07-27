@@ -65,7 +65,7 @@ export class ThesisList extends Component {
           searched={this.state.searchedTheses}
         />
       </div>
-    )
+    );
   }
 }
 

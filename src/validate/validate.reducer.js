@@ -22,15 +22,25 @@ export default function (state = INITIAL_STATE, action) {
   switch (action.type) {
     case CREATE_FORM:
       const defaultValues = createDefaultValues(action.payload.model);
+      // state.forms[action.payload.formname] = {
+      //   model: action.payload.model,
+      //   values: defaultValues,
+      //   errors: {}
+      // };
       return state.mergeIn(["forms", action.payload.name], fromJS({
         model: action.payload.model,
         values: defaultValues,
         errors: {}
       }));
     case UPDATE_FORM:
-      const updatedValue = state.mergeIn(["forms", action.payload.formname, "values", action.payload.field],
-        fromJS(action.payload.value)
-      );
+      // state.forms[action.payload.formname].values[action.payload.field] = action.payload.value;
+      // state.forms[action.payload.formname].errors = action.payload.errors;
+      let updatedValue = state;
+      if (action.payload.field) {
+        updatedValue = state.mergeIn(["forms", action.payload.formname, "values", action.payload.field],
+          fromJS(action.payload.value)
+        );
+      }
       return updatedValue.mergeIn(["forms", action.payload.formname, "errors"],
         fromJS(action.payload.errors)
       );
