@@ -19,7 +19,6 @@ import grader from "./grader/grader.reducer";
 import ethesis from "./ethesis/ethesis.reducer";
 import upload from "./upload/upload.reducer";
 import flash from "./flash/flash.reducer";
-import validate from "./validate/validate.reducer";
 import { LOGOUT_USER } from "./auth/auth.actions";
 
 const combinedReducers = combineReducers({
@@ -35,7 +34,6 @@ const combinedReducers = combineReducers({
   ethesis,
   upload,
   flash,
-  validate,
 });
 
 /*

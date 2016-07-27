@@ -14,6 +14,7 @@ export class CouncilmeetingShow extends Component {
       nextMeeting: {},
       filteredTheses: [],
       selectedTheses: [],
+      searchedTheses: [],
     };
   }
 
@@ -30,6 +31,7 @@ export class CouncilmeetingShow extends Component {
       nextMeeting,
       filteredTheses,
       selectedTheses: [],
+      searchedTheses: [],
     });
   }
 
@@ -50,6 +52,7 @@ export class CouncilmeetingShow extends Component {
       nextMeeting,
       filteredTheses,
       selectedTheses: [],
+      searchedTheses: [],
     });
   }
 
@@ -97,7 +100,7 @@ export class CouncilmeetingShow extends Component {
     event.preventDefault();
     if (name === "download") {
       const IDs = this.state.filteredTheses.reduce((previousValue, currentValue, index) => {
-        if (this.state.selectedTheses[index]) {
+        if (this.state.selectedTheses[index] && this.state.searchedTheses[index]) {
           return [...previousValue, currentValue.id];
         }
         return previousValue;
@@ -130,14 +133,15 @@ export class CouncilmeetingShow extends Component {
             Councilmeeting of { moment(new Date(this.state.currentMeeting.date)).format("DD/MM/YYYY") }
           </h2>
 
-          <p>Total theses: {this.state.filteredTheses.length}</p>
           <p>
             It will take approximately 30 seconds for 20 theses to be bundled into one
             downloadable document.
           </p>
           <button className="ui button blue" onClick={this.handleClick.bind(this, "download")}>Download selected</button>
         </div>
-        <ThesisList theses={this.state.filteredTheses} selected={this.state.selectedTheses}/>
+        <ThesisList theses={this.state.filteredTheses} selected={this.state.selectedTheses}
+          searched={this.state.searchedTheses}
+        />
       </div>
     );
   }

@@ -159,7 +159,6 @@ export class CouncilmeetingListCreate extends Component {
               <thead>
                 <tr>
                   <th onClick={this.handleClick.bind(this, "sort", "status")}>Date</th>
-                  <th onClick={this.handleClick.bind(this, "sort", "authorFirstname")}>Theses</th>
                 </tr>
               </thead>
               <tbody>
@@ -168,7 +167,6 @@ export class CouncilmeetingListCreate extends Component {
                     <td>
                       <Link to={`/councilmeeting/${item.id}`}>{item.date.format("DD/MM/YYYY")}</Link>
                     </td>
-                    <td>66</td>
                   </tr>
                 )}
               </tbody>

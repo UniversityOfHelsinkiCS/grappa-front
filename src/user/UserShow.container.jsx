@@ -82,7 +82,7 @@ export class UserShow extends Component {
               <div>
                 <i className="user icon"></i>
                 <span>
-                  { User.name }
+                  { `${User.firstname} ${User.lastname}` }
                 </span>
               </div>
               <div>
@@ -105,12 +105,21 @@ export class UserShow extends Component {
               You don't have to submit your password when you're changing other information than your password.
             </p>
             <div className="field">
-              <label>Name</label>
+              <label>Firstname</label>
               <input
                 type="text"
-                placeholder="Name"
-                value={this.state.editUser.name}
-                onChange={this.handleChange.bind(this, "updateUser", "name")}
+                placeholder="First name"
+                value={this.state.editUser.firstname}
+                onChange={this.handleChange.bind(this, "updateUser", "firstname")}
+              />
+            </div>
+            <div className="field">
+              <label>Lastname</label>
+              <input
+                type="text"
+                placeholder="Last name"
+                value={this.state.editUser.lastname}
+                onChange={this.handleChange.bind(this, "updateUser", "lastname")}
               />
             </div>
             <div className="field">

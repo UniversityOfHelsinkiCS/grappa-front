@@ -1,53 +1,91 @@
+
 import Core from "./Core";
+import reducer from "./validate.reducer";
+import { createForm, updateForm, replaceForm } from "./validate.actions";
 
 // react-redux-validate
 
-export default class Validate {
+class Validate {
 
-  createForm(name, model) {
-    this.props.createForm(name, model);
+  constructor() {
+    this.state = reducer(undefined, { type: "INIT" });
+    this.subscribers = [];
   }
 
-  updateForm(value, field, formname) {
-    const model = this.props.forms[formname].model;
-    const errors = Core.validateField(value, field, model);
-    this.props.updateForm({
-      data: {
-        value,
-        field,
-        formname,
-      },
-      errors,
+  _reduce(formname, action) {
+    this.state = reducer(this.state, action);
+    this.subscribers.map(subscriber => {
+      if (subscriber.formname === formname) {
+        subscriber.update(this.getForm(formname));
+      }
     });
   }
 
-  getErrors(formname) {
-    const form = this.props.forms[formname];
-    if (form) {
-      return form.errors;
-    } else {
-      return "";
-    }
+  getForms() {
+    return this.state.get("forms").toJS();
   }
 
-  getFieldErrors(field, formname) {
-    const form = this.props.forms[formname];
-    if (form) {
-      return form.errors.obj[field];
-    } else {
-      return "";
-    }
+  getForm(formname) {
+    return this.state.get("forms").toJS()[formname];
+  }
+
+  getFormField(formname, field) {
+    return this.state.get("forms").toJS()[formname].values[field];
+  }
+
+  getFormErrors(formname) {
+    return this.state.get("forms").toJS()[formname].errors;
+  }
+
+  getFieldErrors(formname, model, field) {
+    return this.state.get("forms").toJS()[formname].errors[`${model}_${field}`];
+  }
+
+  subscribeToForm(formname, subscriber, update) {
+    const subscription = {
+      formname,
+      subscriber,
+      update,
+    };
+    subscription.update(this.getForm(formname));
+    this.subscribers.push(subscription);
+  }
+
+  unsubscribe(subscriber) {
+    this.subscribers = this.subscribers.filter(s => {
+      if (s.subscriber !== subscriber) return s;
+    });
+  }
+
+  createForm(name, model) {
+    this.state = reducer(this.state, createForm(name, model));
+    return this.getForm(name);
+  }
+
+  resetForm(formname) {
+
+  }
+
+  replaceForm(formname, newValues) {
+    const errors = Core.validateForm(newValues);
+    this._reduce(formname, replaceForm(newValues, errors));
+  }
+
+  updateForm(formname, field, value) {
+    const form = this.getForm(formname);
+    const errors = Core.validateField(form.values, form.model, field, value);
+    this._reduce(formname, updateForm(formname, field, value, errors));
   }
 
   isFormValid(formname) {
-    const form = this.props.forms[formname];
+    const form = this.getForm(formname);
     if (form) {
-      const errors = Core.validateForm(form);
-      this.props.updateForm({
-        data: {},
-        errors,
-      });
-      return errors.list.length === 0;
+      const errors = Core.validateForm(form.values, form.model);
+      this._reduce(formname, updateForm(formname, "", "", errors));
+      const count = Object.keys(errors).reduce((previousValue, key) => {
+        return previousValue + errors[key].length;
+      }, 0);
+      return count === 0;
     } else {
       return false;
     }
@@ -65,25 +103,10 @@ export default class Validate {
     const errors = Core.validateForm(form);
     return errors;
   }
+
+  setCustomRules(customRules) {
+    // Core.setCustomRules(customRules);
+  }
 }
 
-import { connect } from "react-redux";
-import { createForm, updateForm } from "./validate.actions";
-
-const mapStateToProps = (state) => {
-  const validate_r = state.get("validate");
-  return {
-    forms: validate_r.get("forms").toJS(),
-  };
-};
-
-const mapDispatchToProps = (dispatch) => ({
-  createForm(name, model) {
-    dispatch(createForm(name, model));
-  },
-  updateForm(data, errors) {
-    dispatch(updateForm(data, errors));
-  },
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Validate);
+export default new Validate();

@@ -1,45 +1,45 @@
 import Validator from "validator";
 import Schemas from "./validate.schemas";
 
-export default class ValidateCore {
+class ValidateCore {
 
-  findValidationRule(field, model) {
-    return Schemas[model].find(modelfield => {
-      if (modelfield.name === field) return modelfield;
-    });
+  setCustomRules(customRules) {
+    this.customRules = customRules;
   }
 
-  customValidate(rules, value) {
-    // overridable method for custom validation rules
-  }
-
-  /**
-   * Method for validating single value according to a rule listed below
-   */
-  validate(rules, value) {
-    return rules.reduce((previous, rule) => {
-      // console.log(previous);
-      // console.log(rule);
-      if (rule.type === "notEmpty" && Validator.isNull(value)) {
-        return [...previous, rule.prompt];
-      } else if (rule.type === "validEmail" && !Validator.isEmail(value)) {
-        return [...previous, rule.prompt];
-      } else if (rule.type.substring(0, 3) === "min" || rule.type.substring(0, 3) === "max") {
-        const prefix = rule.type.substring(0, 3);
-        if (rule.type.substring(3, 8) === "Count") {
-          // Amount is between square brackets : minCount[2]
-          const amount = parseInt(rule.type.substring(rule.type.indexOf("[") + 1, rule.type.lastIndexOf("]")), 10);
-          if ((prefix === "min" && value.length < amount) || (prefix === "max" && value.length > amount)) {
-            return [...previous, rule.prompt];
-          }
-        } else if (rule.type.substring(3, 9) === "Length") {
-          const amount = parseInt(rule.type.substring(rule.type.indexOf("[") + 1, rule.type.lastIndexOf("]")), 10);
-          if ((prefix === "min" && value.length < amount) || (prefix === "max" && value.length > amount)) {
-            return [...previous, rule.prompt];
-          }
+  isNotValid(values, rule, value) {
+    // console.log(values, rule, value)
+    const type = rule.type;
+    if (type === "notEmpty") {
+      return Validator.isNull(value);
+    } else if (type === "validEmail") {
+      return !Validator.isEmail(value);
+    } else if (type.substring(0, 3) === "min" || type.substring(0, 3) === "max") {
+      const prefix = rule.type.substring(0, 3);
+      if (rule.type.substring(3, 8) === "Count") {
+        // Amount is between square brackets : minCount[2]
+        const amount = parseInt(rule.type.substring(rule.type.indexOf("[") + 1, rule.type.lastIndexOf("]")), 10);
+        if ((prefix === "min" && value.length < amount) || (prefix === "max" && value.length > amount)) {
+          return true;
+        }
+      } else if (rule.type.substring(3, 9) === "Length") {
+        const amount = parseInt(rule.type.substring(rule.type.indexOf("[") + 1, rule.type.lastIndexOf("]")), 10);
+        if ((prefix === "min" && value.length < amount) || (prefix === "max" && value.length > amount)) {
+          return true;
         }
       }
-      return previous;
+    } else if (rule.type.substring(0, 5) === "equal") {
+      const field = rule.type.substring(rule.type.indexOf("[") + 1, rule.type.lastIndexOf("]"));
+      // console.log(values[field], value)
+      // console.log(values[field] !== value)
+      return values[field] !== value;
+    }
+    return false;
+  }
+
+  validate(values, rules, value) {
+    return rules.reduce((previous, rule) => {
+      return this.isNotValid(values, rule, value) ? [...previous, rule.error] : previous;
     }, []);
   }
 
@@ -51,41 +51,30 @@ export default class ValidateCore {
    * @param {String} modelname - Name of the model that can be found in rules-file
    * @return {Array} - Found errors
    */
-  validateField(value, field, model) {
-    // console.log(name + value + modelname);
-    const validation = findValidationRule(field, model);
-    if (validation === undefined) {
-      return [];
-    }
-    return validate(validation.rules, value);
+  validateField(values, model, field, value) {
+    // console.log(model, field, value)
+    const errors = {};
+    errors[`${model}_${field}`] = this.validate(values, Schemas[model][field].rules, value);
+    // console.log(errors)
+    return errors;
   }
 
   /**
    * Validates all of models' fields
    */
-  validateForm(form) {
+  validateForm(values, model) {
     // console.log(modelname);
     // console.log(values);
-    const model = form.model;
-    const values = form.values;
-    let errors = {
-      obj: {},
-      list: [],
-    };
+    let errors = {};
     if (values.constructor === Object) {
       for (const key in values) {
         if ({}.hasOwnProperty.call(values, key)) {
-          const fieldErrors = validateField(key, values[key], model);
-          if (fieldErrors.length > 0) {
-            errors.obj[`${model}_${key}`] = fieldErrors;
-            errors.list.push(...fieldErrors);
-          }
-          const validation = findValidationRule(key, model);
+          Object.assign(errors, this.validateField(values, model, key, values[key]));
+          const validation = Schemas[model][key].rules;
           if (validation !== undefined && validation.model !== undefined) {
-            const modelErrors = validateModel(values[key], validation.model);
+            const modelErrors = this.validateForm(values[key], validation.model);
             console.log(modelErrors);
-            errors.obj = Object.assign(errors.obj, modelErrors.obj);
-            errors.list.push(...modelErrors.list);
+            errors = Object.assign(errors.obj, modelErrors.obj);
           }
         }
       }
@@ -108,13 +97,9 @@ export default class ValidateCore {
       }, { list: [], obj: {} });
       console.log(errors);
     }
+    // console.log(errors)
     return errors;
   }
-
-  // updateErrors(value, name, modelname, errors) {
-  //   const newErrors = validateField(name, value, modelname);
-  //   const cloneErrors = Object.assign({}, errors);
-  //   cloneErrors[`${modelname}_${name}`] = newErrors;
-  //   return cloneErrors;
-  // }
 }
+
+export default new ValidateCore();
