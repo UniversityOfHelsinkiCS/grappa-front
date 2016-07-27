@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Validate from "../validate/Validate";
 
 export default class Dropdown extends Component {
 
@@ -25,12 +26,18 @@ export default class Dropdown extends Component {
 
   handleClick(type, index, event) {
     if (type === "unactivate" && this.props.editable) {
-      this.props.activated.splice(index, 1);
-      this.setState({});
+      Validate.updateForm(this.props.formname, "Graders", this.props.activated.filter((grader, i) => {
+        if (index !== i) return grader;
+      }));
+      // this.props.activated.splice(index, 1);
+      // this.setState({});
     } else if (type === "activate" && this.props.editable) {
       // console.log("pushing grader to activated")
-      this.props.activated.push(this.props.graders[index]);
-      this.setState({});
+      // this.props.activated.push(this.props.graders[index]);
+      // this.setState({});
+      // const old = Validate.getFormField(this.props.formname, "Grader");
+      // Validate.updateForm(this.props.formname, "Grader", [...old, this.props.graders[index]]);
+      Validate.updateForm(this.props.formname, "Graders", [...this.props.activated, this.props.graders[index]]);
     } else if (type === "toggleMenu") {
       this.setState({
         menuActive: !this.state.menuActive,

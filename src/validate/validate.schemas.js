@@ -110,6 +110,84 @@ const schemas = {
       ],
     },
   },
+  grader: {
+    name: {
+      default: "",
+      type: "string",
+      rules: [
+        {
+          type: "notEmpty",
+          error: "Name can't be empty.",
+        },
+      ],
+    },
+    title: {
+      default: "",
+      type: "string",
+      rules: [
+        {
+          type: "notEmpty",
+          error: "Title can't be empty.",
+        },
+      ],
+    },
+  },
+  user: {
+    firstname: {
+      default: "",
+      type: "string",
+      rules: [
+        {
+          type: "notEmpty",
+          error: "Email can't be empty.",
+        },
+      ],
+    },
+    lastname: {
+      default: "",
+      type: "string",
+      rules: [
+        {
+          type: "notEmpty",
+          error: "Title can't be empty.",
+        },
+      ],
+    },
+    email: {
+      default: "",
+      type: "string",
+      rules: [
+        {
+          type: "notEmpty",
+          error: "Email can't be empty.",
+        },
+        {
+          type: "validEmail",
+          error: "Not a valid email.",
+        },
+      ],
+    },
+    password: {
+      default: "",
+      type: "string",
+      rules: [
+        {
+          type: "notEmpty",
+          error: "Title can't be empty.",
+        },
+      ],
+    },
+    passwordConf: {
+      default: "",
+      type: "string",
+      rules: [
+        {
+          type: "notEmpty",
+          error: "Title can't be empty.",
+        },
+      ],
+    },
+  }
 };
 
 export default schemas;

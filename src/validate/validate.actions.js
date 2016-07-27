@@ -1,5 +1,6 @@
 export const CREATE_FORM = "CREATE_FORM";
 export const UPDATE_FORM = "UPDATE_FORM";
+export const REPLACE_FORM = "REPLACE_FORM";
 
 export const createForm = (name, model) => (
   {
@@ -11,11 +12,23 @@ export const createForm = (name, model) => (
   }
 );
 
-export const updateForm = (data, errors) => (
+export const updateForm = (formname, field, value, errors) => (
   {
     type: UPDATE_FORM,
     payload: {
-      data,
+      formname,
+      field,
+      value,
+      errors,
+    },
+  }
+);
+
+export const replaceForm = (values, errors) => (
+  {
+    type: REPLACE_FORM,
+    payload: {
+      values,
       errors,
     },
   }

@@ -1,32 +1,52 @@
 import React, { Component, PropTypes } from "react";
 
 import Dropdown from "../ui/Dropdown.component";
+import Validate from "../validate/Validate";
+import ValidateError from "../ui/Error.component";
 import { updateErrors, validateField, validateModel } from "../config/Validator";
 
 export class GraderListCreateUpdate extends Component {
   constructor() {
     super();
+    // this.state = {
+    //   newGrader: {},
+    //   updateGrader: {},
+    //   errors: {},
+    // };
     this.state = {
-      newGrader: {},
-      updateGrader: {},
+      newGrader: Validate.createForm("newGrader", "grader"),
+      updateGrader: Validate.createForm("updateGrader", "grader"),
       errors: {},
     };
+  }
+
+  componentWillMount() {
+    Validate.subscribeToForm("newGrader", this, this.setState);
+    Validate.subscribeToForm("updateGrader", this, this.setState);
   }
 
   handleChange(name, type, event) {
     event.preventDefault();
     if (this.props.editable) {
-      if (name === "which" && type === "updateGrader") {
-        this.setState({
-          updateGrader: Object.assign({}, this.props.Graders[event.target.value]),
-        });
+      if (name === "select" && type === "updateGrader") {
+        // this.setState({
+        //   updateGrader: Object.assign({}, this.props.Graders[event.target.value]),
+        // });
+        Validate.replaceForm("updateGrader", this.props.Graders[event.target.value]);
+        // this.setState({
+        //   updateGrader: Validate.getForm("updateGrader"),
+        // });
       } else {
-        const change = {
-          errors: updateErrors(event.target.value, name, "grader", this.state.errors),
-        };
-        change[type] = this.state[type];
-        change[type][name] = event.target.value;
-        this.setState(change);
+        // const change = {
+        //   errors: updateErrors(event.target.value, name, "grader", this.state.errors),
+        // };
+        // change[type] = this.state[type];
+        // change[type][name] = event.target.value;
+        // this.setState(change);
+        Validate.updateForm("newGrader", name, event.target.value);
+        // this.setState({
+        //   newGrader: Validate.getForm("newGrader"),
+        // });
       }
     }
   }
@@ -50,30 +70,6 @@ export class GraderListCreateUpdate extends Component {
     }
   }
 
-  createGrader(event) {
-    event.preventDefault();
-    if (this.props.editable) {
-      const errors = validateModel(this.state.newGrader, "grader");
-      console.log("errors");
-      console.log(errors);
-      if (errors.list.length === 0) {
-        this.props.saveGrader(this.state.newGrader);
-      }
-    }
-  }
-
-  updateGrader(event) {
-    event.preventDefault();
-    if (this.props.editable) {
-      const errors = validateModel(this.state.updateGrader, "grader");
-      console.log("errors");
-      console.log(errors);
-      if (errors.list.length === 0) {
-        this.props.updateGrader(this.state.updateGrader);
-      }
-    }
-  }
-
   renderCreate() {
     return (
       <div className="four fields">
@@ -81,7 +77,7 @@ export class GraderListCreateUpdate extends Component {
           <label>Title</label>
           <select
             className="ui fluid search dropdown"
-            value={this.state.newGrader.title}
+            value={this.state.newGrader.values.title}
             onChange={this.handleChange.bind(this, "title", "newGrader")}
           >
             <option value="">Select title</option>
@@ -96,7 +92,7 @@ export class GraderListCreateUpdate extends Component {
           <label>Name</label>
           <input
             type="text"
-            value={this.state.newGrader.name}
+            value={this.state.newGrader.values.name}
             placeholder="Name"
             onChange={this.handleChange.bind(this, "name", "newGrader")}
           />
@@ -123,7 +119,7 @@ export class GraderListCreateUpdate extends Component {
           <label>Who</label>
           <select
             className="ui fluid search dropdown"
-            onChange={this.handleChange.bind(this, "which", "updateGrader")}
+            onChange={this.handleChange.bind(this, "select", "updateGrader")}
           >
             { Graders.map((item, index) =>
               <option key={ index } value={ index } >
@@ -136,7 +132,7 @@ export class GraderListCreateUpdate extends Component {
           <label>Title</label>
           <select
             className="ui fluid search dropdown"
-            value={this.state.updateGrader.title}
+            value={this.state.updateGrader.values.title}
             onChange={this.handleChange.bind(this, "title", "updateGrader")}
           >
             <option value="Prof">Professor</option>
@@ -150,7 +146,7 @@ export class GraderListCreateUpdate extends Component {
           <label>Name</label>
           <input
             type="text"
-            value={this.state.updateGrader.name}
+            value={this.state.updateGrader.values.name}
             placeholder="Name"
             onChange={this.handleChange.bind(this, "name", "updateGrader")}
           />
@@ -168,15 +164,15 @@ export class GraderListCreateUpdate extends Component {
   }
 
   render() {
-    const { Graders, activated } = this.props;
+    const { formname, Graders, activated, editable } = this.props;
     // console.log(Graders)
-    console.log(activated);
+    // console.log(activated);
     return (
       <div className="field">
         <h3 className="ui dividing header">Graders</h3>
         <div className="field">
           <label>Select Graders</label>
-          <Dropdown graders={ Graders } activated={ activated } editable={ this.props.editable }/>
+          <Dropdown formname={formname} graders={Graders} activated={activated} editable={editable}/>
         </div>
         { this.props.editable ?
           <span>

@@ -1,7 +1,7 @@
 
 import reducer from "./validate.reducer";
 import Core from "./Core";
-import { createForm, updateForm } from "./validate.actions";
+import { createForm, updateForm, replaceForm } from "./validate.actions";
 
 // react-redux-validate
 
@@ -9,52 +9,82 @@ class Validate {
 
   constructor() {
     this.state = reducer(undefined, { type: "INIT" });
+    this.subscribers = [];
+  }
+
+  _reduce(formname, action) {
+    this.state = reducer(this.state, action);
+    this.subscribers.map(subscriber => {
+      if (subscriber.formname === formname) {
+        subscriber.update();
+      }
+    })
   }
 
   getForms() {
     return this.state.get("forms").toJS();
   }
 
+  getForm(formname) {
+    return this.state.get("forms").toJS()[formname];
+  }
+
+  getFormField(formname, field) {
+    return this.state.get("forms").toJS()[formname].values[field];
+  }
+  
+  getFormErrors(formname) {
+    return this.state.get("forms").toJS()[formname].errors;
+  }
+
+  getFieldErrors(formname, model, field) {
+    return this.state.get("forms").toJS()[formname].errors[`${model}_${field}`];
+  }
+
+  subscribeToForm(formname, scope, setState) {
+    const updatation = {
+      formname,
+      scope,
+      update: () => {
+        console.log("updating", formname)
+        const newState = {};
+        newState[formname] = this.state.get("forms").toJS()[formname];
+        scope.setState(newState);
+      }
+    }
+    updatation.update();
+    this.subscribers.push(updatation);
+  }
+
+  unsubscribeFromForm(formname, id) {
+
+  }
+
   createForm(name, model) {
     this.state = reducer(this.state, createForm(name, model));
+    return this.state.get("forms").toJS()[name];
   }
 
-  updateForm(value, field, formname) {
-    const model = this.getForms()[formname].model;
-    const errors = Core.validateField(value, field, model);
-    this.state = reducer(this.state, updateForm({
-      data: {
-        value,
-        field,
-        formname,
-      },
-      errors,
-    }))
+  replaceForm(formname, newValues) {
+    const errors = Core.validateForm(newValues);
+    this._reduce(formname, replaceForm(newValues, errors));
+    // this.state = reducer(this.state, replaceForm(newValues, errors))
   }
 
-  getErrors(formname) {
-    const form = this.getForms()[formname];
-    return form ? form.errors : "";
-  }
-
-  getFieldErrors(field, formname) {
-    const form = this.getForms()[formname];
-    return form ? form.errors.obj[field] : "";
+  updateForm(formname, field, value) {
+    const model = this.getForm(formname).model;
+    const errors = Core.validateField(model, field, value);
+    this._reduce(formname, updateForm(formname, field, value, errors));
+    // this.state = reducer(this.state, updateForm(formname, field, value, errors));
   }
 
   isFormValid(formname) {
+    return true;
     const form = this.getForms()[formname];
     if (form) {
       const errors = Core.validateForm(form);
-      this.state = reducer(this.state, updateForm({
-        data: {},
-        errors,
-      }));
-      // this.props.updateForm({
-      //   data: {},
-      //   errors,
-      // });
-      return errors.list.length === 0;
+      this.state = reducer(this.state, updateForm("", "", "", errors));
+      return errors.length === 0;
     } else {
       return false;
     }
