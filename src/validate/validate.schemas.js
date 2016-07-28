@@ -336,6 +336,18 @@ const schemas = {
       ],
     }
   },
+  councilmeeting: {
+    date: {
+      default: "",
+      type: "string",
+      rules: [
+        {
+          type: "notEmpty",
+          error: "Name can't be empty.",
+        },
+      ],
+    },
+  },
   studyfield: {
     name: {
       default: "",
@@ -348,14 +360,72 @@ const schemas = {
       ],
     },
   },
-  councilmeeting: {
-    date: {
+  studyfieldEdit: {
+    id: {
+      default: "",
+      type: "string",
+      rules: [
+      ],
+    },
+    name: {
       default: "",
       type: "string",
       rules: [
         {
           type: "notEmpty",
           error: "Name can't be empty.",
+        },
+      ],
+    },
+    isActive: {
+      default: "",
+      type: "boolean",
+      rules: [
+      ],
+    },
+    Users: {
+      default: "",
+      type: "array",
+      rules: [
+      ],
+    },
+    professor: {
+      default: "",
+      type: "string",
+      rules: [
+      ],
+    },
+  },
+  emailDraftEdit: {
+    id: {
+      default: "",
+      type: "string",
+      rules: [
+      ],
+    },
+    type: {
+      default: "",
+      type: "string",
+      rules: [
+      ],
+    },
+    title: {
+      default: "",
+      type: "string",
+      rules: [
+        {
+          type: "notEmpty",
+          error: "Title can't be empty.",
+        },
+      ],
+    },
+    body: {
+      default: "",
+      type: "string",
+      rules: [
+        {
+          type: "notEmpty",
+          error: "Body can't be empty.",
         },
       ],
     },

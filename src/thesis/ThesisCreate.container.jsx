@@ -292,7 +292,6 @@ import { connect } from "react-redux";
 import { saveThesis, saveThesisWithReview } from "./thesis.actions";
 import { getCouncilmeetings } from "../councilmeeting/councilmeeting.actions";
 import { getStudyfields } from "../studyfield/studyfield.actions";
-import { uploadReview } from "../upload/upload.actions";
 
 const mapDispatchToProps = (dispatch) => ({
   saveThesis(newThesis, pdfFile) {

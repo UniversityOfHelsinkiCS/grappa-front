@@ -39,12 +39,9 @@ export class UserList extends Component {
       let value;
       if (field === "isActive" || field === "isRetired") {
         value = !Validate.getFormField("updateUser", field);
-        // this.state.updateUser[field] = !this.state.updateUser[field];
       } else {
-        // this.state.updateUser[field] = event.target.value;
         value = event.target.value;
       }
-      // this.setState({});
       Validate.updateForm("updateUser", field, value);
     }
   }

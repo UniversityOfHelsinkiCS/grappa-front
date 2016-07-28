@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import Validate from "../validate/Validate";
 import ValidateError from "../ui/Error.component";
-import Errors from "../ui/Errors.component";
 
 export class StudyFieldList extends Component {
 
@@ -9,12 +8,14 @@ export class StudyFieldList extends Component {
     super();
     this.state = {
       StudyFields: [],
-      newStudyField: {},
-      editStudyField: {},
+      newStudyField: Validate.createForm("newStudyField", "studyfield"),
+      updateStudyField: Validate.createForm("updateStudyField", "studyfieldEdit"),
     };
   }
 
   componentWillMount() {
+    Validate.subscribeToForm("newStudyField", "sl", (newStudyField) => { this.setState({ newStudyField, })});
+    Validate.subscribeToForm("updateStudyField", "sl", (updateStudyField) => { this.setState({ updateStudyField, })});
     const fields = this.props.StudyFields;
     const fieldsWithUsers = this.setUsersForStudyfields(fields, this.props.Users);
     // console.log(fields)
@@ -22,6 +23,10 @@ export class StudyFieldList extends Component {
     this.setState({
       StudyFields: fieldsWithUsers,
     });
+  }
+
+  componentWillUnmount() {
+    Validate.unsubscribe("sl");
   }
 
   componentWillReceiveProps(newProps) {
@@ -34,39 +39,41 @@ export class StudyFieldList extends Component {
     }
   }
 
-  handleChange(type, field, event) {
-    if (type === "newStudyField") {
-      this.state.newStudyField[field] = event.target.value;
-      this.setState({});
-    } else if (type === "updateStudyField") {
-      if (field === "isActive") {
-        this.state.editStudyField[field] = !this.state.editStudyField[field];
-        this.setState({});
-      } else {
-        this.state.editStudyField[field] = event.target.value;
-        this.setState({});
-      }
-    }
-  }
-
-  handleClick(type, index, event) {
-    if (type === "save") {
-      this.props.saveStudyField(this.state.newStudyField);
-    } else if (type === "update" && this.state.editStudyField.id) {
-      this.props.updateStudyField(this.state.editStudyField);
-    } else if (type === "selectField") {
-      this.state.editStudyField = this.state.StudyFields[index];
-      this.setState({});
-    }
-  }
-
   setUsersForStudyfields(studyfields, users) {
     return studyfields.map(field => {
       field.Users = users.filter(user => {
         if (user.StudyField && user.StudyField.id === field.id) return user;
       });
+      field.professor = users.find(user => {
+        if (user.StudyField && user.StudyField.id === field.id && user.role === "professor") return user;
+      });
+      field.professor = field.professor === undefined ? "" : `${field.professor.firstname} ${field.professor.lastname}`;
       return field;
     });
+  }
+
+  handleChange(formname, field, event) {
+    if (formname === "newStudyField") {
+      Validate.updateForm("newStudyField", field, event.target.value);
+    } else if (formname === "updateStudyField") {
+      let value;
+      if (field === "isActive") {
+        value = !Validate.getFormField("updateStudyField", field);
+      } else {
+        value = event.target.value;
+      }
+      Validate.updateForm("updateStudyField", field, value);
+    }
+  }
+
+  handleClick(type, index, event) {
+    if (type === "save" && Validate.isFormValid("newStudyField")) {
+      this.props.saveStudyField(this.state.newStudyField.values);
+    } else if (type === "update" && this.state.updateStudyField.values.id && Validate.isFormValid("updateStudyField")) {
+      this.props.updateStudyField(this.state.updateStudyField.values);
+    } else if (type === "selectField") {
+      Validate.replaceForm("updateStudyField", this.props.StudyFields[index]);
+    }
   }
 
   render() {
@@ -83,27 +90,29 @@ export class StudyFieldList extends Component {
                   placeholder="Name"
                   onChange={this.handleChange.bind(this, "newStudyField", "name")}
                 />
+                <ValidateError errors={this.state.newStudyField.errors} model="studyfield" field="name" />
               </div>
               <div className="field">
                 <button className="ui primary button" onClick={this.handleClick.bind(this, "save")}>Save</button>
               </div>
             </div>
             <div className="field">
-              <h2 className="ui dividing header">Update studyfield {this.state.editStudyField.name}</h2>
+              <h2 className="ui dividing header">Update studyfield {this.state.updateStudyField.values.name}</h2>
               <div className="three fields">
                 <div className="field">
                   <input
                     type="text"
                     placeholder="Name"
-                    value={this.state.editStudyField.name}
+                    value={this.state.updateStudyField.values.name}
                     onChange={this.handleChange.bind(this, "updateStudyField", "name")}
                   />
+                  <ValidateError errors={this.state.updateStudyField.errors} model="studyfieldEdit" field="name" />
                 </div>
                 <div className="field">
                   <div className="ui checkbox">
                     <input
                       type="checkbox"
-                      checked={this.state.editStudyField.isActive ? "true" : ""}
+                      checked={this.state.updateStudyField.values.isActive ? "true" : ""}
                       onChange={this.handleChange.bind(this, "updateStudyField", "isActive")}
                     />
                     <label>Active</label>
@@ -136,8 +145,8 @@ export class StudyFieldList extends Component {
                   <tr key={index} onClick={this.handleClick.bind(this, "selectField", index)}>
                     <td>{item.isActive ? "true" : "false"}</td>
                     <td>{item.name}</td>
-                    <td>User</td>
-                    <td>All users</td>
+                    <td>{item.professor}</td>
+                    <td>{item.Users.length}</td>
                   </tr>
                 )}
               </tbody>

@@ -17,7 +17,6 @@ import emailstatus from "./emailstatus/emailstatus.reducer";
 import studyfield from "./studyfield/studyfield.reducer";
 import grader from "./grader/grader.reducer";
 import ethesis from "./ethesis/ethesis.reducer";
-import upload from "./upload/upload.reducer";
 import flash from "./flash/flash.reducer";
 import { LOGOUT_USER } from "./auth/auth.actions";
 
@@ -32,7 +31,6 @@ const combinedReducers = combineReducers({
   studyfield,
   grader,
   ethesis,
-  upload,
   flash,
 });
 
