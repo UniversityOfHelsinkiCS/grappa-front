@@ -6,18 +6,29 @@
 */
 import React from "react";
 import { browserHistory } from "react-router";
-// import { validateField, validateModel } from "../config/Validator";
+import Validate from "../validate/Validate";
+import ValidateError from "../ui/Error.component";
+import Errors from "../ui/Errors.component";
 
 export class Login extends React.Component {
   constructor() {
     super();
     this.state = {
-      email: "ohtugrappa@gmail.com",
-      password: "asdf",
-      errors: {},
+      loginUser: Validate.createForm("loginUser", "loginUser"),
     };
+    // Validate.replaceForm("loginUser", {
+    //   email: "ohtugrappa@gmail.com",
+    //   password: "asdf",
+    // });
   }
 
+  componentWillMount() {
+    Validate.subscribeToForm("loginUser", "l", (loginUser) => { this.setState({ loginUser, })});
+  }
+
+  componentWillUnmount() {
+    Validate.unsubscribe("l");
+  }
   /**
    * Built-in method for React-Component called when its props changes
    *
@@ -39,26 +50,25 @@ export class Login extends React.Component {
   }
 
   handleChange(name, event) {
-    event.preventDefault();
-    const change = {
-      errors: this.state.errors,
-    };
-    change[name] = event.target.value;
-    // const newErrors = validateField(name, event.target.value, "login");
-    // change.errors[name] = newErrors;
-    this.setState(change);
+    // event.preventDefault();
+    // const change = {
+    //   errors: this.state.errors,
+    // };
+    // change[name] = event.target.value;
+    // // const newErrors = validateField(name, event.target.value, "login");
+    // // change.errors[name] = newErrors;
+    // this.setState(change);
+    Validate.updateForm("loginUser", name, event.target.value);
   }
   /**
   * Handler method to handle what to do when the submit button is clicked.
   * @param event Used to get a hold of what the input of the user was.
   */
-  handleSubmit(event) {
+  handleClick(event) {
     event.preventDefault();
-    const user = {
-      email: this.state.email,
-      password: this.state.password,
-    };
-    this.props.loginUser(user);
+    if (Validate.isFormValid("loginUser")) {
+      this.props.loginUser(this.state.loginUser.values);
+    }
   }
   /**
   * The method in charge of rendering the outlook of the page. Contains all the html elements.
@@ -67,36 +77,39 @@ export class Login extends React.Component {
   render() {
     return (
       <div className="ui middle aligned center aligned grid">
-        <div className="ui large form">
-          <div className="ui stacked segment">
-            <div className="field error">
-              <div className="ui left icon input">
-                <i className="mail icon"></i>
-                <input
-                  type="text"
-                  name="email"
-                  placeholder="E-mail address"
-                  value={ this.state.email }
-                  onChange={ this.handleChange.bind(this, "email") }
-                />
+        <div className="ui">
+          <div className="ui large form">
+            <div className="ui stacked segment">
+              <div className="field error">
+                <div className="ui left icon input">
+                  <i className="mail icon"></i>
+                  <input
+                    type="text"
+                    name="email"
+                    placeholder="E-mail address"
+                    value={ this.state.loginUser.values.email }
+                    onChange={ this.handleChange.bind(this, "email") }
+                  />
+                </div>
+              </div>
+              <div className="field error">
+                <div className="ui left icon input">
+                  <i className="lock icon"></i>
+                  <input
+                    type="password"
+                    name="password"
+                    placeholder="Password"
+                    value={ this.state.loginUser.values.password }
+                    onChange={ this.handleChange.bind(this, "password") }
+                  />
+                </div>
               </div>
             </div>
-            <div className="field error">
-              <div className="ui left icon input">
-                <i className="lock icon"></i>
-                <input
-                  type="password"
-                  name="password"
-                  placeholder="Password"
-                  value={ this.state.password }
-                  onChange={ this.handleChange.bind(this, "password") }
-                />
-              </div>
+            <div className="ui fluid large blue submit button" onClick={this.handleClick.bind(this)}>
+              Login
             </div>
           </div>
-          <div className="ui fluid large blue submit button" onClick={this.handleSubmit.bind(this)}>
-            Login
-          </div>
+          <Errors errors={this.state.loginUser.errors}/>
         </div>
       </div>
     );

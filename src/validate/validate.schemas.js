@@ -70,7 +70,7 @@ const schemas = {
     },
     Graders: {
       default: [],
-      model: "grader",
+      // model: "grader",
       type: "array",
       rules: [
         {
@@ -111,6 +111,38 @@ const schemas = {
     },
   },
   grader: {
+    name: {
+      default: "",
+      type: "string",
+      rules: [
+        {
+          type: "notEmpty",
+          error: "Name can't be empty.",
+        },
+      ],
+    },
+    title: {
+      default: "",
+      type: "string",
+      rules: [
+        {
+          type: "notEmpty",
+          error: "Title can't be empty.",
+        },
+      ],
+    },
+  },
+  graderEdit: {
+    id: {
+      default: "",
+      type: "number",
+      rules: [
+        {
+          type: "notEmpty",
+          error: "Name can't be empty.",
+        },
+      ],
+    },
     name: {
       default: "",
       type: "string",
@@ -195,7 +227,139 @@ const schemas = {
         },
       ],
     },
-  }
+  },
+  userEdit: {
+    id: {
+      default: "",
+      type: "string",
+      rules: [
+      ],
+    },
+    firstname: {
+      default: "",
+      type: "string",
+      rules: [
+        {
+          type: "notEmpty",
+          error: "First name can't be empty.",
+        },
+      ],
+    },
+    lastname: {
+      default: "",
+      type: "string",
+      rules: [
+        {
+          type: "notEmpty",
+          error: "Second name can't be empty.",
+        },
+      ],
+    },
+    email: {
+      default: "",
+      type: "string",
+      rules: [
+        {
+          type: "notEmpty",
+          error: "Email can't be empty.",
+        },
+        {
+          type: "validEmail",
+          error: "Not a valid email.",
+        },
+      ],
+    },
+    role: {
+      default: "",
+      type: "string",
+      rules: [
+        {
+          type: "notEmpty",
+          error: "Password can't be empty.",
+        },
+      ],
+    },
+    StudyFieldId: {
+      default: "",
+      type: "string",
+      rules: [
+      ],
+    },
+    isRetired: {
+      default: "",
+      type: "boolean",
+      rules: [
+      ],
+    },
+    isActive: {
+      default: "",
+      type: "boolean",
+      rules: [
+      ],
+    },
+    StudyField: {
+      default: "",
+      type: "string",
+      rules: [
+      ],
+    },
+    Theses: {
+      default: "",
+      type: "array",
+      rules: [
+      ],
+    },
+  },
+  loginUser: {
+    email: {
+      default: "",
+      type: "string",
+      rules: [
+        {
+          type: "notEmpty",
+          error: "Email can't be empty.",
+        },
+        {
+          type: "validEmail",
+          error: "Not a valid email.",
+        },
+      ],
+    },
+    password: {
+      default: "",
+      type: "string",
+      rules: [
+        {
+          type: "notEmpty",
+          error: "Password can't be empty."
+        }
+      ],
+    }
+  },
+  studyfield: {
+    name: {
+      default: "",
+      type: "string",
+      rules: [
+        {
+          type: "notEmpty",
+          error: "Name can't be empty.",
+        },
+      ],
+    },
+  },
+  councilmeeting: {
+    date: {
+      default: "",
+      type: "string",
+      rules: [
+        {
+          type: "notEmpty",
+          error: "Name can't be empty.",
+        },
+      ],
+    },
+  },
 };
 
 export default schemas;

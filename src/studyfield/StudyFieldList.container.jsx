@@ -1,5 +1,7 @@
 import React, { Component } from "react";
-import { Table, Thead, Th, unsafe } from "reactable";
+import Validate from "../validate/Validate";
+import ValidateError from "../ui/Error.component";
+import Errors from "../ui/Errors.component";
 
 export class StudyFieldList extends Component {
 

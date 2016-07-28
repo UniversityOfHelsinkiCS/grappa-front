@@ -24,10 +24,11 @@ export const updateForm = (formname, field, value, errors) => (
   }
 );
 
-export const replaceForm = (values, errors) => (
+export const replaceForm = (formname, values, errors) => (
   {
     type: REPLACE_FORM,
     payload: {
+      formname,
       values,
       errors,
     },
