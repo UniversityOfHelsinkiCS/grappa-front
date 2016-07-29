@@ -67,8 +67,11 @@ class Validate {
   }
 
   replaceForm(formname, newValues) {
-    const errors = Core.validateForm(newValues);
-    this._reduce(formname, replaceForm(newValues, errors));
+    const form = this.getForm(formname);
+    const errors = Core.validateForm(newValues, form.model);
+    console.log(newValues);
+    this._reduce(formname, replaceForm(formname, newValues, errors));
+    console.log(this.getForm(formname));
   }
 
   updateForm(formname, field, value) {
@@ -82,6 +85,7 @@ class Validate {
     if (form) {
       const errors = Core.validateForm(form.values, form.model);
       this._reduce(formname, updateForm(formname, "", "", errors));
+      console.log(errors);
       const count = Object.keys(errors).reduce((previousValue, key) => {
         return previousValue + errors[key].length;
       }, 0);

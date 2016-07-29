@@ -7,7 +7,7 @@
 
 import React, { Component } from "react";
 import moment from "moment";
-import ThesisListC from "../thesis/ThesisList.component";
+import ThesisListComp from "../thesis/ThesisList.component";
 
 export class ThesisList extends Component {
   constructor() {
@@ -31,7 +31,7 @@ export class ThesisList extends Component {
   componentWillReceiveProps(newProps) {
     if (this.props.theses !== newProps.theses) {
       this.setState({
-        filteredTheses: newProps.theses.map(thesis => thesis),
+        filteredTheses: newProps.theses,
         selectedTheses: [],
         searchedTheses: [],
       });
@@ -57,11 +57,13 @@ export class ThesisList extends Component {
         <div className="m-bot">
           <h2 className="ui dividing header">Theses</h2>
           <p>
-            All theses.
+            Past and current theses regarding your user role.
           </p>
           <button className="ui button blue" onClick={this.handleClick.bind(this, "download")}>Download selected</button>
         </div>
-        <ThesisListC theses={this.state.filteredTheses} selected={this.state.selectedTheses}
+        <ThesisListComp
+          theses={this.state.filteredTheses}
+          selected={this.state.selectedTheses}
           searched={this.state.searchedTheses}
         />
       </div>

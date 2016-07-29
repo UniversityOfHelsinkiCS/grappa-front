@@ -8,12 +8,11 @@
 import React from "react";
 import Dropzone from "react-dropzone";
 import moment from "moment";
+
 import GraderContainer from "../grader/GraderListCreateUpdate.container";
-import ValidateError from "../ui/Error.component";
-import Errors from "../ui/Errors.component";
+import GradersDropdown from "../ui/GradersDropdown.component";
 import Validate from "../validate/Validate";
-// import ValidInput from "../config/ValidInput.component";
-// import { validateField, validateModel, updateErrors } from "../config/Validator";
+import ValidateError from "../ui/Error.component";
 
 export class ThesisCreate extends React.Component {
   constructor() {
@@ -24,8 +23,7 @@ export class ThesisCreate extends React.Component {
   }
 
   componentWillMount() {
-    // Validate.subscribeToForm("newThesis", this, this.setState);
-    Validate.subscribeToForm("newThesis", "tc", (newThesis) => { 
+    Validate.subscribeToForm("newThesis", "tc", (newThesis) => {
       this.setState({ newThesis, });
     });
   }
@@ -176,6 +174,41 @@ export class ThesisCreate extends React.Component {
     );
   }
 
+  onDrop(files) {
+    // console.log('Received files: ', files);
+    Validate.updateForm("newThesis", "PdfFile", files[0]);
+  }
+
+  renderUploadReview() {
+    // console.log(this.state.newThesis.values.PdfFile);
+    return (
+      <div>
+        <h3 className="ui dividing header">Upload Thesis review as PDF (max. 1 MB)</h3>
+        <div className="m-bot">
+          <Dropzone className="field upload-box" onDrop={this.onDrop.bind(this)} multiple={false}>
+            <p className="upload-p">Click to navigate to the file or drop them from your file system.</p>
+            <p className="upload-p">Current file: {this.state.newThesis.values.PdfFile.name}</p>
+          </Dropzone>
+        </div>
+        <ValidateError errors={this.state.newThesis.errors} model="thesis" field="PdfFile" />
+      </div>
+    );
+  }
+
+  renderGraders() {
+    return (
+      <div className="m-bot">
+        <h3 className="ui dividing header">Graders</h3>
+        <div className="field">
+          <label>Select Graders</label>
+          <GradersDropdown formname="newThesis" graders={this.props.Graders}
+            selected={this.state.newThesis.values.Graders} editable/>
+        </div>
+        <ValidateError errors={this.state.newThesis.errors} model="thesis" field="Graders" />
+      </div>
+    );
+  }
+
   formatMeetingsForReactTable(meetings) {
     return meetings.map(meeting => {
       return {
@@ -227,30 +260,6 @@ export class ThesisCreate extends React.Component {
     );
   }
 
-  onDrop(files) {
-    // console.log('Received files: ', files);
-    // this.setState({
-    //   PdfFile: files[0],
-    // });
-    Validate.updateForm("newThesis", "PdfFile", files[0]);
-  }
-
-  renderUploadReview() {
-    // console.log(this.state.newThesis.values.PdfFile);
-    return (
-      <div>
-        <h3 className="ui dividing header">Upload Thesis review as PDF (max. 1 MB)</h3>
-        <div className="m-bot">
-          <Dropzone className="field upload-box" onDrop={this.onDrop.bind(this)} multiple={false}>
-            <p className="upload-p">Click to navigate to the file or drop them from your file system.</p>
-            <p className="upload-p">Current file: {this.state.newThesis.values.PdfFile.name}</p>
-          </Dropzone>
-        </div>
-        <ValidateError errors={this.state.newThesis.errors} model="thesis" field="PdfFile" />
-      </div>
-    );
-  }
-
 /**
 * The method in charge of rendering the outlook of the page. Contains all the html elements.
 * @return <div> thesis-container Container wrapping all the html elements to be rendered.
@@ -263,10 +272,10 @@ export class ThesisCreate extends React.Component {
           {this.renderThesisAuthor()}
           {this.renderThesisInformation()}
           {this.renderUploadReview()}
-          <GraderContainer formname="newThesis" selected={this.state.newThesis.values.Graders} editable/>
+          {this.renderGraders()}
+          <GraderContainer editable/>
           {this.renderPickCouncilmeeting()}
         </div>
-        <Errors errors={this.state.newThesis.errors}/>
         <button className="ui primary button" onClick={this.handleClick.bind(this, "submit")}>
           Submit
         </button>
@@ -280,7 +289,6 @@ import { connect } from "react-redux";
 import { saveThesis, saveThesisWithReview } from "./thesis.actions";
 import { getCouncilmeetings } from "../councilmeeting/councilmeeting.actions";
 import { getStudyfields } from "../studyfield/studyfield.actions";
-import { uploadReview } from "../upload/upload.actions";
 
 const mapDispatchToProps = (dispatch) => ({
   saveThesis(newThesis, pdfFile) {
@@ -301,9 +309,11 @@ const mapDispatchToProps = (dispatch) => ({
 const mapStateToProps = (state) => {
   const cmreducer = state.get("councilmeeting");
   const sfreducer = state.get("studyfield");
+  const grader_r = state.get("grader");
   return {
     CouncilMeetings: cmreducer.get("councilmeetings").toJS(),
     StudyFields: sfreducer.get("studyfields").toJS(),
+    Graders: grader_r.get("graders").toJS(),
   };
 };
 

@@ -12,25 +12,13 @@ export default class GradersDropdown extends Component {
     };
   }
 
-  // componentWillMount() {
-  //   console.log("will mount");
-  //   console.log(this.props.graders);
-  //   console.log(this.props.selected);
-  // }
-
-  // componentWillReceiveProps(newProps) {
-  //   console.log("got props");
-  //   console.log(newProps.graders);
-  // }
-
-
   handleClick(type, index, event) {
     if (type === "unactivate" && this.props.editable) {
-      Validate.updateForm(this.props.formname, "Graders", this.props.selected.filter((grader, i) => {
-        if (index !== i) return grader;
-      }));
-      // this.props.selected.splice(index, 1);
-      // this.setState({});
+      console.log(this.props.selected);
+      this.props.selected.splice(index, 1);
+      console.log(this.props.selected);
+      Validate.updateForm(this.props.formname, "Graders", this.props.selected);
+      console.log(Validate.getForm("newThesis"));
     } else if (type === "activate" && this.props.editable) {
       // console.log("pushing grader to selected")
       // this.props.selected.push(this.props.graders[index]);
@@ -118,7 +106,7 @@ export default class GradersDropdown extends Component {
           <i className={this.state.menuActive ? "delete icon" : "dropdown icon"} onClick={this.handleClick.bind(this, "toggleMenu")}></i>
           { selected.map((item, index) => {
             return (
-              <a key={index} className="ui label transition visible" data-value="angular" onFocus={this.handleFocus.bind(this)}>
+              <a key={index} className="ui label transition visible" onFocus={this.handleFocus.bind(this)}>
                 { `${item.title} ${item.name}` }
                 <i className="delete icon" onClick={this.handleClick.bind(this, "unactivate", index)}></i>
               </a>

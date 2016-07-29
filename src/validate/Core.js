@@ -7,6 +7,18 @@ class ValidateCore {
     this.customRules = customRules;
   }
 
+  findFieldRules(model, field) {
+    if (!model) {
+      throw new TypeError(`No model defined: ${model}`);
+    } else if (!field) {
+      throw new TypeError(`No field defined: ${field}`);
+    } else if (!Schemas[model][field]) {
+      throw new TypeError(`Schema ${model} has no property: ${field}`);
+    } else {
+      return Schemas[model][field].rules;
+    }
+  }
+
   isNotValid(values, rule, value) {
     // console.log(values, rule, value)
     const type = rule.type;
@@ -54,7 +66,7 @@ class ValidateCore {
   validateField(values, model, field, value) {
     // console.log(model, field, value)
     const errors = {};
-    errors[`${model}_${field}`] = this.validate(values, Schemas[model][field].rules, value);
+    errors[`${model}_${field}`] = this.validate(values, this.findFieldRules(model, field), value);
     // console.log(errors)
     return errors;
   }
@@ -70,17 +82,17 @@ class ValidateCore {
       for (const key in values) {
         if ({}.hasOwnProperty.call(values, key)) {
           Object.assign(errors, this.validateField(values, model, key, values[key]));
-          const validation = Schemas[model][key].rules;
+          const validation = Schemas[model][key];
           if (validation !== undefined && validation.model !== undefined) {
             const modelErrors = this.validateForm(values[key], validation.model);
-            console.log(modelErrors);
+            // console.log(modelErrors);
             errors = Object.assign(errors.obj, modelErrors.obj);
           }
         }
       }
     // array of instances of models
     } else if (values.constructor === Array) {
-
+      console.log(values, model);
       throw new Error("doesnt work");
 
       console.log("array of forms????!");

@@ -37,7 +37,7 @@ export default function (state = INITIAL_STATE, action) {
       // state.forms[action.payload.formname].errors = action.payload.errors;
       let updatedValue = state;
       if (action.payload.field) {
-        updatedValue = state.mergeIn(["forms", action.payload.formname, "values", action.payload.field],
+        updatedValue = state.updateIn(["forms", action.payload.formname, "values", action.payload.field], old =>
           fromJS(action.payload.value)
         );
       }

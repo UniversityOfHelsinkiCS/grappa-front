@@ -1,9 +1,13 @@
 import React, { Component } from "react";
+import Validate from "../validate/Validate";
+import ValidateError from "../ui/Error.component";
 
 export class UserShow extends Component {
+
   constructor() {
     super();
     this.state = {
+      updateUser: Validate.createForm("updateUser", "userEditSelf"),
       User: {},
       StudyField: {},
       editUser: {},
@@ -11,6 +15,11 @@ export class UserShow extends Component {
   }
 
   componentWillMount() {
+    Validate.subscribeToForm("updateUser", "us", (updateUser) => {
+      this.setState({ updateUser, });
+    });
+    Validate.replaceForm("updateUser", this.props.User);
+
     const edit = Object.assign({
       password: "",
       newPassword: "",
@@ -26,6 +35,10 @@ export class UserShow extends Component {
     });
   }
 
+  componentWillUnmount() {
+    Validate.unsubscribe("us");
+  }
+
   componentWillReceiveProps(newProps) {
     if (newProps.User && newProps.StudyFields) {
       this.setState({
@@ -37,16 +50,17 @@ export class UserShow extends Component {
     }
   }
 
-  handleChange(type, field, event) {
-    if (type === "updateUser") {
-      this.state.editUser[field] = event.target.value;
-      this.setState({});
-    }
+  handleChange(formname, field, event) {
+    // if (type === "updateUser") {
+    //   this.state.editUser[field] = event.target.value;
+    //   this.setState({});
+    // }
+    Validate.updateForm(formname, field, event.target.value);
   }
 
   handleClick(type, index, event) {
-    if (type === "update") {
-      this.props.updateUser(this.state.editUser);
+    if (type === "update" && Validate.isFormValid("updateUser")) {
+      this.props.updateUser(this.state.updateUser.values);
     }
   }
 
@@ -67,12 +81,88 @@ export class UserShow extends Component {
     );
   }
 
-  render() {
-    const { User, StudyField } = this.state;
+  renderEdit() {
     const { StudyFields } = this.props;
     const activeFields = StudyFields.filter(field => {
       if (field.isActive) return field;
     });
+    const { updateUser } = this.state;
+    return (
+      <div className="field">
+        <h2 className="ui dividing header">Update your information</h2>
+        <p>
+          You don't have to submit your password when you're changing other information than your password.
+        </p>
+        <div className="field">
+          <label>Firstname</label>
+          <input
+            type="text"
+            placeholder="First name"
+            value={updateUser.values.firstname}
+            onChange={this.handleChange.bind(this, "updateUser", "firstname")}
+          />
+          <ValidateError errors={updateUser.errors} model="userEditSelf" field="firstname" />
+        </div>
+        <div className="field">
+          <label>Lastname</label>
+          <input
+            type="text"
+            placeholder="Last name"
+            value={updateUser.values.lastname}
+            onChange={this.handleChange.bind(this, "updateUser", "lastname")}
+          />
+          <ValidateError errors={updateUser.errors} model="userEditSelf" field="lastname" />
+        </div>
+        <div className="field">
+          <label>Email</label>
+          <input
+            type="text"
+            placeholder="Email"
+            value={updateUser.values.email}
+            onChange={this.handleChange.bind(this, "updateUser", "email")}
+          />
+          <ValidateError errors={updateUser.errors} model="userEditSelf" field="email" />
+        </div>
+        <div className="field">
+          <label>Current password</label>
+          <input
+            type="password"
+            placeholder="Password"
+            value={updateUser.values.password}
+            onChange={this.handleChange.bind(this, "updateUser", "password")}
+          />
+          <ValidateError errors={updateUser.errors} model="userEditSelf" field="password" />
+        </div>
+        <div className="field">
+          <label>New password</label>
+          <input
+            type="password"
+            placeholder="New password"
+            value={updateUser.values.newPassword}
+            onChange={this.handleChange.bind(this, "updateUser", "newPassword")}
+          />
+          <ValidateError errors={updateUser.errors} model="userEditSelf" field="newPassword" />
+        </div>
+        <div className="field">
+          <label>Confirm new password</label>
+          <input
+            type="password"
+            placeholder="Confirmation"
+            value={updateUser.values.newPasswordConf}
+            onChange={this.handleChange.bind(this, "updateUser", "newPasswordConf")}
+          />
+          <ValidateError errors={updateUser.errors} model="userEditSelf" field="newPasswordConf" />
+        </div>
+        <div className="field">
+          <label>&nbsp;</label>
+          <button className="ui green button" onClick={this.handleClick.bind(this, "update")}>Update</button>
+        </div>
+      </div>
+    );
+  }
+
+  render() {
+    const { User, StudyField } = this.state;
     return (
       <div className="ui form">
         <div className="two fields">
@@ -99,85 +189,7 @@ export class UserShow extends Component {
               </div>
             </div>
           </div>
-          <div className="field">
-            <h2 className="ui dividing header">Update your information</h2>
-            <p>
-              You don't have to submit your password when you're changing other information than your password.
-            </p>
-            <div className="field">
-              <label>Firstname</label>
-              <input
-                type="text"
-                placeholder="First name"
-                value={this.state.editUser.firstname}
-                onChange={this.handleChange.bind(this, "updateUser", "firstname")}
-              />
-            </div>
-            <div className="field">
-              <label>Lastname</label>
-              <input
-                type="text"
-                placeholder="Last name"
-                value={this.state.editUser.lastname}
-                onChange={this.handleChange.bind(this, "updateUser", "lastname")}
-              />
-            </div>
-            <div className="field">
-              <label>Email</label>
-              <input
-                type="text"
-                placeholder="Email"
-                value={this.state.editUser.email}
-                onChange={this.handleChange.bind(this, "updateUser", "email")}
-              />
-            </div>
-            <div className="field">
-              <label>Studyfield</label>
-              <select
-                className="ui fluid search dropdown"
-                value={this.state.editUser.StudyFieldId}
-                onChange={this.handleChange.bind(this, "updateUser", "StudyFieldId")}
-              >
-                <option value="">None</option>
-                { activeFields.map((field, index) =>
-                  <option key={index} value={field.id}>
-                    { field.name }
-                  </option>
-                )}
-              </select>
-            </div>
-            <div className="field">
-              <label>Current password</label>
-              <input
-                type="password"
-                placeholder="Password"
-                value={this.state.editUser.password}
-                onChange={this.handleChange.bind(this, "updateUser", "password")}
-              />
-            </div>
-            <div className="field">
-              <label>New password</label>
-              <input
-                type="password"
-                placeholder="New password"
-                value={this.state.editUser.newPassword}
-                onChange={this.handleChange.bind(this, "updateUser", "newPassword")}
-              />
-            </div>
-            <div className="field">
-              <label>Confirm new password</label>
-              <input
-                type="password"
-                placeholder="Confirmation"
-                value={this.state.editUser.newPasswordConf}
-                onChange={this.handleChange.bind(this, "updateUser", "newPasswordConf")}
-              />
-            </div>
-            <div className="field">
-              <label>&nbsp;</label>
-              <button className="ui green button" onClick={this.handleClick.bind(this, "update")}>Update</button>
-            </div>
-          </div>
+          { this.renderEdit() }
         </div>
       </div>
     );

@@ -1,50 +1,35 @@
 import React, { Component, PropTypes } from "react";
 
-import GradersDropdown from "../ui/GradersDropdown.component";
 import Validate from "../validate/Validate";
 import ValidateError from "../ui/Error.component";
-import { updateErrors, validateField, validateModel } from "../config/Validator";
 
 export class GraderListCreateUpdate extends Component {
   constructor() {
     super();
     this.state = {
       newGrader: Validate.createForm("newGrader", "grader"),
-      updateGrader: Validate.createForm("updateGrader", "grader"),
+      updateGrader: Validate.createForm("updateGrader", "graderEdit"),
     };
   }
 
   componentWillMount() {
-    Validate.subscribeToForm("newGrader", "g", (newGrader) => { this.setState({ newGrader, })});
-    Validate.subscribeToForm("newGrader", "g", (updateGrader) => { this.setState({ updateGrader, })});
+    Validate.subscribeToForm("newGrader", "g", (newGrader) => { this.setState({ newGrader, });});
+    Validate.subscribeToForm("updateGrader", "g", (updateGrader) => { this.setState({ updateGrader, });});
   }
 
   componentWillUnmount() {
     Validate.unsubscribe("g");
   }
 
-  handleChange(name, type, event) {
+  handleChange(field, formname, event) {
     event.preventDefault();
     if (this.props.editable) {
-      if (name === "select" && type === "updateGrader") {
-        // this.setState({
-        //   updateGrader: Object.assign({}, this.props.Graders[event.target.value]),
-        // });
+      if (field === "select" && formname === "updateGrader") {
+        // console.log(event.target.value)
+        // console.log(this.props.Graders[event.target.value]);
         Validate.replaceForm("updateGrader", this.props.Graders[event.target.value]);
-        // this.setState({
-        //   updateGrader: Validate.getForm("updateGrader"),
-        // });
       } else {
-        // const change = {
-        //   errors: updateErrors(event.target.value, name, "grader", this.state.errors),
-        // };
-        // change[type] = this.state[type];
-        // change[type][name] = event.target.value;
-        // this.setState(change);
-        Validate.updateForm("newGrader", name, event.target.value);
-        // this.setState({
-        //   newGrader: Validate.getForm("newGrader"),
-        // });
+        Validate.updateForm(formname, field, event.target.value);
       }
     }
   }
@@ -52,18 +37,10 @@ export class GraderListCreateUpdate extends Component {
   handleClick(type, event) {
     event.preventDefault();
     if (this.props.editable) {
-      if (type === "create") {
-        console.log("yo create");
-        const errors = validateModel(this.state.newGrader, "grader");
-        if (errors.list.length === 0) {
-          this.props.saveGrader(this.state.newGrader);
-        }
-      } else if (type === "update") {
-        console.log("yo update");
-        const errors = validateModel(this.state.updateGrader, "grader");
-        if (errors.list.length === 0) {
-          this.props.updateGrader(this.state.updateGrader);
-        }
+      if (type === "create" && Validate.isFormValid("newGrader")) {
+        this.props.saveGrader(this.state.newGrader.values);
+      } else if (type === "update" && Validate.isFormValid("updateGrader")) {
+        this.props.updateGrader(this.state.updateGrader.values);
       }
     }
   }
@@ -162,16 +139,8 @@ export class GraderListCreateUpdate extends Component {
   }
 
   render() {
-    const { formname, Graders, selected, editable } = this.props;
-    // console.log(Graders)
-    // console.log(selected);
     return (
       <div className="field">
-        <h3 className="ui dividing header">Graders</h3>
-        <div className="field">
-          <label>Select Graders</label>
-          <GradersDropdown formname={formname} graders={Graders} selected={selected} editable={editable}/>
-        </div>
         { this.props.editable ?
           <span>
             <h3 className="ui dividing header">Create or update Graders</h3>

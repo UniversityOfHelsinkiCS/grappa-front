@@ -10,14 +10,12 @@ import { triggerDownload } from "./middleware/downloadHelper";
 import auth from "./auth/auth.reducer";
 import thesis from "./thesis/thesis.reducer";
 import councilmeeting from "./councilmeeting/councilmeeting.reducer";
-import thesisprogress from "./thesisprogress/thesisprogress.reducer";
 import user from "./user/user.reducer";
 import email from "./email/email.reducer";
 import emailstatus from "./emailstatus/emailstatus.reducer";
 import studyfield from "./studyfield/studyfield.reducer";
 import grader from "./grader/grader.reducer";
 import ethesis from "./ethesis/ethesis.reducer";
-import upload from "./upload/upload.reducer";
 import flash from "./flash/flash.reducer";
 import { LOGOUT_USER } from "./auth/auth.actions";
 
@@ -25,14 +23,12 @@ const combinedReducers = combineReducers({
   auth,
   thesis,
   councilmeeting,
-  thesisprogress,
   user,
   email,
   emailstatus,
   studyfield,
   grader,
   ethesis,
-  upload,
   flash,
 });
 

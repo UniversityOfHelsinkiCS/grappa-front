@@ -1,51 +1,60 @@
 import React, { Component } from "react";
+import Validate from "../validate/Validate";
+import ValidateError from "../ui/Error.component";
+import Errors from "../ui/Errors.component";
 
 export class UserList extends Component {
 
   constructor() {
     super();
     this.state = {
-      Users: [],
-      editUser: {},
+      // Users: [],
+      updateUser: Validate.createForm("updateUser", "userEdit"),
     };
   }
 
   componentWillMount() {
-    this.setState({
-      Users: this.props.Users,
+    // this.setState({
+    //   Users: this.props.Users,
+    // });
+    Validate.subscribeToForm("updateUser", "ul", (updateUser) => {
+      this.setState({ updateUser, });
     });
   }
 
-  componentWillReceiveProps(newProps) {
-    if (newProps.Users) {
-      this.setState({
-        Users: newProps.Users,
-      });
-    }
+  componentWillUnmount() {
+    Validate.unsubscribe("ul");
   }
+
+  // componentWillReceiveProps(newProps) {
+  //   if (newProps.Users) {
+  //     this.setState({
+  //       Users: newProps.Users,
+  //     });
+  //   }
+  // }
 
   handleChange(type, field, event) {
     if (type === "updateUser") {
+      let value;
       if (field === "isActive" || field === "isRetired") {
-        this.state.editUser[field] = !this.state.editUser[field];
+        value = !Validate.getFormField("updateUser", field);
       } else {
-        this.state.editUser[field] = event.target.value;
+        value = event.target.value;
       }
-      this.setState({});
+      Validate.updateForm("updateUser", field, value);
     }
   }
 
   handleClick(type, index, event) {
     if (type === "selectUser") {
-      this.state.editUser = this.props.Users[index];
-      this.setState({});
-      console.log(this.state.editUser);
-    } else if (type === "update" && this.state.editUser.id) {
-      const user = this.state.editUser;
+      Validate.replaceForm("updateUser", this.props.Users[index]);
+    } else if (type === "update" && this.state.updateUser.values.id && Validate.isFormValid("updateUser")) {
+      const user = Validate.getForm("updateUser").values;
       user.StudyField = this.props.StudyFields.find(field => {
         if (field.id.toString() === user.StudyFieldId) return field;
       });
-      this.props.updateUser(this.state.editUser);
+      this.props.updateUser(user);
     }
   }
 
@@ -76,7 +85,7 @@ export class UserList extends Component {
               <label>Role</label>
               <select
                 className="ui fluid search dropdown"
-                value={this.state.editUser.role}
+                value={this.state.updateUser.values.role}
                 onChange={this.handleChange.bind(this, "updateUser", "role")}
               >
                 <option value="instructor">Instructor</option>
@@ -89,7 +98,7 @@ export class UserList extends Component {
               <label>Studyfield</label>
               <select
                 className="ui fluid search dropdown"
-                value={this.state.editUser.StudyFieldId}
+                value={this.state.updateUser.values.StudyFieldId}
                 onChange={this.handleChange.bind(this, "updateUser", "StudyFieldId")}
               >
                 <option value="">None</option>
@@ -105,34 +114,37 @@ export class UserList extends Component {
               <input
                 type="text"
                 placeholder="First name"
-                value={this.state.editUser.firstname}
+                value={this.state.updateUser.values.firstname}
                 onChange={this.handleChange.bind(this, "updateUser", "firstname")}
               />
+              <ValidateError errors={this.state.updateUser.errors} model="userEdit" field="firstname" />
             </div>
             <div className="field">
               <label>Lastname</label>
               <input
                 type="text"
                 placeholder="Last name"
-                value={this.state.editUser.lastname}
+                value={this.state.updateUser.values.lastname}
                 onChange={this.handleChange.bind(this, "updateUser", "lastname")}
               />
+              <ValidateError errors={this.state.updateUser.errors} model="userEdit" field="lastname" />
             </div>
             <div className="field">
               <label>Email</label>
               <input
                 type="text"
                 placeholder="Email"
-                value={this.state.editUser.email}
+                value={this.state.updateUser.values.email}
                 onChange={this.handleChange.bind(this, "updateUser", "email")}
               />
+              <ValidateError errors={this.state.updateUser.errors} model="userEdit" field="email" />
             </div>
             <div className="field">
               <label>&nbsp;</label>
               <div className="ui checkbox">
                 <input
                   type="checkbox"
-                  checked={this.state.editUser.isRetired ? "true" : ""}
+                  checked={this.state.updateUser.values.isRetired ? "true" : ""}
                   onChange={this.handleChange.bind(this, "updateUser", "isRetired")}
                 />
                 <label>Retired</label>
