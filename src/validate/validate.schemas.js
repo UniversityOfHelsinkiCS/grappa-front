@@ -454,32 +454,28 @@ const schemas = {
       rules: [
       ],
     },
-    password: {
+    isActive: {
       default: "",
-      type: "string",
+      type: "boolean",
       rules: [
-        {
-          type: "notEmpty",
-          error: "Password can't be empty.",
-        },
-        {
-          type: "minLength[8]",
-          error: "Password must be at least 8 characters.",
-        },
       ],
     },
-    passwordConf: {
+    isRetired: {
+      default: "",
+      type: "boolean",
+      rules: [
+      ],
+    },
+    StudyField: {
       default: "",
       type: "string",
       rules: [
-        {
-          type: "notEmpty",
-          error: "Password confirmation can't be empty.",
-        },
-        {
-          type: "equal[password]",
-          error: "Passwords must match.",
-        },
+      ],
+    },
+    Theses: {
+      default: "",
+      type: "array",
+      rules: [
       ],
     },
   },
