@@ -14,11 +14,11 @@ export default class GradersDropdown extends Component {
 
   handleClick(type, index, event) {
     if (type === "unactivate" && this.props.editable) {
-      console.log(this.props.selected)
+      console.log(this.props.selected);
       this.props.selected.splice(index, 1);
-      console.log(this.props.selected)
+      console.log(this.props.selected);
       Validate.updateForm(this.props.formname, "Graders", this.props.selected);
-      console.log(Validate.getForm("newThesis"))
+      console.log(Validate.getForm("newThesis"));
     } else if (type === "activate" && this.props.editable) {
       // console.log("pushing grader to selected")
       // this.props.selected.push(this.props.graders[index]);

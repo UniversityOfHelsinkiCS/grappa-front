@@ -2,32 +2,42 @@ import React, { Component } from "react";
 import { browserHistory, Link } from "react-router";
 import moment from "moment";
 
-import { validateField, validateModel } from "../config/Validator";
 import GraderContainer from "../grader/GraderListCreateUpdate.container";
+import GradersDropdown from "../ui/GradersDropdown.component";
+import Validate from "../validate/Validate";
+import ValidateError from "../ui/Error.component";
 
 export class ThesisShow extends Component {
+
   constructor() {
     super();
     this.state = {
-      thesis: {
-        Graders: [],
-        StudyField: {
-          name: "",
-        },
-        User: {},
-      },
-      errors: {},
+      updateThesis: Validate.createForm("updateThesis", "thesisEdit"),
       editable: false,
       grading: false,
     };
   }
 
   componentWillMount() {
-    this.findThesisFromProps(this.props);
+    Validate.subscribeToForm("updateThesis", "tse", (updateThesis) => {
+      this.setState({ updateThesis, });
+    });
+    const thesis = this.findThesisFromProps(this.props);
+    if (thesis) {
+      console.log(thesis);
+      Validate.replaceForm("updateThesis", thesis);
+    }
+  }
+
+  componentWillUnmount() {
+    Validate.unsubscribe("tse");
   }
 
   componentWillReceiveProps(newProps) {
-    this.findThesisFromProps(newProps);
+    const thesis = this.findThesisFromProps(newProps);
+    if (thesis) {
+      Validate.replaceForm("updateThesis", thesis);
+    }
   }
 
   findThesisFromProps(props) {
@@ -35,20 +45,13 @@ export class ThesisShow extends Component {
     try {
       thesisId = parseInt(props.params.id, 10);
     } catch (e) {
-      return;
+      return undefined;
     }
-    const foundThesis = props.theses.find(thesis => {
+    return props.theses.find(thesis => {
       if (thesis.id === thesisId) {
-        console.log(thesis);
         return thesis;
       }
     });
-    if (typeof foundThesis !== "undefined") {
-      console.log(foundThesis);
-      this.setState({
-        thesis: foundThesis,
-      });
-    }
   }
 
   handleClick(button, event) {
@@ -64,31 +67,22 @@ export class ThesisShow extends Component {
       this.setState({
         editable: false,
       });
-    } else if (button === "save") {
-      this.props.updateThesis(this.state.thesis);
-      // this.props.updateGraders(this.state.Graders);
+    } else if (button === "save" && Validate.isFormValid("updateThesis")) {
+      this.props.updateThesis(this.state.updateThesis.values);
     } else if (button === "download") {
-      this.props.downloadTheses([this.state.thesis.id]);
+      this.props.downloadTheses([this.state.updateThesis.values.id]);
     }
   }
 
   handleChange(name, event) {
-    event.preventDefault();
     // professors are restricted from editing anything else but grader evaluation
     if (this.state.editable || (this.state.grading && name === "graderEval")) {
-      const change = {
-        thesis: this.state.thesis,
-        errors: this.state.errors,
-        // editable: this.state.editable,
-      };
-      change.thesis[name] = event.target.value;
-      const newErrors = validateField(name, event.target.value, "thesis");
-      change.errors[`thesis_${name}`] = newErrors;
-      this.setState(change);
+      Validate.updateForm("updateThesis", name, event.target.value);
     }
   }
 
   renderThesisAuthor() {
+    const { updateThesis } = this.state;
     return (
       <div className="m-bot">
         <h3 className="ui dividing header">Thesis Author</h3>
@@ -97,28 +91,31 @@ export class ThesisShow extends Component {
             <label>First name</label>
             <input
               type="text"
-              value={this.state.thesis.authorFirstname}
+              value={updateThesis.values.authorFirstname}
               onChange={this.handleChange.bind(this, "authorFirstname")}
               placeholder="First Name"
             />
+            <ValidateError errors={updateThesis.errors} model="thesisEdit" field="authorFirstname" />
           </div>
           <div className="field">
             <label>Last name</label>
             <input
               type="text"
-              value={this.state.thesis.authorLastname}
+              value={updateThesis.values.authorLastname}
               onChange={this.handleChange.bind(this, "authorLastname")}
               placeholder="Last Name"
             />
+            <ValidateError errors={updateThesis.errors} model="thesisEdit" field="authorLastname" />
           </div>
           <div className="field">
             <label>Email</label>
             <input
               type="text"
-              value={this.state.thesis.authorEmail}
+              value={updateThesis.values.authorEmail}
               onChange={this.handleChange.bind(this, "authorEmail")}
               placeholder="Email Address"
             />
+            <ValidateError errors={updateThesis.errors} model="thesisEdit" field="authorEmail" />
           </div>
         </div>
       </div>
@@ -126,7 +123,9 @@ export class ThesisShow extends Component {
   }
 
   renderThesisInformation() {
-    const instructor = this.state.thesis.User === undefined ? "" : `${this.state.thesis.User.name}`;
+    const { updateThesis } = this.state;
+    const user = this.state.updateThesis.values.User;
+    const instructor = user ? `${user.firstname} ${user.lastname}` : "";
     return (
       <div className="m-bot">
         <h3 className="ui dividing header">Thesis Information</h3>
@@ -135,17 +134,17 @@ export class ThesisShow extends Component {
             <label>Title</label>
             <input
               type="text"
-              value={this.state.thesis.title}
+              value={updateThesis.values.title}
               onChange={this.handleChange.bind(this, "title")}
               placeholder="Title"
             />
+            <ValidateError errors={updateThesis.errors} model="thesisEdit" field="title" />
           </div>
-          {/*<div className="three wide field">*/}
             <div className="field">
               <label>Studyfield</label>
               <select
                 className="ui fluid search dropdown"
-                value={this.state.thesis.StudyFieldId}
+                value={updateThesis.values.StudyFieldId}
                 onChange={this.handleChange.bind(this, "StudyFieldId")}
               >
                 <option key="0" value="">Select field</option>
@@ -155,14 +154,13 @@ export class ThesisShow extends Component {
                   </option>
                 )}
               </select>
-            </div>
-          {/*</div>*/}
-          {/*<div className="five wide field">*/}
+            <ValidateError errors={updateThesis.errors} model="thesisEdit" field="StudyFieldId" />
+          </div>
           <div className="field">
             <label>Grade</label>
             <select
               className="ui fluid search dropdown"
-              value={this.state.thesis.grade}
+              value={updateThesis.values.grade}
               onChange={this.handleChange.bind(this, "grade")}
               name="thesis[grade]"
             >
@@ -175,36 +173,38 @@ export class ThesisShow extends Component {
               <option value="Eximia Cum Laude Approbatur">Eximia Cum Laude Approbatur</option>
               <option value="Laudatur">Laudatur</option>
             </select>
+            <ValidateError errors={updateThesis.errors} model="thesisEdit" field="grade" />
           </div>
-          {/*</div>*/}
         </div>
         <div className="three fields">
           <div className="field">
             <label>Urkund</label>
             <div className="ui right icon input">
               <i className="external icon">
-                <a href={this.state.thesis.urkund} target="_blank" className="icon-link"></a>
+                <a href={updateThesis.values.urkund} target="_blank" className="icon-link"></a>
               </i>
               <input
                 type="text"
                 placeholder="Urkund link"
-                value={this.state.thesis.urkund}
+                value={updateThesis.values.urkund}
                 onChange={this.handleChange.bind(this, "urkund")}
               />
             </div>
+              <ValidateError errors={updateThesis.errors} model="thesisEdit" field="urkund" />
           </div>
           <div className="field">
             <label>Ethesis</label>
             <div className="ui right icon input">
             <i className="external icon">
-              <a href={this.state.thesis.ethesis} target="_blank" className="icon-link"></a>
+              <a href={updateThesis.values.ethesis} target="_blank" className="icon-link"></a>
             </i>
               <input
                 type="text"
                 placeholder="Ethesis link"
-                value={this.state.thesis.ethesis || ""}
+                value={updateThesis.values.ethesis || ""}
                 onChange={this.handleChange.bind(this, "ethesis")}
               />
+              <ValidateError errors={updateThesis.errors} model="thesisEdit" field="ethesis" />
             </div>
           </div>
           <div className="field">
@@ -216,13 +216,30 @@ export class ThesisShow extends Component {
               onChange={this.handleChange.bind(this, "instructor")}
               disabled="true"
             />
+            <ValidateError errors={updateThesis.errors} model="thesisEdit" field="instructor" />
           </div>
         </div>
       </div>
     );
   }
 
+  renderGraders() {
+    const { updateThesis } = this.state;
+    return (
+      <div className="m-bot">
+        <h3 className="ui dividing header">Graders</h3>
+        <div className="field">
+          <label>Select Graders</label>
+          <GradersDropdown formname="updateThesis" graders={this.props.Graders}
+            selected={updateThesis.values.Graders} editable={this.state.editable}/>
+        </div>
+        <ValidateError errors={updateThesis.errors} model="thesisEdit" field="Graders" />
+      </div>
+    );
+  }
+
   renderPickCouncilmeeting() {
+    const { updateThesis } = this.state;
     const today = new Date();
     const filtered = this.props.councilmeetings.filter(meeting => {
       if (new Date(meeting.date) >= today) {
@@ -239,7 +256,7 @@ export class ThesisShow extends Component {
       <div className="m-bot">
         <h3 className="ui dividing header">Date of Councilmeeting</h3>
         <select className="ui fluid search dropdown"
-          value={this.state.thesis.CouncilMeetingId}
+          value={updateThesis.values.CouncilMeetingId}
           onChange={this.handleChange.bind(this, "CouncilMeetingId")}
         >
           { formatted.map((meeting, index) =>
@@ -248,6 +265,21 @@ export class ThesisShow extends Component {
             </option>
           )}
         </select>
+      </div>
+    );
+  }
+
+  renderGraderEval() {
+    const { updateThesis } = this.state;
+    return (
+      <div>
+        <h2 className="ui dividing header">Grader evaluation</h2>
+        <div className="field">
+          <textarea
+            value={updateThesis.values.graderEval || ""}
+            onChange={this.handleChange.bind(this, "graderEval")}
+          ></textarea>
+        </div>
       </div>
     );
   }
@@ -283,22 +315,22 @@ export class ThesisShow extends Component {
               <p></p>
             }
           </div>
-            { isDone ?
-              <div className="field">
-              </div>
-              :
-              <div className="field">
-                <label>&nbsp;</label>
-                <button className="ui blue button">Send reminder</button>
-              </div>
-            }
+          { isDone ?
+            <div className="field">
+            </div>
+            :
+            <div className="field">
+              <label>&nbsp;</label>
+              <button className="ui blue button">Send reminder</button>
+            </div>
+          }
         </div>
       </div>
     );
   }
 
   renderSentReminders() {
-    const thesisProgress = this.state.thesis.ThesisProgress || {};
+    const thesisProgress = this.state.updateThesis.values.ThesisProgress || {};
     return (
       <div>
         <h2 className="ui dividing header">Sent reminders</h2>
@@ -310,10 +342,11 @@ export class ThesisShow extends Component {
   }
 
   render() {
+    const { updateThesis } = this.state;
     const role = this.props.user.role;
     return (
       <div className="ui form">
-        <h2 className="ui dividing header">{this.state.thesis.title}</h2>
+        <h2 className="ui dividing header">{updateThesis.values.title}</h2>
         { role === "admin" ?
           <div className="field">
             { this.state.editable ?
@@ -333,19 +366,14 @@ export class ThesisShow extends Component {
             }
           </div>
            :
-          <div className="field">olen ins tai printteri</div>
+          <div className="field"></div>
         }
         { this.renderThesisAuthor() }
         { this.renderThesisInformation() }
-        <GraderContainer activated={this.state.thesis.Graders} editable={this.state.editable}/>
+        { this.renderGraders() }
+        <GraderContainer editable={this.state.editable}/>
         { this.renderPickCouncilmeeting() }
-        <h2 className="ui dividing header">Grader evaluation</h2>
-        <div className="field">
-          <textarea
-            value={this.state.thesis.graderEval || ""}
-            onChange={this.handleChange.bind(this, "graderEval")}
-          ></textarea>
-        </div>
+        { this.renderGraderEval() }
         { role === "admin" ?
           this.renderSentReminders()
             :
@@ -366,18 +394,19 @@ import { updateThesis, deleteThesis, downloadTheses } from "./thesis.actions";
 import { updateGraders } from "../grader/grader.actions";
 import { updateUser } from "../user/user.actions";
 import { sendNotification } from "../email/email.actions";
-import { updateThesisProgress } from "../thesisprogress/thesisprogress.actions";
 
 const mapStateToProps = (state) => {
   const auth = state.get("auth");
   const thesis = state.get("thesis");
   const councilmeeting = state.get("councilmeeting");
   const sfreducer = state.get("studyfield");
+  const grader_r = state.get("grader");
   return {
     user: auth.get("user").toJS(),
     theses: thesis.get("theses").toJS(),
     councilmeetings: councilmeeting.get("councilmeetings").toJS(),
     studyfields: sfreducer.get("studyfields").toJS(),
+    Graders: grader_r.get("graders").toJS(),
   };
 };
 

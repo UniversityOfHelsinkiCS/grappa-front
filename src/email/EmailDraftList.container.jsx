@@ -13,7 +13,7 @@ export class EmailDraftList extends Component {
   }
 
   componentWillMount() {
-    Validate.subscribeToForm("updateEmailDraft", "ed", (updateEmailDraft) => { this.setState({ updateEmailDraft, })});
+    Validate.subscribeToForm("updateEmailDraft", "ed", (updateEmailDraft) => { this.setState({ updateEmailDraft, });});
   }
 
   componentWillUnmount() {
@@ -36,7 +36,7 @@ export class EmailDraftList extends Component {
 
   renderUpdateDraft() {
     const updateEmailDraft = this.state.updateEmailDraft.values;
-    return(
+    return (
       <div className="field">
         <h2 className="ui dividing header">Update draft {updateEmailDraft.type}</h2>
         <div className="field">

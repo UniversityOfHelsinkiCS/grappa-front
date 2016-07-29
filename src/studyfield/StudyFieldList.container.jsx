@@ -14,8 +14,8 @@ export class StudyFieldList extends Component {
   }
 
   componentWillMount() {
-    Validate.subscribeToForm("newStudyField", "sl", (newStudyField) => { this.setState({ newStudyField, })});
-    Validate.subscribeToForm("updateStudyField", "sl", (updateStudyField) => { this.setState({ updateStudyField, })});
+    Validate.subscribeToForm("newStudyField", "sl", (newStudyField) => { this.setState({ newStudyField, });});
+    Validate.subscribeToForm("updateStudyField", "sl", (updateStudyField) => { this.setState({ updateStudyField, });});
     const fields = this.props.StudyFields;
     const fieldsWithUsers = this.setUsersForStudyfields(fields, this.props.Users);
     // console.log(fields)
@@ -30,7 +30,7 @@ export class StudyFieldList extends Component {
   }
 
   componentWillReceiveProps(newProps) {
-    if (newProps.StudyFields && newProps.Users) {
+    if (this.props.StudyFields !== newProps.StudyFields && this.props.Users !== newProps.Users) {
       const fields = newProps.StudyFields;
       const fieldsWithUsers = this.setUsersForStudyfields(fields, newProps.Users);
       this.setState({

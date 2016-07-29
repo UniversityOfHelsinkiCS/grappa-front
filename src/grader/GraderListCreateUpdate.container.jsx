@@ -13,8 +13,8 @@ export class GraderListCreateUpdate extends Component {
   }
 
   componentWillMount() {
-    Validate.subscribeToForm("newGrader", "g", (newGrader) => { this.setState({ newGrader, })});
-    Validate.subscribeToForm("updateGrader", "g", (updateGrader) => { this.setState({ updateGrader, })});
+    Validate.subscribeToForm("newGrader", "g", (newGrader) => { this.setState({ newGrader, });});
+    Validate.subscribeToForm("updateGrader", "g", (updateGrader) => { this.setState({ updateGrader, });});
   }
 
   componentWillUnmount() {

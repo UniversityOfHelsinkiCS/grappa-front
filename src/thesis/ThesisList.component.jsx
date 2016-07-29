@@ -27,6 +27,7 @@ export default class ThesisList extends Component {
   }
 
   initState(props) {
+    console.log(props.theses);
     const formatted = this.formatTheses(props.theses);
     const filtered = formatted.filter(thesis => {
       if (thesis.status === "In progress") {
@@ -46,6 +47,21 @@ export default class ThesisList extends Component {
       inprogressTheses: filtered,
       searchedTheses: filtered,
       allToggle: true,
+    });
+  }
+
+  formatTheses(theses) {
+    return theses.map(thesis => {
+      return {
+        id: thesis.id,
+        status: thesis.ThesisProgress.done ? "Done" : "In progress",
+        authorFirstname: thesis.authorFirstname,
+        authorLastname: thesis.authorLastname,
+        title: thesis.title,
+        instructor: thesis.User.name,
+        studyfield: thesis.StudyField.name,
+        deadline: moment(new Date(thesis.deadline)).format("DD/MM/YYYY"),
+      };
     });
   }
 
@@ -101,21 +117,6 @@ export default class ThesisList extends Component {
         allToggle: !this.state.allToggle
       });
     }
-  }
-
-  formatTheses(theses) {
-    return theses.map(thesis => {
-      return {
-        id: thesis.id,
-        status: thesis.ThesisProgress.done ? "Done" : "In progress",
-        authorFirstname: thesis.authorFirstname,
-        authorLastname: thesis.authorLastname,
-        title: thesis.title,
-        instructor: thesis.User.name,
-        studyfield: thesis.StudyField.name,
-        deadline: moment(new Date(thesis.deadline)).format("DD/MM/YYYY"),
-      };
-    });
   }
 
   // sortByField(field) {

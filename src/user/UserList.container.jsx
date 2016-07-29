@@ -17,7 +17,7 @@ export class UserList extends Component {
     // this.setState({
     //   Users: this.props.Users,
     // });
-    Validate.subscribeToForm("updateUser", "ul", (updateUser) => { 
+    Validate.subscribeToForm("updateUser", "ul", (updateUser) => {
       this.setState({ updateUser, });
     });
   }

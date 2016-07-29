@@ -8,13 +8,11 @@
 import React from "react";
 import Dropzone from "react-dropzone";
 import moment from "moment";
+
 import GraderContainer from "../grader/GraderListCreateUpdate.container";
 import GradersDropdown from "../ui/GradersDropdown.component";
 import Validate from "../validate/Validate";
 import ValidateError from "../ui/Error.component";
-import Errors from "../ui/Errors.component";
-// import ValidInput from "../config/ValidInput.component";
-// import { validateField, validateModel, updateErrors } from "../config/Validator";
 
 export class ThesisCreate extends React.Component {
   constructor() {
@@ -25,8 +23,7 @@ export class ThesisCreate extends React.Component {
   }
 
   componentWillMount() {
-    // Validate.subscribeToForm("newThesis", this, this.setState);
-    Validate.subscribeToForm("newThesis", "tc", (newThesis) => { 
+    Validate.subscribeToForm("newThesis", "tc", (newThesis) => {
       this.setState({ newThesis, });
     });
   }
@@ -204,9 +201,10 @@ export class ThesisCreate extends React.Component {
         <h3 className="ui dividing header">Graders</h3>
         <div className="field">
           <label>Select Graders</label>
-          <GradersDropdown formname="newThesis" graders={this.props.Graders} 
-            selected={this.state.newThesis.values.Graders} editable={true}/>
+          <GradersDropdown formname="newThesis" graders={this.props.Graders}
+            selected={this.state.newThesis.values.Graders} editable/>
         </div>
+        <ValidateError errors={this.state.newThesis.errors} model="thesis" field="Graders" />
       </div>
     );
   }
@@ -275,7 +273,6 @@ export class ThesisCreate extends React.Component {
           {this.renderThesisInformation()}
           {this.renderUploadReview()}
           {this.renderGraders()}
-          <ValidateError errors={this.state.newThesis.errors} model="thesis" field="Graders" />
           <GraderContainer editable/>
           {this.renderPickCouncilmeeting()}
         </div>

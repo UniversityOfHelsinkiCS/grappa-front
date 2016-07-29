@@ -11,7 +11,7 @@ export class UserRegistration extends Component {
   }
 
   componentWillMount() {
-    Validate.subscribeToForm("newUser", "u", (newUser) => { this.setState({ newUser, })});
+    Validate.subscribeToForm("newUser", "u", (newUser) => { this.setState({ newUser, });});
   }
 
   componentWillUnmount() {

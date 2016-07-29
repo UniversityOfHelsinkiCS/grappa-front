@@ -4,8 +4,6 @@ import React, { Component } from "react";
 export class Ethesis extends Component {
   constructor() {
     super();
-    this.handleSubmit = this.handleSubmit.bind(this);
-    // this.handleChange = this.handleChange.bind(this);
     this.state = {
       ethesislink: "",
     };
@@ -18,7 +16,7 @@ export class Ethesis extends Component {
     this.setState(change);
   }
 
-  handleSubmit(event) {
+  handleClick(event) {
     event.preventDefault();
     const data = {
       token: this.props.params.token,
@@ -49,38 +47,23 @@ export class Ethesis extends Component {
     return (
       <div className="ui container m-top">
         <div className="ui form">
-        <div className="ui field">
-          <div className="ui left icon input">
-            <i className="external icon"></i>
-            <input
-              type="text"
-              name="ethesislink"
-              placeholder="eThesis link to the PDF file"
-              onChange={this.handleChange.bind(this, "ethesislink")}
-            />
+          <div className="ui field">
+            <div className="ui left icon input">
+              <i className="external icon"></i>
+              <input
+                type="text"
+                name="ethesislink"
+                placeholder="eThesis link to the PDF file"
+                onChange={this.handleChange.bind(this, "ethesislink")}
+              />
+            </div>
           </div>
+          <div className="field">
+            <button className="ui fluid large green button" onClick={this.handleClick.bind(this, "save")}>Save</button>
           </div>
         </div>
-        <div className="ui fluid large green submit button" onClick={this.handleSubmit}>Submit</div>
       </div>
     );
-    // return (
-    //   <Validation.Form className="ethesis form" onSubmit={this.handleSubmit}>
-    //     <h4 className="ui dividing header">Enter eThesis link to your thesis</h4>
-    //     <Validation.Input
-    //       ref="ethesislink"
-    //       type="text"
-    //       name="ethesislink"
-    //       className="ethesis field"
-    //       value={this.state.ethesislink}
-    //       onChange={this.handleChange.bind(this, "ethesislink")}
-    //       placeholder="Link to eThesis"
-    //       validations={[{ rule: "isLink" },
-    //                     { rule: "isRequired" }]}
-    //     />
-    //     <Validation.Button className="ui primary button" value="Submit" onClick={this.handleSubmit}/>
-    //   </Validation.Form>
-    // );
   }
 }
 

@@ -10,7 +10,6 @@ import { triggerDownload } from "./middleware/downloadHelper";
 import auth from "./auth/auth.reducer";
 import thesis from "./thesis/thesis.reducer";
 import councilmeeting from "./councilmeeting/councilmeeting.reducer";
-import thesisprogress from "./thesisprogress/thesisprogress.reducer";
 import user from "./user/user.reducer";
 import email from "./email/email.reducer";
 import emailstatus from "./emailstatus/emailstatus.reducer";
@@ -24,7 +23,6 @@ const combinedReducers = combineReducers({
   auth,
   thesis,
   councilmeeting,
-  thesisprogress,
   user,
   email,
   emailstatus,

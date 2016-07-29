@@ -92,7 +92,7 @@ class ValidateCore {
       }
     // array of instances of models
     } else if (values.constructor === Array) {
-      console.log(values, model)
+      console.log(values, model);
       throw new Error("doesnt work");
 
       console.log("array of forms????!");

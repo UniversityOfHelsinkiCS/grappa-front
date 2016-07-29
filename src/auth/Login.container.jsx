@@ -23,11 +23,11 @@ export class Login extends React.Component {
   }
 
   componentWillMount() {
-    Validate.subscribeToForm("loginUser", "l", (loginUser) => { this.setState({ loginUser, })});
+    Validate.subscribeToForm("loginUser", "lo", (loginUser) => { this.setState({ loginUser, });});
   }
 
   componentWillUnmount() {
-    Validate.unsubscribe("l");
+    Validate.unsubscribe("lo");
   }
   /**
    * Built-in method for React-Component called when its props changes
@@ -50,14 +50,6 @@ export class Login extends React.Component {
   }
 
   handleChange(name, event) {
-    // event.preventDefault();
-    // const change = {
-    //   errors: this.state.errors,
-    // };
-    // change[name] = event.target.value;
-    // // const newErrors = validateField(name, event.target.value, "login");
-    // // change.errors[name] = newErrors;
-    // this.setState(change);
     Validate.updateForm("loginUser", name, event.target.value);
   }
   /**

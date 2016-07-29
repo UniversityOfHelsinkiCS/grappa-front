@@ -1,3 +1,6 @@
+
+import moment from "moment";
+
 const schemas = {
   thesis: {
     authorFirstname: {
@@ -110,6 +113,172 @@ const schemas = {
       ],
     },
   },
+  thesisEdit: {
+    id: {
+      default: "",
+      type: "string",
+      rules: [
+      ],
+    },
+    authorFirstname: {
+      default: "",
+      type: "string",
+      rules: [
+        {
+          type: "notEmpty",
+          error: "First name can't be empty.",
+        },
+      ],
+    },
+    authorLastname: {
+      default: "",
+      type: "string",
+      rules: [
+        {
+          type: "notEmpty",
+          error: "First name can't be empty.",
+        },
+      ],
+    },
+    authorEmail: {
+      default: "",
+      type: "string",
+      rules: [
+        {
+          type: "notEmpty",
+          error: "Email can't be empty.",
+        },
+        {
+          type: "validEmail",
+          error: "Not a valid email.",
+        },
+      ],
+    },
+    title: {
+      default: "",
+      type: "string",
+      rules: [
+        {
+          type: "notEmpty",
+          error: "Title can't be empty.",
+        },
+      ],
+    },
+    urkund: {
+      default: "",
+      type: "string",
+      rules: [
+        {
+          type: "notEmpty",
+          error: "Urkund link can't be empty.",
+        },
+        {
+          type: "isLink",
+          error: "Urkund link isn't a valid link.",
+        },
+      ],
+    },
+    ethesis: {
+      default: "",
+      type: "string",
+      rules: [
+        {
+          type: "isLink",
+          error: "Ethesis link isn't a valid link.",
+        },
+      ],
+    },
+    grade: {
+      default: "",
+      type: "string",
+      rules: [
+        {
+          type: "notEmpty",
+          error: "You must choose a grade.",
+        },
+      ],
+    },
+    deadline: {
+      default: "",
+      type: "string",
+      rules: [
+        // {
+        //   type: "notEmpty",
+        //   error: "You must choose a grade.",
+        // },
+      ],
+    },
+    graderEval: {
+      default: "",
+      type: "string",
+      rules: [
+      ],
+    },
+    Graders: {
+      default: [],
+      type: "array",
+      rules: [
+        {
+          type: "minCount[2]",
+          error: "You must have at least two graders.",
+        },
+      ],
+    },
+    StudyFieldId: {
+      default: "",
+      type: "string",
+      rules: [
+        {
+          type: "notEmpty",
+          error: "You must choose a studyfield.",
+        },
+      ],
+    },
+    CouncilMeetingId: {
+      default: "",
+      type: "string",
+      rules: [
+        {
+          type: "notEmpty",
+          error: "You must choose a council meeting.",
+        },
+      ],
+    },
+    UserId: {
+      default: "",
+      type: "string",
+      rules: [
+        // {
+        //   type: "notEmpty",
+        //   error: "You must choose a file to upload.",
+        // },
+      ],
+    },
+    CouncilMeeting: {
+      default: "",
+      type: "object",
+      rules: [
+      ],
+    },
+    StudyField: {
+      default: "",
+      type: "object",
+      rules: [
+      ],
+    },
+    User: {
+      default: "",
+      type: "object",
+      rules: [
+      ],
+    },
+    ThesisProgress: {
+      default: "",
+      type: "object",
+      rules: [
+      ],
+    },
+  },
   grader: {
     name: {
       default: "",
@@ -181,7 +350,7 @@ const schemas = {
       rules: [
         {
           type: "notEmpty",
-          error: "Second name can't be empty.",
+          error: "Last name can't be empty.",
         },
       ],
     },
@@ -251,7 +420,7 @@ const schemas = {
       rules: [
         {
           type: "notEmpty",
-          error: "Second name can't be empty.",
+          error: "Last name can't be empty.",
         },
       ],
     },
@@ -275,8 +444,112 @@ const schemas = {
       rules: [
         {
           type: "notEmpty",
+          error: "Role can't be empty.",
+        },
+      ],
+    },
+    StudyFieldId: {
+      default: "",
+      type: "string",
+      rules: [
+      ],
+    },
+    password: {
+      default: "",
+      type: "string",
+      rules: [
+        {
+          type: "notEmpty",
           error: "Password can't be empty.",
         },
+        {
+          type: "minLength[8]",
+          error: "Password must be at least 8 characters.",
+        },
+      ],
+    },
+    passwordConf: {
+      default: "",
+      type: "string",
+      rules: [
+        {
+          type: "notEmpty",
+          error: "Password confirmation can't be empty.",
+        },
+        {
+          type: "equal[password]",
+          error: "Passwords must match.",
+        },
+      ],
+    },
+  },
+  userEditSelf: {
+    id: {
+      default: "",
+      type: "string",
+      rules: [
+      ],
+    },
+    firstname: {
+      default: "",
+      type: "string",
+      rules: [
+        {
+          type: "notEmpty",
+          error: "First name can't be empty.",
+        },
+      ],
+    },
+    lastname: {
+      default: "",
+      type: "string",
+      rules: [
+        {
+          type: "notEmpty",
+          error: "Last name can't be empty.",
+        },
+      ],
+    },
+    email: {
+      default: "",
+      type: "string",
+      rules: [
+        {
+          type: "notEmpty",
+          error: "Email can't be empty.",
+        },
+        {
+          type: "validEmail",
+          error: "Not a valid email.",
+        },
+      ],
+    },
+    role: {
+      default: "",
+      type: "string",
+      rules: [
+        {
+          type: "notEmpty",
+          error: "Role dcan't be empty.",
+        },
+      ],
+    },
+    password: {
+      default: "",
+      type: "string",
+      rules: [
+      ],
+    },
+    newPassword: {
+      default: "",
+      type: "string",
+      rules: [
+      ],
+    },
+    newPasswordConf: {
+      default: "",
+      type: "string",
+      rules: [
       ],
     },
     StudyFieldId: {
@@ -338,13 +611,31 @@ const schemas = {
   },
   councilmeeting: {
     date: {
+      default: moment(),
+      type: "moment",
+      rules: [
+        // {
+        //   type: "notEmpty",
+        //   error: "Councl can't be empty.",
+        // },
+      ],
+    },
+  },
+  councilmeetingEdit: {
+    id: {
       default: "",
       type: "string",
       rules: [
-        {
-          type: "notEmpty",
-          error: "Name can't be empty.",
-        },
+      ],
+    },
+    date: {
+      default: moment(),
+      type: "moment",
+      rules: [
+        // {
+        //   type: "notEmpty",
+        //   error: "Name can't be empty.",
+        // },
       ],
     },
   },

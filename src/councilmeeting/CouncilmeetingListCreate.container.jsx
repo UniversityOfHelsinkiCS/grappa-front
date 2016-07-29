@@ -1,51 +1,56 @@
 import React, { Component } from "react";
+import { Link } from "react-router";
 import DatePicker from "react-datepicker";
 import moment from "moment";
-import { Link } from "react-router";
+import Validate from "../validate/Validate";
+import ValidateError from "../ui/Error.component";
 
 export class CouncilmeetingListCreate extends Component {
 
   constructor() {
     super();
     this.state = {
-      newCM: {
-        date: moment(),
-      },
-      editCM: {},
+      newCouncilMeeting: Validate.createForm("newCouncilMeeting", "councilmeeting"),
+      updateCouncilMeeting: Validate.createForm("updateCouncilMeeting", "councilmeetingEdit"),
       shownDates: [],
       formattedDates: [],
       filteredDates: [],
+      showOld: false,
     };
   }
 
-  componentWillMount() {
-    console.log("componentWillMount");
-    const formatted = this.formatMeetingsForReactTable(this.props.CouncilMeetings);
-    const filtered = this.filterOldDates(this.props.CouncilMeetings);
+  initDates(props) {
+    const formatted = this.formatMeetingsForReactTable(props.CouncilMeetings);
+    const filtered = this.filterOldDates(props.CouncilMeetings);
     const filteredAndFormatted = this.formatMeetingsForReactTable(filtered);
     this.setState({
-      shownDates: filteredAndFormatted,
+      shownDates: this.state.showOld ? formatted : filteredAndFormatted,
       formattedDates: formatted,
       filteredDates: filteredAndFormatted,
     });
   }
 
+  componentWillMount() {
+    Validate.subscribeToForm("newCouncilMeeting", "cm", (newCouncilMeeting) =>
+      { this.setState({ newCouncilMeeting, }
+    );});
+    Validate.subscribeToForm("updateCouncilMeeting", "cm", (updateCouncilMeeting) =>
+      { this.setState({ updateCouncilMeeting, }
+    );});
+    this.initDates(this.props);
+  }
+
+  componentWillUnmount() {
+    Validate.unsubscribe("cm");
+  }
+
   componentWillReceiveProps(newProps) {
-    console.log("componentWillReceiveProps");
-    if (newProps.CouncilMeetings) {
-      const formatted = this.formatMeetingsForReactTable(newProps.CouncilMeetings);
-      const filtered = this.filterOldDates(newProps.CouncilMeetings);
-      const filteredAndFormatted = this.formatMeetingsForReactTable(filtered);
-      this.setState({
-        shownDates: !this.refs.checkOld.checked ? filteredAndFormatted : formatted,
-        formattedDates: formatted,
-        filteredDates: filteredAndFormatted,
-      });
+    if (this.props.CouncilMeetings !== newProps.CouncilMeetings) {
+      this.initDates(newProps);
     }
   }
 
   formatMeetingsForReactTable(meetings) {
-    // return meetings;
     return meetings.map(meeting => {
       meeting.date = moment(new Date(meeting.date));
       return meeting;
@@ -62,46 +67,35 @@ export class CouncilmeetingListCreate extends Component {
     });
   }
 
-  handleCheckBoxClick(event) {
-    if (!this.refs.checkOld.checked) {
-      this.setState({
-        shownDates: this.state.filteredDates,
-      });
-    } else {
-      this.setState({
-        shownDates: this.state.formattedDates,
-      });
-    }
+  handleDateChange(formname, date) {
+    Validate.updateForm(formname, "date", date);
   }
 
-  handleChange(type, date) {
-    if (type === "newCM") {
-      this.state.newCM.date = date;
-      this.setState({});
-    } else if (type === "editCM") {
-      this.state.editCM.date = date;
-      this.setState({});
-    }
+  handleChange(event) {
+    this.setState({
+      shownDates: !this.state.showOld ? this.state.formattedDates : this.state.filteredDates,
+      showOld: !this.state.showOld,
+    });
   }
 
   handleClick(type, index, event) {
     event.preventDefault();
-    if (type === "save") {
-      const newCM = Object.assign({}, this.state.newCM);
-      newCM.date = newCM.date.toDate(),
-      this.props.saveCouncilMeeting(newCM);
-    } else if (type === "update") {
-      const editCM = Object.assign({}, this.state.editCM);
-      editCM.date = editCM.date.toDate(),
-      this.props.updateCouncilMeeting(editCM);
+    if (type === "save" && Validate.isFormValid("newCouncilMeeting")) {
+      const cm = Validate.getForm("newCouncilMeeting").values;
+      cm.date = cm.date.toDate();
+      this.props.saveCouncilMeeting(cm);
+    } else if (type === "update" && this.state.updateCouncilMeeting.values.id
+        && Validate.isFormValid("updateCouncilMeeting")) {
+      const cm = Validate.getForm("updateCouncilMeeting").values;
+      cm.date = cm.date.toDate();
+      this.props.updateCouncilMeeting(cm);
     } else if (type === "selectCM") {
-      this.state.editCM = this.state.shownDates[index];
-      this.setState({});
+      Validate.replaceForm("updateCouncilMeeting", this.state.shownDates[index]);
     }
   }
 
   render() {
-    const { shownDates } = this.state;
+    const { shownDates, newCouncilMeeting, updateCouncilMeeting } = this.state;
     return (
       <div className="ui form">
         <div className="ui two fields">
@@ -115,9 +109,10 @@ export class CouncilmeetingListCreate extends Component {
                 <div className="field">
                   <DatePicker
                     dateFormat="DD/MM/YYYY"
-                    selected={this.state.newCM.date}
-                    onChange={this.handleChange.bind(this, "newCM")}
+                    selected={newCouncilMeeting.values.date}
+                    onChange={this.handleDateChange.bind(this, "newCouncilMeeting")}
                   />
+                  <ValidateError errors={newCouncilMeeting.errors} model="newCouncilMeeting" field="date" />
                 </div>
                 <div className="field">
                   <button className="ui primary button" onClick={this.handleClick.bind(this, "save", "")}>
@@ -128,7 +123,9 @@ export class CouncilmeetingListCreate extends Component {
             </div>
             <div className="field">
               <h2 className="ui dividing header">
-                Change meetings date {this.state.editCM.date ? this.state.editCM.date.format("DD/MM/YYYY") : ""}
+                Change meetings date {
+                  updateCouncilMeeting.values.date ? updateCouncilMeeting.values.date.format("DD/MM/YYYY") : ""
+                }
               </h2>
               <p>
                 NOTE: does not change deadlines for already created theses. Meaning that they'll show up being
@@ -139,12 +136,15 @@ export class CouncilmeetingListCreate extends Component {
                 <div className="field">
                   <DatePicker
                     dateFormat="DD/MM/YYYY"
-                    selected={this.state.editCM.date}
-                    onChange={this.handleChange.bind(this, "editCM")}
+                    selected={updateCouncilMeeting.values.date}
+                    onChange={this.handleDateChange.bind(this, "updateCouncilMeeting")}
                   />
+                  <ValidateError errors={updateCouncilMeeting.errors} model="updateCouncilMeeting" field="date" />
                 </div>
                 <div className="field">
-                  <button className="ui green button" onClick={this.handleClick.bind(this, "update", "")}>Update</button>
+                  <button className="ui green button" onClick={this.handleClick.bind(this, "update", "")}>
+                    Update
+                  </button>
                 </div>
               </div>
             </div>
@@ -152,13 +152,17 @@ export class CouncilmeetingListCreate extends Component {
           <div className="field">
             <h2 className="ui dividing header">Upcoming councilmeetings</h2>
             <div className="ui checkbox">
-              <input ref="checkOld" type="checkbox" onClick={this.handleCheckBoxClick.bind(this)}/>
+              <input
+                type="checkbox"
+                checked={this.state.showOld ? "true" : ""}
+                onChange={this.handleChange.bind(this, "toggleShowOld")}
+              />
               <label>Show also past dates</label>
             </div>
             <table className="ui celled table">
               <thead>
                 <tr>
-                  <th onClick={this.handleClick.bind(this, "sort", "status")}>Date</th>
+                  <th onClick={this.handleClick.bind(this, "sort", "date")}>Date</th>
                 </tr>
               </thead>
               <tbody>
