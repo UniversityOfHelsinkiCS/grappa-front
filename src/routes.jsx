@@ -17,6 +17,7 @@ import UserListNotActive from "./user/UserListNotActive.container";
 import UserShow from "./user/UserShow.container";
 import UserRegistration from "./user/UserRegistration.container";
 import Login from "./auth/Login.container";
+import About from "./app/About.component";
 import NotFound from "./app/NotFound.component";
 
 export default (
@@ -35,6 +36,7 @@ export default (
       <Route path="user/me" component={UserShow} onEnter={redirectNonUser} />
       <Route path="registration" component={UserRegistration} />
       <Route path="login" component={Login} />
+      <Route path="about" component={About}/>
       <Route path="*" component={NotFound}/>
     </Route>
   </Route>

@@ -9,7 +9,7 @@ import {
 } from "react-addons-test-utils";
 import { Provider } from "react-redux";
 import store from "../../src/store";
-import CouncilmeetingContainer, { CouncilmeetingListCreate } from "../../src/councilmeeting/CouncilmeetingListCreate.container";
+import CouncilmeetingContainer, { CouncilmeetingListCreate } from "../../src/councilmeeting/CouncilMeetingListCreate.container";
 
 xdescribe("CouncilmeetingList.smart", () => {
   xit("should render table headers", () => {

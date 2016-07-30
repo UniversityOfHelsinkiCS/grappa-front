@@ -57,7 +57,7 @@ export class ThesisList extends Component {
         <div className="m-bot">
           <h2 className="ui dividing header">Theses</h2>
           <p>
-            Past and current theses regarding your user role.
+            Past and current theses which you are allowed to view.
           </p>
           <button className="ui button blue" onClick={this.handleClick.bind(this, "download")}>Download selected</button>
         </div>

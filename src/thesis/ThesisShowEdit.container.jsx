@@ -71,6 +71,28 @@ export class ThesisShow extends Component {
       this.props.updateThesis(this.state.updateThesis.values);
     } else if (button === "download") {
       this.props.downloadTheses([this.state.updateThesis.values.id]);
+    } else if (button === "delete" && confirm("Are you sure you want to delete this thesis? All data will be lost.")) {
+      this.props.deleteThesis(this.state.updateThesis.values.id);
+    }
+  }
+
+  handleReminderClick(action, reminderType, event) {
+    // console.log(action, reminder)
+    if (action === "sendReminder") {
+      const thesisId = Validate.getForm("updateThesis").values.id;
+      this.props.sendReminder(thesisId, reminderType);
+    } else if (action === "setDone") {
+      const tp = Validate.getForm("updateThesis").values.ThesisProgress;
+      if (reminderType === "EthesisEmail") {
+        tp.ethesisDone = true;
+      } else if (reminderType === "GraderEvalEmail") {
+        tp.graderEvalDone = true;
+      } else if (reminderType === "PrintEmail") {
+        tp.printDone = true;
+      }
+      if (confirm("Are you sure you want to manually overwrite this reminder done?")) {
+        this.props.updateThesisProgress(tp);
+      }
     }
   }
 
@@ -190,7 +212,7 @@ export class ThesisShow extends Component {
                 onChange={this.handleChange.bind(this, "urkund")}
               />
             </div>
-              <ValidateError errors={updateThesis.errors} model="thesisEdit" field="urkund" />
+            <ValidateError errors={updateThesis.errors} model="thesisEdit" field="urkund" />
           </div>
           <div className="field">
             <label>Ethesis</label>
@@ -204,8 +226,8 @@ export class ThesisShow extends Component {
                 value={updateThesis.values.ethesis || ""}
                 onChange={this.handleChange.bind(this, "ethesis")}
               />
-              <ValidateError errors={updateThesis.errors} model="thesisEdit" field="ethesis" />
             </div>
+            <ValidateError errors={updateThesis.errors} model="thesisEdit" field="ethesis" />
           </div>
           <div className="field">
             <label>Instructor</label>
@@ -284,7 +306,7 @@ export class ThesisShow extends Component {
     );
   }
 
-  renderReminder(name, reminder, isDone) {
+  renderReminder(name, type, reminder, isDone) {
     return (
       <div className="field">
         <div className="ui right input">
@@ -319,9 +341,26 @@ export class ThesisShow extends Component {
             <div className="field">
             </div>
             :
+            <div>
+              <div className="field">
+                <label>&nbsp;</label>
+                <button className="ui blue button" onClick={this.handleReminderClick.bind(this, "sendReminder", type)}>
+                  Send reminder
+                </button>
+              </div>
+            </div>
+          }
+          { isDone ?
             <div className="field">
-              <label>&nbsp;</label>
-              <button className="ui blue button">Send reminder</button>
+            </div>
+            :
+            <div>
+              <div className="field">
+                <label>&nbsp;</label>
+                <button className="ui red button" onClick={this.handleReminderClick.bind(this, "setDone", type)}>
+                  Set done
+                </button>
+              </div>
             </div>
           }
         </div>
@@ -330,13 +369,13 @@ export class ThesisShow extends Component {
   }
 
   renderSentReminders() {
-    const thesisProgress = this.state.updateThesis.values.ThesisProgress || {};
+    const thesisProgress = this.state.updateThesis.values.ThesisProgress;
     return (
       <div>
         <h2 className="ui dividing header">Sent reminders</h2>
-        { this.renderReminder("Ethesis Reminder", thesisProgress.EthesisEmail || {}, thesisProgress.ethesisDone) }
-        { this.renderReminder("Grader Evaluation Reminder", thesisProgress.GraderEvalEmail || {}, thesisProgress.graderEvalDone) }
-        { this.renderReminder("Print Thesis Reminder", thesisProgress.PrintEmail || {}, thesisProgress.printDone) }
+        { this.renderReminder("Ethesis Reminder", "EthesisEmail", thesisProgress.EthesisEmail || {}, thesisProgress.ethesisDone) }
+        { this.renderReminder("Grader Evaluation Reminder", "GraderEvalEmail", thesisProgress.GraderEvalEmail || {}, thesisProgress.graderEvalDone) }
+        { this.renderReminder("Print Thesis Reminder", "PrintEmail", thesisProgress.PrintEmail || {}, thesisProgress.printDone) }
       </div>
     );
   }
@@ -355,6 +394,7 @@ export class ThesisShow extends Component {
               <div className="ui green button" onClick={this.handleClick.bind(this, "edit")}>Edit</div>
             }
             <div className="ui blue button" onClick={this.handleClick.bind(this, "save")}>Save</div>
+            <div className="ui red button" onClick={this.handleClick.bind(this, "delete")}>Delete</div>
           </div>
            :
           role === "professor" ?
@@ -393,7 +433,8 @@ import { connect } from "react-redux";
 import { updateThesis, deleteThesis, downloadTheses } from "./thesis.actions";
 import { updateGraders } from "../grader/grader.actions";
 import { updateUser } from "../user/user.actions";
-import { sendNotification } from "../email/email.actions";
+import { sendReminder } from "../email/email.actions";
+import { updateThesisProgress } from "../thesis/thesis.actions";
 
 const mapStateToProps = (state) => {
   const auth = state.get("auth");
@@ -420,11 +461,14 @@ const mapDispatchToProps = (dispatch) => ({
   // updateUser(user) {
   //   dispatch(updateUser(user));
   // },
-  sendNotification(object) {
-    dispatch(sendNotification(object));
+  sendReminder(thesisId, type) {
+    dispatch(sendReminder(thesisId, type));
   },
-  deleteThesis(thesis) {
-    dispatch(deleteThesis(thesis));
+  updateThesisProgress(tp) {
+    dispatch(updateThesisProgress(tp));
+  },
+  deleteThesis(thesisId) {
+    dispatch(deleteThesis(thesisId));
   },
   downloadTheses(theses) {
     dispatch(downloadTheses(theses));
