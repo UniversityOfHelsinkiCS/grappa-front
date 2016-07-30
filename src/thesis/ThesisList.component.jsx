@@ -54,7 +54,8 @@ export default class ThesisList extends Component {
     return theses.map(thesis => {
       return {
         id: thesis.id,
-        status: thesis.ThesisProgress.done ? "Done" : "In progress",
+        status: thesis.ThesisProgress.ethesisDone && thesis.ThesisProgress.graderEvalDone && thesis.ThesisProgress.printDone ? 
+          "Done" : "In progress",
         authorFirstname: thesis.authorFirstname,
         authorLastname: thesis.authorLastname,
         title: thesis.title,

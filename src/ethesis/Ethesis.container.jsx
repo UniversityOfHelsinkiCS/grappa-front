@@ -1,5 +1,5 @@
-import Validation from "../thesis/thesisValidation";
 import React, { Component } from "react";
+import FlashMessage from "../flash/FlashMessage.container";
 
 export class Ethesis extends Component {
   constructor() {
@@ -16,34 +16,12 @@ export class Ethesis extends Component {
     this.setState(change);
   }
 
-  handleClick(event) {
+  handleClick(type, event) {
     event.preventDefault();
-    const data = {
-      token: this.props.params.token,
-      thesis: {
-        ethesis: this.state.ethesislink,
-      },
-    };
-    this.props.updateThesisesEthesis(data);
+    this.props.updateThesisesEthesis(this.props.params.token, this.state.ethesislink);
   }
 
-  render() {
-    const link = this.props.linkSent;
-    if (link === "success") {
-      return (
-        <div className="ui container m-top">
-          <h2 className="ui dividing header">Success</h2>
-          <p>Link was successfully saved. You may now leave this page.</p>
-        </div>
-      );
-    } else if (link === "failure") {
-      return (
-        <div className="ui container m-top">
-          <h2 className="ui dividing header">Error</h2>
-          <p>There was an error saving your link. Please refresh the page and try again. If everything else fails please contact Kjell Lemström.</p>
-        </div>
-      );
-    }
+  renderInput() {
     return (
       <div className="ui container m-top">
         <div className="ui form">
@@ -65,14 +43,45 @@ export class Ethesis extends Component {
       </div>
     );
   }
+
+  renderMessage() {
+    const link = this.props.linkSent;
+    return (
+      <div className="ui container m-top">
+        <h2 className="ui dividing header">{ link === "success" ? "Success" : "Error"}</h2>
+        <p>
+          { link === "success" ? 
+            "Link was successfully saved. You may now leave this page."
+             : 
+            "There was an error saving your link. Please refresh the page and try again. If everything else fails " +
+            "please contact admin."
+          }
+        </p>
+      </div>
+    );
+  }
+
+  render() {
+    const link = this.props.linkSent;
+    return (
+      <div className="main-container">
+        { link ?
+          this.renderMessage()
+            :
+          this.renderInput()
+        }
+        <FlashMessage />
+      </div>
+    );
+  }
 }
 
 import { connect } from "react-redux";
 import { updateThesisesEthesis } from "../ethesis/ethesis.actions";
 
 const mapDispatchToProps = (dispatch) => ({
-  updateThesisesEthesis(data) {
-    dispatch(updateThesisesEthesis(data));
+  updateThesisesEthesis(token, link) {
+    dispatch(updateThesisesEthesis(token, link));
   },
 });
 

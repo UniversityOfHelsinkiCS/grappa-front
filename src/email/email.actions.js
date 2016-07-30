@@ -1,19 +1,31 @@
 import { CALL_API } from "../middleware/grappaAPI";
 
-// export const SEND_NOTIFICATION_SUCCESS = "SEND_NOTIFICATION_SUCCESS";
-// export const SEND_NOTIFICATION_FAILURE = "SEND_NOTIFICATION_FAILURE";
+export const SEND_REMINDER_SUCCESS = "SEND_REMINDER_SUCCESS";
+export const SEND_REMINDER_FAILURE = "SEND_REMINDER_FAILURE";
 
-// export const sendNotification = (data) => {
-//   console.log("sendNotification-action called!");
-//   return {
-//     type: CALL_API,
-//     success: SEND_NOTIFICATION_SUCCESS,
-//     failure: SEND_NOTIFICATION_FAILURE,
-//     method: "post",
-//     url: "/email/remind",
-//     data,
-//   };
-// };
+export const sendReminder = (thesisId, reminderType) => (
+  {
+    type: CALL_API,
+    flashMessage: {
+      type: "warning",
+      title: "Request sent",
+      body: "Waiting for EmailReminder to be sent.",
+    },
+    success: SEND_REMINDER_SUCCESS,
+    successMessage: {
+      type: "success",
+      title: "Success",
+      body: "EmailReminder has been sent.",
+    },
+    failure: SEND_REMINDER_FAILURE,
+    method: "post",
+    url: "/email/remind",
+    data: {
+      thesisId,
+      reminderType,
+    },
+  }
+);
 
 export const EMAILDRAFT_GET_ALL_SUCCESS = "EMAILDRAFT_GET_ALL_SUCCESS";
 export const EMAILDRAFT_GET_ALL_FAILURE = "EMAILDRAFT_GET_ALL_FAILURE";
