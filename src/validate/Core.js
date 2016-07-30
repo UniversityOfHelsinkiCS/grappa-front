@@ -24,8 +24,10 @@ class ValidateCore {
     const type = rule.type;
     if (type === "notEmpty") {
       return Validator.isNull(value);
-    } else if (type === "validEmail") {
+    } else if (type === "isEmail") {
       return !Validator.isEmail(value);
+    } else if (type === "isLink") {
+      return !Validator.isURL(value);
     } else if (type.substring(0, 3) === "min" || type.substring(0, 3) === "max") {
       const prefix = rule.type.substring(0, 3);
       if (rule.type.substring(3, 8) === "Count") {

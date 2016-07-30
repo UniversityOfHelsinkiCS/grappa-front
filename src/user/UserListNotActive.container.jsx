@@ -128,8 +128,8 @@ export class NewUsersList extends Component {
       <div>
         <h2 className="ui dividing header">New users</h2>
         <p>
-          Role must be set for each user but studyfield can be left unselected for admin or print-person.
-          Declining an user deletes it completely.
+          Role must be set for each user but studyfield can be left unselected for admin or print-person. Studyfield can
+          have only one professor. Declining an user deletes it completely.
         </p>
         { this.renderTable(users) }
       </div>

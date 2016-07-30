@@ -32,7 +32,7 @@ const schemas = {
           error: "Email can't be empty.",
         },
         {
-          type: "validEmail",
+          type: "isEmail",
           error: "Not a valid email.",
         },
       ],
@@ -149,7 +149,7 @@ const schemas = {
           error: "Email can't be empty.",
         },
         {
-          type: "validEmail",
+          type: "isEmail",
           error: "Not a valid email.",
         },
       ],
@@ -363,7 +363,7 @@ const schemas = {
           error: "Email can't be empty.",
         },
         {
-          type: "validEmail",
+          type: "isEmail",
           error: "Not a valid email.",
         },
       ],
@@ -433,7 +433,7 @@ const schemas = {
           error: "Email can't be empty.",
         },
         {
-          type: "validEmail",
+          type: "isEmail",
           error: "Not a valid email.",
         },
       ],
@@ -515,7 +515,7 @@ const schemas = {
           error: "Email can't be empty.",
         },
         {
-          type: "validEmail",
+          type: "isEmail",
           error: "Not a valid email.",
         },
       ],
@@ -589,7 +589,7 @@ const schemas = {
           error: "Email can't be empty.",
         },
         {
-          type: "validEmail",
+          type: "isEmail",
           error: "Not a valid email.",
         },
       ],

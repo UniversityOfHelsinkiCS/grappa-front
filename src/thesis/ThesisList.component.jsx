@@ -54,12 +54,12 @@ export default class ThesisList extends Component {
     return theses.map(thesis => {
       return {
         id: thesis.id,
-        status: thesis.ThesisProgress.ethesisDone && thesis.ThesisProgress.graderEvalDone && thesis.ThesisProgress.printDone ? 
+        status: thesis.ThesisProgress.ethesisDone && thesis.ThesisProgress.graderEvalDone && thesis.ThesisProgress.printDone ?
           "Done" : "In progress",
         authorFirstname: thesis.authorFirstname,
         authorLastname: thesis.authorLastname,
         title: thesis.title,
-        instructor: thesis.User.name,
+        instructor: `${thesis.User.firstname} ${thesis.User.lastname}`,
         studyfield: thesis.StudyField.name,
         deadline: moment(new Date(thesis.deadline)).format("DD/MM/YYYY"),
       };
@@ -68,11 +68,11 @@ export default class ThesisList extends Component {
 
   handleChange(type, event) {
     if (type === "search") {
-      const value = event.target.value.toLowerCase();
+      const searchValue = event.target.value.toLowerCase();
       this.props.searched.forEach((item, index, array) => {
         const thesis = this.state.allTheses[index];
         for (const key in thesis) {
-          if (thesis.hasOwnProperty(key) && key !== "id" && thesis[key].toLowerCase().indexOf(value) !== -1) {
+          if (thesis.hasOwnProperty(key) && key !== "id" && thesis[key] && thesis[key].toLowerCase().indexOf(searchValue) !== -1) {
             array[index] = true;
             return;
           }
@@ -80,7 +80,7 @@ export default class ThesisList extends Component {
         array[index] = false;
       });
       this.setState({
-        searchValue: value,
+        searchValue,
       });
     } else if (type === "toggleShowOld") {
       this.props.selected.forEach((item, index, array) => {

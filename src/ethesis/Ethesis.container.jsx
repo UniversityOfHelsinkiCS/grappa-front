@@ -50,9 +50,9 @@ export class Ethesis extends Component {
       <div className="ui container m-top">
         <h2 className="ui dividing header">{ link === "success" ? "Success" : "Error"}</h2>
         <p>
-          { link === "success" ? 
+          { link === "success" ?
             "Link was successfully saved. You may now leave this page."
-             : 
+             :
             "There was an error saving your link. Please refresh the page and try again. If everything else fails " +
             "please contact admin."
           }

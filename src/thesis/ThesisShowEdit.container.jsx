@@ -71,6 +71,8 @@ export class ThesisShow extends Component {
       this.props.updateThesis(this.state.updateThesis.values);
     } else if (button === "download") {
       this.props.downloadTheses([this.state.updateThesis.values.id]);
+    } else if (button === "delete" && confirm("Are you sure you want to delete this thesis? All data will be lost.")) {
+      this.props.deleteThesis(this.state.updateThesis.values.id);
     }
   }
 
@@ -210,7 +212,7 @@ export class ThesisShow extends Component {
                 onChange={this.handleChange.bind(this, "urkund")}
               />
             </div>
-              <ValidateError errors={updateThesis.errors} model="thesisEdit" field="urkund" />
+            <ValidateError errors={updateThesis.errors} model="thesisEdit" field="urkund" />
           </div>
           <div className="field">
             <label>Ethesis</label>
@@ -224,8 +226,8 @@ export class ThesisShow extends Component {
                 value={updateThesis.values.ethesis || ""}
                 onChange={this.handleChange.bind(this, "ethesis")}
               />
-              <ValidateError errors={updateThesis.errors} model="thesisEdit" field="ethesis" />
             </div>
+            <ValidateError errors={updateThesis.errors} model="thesisEdit" field="ethesis" />
           </div>
           <div className="field">
             <label>Instructor</label>
@@ -392,6 +394,7 @@ export class ThesisShow extends Component {
               <div className="ui green button" onClick={this.handleClick.bind(this, "edit")}>Edit</div>
             }
             <div className="ui blue button" onClick={this.handleClick.bind(this, "save")}>Save</div>
+            <div className="ui red button" onClick={this.handleClick.bind(this, "delete")}>Delete</div>
           </div>
            :
           role === "professor" ?
@@ -464,8 +467,8 @@ const mapDispatchToProps = (dispatch) => ({
   updateThesisProgress(tp) {
     dispatch(updateThesisProgress(tp));
   },
-  deleteThesis(thesis) {
-    dispatch(deleteThesis(thesis));
+  deleteThesis(thesisId) {
+    dispatch(deleteThesis(thesisId));
   },
   downloadTheses(theses) {
     dispatch(downloadTheses(theses));

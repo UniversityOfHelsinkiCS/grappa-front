@@ -44,9 +44,14 @@ export const getTheses = () => (
  * @param {Object} thesis - Thesis to delete, needs to put into data-field for the reducer
  * @return {Object} - Action for API to handle
  */
-export const deleteThesis = (thesis) => (
+export const deleteThesis = (thesisId) => (
   {
     type: CALL_API,
+    flashMessage: {
+      type: "warning",
+      title: "Request sent",
+      body: "Waiting for Thesis to be deleted.",
+    },
     success: THESIS_DELETE_ONE_SUCCESS,
     successMessage: {
       type: "warning",
@@ -54,14 +59,9 @@ export const deleteThesis = (thesis) => (
       body: "Thesis was deleted.",
     },
     failure: THESIS_DELETE_ONE_FAILURE,
-    failureMessage: {
-      type: "error",
-      title: "Error",
-      body: "Deletion of the thesis failed.",
-    },
     method: "delete",
-    url: `/thesis/${thesis.id}`,
-    data: thesis,
+    url: `/thesis/${thesisId}`,
+    data: {},
   }
 );
 
