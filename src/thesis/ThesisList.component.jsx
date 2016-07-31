@@ -27,7 +27,6 @@ export default class ThesisList extends Component {
   }
 
   initState(props) {
-    console.log(props.theses);
     const formatted = this.formatTheses(props.theses);
     const filtered = formatted.filter(thesis => {
       if (thesis.status === "In progress") {

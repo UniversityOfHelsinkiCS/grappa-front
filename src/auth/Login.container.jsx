@@ -40,7 +40,6 @@ export class Login extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.user.role) {
       browserHistory.replace("/thesis");
-      console.log(nextProps.user);
       if (nextProps.user.role === "admin") {
         this.props.fetchAdminData();
       } else {

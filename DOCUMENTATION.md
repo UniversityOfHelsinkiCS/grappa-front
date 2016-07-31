@@ -1,5 +1,8 @@
 # General
 
+Edit couple months after I wrote this:
+Okey to be honest, not the most descriptive overview of the technologies. There is a lot of good tutorials out there, you imaginary developer who might never exist to read this. Egghead.io has some good redux videos.
+
 This app is made with React+Webpack+Redux and incase those hipster techs aren't familiar here is a short summary what they do:
 
 # React
