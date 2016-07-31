@@ -8,8 +8,9 @@ But basically you just create these "Smart Components" (that are just regular co
 
 [How to install](https://github.com/ultra-hyper-storm-ohtuprojekti/grappa-front/blob/master/INSTALLATION.md)
 
-[Heroku](https://grappa-app.herokuapp.com/)
+[In production](https://grappa.cs.helsinki.fi)
 
-[Heroku(dev version)](https://grappa-app-dev.herokuapp.com/)
+Not working due to pdftk not being installed to Heroku.
+[Heroku](https://grappa-app.herokuapp.com/)
 
 [Trello](https://trello.com/ultrahyperstormohtuprojekti)

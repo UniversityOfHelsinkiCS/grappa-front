@@ -3,8 +3,18 @@ import Schemas from "./validate.schemas";
 
 class ValidateCore {
 
-  setCustomRules(customRules) {
-    this.customRules = customRules;
+  constructor() {
+    this.Validator = Validator;
+    this.Schemas = Schemas;
+    this.customRules = [];
+  }
+
+  addSchemas(schemas) {
+    this.Schemas = Object.assign(this.Shemas, schemas);
+  }
+
+  addCustomRules(rules) {
+    this.customRules.push(rules);
   }
 
   findFieldRules(model, field) {
@@ -15,7 +25,7 @@ class ValidateCore {
     } else if (!Schemas[model][field]) {
       throw new TypeError(`Schema ${model} has no property: ${field}`);
     } else {
-      return Schemas[model][field].rules;
+      return this.Schemas[model][field].rules;
     }
   }
 
@@ -42,7 +52,7 @@ class ValidateCore {
           return true;
         }
       }
-    } else if (rule.type.substring(0, 5) === "equal") {
+    } else if (type.substring(0, 5) === "equal") {
       const field = rule.type.substring(rule.type.indexOf("[") + 1, rule.type.lastIndexOf("]"));
       // console.log(values[field], value)
       // console.log(values[field] !== value)
