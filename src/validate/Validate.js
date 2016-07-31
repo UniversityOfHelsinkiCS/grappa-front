@@ -5,6 +5,29 @@ import { createForm, updateForm, replaceForm } from "./validate.actions";
 
 // react-redux-validate
 
+import { Component } from "react";
+
+class InjectForm extends Component {
+
+  constructor() {
+    super();
+    this.state = {
+      // Users: [],
+      updateUser: Validate.createForm("updateUser", "userEdit"),
+    };
+  }
+
+  componentWillMount() {
+    Validate.subscribeToForm("updateUser", "xx", (updateUser) => {
+      this.setState({ updateUser, });
+    });
+  }
+
+  componentWillUnmount() {
+    Validate.unsubscribe("xx");
+  }
+}
+
 class Validate {
 
   constructor() {
@@ -110,6 +133,10 @@ class Validate {
 
   setCustomRules(customRules) {
     // Core.setCustomRules(customRules);
+  }
+
+  addSchemas(schemas) {
+    Core.addSchemas(schemas);
   }
 }
 

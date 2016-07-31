@@ -9,24 +9,45 @@ export class NewUsersList extends Component {
     };
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.props.getUsers();
+    const users = this.filterAndInitUsers([], this.props.Users);
     this.setState({
-      users: this.filterAndInitUsers(this.props.Users),
+      users,
     });
   }
 
   componentWillReceiveProps(newProps) {
-    if (newProps.Users !== undefined) {
+    if (newProps.Users !== this.props.Users) {
+      const users = this.filterAndInitUsers(this.state.users, newProps.Users);
       this.setState({
-        users: this.filterAndInitUsers(newProps.Users),
+        users,
       });
     }
   }
 
+  filterAndInitUsers(oldUsers, newUsers) {
+    const notActive = newUsers.filter(user => {
+      if (!user.isActive) return user;
+    });
+    return notActive.map(newUser => {
+      const old = oldUsers.find(oldUser => {
+        if (oldUser.id === newUser.id) {
+          return oldUser;
+        }
+      })
+      if (old) {
+        return old;
+      } else {
+        newUser.role = "instructor";
+        newUser.StudyFieldId = "";
+        return newUser;
+      }
+    })
+  }
+
   handleChange(name, index, event) {
     event.preventDefault();
-    console.log("yo handling " + name);
     if (name === "role") {
       this.state.users[index].role = event.target.value;
       this.setState({});
@@ -38,30 +59,20 @@ export class NewUsersList extends Component {
 
   handleClick(name, index, event) {
     event.preventDefault();
-    console.log("yo clicking " + name);
     if (name === "accept") {
       const newUser = this.state.users[index];
       if (!newUser.StudyFieldId) {
         delete newUser.StudyFieldId;
+      } else {
+        newUser.StudyField = this.props.StudyFields.find(field => {
+          if (field.id.toString() === newUser.StudyFieldId.toString()) return field;
+        })
       }
       newUser.isActive = true;
-      console.log(newUser);
       this.props.updateUser(newUser);
-    } else if (name === "decline") {
-      if (confirm("Are you sure you want to delete this user?")) {
-        this.props.deleteUser(this.state.users[index]);
-      }
+    } else if (name === "decline" && confirm("Are you sure you want to delete this user?")) {
+      this.props.deleteUser(this.state.users[index]);
     }
-  }
-
-  filterAndInitUsers(users) {
-    const notActive = users.filter(user => {
-      if (!user.isActive) return user;
-    });
-    return notActive.map(user => {
-      user.role = "instructor";
-      return user;
-    });
   }
 
   renderTable(users) {

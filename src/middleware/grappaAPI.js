@@ -54,15 +54,14 @@ export const handleCallApi = store => next => action => {
   } else if (action.type === CALL_API_AFTER_ACTION) {
     queue[action.after] = action;
   } else {
-    console.log(action);
-    if (queue[action.type] !== undefined) {
-      const actionInQueue = queue[action.type];
-      console.log("got after action");
-      console.log(actionInQueue);
-      actionInQueue.data.append("id", action.payload.id);
-      console.log(actionInQueue);
-      callApi(actionInQueue, store);
-      queue[action.type] = undefined;
-    }
+    // if (queue[action.type] !== undefined) {
+    //   const actionInQueue = queue[action.type];
+    //   console.log("got after action");
+    //   console.log(actionInQueue);
+    //   actionInQueue.data.append("id", action.payload.id);
+    //   console.log(actionInQueue);
+    //   callApi(actionInQueue, store);
+    //   queue[action.type] = undefined;
+    // }
   }
 };

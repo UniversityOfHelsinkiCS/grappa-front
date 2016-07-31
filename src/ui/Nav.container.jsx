@@ -67,10 +67,10 @@ export class Nav extends Component {
         <Link className="item" to="/user">All users</Link>
         <Link className="item" to="/studyfield">Studyfields</Link>
         <Link className="item" to="/emaildraft">Email drafts</Link>
-        <Link className="item" to="/emailstatus">Email statuses</Link>
       </div>
     );
   }
+        // <Link className="item" to="/emailstatus">Email statuses</Link>
 
   renderNav() {
     const isAdmin = this.props.user.role === "admin";
