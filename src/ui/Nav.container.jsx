@@ -34,9 +34,9 @@ export class Nav extends Component {
     return (
       <div className="ui horizontal pointing menu">
         <Link className="item" to="/user/me">{ `${user.firstname} ${user.lastname}` }</Link>
-        <a className="item" onClick={ this.handleLogout }>Logout</a>
         <Link className="item" to="/thesis">Theses</Link>
         <Link className="item" to="/thesis/new">Add new thesis</Link>
+        <a className="item" onClick={ this.handleLogout }>Logout</a>
       </div>
     );
   }
@@ -46,9 +46,9 @@ export class Nav extends Component {
     return (
       <div className="ui horizontal pointing menu">
         <Link className="item" to="/user/me">{ `${user.firstname} ${user.lastname}` }</Link>
-        <a className="item" onClick={ this.handleLogout }>Logout</a>
         <Link className="item" to="/thesis">Theses</Link>
         <Link className="item" to="/councilmeeting/next">Next meeting</Link>
+        <a className="item" onClick={ this.handleLogout }>Logout</a>
       </div>
     );
   }
@@ -58,7 +58,6 @@ export class Nav extends Component {
     return (
       <div className="ui horizontal pointing menu">
         <Link className="item" to="/user/me">{ `${user.firstname} ${user.lastname}` }</Link>
-        <a className="item" onClick={ this.handleLogout }>Logout</a>
         <Link className="item" to="/thesis">Theses</Link>
         <Link className="item" to="/thesis/new">Add new thesis</Link>
         <Link className="item" to="/councilmeeting">Councilmeetings </Link>
@@ -67,6 +66,7 @@ export class Nav extends Component {
         <Link className="item" to="/user">All users</Link>
         <Link className="item" to="/studyfield">Studyfields</Link>
         <Link className="item" to="/emaildraft">Email drafts</Link>
+        <a className="item" onClick={ this.handleLogout }>Logout</a>
       </div>
     );
   }

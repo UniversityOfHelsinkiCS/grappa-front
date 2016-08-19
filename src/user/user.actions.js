@@ -6,13 +6,15 @@ import { CALL_API } from "../middleware/grappaAPI";
 
 export const USER_GET_ALL_SUCCESS = "USER_GET_ALL_SUCCESS";
 export const USER_GET_ALL_FAILURE = "USER_GET_ALL_FAILURE";
+
 export const USER_UPDATE_ONE_SUCCESS = "USER_UPDATE_ONE_SUCCESS";
 export const USER_UPDATE_ONE_FAILURE = "USER_UPDATE_ONE_FAILURE";
+
 export const USER_DELETE_ONE_SUCCESS = "USER_DELETE_ONE_SUCCESS";
 export const USER_DELETE_ONE_FAILURE = "USER_DELETE_ONE_FAILURE";
+
 export const USER_SAVE_ONE_SUCCESS = "USER_SAVE_ONE_SUCCESS";
 export const USER_SAVE_ONE_FAILURE = "USER_SAVE_ONE_FAILURE";
-
 
 export const getUsers = () => (
   {

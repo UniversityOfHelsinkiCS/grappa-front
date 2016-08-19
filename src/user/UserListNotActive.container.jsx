@@ -35,7 +35,7 @@ export class NewUsersList extends Component {
         if (oldUser.id === newUser.id) {
           return oldUser;
         }
-      })
+      });
       if (old) {
         return old;
       } else {
@@ -43,7 +43,7 @@ export class NewUsersList extends Component {
         newUser.StudyFieldId = "";
         return newUser;
       }
-    })
+    });
   }
 
   handleChange(name, index, event) {
@@ -66,7 +66,7 @@ export class NewUsersList extends Component {
       } else {
         newUser.StudyField = this.props.StudyFields.find(field => {
           if (field.id.toString() === newUser.StudyFieldId.toString()) return field;
-        })
+        });
       }
       newUser.isActive = true;
       this.props.updateUser(newUser);

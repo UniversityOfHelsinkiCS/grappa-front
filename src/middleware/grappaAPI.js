@@ -13,7 +13,6 @@ export const callApi = (action, store) => {
     data: action.data,
     headers: {
       "X-Access-Token": token,
-      "X-Key": user.id,
     },
     responseType: action.responseType === undefined ? "json" : action.responseType,
   })

@@ -125,6 +125,11 @@ body {
   font-size: 0.9em;
 }
 
+/*.logout-btn {
+  position: absolute !important;
+  right: 0;
+}*/
+
 /* Hack for making the default font-size bearable to look at */
 .ui.header {
   font-weight: 400 !important;
