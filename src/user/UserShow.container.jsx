@@ -10,7 +10,6 @@ export class UserShow extends Component {
       updateUser: Validate.createForm("updateUser", "userEditSelf"),
       User: {},
       StudyField: {},
-      editUser: {},
     };
   }
 
@@ -20,18 +19,11 @@ export class UserShow extends Component {
     });
     Validate.replaceForm("updateUser", this.props.User);
 
-    const edit = Object.assign({
-      password: "",
-      newPassword: "",
-      newPasswordConf: "",
-    }, this.props.User);
-
     this.setState({
       User: this.props.User,
       StudyField: this.props.StudyFields.find(field => {
         if (field.id === this.props.User.StudyFieldId) return field;
       }),
-      editUser: edit,
     });
   }
 
@@ -67,12 +59,13 @@ export class UserShow extends Component {
   renderAdminView() {
     return (
       <div className="ui list">
-        <h3 className="dividing header">Admin View</h3>
+        <h3 className="dividing header">Information for Admin</h3>
         <div>
-          Thesis' deadline from councilmeeting: 10d
+          Thesis has hard-coded deadline which is 10 days before the councilmeeting.
         </div>
         <div>
-          Events happened since last login: 23
+          Thesis becomes done when the ethesis link has been supplied, grader evaluation has been made
+          and user with the role 'print-person' has downloaded the thesis' PDF.
         </div>
         <div>
           Update data with theses and councilmeetings beyond past year: button
@@ -91,7 +84,7 @@ export class UserShow extends Component {
       <div className="field">
         <h2 className="ui dividing header">Update your information</h2>
         <p>
-          You don't have to submit your password when you're changing other information than your password.
+          Provide your password when updating your information.
         </p>
         <div className="field">
           <label>Firstname</label>

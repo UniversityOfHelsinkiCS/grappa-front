@@ -129,7 +129,7 @@ export class StudyFieldList extends Component {
             <p>
               All old and current studyfields. Press a studyfield to start editing it. Note that changing studyfield's
               name changes it for every thesis connected to that field. If a field is no longer valid set it inactive
-              and create a new one rather than changing old one's name.
+              and create a new one rather than change old one's name.
             </p>
             <table className="ui celled table">
               <thead>
