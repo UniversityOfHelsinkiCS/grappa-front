@@ -130,7 +130,15 @@ export class CouncilmeetingShow extends Component {
             <span></span>
           }
           <h2 className="ui dividing header" style={{ "marginTop": "10px" }}>
-            Councilmeeting of { moment(new Date(this.state.currentMeeting.date)).format("DD/MM/YYYY") }
+            { this.state.currentMeeting !== undefined ?
+              <span>
+                Councilmeeting of { moment(new Date(this.state.currentMeeting.date)).format("DD/MM/YYYY") }
+              </span>
+              :
+              <span>
+                No Councilmeeting found
+              </span>
+            }
           </h2>
 
           <p>
