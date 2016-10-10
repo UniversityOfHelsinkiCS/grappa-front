@@ -1,9 +1,11 @@
 import { createStore, applyMiddleware, compose } from "redux";
+import thunk from "redux-thunk";
 import { combineReducers } from "redux-immutablejs";
 import persistState from "redux-localstorage";
 import { fromJS, Map } from "immutable";
+
 import logger from "./middleware/logger";
-import { handleCallApi } from "./middleware/grappaAPI";
+import { handleRequest } from "./middleware/grappaAPI";
 import { manageState } from "./middleware/statusManager";
 import { triggerDownload } from "./middleware/downloadHelper";
 
@@ -17,7 +19,6 @@ import studyfield from "./studyfield/studyfield.reducer";
 import grader from "./grader/grader.reducer";
 import ethesis from "./ethesis/ethesis.reducer";
 import flash from "./flash/flash.reducer";
-import { LOGOUT_USER } from "./auth/auth.actions";
 
 const combinedReducers = combineReducers({
   auth,
@@ -36,13 +37,14 @@ const combinedReducers = combineReducers({
  * Resets all states of reducers when logging out
  */
 const rootReducer = (state, action) => {
-  if (action.type === LOGOUT_USER) {
+  if (action.type === "LOGOUT_USER") {
     return combinedReducers(undefined, action);
   }
   return combinedReducers(state, action);
 };
 
-const createStoreWithMiddleware = applyMiddleware(logger, handleCallApi, manageState, triggerDownload)(createStore);
+// const createStoreWithMiddleware = applyMiddleware(thunk, logger, handleRequest, manageState, triggerDownload)(createStore);
+const createStoreWithMiddleware = applyMiddleware(thunk, handleRequest, logger, manageState, triggerDownload)(createStore);
 const createPersistentStore = compose(
   persistState(["auth", "thesis", "councilmeeting", "studyfield", "grader", "email", "user"], {
     slicer: (paths) => (state) => state.filter((v, k) => paths.indexOf(k) !== -1),

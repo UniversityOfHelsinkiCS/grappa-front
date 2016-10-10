@@ -1,3 +1,5 @@
+import { browserHistory } from "react-router";
+
 export const LOGIN_USER = "LOGIN_USER";
 export const LOGOUT_USER = "LOGOUT_USER";
 
@@ -27,7 +29,7 @@ export const loginUser = (email, password) => {
   return (dispatch, getState) => {
     return dispatch(loginAction(email, password)).then((action) => {
       if (action.type === "LOGIN_USER_SUCCESS") {
-        const role = getState.
+        // const role = getState.get(["auth", "user", "role"]).toJS();
         browserHistory.push("/user/me");
       }
       return action;
