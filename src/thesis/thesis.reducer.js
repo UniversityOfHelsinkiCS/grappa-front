@@ -3,21 +3,6 @@
 * in regard to listing, adding and viewing theses.
 */
 import { fromJS } from "immutable";
-import {
-  THESIS_GET_ALL_SUCCESS,
-  THESIS_GET_ALL_FAILURE,
-  THESIS_SAVE_ONE_SUCCESS,
-  THESIS_SAVE_ONE_FAILURE,
-  THESIS_UPDATE_ONE_SUCCESS,
-  THESIS_UPDATE_ONE_FAILURE,
-  THESIS_DOWNLOAD_SUCCESS,
-  THESISPROGRESS_UPDATE_ONE_SUCCESS,
-  THESISPROGRESS_UPDATE_ONE_FAILURE,
-} from "./thesis.actions";
-
-import {
-  SEND_REMINDER_SUCCESS,
-} from "../email/email.actions";
 
 /**
 *Defines what the intial state is when no changes have yet been done to the state.
@@ -41,7 +26,7 @@ const INITIAL_STATE = fromJS({
  */
 export default function (state = INITIAL_STATE, action) {
   switch (action.type) {
-    case THESIS_GET_ALL_SUCCESS:
+    case "THESIS_GET_ALL_SUCCESS":
       // lolz if no theses found action.payload is null or smthing
       // fuging hell man this shit
       if (!action.payload || action.payload === null) {
@@ -62,15 +47,15 @@ export default function (state = INITIAL_STATE, action) {
         theses,
       }));
     // return state.updateIn(["theses"], list => list.concat(fromJS(action.payload)));
-    case THESIS_GET_ALL_FAILURE:
+    case "THESIS_GET_ALL_FAILURE":
     // probably should display error message?
       return state;
-    case THESIS_SAVE_ONE_SUCCESS:
+    case "THESIS_SAVE_ONE_SUCCESS":
       // return state;
       return state.updateIn(["theses"], theses => fromJS([...theses, action.payload]));
-    case THESIS_SAVE_ONE_FAILURE:
+    case "THESIS_SAVE_ONE_FAILURE":
       return state;
-    case THESIS_UPDATE_ONE_SUCCESS:
+    case "THESIS_UPDATE_ONE_SUCCESS":
       return state.updateIn(["theses"], thesis =>
         thesis.map(thesis => {
           if (thesis.get("id") === action.sent.id) {
@@ -79,11 +64,11 @@ export default function (state = INITIAL_STATE, action) {
           return thesis;
         })
       );
-    case THESIS_UPDATE_ONE_FAILURE:
+    case "THESIS_UPDATE_ONE_FAILURE":
       return state;
-    case THESIS_DOWNLOAD_SUCCESS:
+    case "THESIS_DOWNLOAD_SUCCESS":
       return state;
-    case THESISPROGRESS_UPDATE_ONE_SUCCESS:
+    case "THESISPROGRESS_UPDATE_ONE_SUCCESS":
       return state.updateIn(["theses"], thesis =>
         thesis.map(thesis => {
           if (thesis.get("ThesisProgress").get("id") === action.sent.id) {
@@ -92,9 +77,9 @@ export default function (state = INITIAL_STATE, action) {
           return thesis;
         })
       );
-    case THESISPROGRESS_UPDATE_ONE_FAILURE:
+    case "THESISPROGRESS_UPDATE_ONE_FAILURE":
       return state;
-    case SEND_REMINDER_SUCCESS:
+    case "SEND_REMINDER_SUCCESS":
       return state.updateIn(["theses"], thesis =>
         thesis.map(thesis => {
           if (thesis.get("id") === action.sent.thesisId) {

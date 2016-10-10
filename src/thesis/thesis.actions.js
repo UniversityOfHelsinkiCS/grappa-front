@@ -1,26 +1,9 @@
-/**
-* The file containing all the defined actions that one can call to gain access
-* to modifying the state in regard to listing, adding and viewing theses.
-*/
-import { CALL_API } from "../middleware/grappaAPI";
-
-export const THESIS_GET_ALL_SUCCESS = "THESIS_GET_ALL_SUCCESS";
-export const THESIS_GET_ALL_FAILURE = "THESIS_GET_ALL_FAILURE";
-
-export const THESIS_SAVE_ONE_SUCCESS = "THESIS_SAVE_ONE_SUCCESS";
-export const THESIS_SAVE_ONE_FAILURE = "THESIS_SAVE_ONE_FAILURE";
-
-export const THESIS_UPDATE_ONE_SUCCESS = "THESIS_UPDATE_ONE_SUCCESS";
-export const THESIS_UPDATE_ONE_FAILURE = "THESIS_UPDATE_ONE_FAILURE";
-
-export const THESIS_DELETE_ONE_SUCCESS = "THESIS_DELETE_ONE_SUCCESS";
-export const THESIS_DELETE_ONE_FAILURE = "THESIS_DELETE_ONE_FAILURE";
-
-export const THESIS_DOWNLOAD_SUCCESS = "THESIS_DOWNLOAD_SUCCESS";
-export const THESIS_DOWNLOAD_FAILURE = "THESIS_DOWNLOAD_FAILURE";
-
-export const THESISPROGRESS_UPDATE_ONE_SUCCESS = "THESISPROGRESS_UPDATE_ONE_SUCCESS";
-export const THESISPROGRESS_UPDATE_ONE_FAILURE = "THESISPROGRESS_UPDATE_ONE_FAILURE";
+export const THESIS_GET_ALL = "THESIS_GET_ALL";
+export const THESIS_SAVE_ONE = "THESIS_SAVE_ONE";
+export const THESIS_UPDATE_ONE = "THESIS_UPDATE_ONE";
+export const THESIS_DELETE_ONE = "THESIS_DELETE_ONE";
+export const THESIS_DOWNLOAD = "THESIS_DOWNLOAD";
+export const THESISPROGRESS_UPDATE_ONE = "THESISPROGRESS_UPDATE_ONE";
 
 /**
 * The action called to get a list of all the data related to the theses in the database.
@@ -29,12 +12,14 @@ export const THESISPROGRESS_UPDATE_ONE_FAILURE = "THESISPROGRESS_UPDATE_ONE_FAIL
 */
 export const getTheses = () => (
   {
-    type: CALL_API,
-    success: THESIS_GET_ALL_SUCCESS,
-    failure: THESIS_GET_ALL_FAILURE,
-    method: "get",
-    url: "/thesis",
-    data: {},
+    type: THESIS_GET_ALL,
+    payload: {
+      request: {
+        url: "/thesis",
+        method: "get",
+        data: {}
+      }
+    }
   }
 );
 
@@ -46,43 +31,47 @@ export const getTheses = () => (
  */
 export const deleteThesis = (thesisId) => (
   {
-    type: CALL_API,
+    type: THESIS_DELETE_ONE,
     flashMessage: {
       type: "warning",
       title: "Request sent",
       body: "Waiting for Thesis to be deleted.",
     },
-    success: THESIS_DELETE_ONE_SUCCESS,
     successMessage: {
       type: "warning",
       title: "Success",
       body: "Thesis was deleted.",
     },
-    failure: THESIS_DELETE_ONE_FAILURE,
-    method: "delete",
-    url: `/thesis/${thesisId}`,
-    data: {},
+    payload: {
+      request: {
+        url: `/thesis/${thesisId}`,
+        method: "delete",
+        data: {},
+      }
+    }
   }
 );
 
 export const saveThesisWithReview = (data) => (
   {
-    type: CALL_API,
+    type: THESIS_SAVE_ONE,
     flashMessage: {
       type: "warning",
       title: "Request sent",
       body: "Waiting for Thesis to be saved.",
     },
-    success: THESIS_SAVE_ONE_SUCCESS,
     successMessage: {
       type: "success",
       title: "Success",
       body: "Thesis and review were saved.",
     },
-    failure: THESIS_SAVE_ONE_FAILURE,
-    method: "post",
-    url: "/thesis",
-    data,
+    payload: {
+      request: {
+        url: "/thesis",
+        method: "post",
+        data,
+      }
+    }
   }
 );
 
@@ -95,22 +84,24 @@ export const saveThesisWithReview = (data) => (
  */
 export const updateThesis = (data) => (
   {
-    type: CALL_API,
+    type: THESIS_UPDATE_ONE,
     flashMessage: {
       type: "warning",
       title: "Request sent",
       body: "Waiting for Thesis to be updated.",
     },
-    success: THESIS_UPDATE_ONE_SUCCESS,
     successMessage: {
       type: "success",
       title: "Success",
       body: "Thesis was updated.",
     },
-    failure: THESIS_UPDATE_ONE_FAILURE,
-    method: "put",
-    url: `/thesis/${data.id}`,
-    data,
+    payload: {
+      request: {
+        method: "put",
+        url: `/thesis/${data.id}`,
+        data,
+      }
+    }
   }
 );
 
@@ -124,43 +115,47 @@ export const updateThesis = (data) => (
  */
 export const downloadTheses = (data) => (
   {
-    type: CALL_API,
+    type: THESIS_DOWNLOAD,
     flashMessage: {
       type: "warning",
       title: "Request sent",
       body: "Waiting for Theses to be combined into single PDF.",
     },
-    success: THESIS_DOWNLOAD_SUCCESS,
     successMessage: {
       type: "success",
       title: "Success",
       body: "Theses were generated into PDF.",
     },
-    failure: THESIS_DOWNLOAD_FAILURE,
-    method: "post",
-    url: `/thesis/pdf`,
-    responseType: "arraybuffer",
-    data,
+    payload: {
+      request: {
+        url: "/thesis/pdf",
+        method: "post",
+        responseType: "arraybuffer",
+        data,
+      }
+    }
   }
 );
 
 export const updateThesisProgress = (data) => (
   {
-    type: CALL_API,
+    type: THESISPROGRESS_UPDATE_ONE,
     flashMessage: {
       type: "warning",
       title: "Request sent",
       body: "Waiting for ThesisProgress to be updated.",
     },
-    success: THESISPROGRESS_UPDATE_ONE_SUCCESS,
     successMessage: {
       type: "success",
       title: "Success",
       body: "ThesisProgress was updated.",
     },
-    failure: THESISPROGRESS_UPDATE_ONE_FAILURE,
-    method: "put",
-    url: `/thesisprogress/${data.id}`,
-    data,
+    payload: {
+      request: {
+        url: `/thesisprogress/${data.id}`,
+        method: "put",
+        data,
+      }
+    }
   }
 );

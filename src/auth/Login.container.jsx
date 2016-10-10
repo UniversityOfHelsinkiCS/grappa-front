@@ -29,24 +29,6 @@ export class Login extends React.Component {
   componentWillUnmount() {
     Validate.unsubscribe("lo");
   }
-  /**
-   * Built-in method for React-Component called when its props changes
-   *
-   * Here it's used for redirecting from /login to /thesis after user has
-   * logged in and also for immediatly fetching all the data for better
-   * user experience.
-   * @param {Object} nextProps - The new props received from Redux
-   */
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.user.role) {
-      browserHistory.replace("/thesis");
-      if (nextProps.user.role === "admin") {
-        this.props.fetchAdminData();
-      } else {
-        this.props.fetchUserData();
-      }
-    }
-  }
 
   handleChange(name, event) {
     Validate.updateForm("loginUser", name, event.target.value);
@@ -58,7 +40,8 @@ export class Login extends React.Component {
   handleClick(event) {
     event.preventDefault();
     if (Validate.isFormValid("loginUser")) {
-      this.props.loginUser(this.state.loginUser.values);
+      const { email, password } = this.state.loginUser.values;
+      this.props.loginUser(email, password);
     }
   }
   /**
@@ -110,12 +93,6 @@ export class Login extends React.Component {
 import { connect } from "react-redux";
 
 import { loginUser } from "./auth.actions";
-// import { getTheses } from "../thesis/thesis.actions";
-import { getGraders } from "../grader/grader.actions";
-import { getCouncilMeetings } from "../councilmeeting/councilmeeting.actions";
-import { getStudyFields } from "../studyfield/studyfield.actions";
-import { getUsers } from "../user/user.actions";
-import { getEmailDrafts } from "../email/email.actions";
 
 const mapStateToProps = (state) => {
   const auth = state.get("auth");
@@ -125,22 +102,8 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  loginUser(userData) {
-    dispatch(loginUser(userData));
-  },
-  fetchUserData() {
-    // dispatch(getTheses());
-    dispatch(getGraders());
-    dispatch(getCouncilMeetings());
-    dispatch(getStudyFields());
-  },
-  fetchAdminData() {
-    // dispatch(getTheses());
-    dispatch(getGraders());
-    dispatch(getCouncilMeetings());
-    dispatch(getStudyFields());
-    dispatch(getUsers());
-    dispatch(getEmailDrafts());
+  loginUser(email, password) {
+    dispatch(loginUser(email, password));
   },
 });
 
