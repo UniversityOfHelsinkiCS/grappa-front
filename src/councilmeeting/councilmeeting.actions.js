@@ -17,7 +17,7 @@ export const getCouncilMeetings = (filterParams) => (
 
 export const saveCouncilMeeting = (data) => (
   {
-    type: COUNCILMEETING_UPDATE_ONE,
+    type: COUNCILMEETING_SAVE_ONE,
     flashMessage: {
       type: "warning",
       title: "Request sent",

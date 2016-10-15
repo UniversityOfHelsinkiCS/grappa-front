@@ -17,7 +17,7 @@ export const getStudyFields = () => (
 
 export const saveStudyField = (data) => (
   {
-    type: STUDYFIELD_UPDATE_ONE,
+    type: STUDYFIELD_SAVE_ONE,
     flashMessage: {
       type: "warning",
       title: "Request sent",

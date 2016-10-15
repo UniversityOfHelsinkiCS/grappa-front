@@ -3,7 +3,7 @@ import { browserHistory } from "react-router";
 export const LOGIN_USER = "LOGIN_USER";
 export const LOGOUT_USER = "LOGOUT_USER";
 
-// import { getTheses } from "../thesis/thesis.actions";
+import { getTheses } from "../thesis/thesis.actions";
 import { getGraders } from "../grader/grader.actions";
 import { getCouncilMeetings } from "../councilmeeting/councilmeeting.actions";
 import { getStudyFields } from "../studyfield/studyfield.actions";
@@ -31,8 +31,16 @@ export const loginUser = (email, password) => {
       if (action.type === "LOGIN_USER_SUCCESS") {
         // const role = getState.get(["auth", "user", "role"]).toJS();
         browserHistory.push("/user/me");
+        return Promise.all([
+          dispatch(getTheses()),
+          dispatch(getGraders()),
+          dispatch(getCouncilMeetings()),
+          dispatch(getStudyFields()),
+          dispatch(getUsers()),
+          dispatch(getEmailDrafts()),
+        ])
       }
-      return action;
+      // return action;
     })
   };
 }

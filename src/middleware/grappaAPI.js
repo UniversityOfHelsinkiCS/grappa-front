@@ -22,7 +22,7 @@ export const createRequest = (action, store) => {
     const newAction = {
       type: action.type + "_SUCCESS",
       payload: res.data,
-      sent: action.data,
+      sent: request.data,
       flashMessage: action.successMessage,
     }
     store.dispatch(newAction);

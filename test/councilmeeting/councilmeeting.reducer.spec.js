@@ -1,12 +1,6 @@
 import { expect } from "chai";
 import { fromJS } from "immutable";
 import reducer from "../../src/councilmeeting/councilmeeting.reducer";
-import {
-  COUNCILMEETING_SAVE_ONE_SUCCESS,
-  COUNCILMEETING_SAVE_ONE_FAILURE,
-  COUNCILMEETING_GET_ALL_SUCCESS,
-  COUNCILMEETING_GET_ALL_FAILURE,
-} from "../../src/councilmeeting/councilmeeting.actions";
 import { councilmeeting, councilmeetings } from "../mockdata";
 
 const initialState = fromJS({
@@ -29,7 +23,7 @@ describe("councilmeeting reducer", () => {
 
   it("should change councilmeetings when receiving dates", () => {
     const newState = reducer(initialState, {
-      type: COUNCILMEETING_GET_ALL_SUCCESS,
+      type: "COUNCILMEETING_GET_ALL_SUCCESS",
       payload: councilmeetings,
     });
     expect(newState).to.equal(stateWithCMeetings);
@@ -37,7 +31,7 @@ describe("councilmeeting reducer", () => {
 
   it("shouldn't change councilmeetings when receiving dates produces an error", () => {
     const newState = reducer(initialState, {
-      type: COUNCILMEETING_GET_ALL_FAILURE,
+      type: "COUNCILMEETING_GET_ALL_FAILURE",
       message: "vituix men",
       error: "lol",
     });
@@ -49,7 +43,7 @@ describe("councilmeeting reducer", () => {
       fromJS([councilmeeting])
     );
     const newState = reducer(initialState, {
-      type: COUNCILMEETING_SAVE_ONE_SUCCESS,
+      type: "COUNCILMEETING_SAVE_ONE_SUCCESS",
       payload: councilmeeting,
     });
     expect(newState).to.equal(expectedState);
@@ -57,7 +51,7 @@ describe("councilmeeting reducer", () => {
 
   it("shouldn't remove old dates when adding councilmeeting", () => {
     const newState = reducer(stateWithCMeetings, {
-      type: COUNCILMEETING_SAVE_ONE_SUCCESS,
+      type: "COUNCILMEETING_SAVE_ONE_SUCCESS",
       payload: councilmeeting,
     });
     expect(newState).to.equal(stateWithMoreCMeetings);
@@ -65,7 +59,7 @@ describe("councilmeeting reducer", () => {
 
   it("shouldn't change councilmeetings when saving councilmeeting fails", () => {
     const newState = reducer(initialState, {
-      type: COUNCILMEETING_SAVE_ONE_FAILURE,
+      type: "COUNCILMEETING_SAVE_ONE_FAILURE",
       message: "heh",
       error: "can't take yo shit anymore",
     });

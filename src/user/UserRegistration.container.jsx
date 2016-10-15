@@ -108,11 +108,11 @@ export class UserRegistration extends Component {
 }
 
 import { connect } from "react-redux";
-import { registerUser } from "./user.actions";
+import { saveUser } from "./user.actions";
 
 const mapDispatchToProps = (dispatch) => ({
   registerUser(newUser) {
-    dispatch(registerUser(newUser));
+    dispatch(saveUser(newUser));
   },
 });
 
