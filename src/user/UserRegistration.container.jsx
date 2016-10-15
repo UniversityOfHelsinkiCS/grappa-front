@@ -27,7 +27,7 @@ export class UserRegistration extends Component {
 
   handleClick(type, event) {
     if (Validate.isFormValid("newUser")) {
-      this.props.registerUser(this.state.newUser.values);
+      this.props.saveUser(this.state.newUser.values);
     }
   }
 
@@ -111,7 +111,7 @@ import { connect } from "react-redux";
 import { saveUser } from "./user.actions";
 
 const mapDispatchToProps = (dispatch) => ({
-  registerUser(newUser) {
+  saveUser(newUser) {
     dispatch(saveUser(newUser));
   },
 });

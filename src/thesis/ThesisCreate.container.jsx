@@ -19,6 +19,7 @@ export class ThesisCreate extends React.Component {
     super();
     this.state = {
       newThesis: Validate.createForm("newThesis", "thesis"),
+      showModal: false,
     };
   }
 
@@ -46,17 +47,54 @@ export class ThesisCreate extends React.Component {
    * Handler method to handle what to do when the submit button is clicked.
    * @param event Used to get a hold of what the input of the user was.
    */
-  handleClick(name, event) {
+  handleClick(type, event) {
     event.preventDefault();
-    if (Validate.isFormValid("newThesis")) {
+    // if (Validate.isFormValid("newThesis")) {
+    //   const form = new FormData();
+    //   form.append("file", this.state.newThesis.values.PdfFile);
+    //   const newThesis = this.state.newThesis.values;
+    //   delete newThesis.PdfFile;
+    //   form.append("json", JSON.stringify(newThesis));
+    //   this.props.saveThesisWithReview(form);
+    // }
+    if (type === "submit" && Validate.isFormValid("newThesis")) {
+      this.setState({
+        showModal: true,
+      })
+    } else if (type === "closeModal" && Validate.isFormValid("newThesis")) {
+      this.setState({
+        showModal: false,
+      })
       const form = new FormData();
       form.append("file", this.state.newThesis.values.PdfFile);
       const newThesis = this.state.newThesis.values;
       delete newThesis.PdfFile;
-      console.log(newThesis);
       form.append("json", JSON.stringify(newThesis));
       this.props.saveThesisWithReview(form);
     }
+  }
+
+  renderModal() {
+    return (
+      <div id="grappaModal" className={this.state.showModal ? "grappa-modal show" : "grappa-modal"}>
+        <div className="grappa-modal-content">
+          <div className="image content m-bot">
+            <div className="description">
+              <p>Have you remembered to add the thesis into the thesis-management system? If not please do so right away.</p>
+            </div>
+          </div>
+          <div className="actions">
+            <div className="one fluid ui buttons">
+              <div className="ui positive button"
+                onClick={this.handleClick.bind(this, "closeModal")}
+              >
+                Okay
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
   }
 
   renderThesisAuthor() {
@@ -267,6 +305,7 @@ export class ThesisCreate extends React.Component {
   render() {
     return (
       <div>
+        { this.renderModal() }
         <div className="ui form">
           <h2 className="ui dividing header">Create a thesis</h2>
           {this.renderThesisAuthor()}

@@ -16,10 +16,6 @@ export class Login extends React.Component {
     this.state = {
       loginUser: Validate.createForm("loginUser", "loginUser"),
     };
-    // Validate.replaceForm("loginUser", {
-    //   email: "ohtugrappa@gmail.com",
-    //   password: "asdf",
-    // });
   }
 
   componentWillMount() {
@@ -37,13 +33,14 @@ export class Login extends React.Component {
   * Handler method to handle what to do when the submit button is clicked.
   * @param event Used to get a hold of what the input of the user was.
   */
-  handleClick(event) {
+  handleClick(type, event) {
     event.preventDefault();
     if (Validate.isFormValid("loginUser")) {
       const { email, password } = this.state.loginUser.values;
       this.props.loginUser(email, password);
     }
   }
+
   /**
   * The method in charge of rendering the outlook of the page. Contains all the html elements.
   * @return <div> Login-Conntainer wrapping all the html elements to be rendered.
@@ -79,7 +76,7 @@ export class Login extends React.Component {
                 </div>
               </div>
             </div>
-            <div className="ui fluid large blue submit button" onClick={this.handleClick.bind(this)}>
+            <div className="ui fluid large blue submit button" onClick={this.handleClick.bind(this, "submit")}>
               Login
             </div>
           </div>
