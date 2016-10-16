@@ -19,7 +19,7 @@ const schemas = {
       rules: [
         {
           type: "notEmpty",
-          error: "First name can't be empty.",
+          error: "Last name can't be empty.",
         },
       ],
     },

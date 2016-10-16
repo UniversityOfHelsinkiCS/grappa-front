@@ -170,9 +170,9 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 const mapStateToProps = (state) => {
-  const greducer = state.get("grader");
+  const grader_r = state.get("grader");
   return {
-    Graders: greducer.get("graders").toJS(),
+    Graders: grader_r.get("graders").toJS(),
   };
 };
 

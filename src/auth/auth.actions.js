@@ -1,33 +1,61 @@
-import { CALL_API } from "../middleware/grappaAPI";
+import { browserHistory } from "react-router";
 
-export const LOGIN_USER_SUCCESS = "LOGIN_USER_SUCCESS";
-export const LOGIN_USER_FAILURE = "LOGIN_USER_FAILURE";
+export const LOGIN_USER = "LOGIN_USER";
 export const LOGOUT_USER = "LOGOUT_USER";
 
-/**
- * Action-creator for sending the login request to API
- *
- * @param {Object} UserData - User login information
- * @return {Object} - Action for API to handle
- */
-export const loginUser = (userData) => (
+import { getTheses } from "../thesis/thesis.actions";
+import { getGraders } from "../grader/grader.actions";
+import { getCouncilMeetings } from "../councilmeeting/councilmeeting.actions";
+import { getStudyFields } from "../studyfield/studyfield.actions";
+import { getUsers } from "../user/user.actions";
+import { getEmailDrafts } from "../email/email.actions";
+
+export const loginUser = (email, password) => {
+  return (dispatch, getState) => {
+    return dispatch(loginAction(email, password)).then((action) => {
+      if (action.type === "LOGIN_USER_SUCCESS") {
+        browserHistory.push("/user/me");
+        const role = action.payload.user.role;
+        if (role === "admin") {
+          return Promise.all([
+            dispatch(getTheses()),
+            dispatch(getGraders()),
+            dispatch(getCouncilMeetings()),
+            dispatch(getStudyFields()),
+            dispatch(getUsers()),
+            dispatch(getEmailDrafts()),
+          ])
+        } else {
+          return Promise.all([
+            dispatch(getTheses()),
+            dispatch(getGraders()),
+            dispatch(getCouncilMeetings()),
+            dispatch(getStudyFields()),
+          ])
+        }
+      }
+    })
+  };
+}
+
+const loginAction = (email, password) => (
   {
-    type: CALL_API,
-    success: LOGIN_USER_SUCCESS,
-    failure: LOGIN_USER_FAILURE,
-    method: "post",
-    url: "/login",
-    data: userData,
+    type: LOGIN_USER,
+    payload: {
+      request: {
+        url: "/login",
+        method: "post",
+        data: {
+          email,
+          password
+        }
+      }
+    }
   }
 );
 
-/**
- * Action-creator for resetting the user-state
- *
- * @return {Object} - Logout-action
- */
 export const logout = () => (
   {
     type: LOGOUT_USER,
   }
-);
+)

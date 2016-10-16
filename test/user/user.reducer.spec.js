@@ -1,15 +1,5 @@
 import { fromJS } from "immutable";
 import { expect } from "chai";
-import {
-  USER_GET_ALL_SUCCESS,
-  // USER_GET_ALL_FAILURE,
-  USER_UPDATE_ONE_SUCCESS,
-  // USER_UPDATE_ONE_FAILURE,
-  USER_DELETE_ONE_SUCCESS,
-  // USER_DELETE_ONE_FAILURE,
-  USER_SAVE_ONE_SUCCESS,
-  USER_SAVE_ONE_FAILURE,
-} from "../../src/user/user.actions";
 import reducer from "../../src/user/user.reducer";
 import { activatedUsers, notActivatedUsers } from "../mockdata";
 
@@ -36,7 +26,7 @@ describe("User reducer", () => {
   describe("when receiving GET_ALL_SUCCESS type of action", () => {
     it("should add the received users", () => {
       const newState = reducer(initialState, {
-        type: USER_GET_ALL_SUCCESS,
+        type: "USER_GET_ALL_SUCCESS",
         payload: notActivatedUsers,
       });
       expect(newState).to.equal(stateWithUsers);
@@ -45,7 +35,7 @@ describe("User reducer", () => {
   describe("when receiving UPDATE_ONE_SUCCESS type of action", () => {
     it("should update one of the users", () => {
       const newState = reducer(stateWithUsers, {
-        type: USER_UPDATE_ONE_SUCCESS,
+        type: "USER_UPDATE_ONE_SUCCESS",
         payload: [1],
         sent: activatedUsers[0],
       });
@@ -55,7 +45,7 @@ describe("User reducer", () => {
   describe("when receiving DELETE_ONE_SUCCESS type of action", () => {
     it("should delete one of the users", () => {
       const newState = reducer(stateWithUsers, {
-        type: USER_DELETE_ONE_SUCCESS,
+        type: "USER_DELETE_ONE_SUCCESS",
         payload: [1],
         sent: notActivatedUsers[0],
       });
@@ -67,21 +57,21 @@ describe("User reducer", () => {
       fromJS([activatedUsers[0]])
       );
     const newState = reducer(initialState, {
-      type: USER_SAVE_ONE_SUCCESS,
+      type: "USER_SAVE_ONE_SUCCESS",
       payload: activatedUsers[0],
     });
     expect(newState).to.equal(expectedState);
   });
   xit("shouldn't remove old users when adding a user", () => {
     const newState = reducer(stateWithUsers, {
-      type: USER_SAVE_ONE_SUCCESS,
+      type: "USER_SAVE_ONE_SUCCESS",
       payload: activatedUsers[0],
     });
     expect(newState).to.deep.equal(stateWithMoreUsers);
   });
   it("shouldn't change users when saving is unsuccesfull", () => {
     const newState = reducer(initialState, {
-      type: USER_SAVE_ONE_FAILURE,
+      type: "USER_SAVE_ONE_FAILURE",
       message: "asdf",
       error: "error",
     });

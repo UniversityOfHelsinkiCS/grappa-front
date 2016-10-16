@@ -2,13 +2,12 @@
   "name": "grappa-front",
   "version": "0.0.1",
   "description": "",
-  "main": "index.js",
   "scripts": {
     "lint": "eslint --ext .js,.jsx src/ test/ || true",
     "lint:fix": "eslint --ext .js,.jsx src/ test/ --fix",
     "build": "webpack --config webpack.config.js",
     "postinstall": "webpack --config webpack.config.prod.js --progress --colors",
-    "start": "node index.js",
+    "start": "node app.js",
     "pm2:start": "pm2 start -n grappa-front npm -- start",
     "test": "export NODE_ENV=testing|| set NODE_ENV=testing&& istanbul cover node_modules/mocha/bin/_mocha -- --compilers js:babel-core/register --require ./test/testhelper.js  \"test/**/*@(.js|.jsx)\"",
     "test:watch": "npm run test -- --watch",
@@ -23,7 +22,7 @@
     "url": "git+https://github.com/ultra-hyper-storm-ohtuprojekti/grappa-front.git"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/ultra-hyper-storm-ohtuprojekti/grappa-front/issues"
   },

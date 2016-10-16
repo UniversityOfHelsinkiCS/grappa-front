@@ -1,8 +1,9 @@
-require("dotenv").config();
+if (!process.env.NODE_ENV) {
+  require("dotenv").config();
+}
+
 const path = require("path");
 const webpack = require("webpack");
-
-const API_URL = process.env.API_URL;
 
 module.exports = {
   devtool: "cheap-module-eval-source-map",
@@ -13,6 +14,7 @@ module.exports = {
   output: {
     path: path.join(__dirname, "dist"),
     filename: "bundle.js",
+    publicPath: '/',
   },
   module: {
     loaders: [
@@ -27,14 +29,15 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin({
       "process.env": {
-        API_URL: JSON.stringify(API_URL),
+        NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+        API_URL: JSON.stringify(process.env.API_URL),
       },
     }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin(),
   ],
   resolve: {
-    modulesDirectories: ["node_modules"],
+    modulesDirectories: ["node_modules", "src"],
     extensions: ["", ".jsx", ".js"],
   },
 };

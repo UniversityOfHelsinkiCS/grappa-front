@@ -1,11 +1,8 @@
-require("dotenv").config();
+if (!process.env.NODE_ENV) {
+  require("dotenv").config();
+}
 const path = require("path");
 const webpack = require("webpack");
-
-const NODE_ENV = process.env.NODE_ENV;
-const API_URL = process.env.API_URL;
-
-console.log(API_URL)
 
 module.exports = {
   devtool: "source-map",
@@ -15,11 +12,13 @@ module.exports = {
   output: {
     path: path.join(__dirname, "dist"),
     filename: "bundle.js",
+    publicPath: "/",
   },
   module: {
     loaders: [
       {
         test: /\.jsx?$/,
+        exclude: /node_modules/,
         loader: "babel",
         include: path.join(__dirname, "src"),
       },
@@ -36,13 +35,13 @@ module.exports = {
     }),
     new webpack.DefinePlugin({
       "process.env": {
-        NODE_ENV: JSON.stringify(NODE_ENV),
-        API_URL: JSON.stringify(API_URL),
+        NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+        API_URL: JSON.stringify(process.env.API_URL),
       },
     }),
   ],
   resolve: {
-    modulesDirectories: ["node_modules"],
+    modulesDirectories: ["node_modules", "src"],
     extensions: ["", ".jsx", ".js"],
   },
 };
