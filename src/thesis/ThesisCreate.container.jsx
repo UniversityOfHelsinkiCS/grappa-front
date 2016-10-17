@@ -80,7 +80,11 @@ export class ThesisCreate extends React.Component {
         <div className="grappa-modal-content">
           <div className="image content m-bot">
             <div className="description">
-              <p>Have you remembered to add the thesis into the thesis-management system? If not please do so right away.</p>
+              <p>
+                Have you remembered to add the thesis into the thesis-management system?
+                If not please do so right away.
+              </p>
+              <a target="_blank" href="https://ilmo.cs.helsinki.fi/gradu/servlet/hae">Ilmo (opens in a new window)</a>
             </div>
           </div>
           <div className="actions">
