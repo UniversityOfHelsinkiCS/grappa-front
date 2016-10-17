@@ -1,6 +1,6 @@
-if (!process.env.NODE_ENV) {
+//if (!process.env.NODE_ENV) {
   require("dotenv").config();
-}
+//}
 const path = require("path");
 const webpack = require("webpack");
 
