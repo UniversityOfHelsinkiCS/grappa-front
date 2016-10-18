@@ -1,4 +1,27 @@
 import store from "../store";
+
+const hasAccess = (role, user) => {
+  switch(access) {
+    case "user":
+      return user.role !== undefined;
+    case "admin":
+      return user.role === "admin";
+    case "print-person":
+      return user.role === "admin" || user.role === "print-person";
+    default:
+      return false;
+  }
+}
+
+export const redirectWithoutAccess = (requiredRole) => (nextState, replace) => {
+  const user = store.getState().get("auth").get("user").toJS();
+  if (!hasAccess(requiredRole, user)) {
+    replace({
+      pathname: "/login",
+    });
+  }
+};
+
 /**
  * Function for redirecting un-authorized user to /login
  *
