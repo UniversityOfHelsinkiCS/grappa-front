@@ -10,21 +10,29 @@ export default class GradersDropdown extends Component {
       menuActive: false,
       filtered: [],
     };
+    this.unfocusMenu = this.unfocusMenu.bind(this);
+  }
+
+  componentDidMount() {
+    window.addEventListener("mousedown", this.unfocusMenu);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("mousedown", this.unfocusMenu);
+  }
+
+  unfocusMenu(event) {
+    // console.log("UNFOCUSMENU")
+    this.setState({
+      menuActive: false,
+    });
   }
 
   handleClick(type, index, event) {
     if (type === "unactivate" && this.props.editable) {
-      // console.log(this.props.selected);
       this.props.selected.splice(index, 1);
-      // console.log(this.props.selected);
       Validate.updateForm(this.props.formname, "Graders", this.props.selected);
-      // console.log(Validate.getForm("newThesis"));
     } else if (type === "activate" && this.props.editable) {
-      // console.log("pushing grader to selected")
-      // this.props.selected.push(this.props.graders[index]);
-      // this.setState({});
-      // const old = Validate.getFormField(this.props.formname, "Grader");
-      // Validate.updateForm(this.props.formname, "Grader", [...old, this.props.graders[index]]);
       Validate.updateForm(this.props.formname, "Graders", [...this.props.selected, this.props.graders[index]]);
     } else if (type === "toggleMenu") {
       this.setState({
@@ -63,22 +71,19 @@ export default class GradersDropdown extends Component {
     }
   }
 
-  handleFocus() {
-    // console.log("DIV FOCUSS");
+  handleFocus(event) {
+    // console.log("DIV FOCUSS", event);
     this.setState({
       menuActive: true,
     });
   }
 
-  handleMenuFocus() {
-    // console.log("MENU FOCUSS");
-  }
-
-  handleBlur() {
-    // console.log("BLURR");
-    // this.setState({
-    //   menuActive: false,
-    // });
+  focusMenu(event) {
+    // console.log("KEYDOWN")
+    event.stopPropagation()
+    this.setState({
+      menuActive: true,
+    });
   }
 
   isActivated(grader) {
@@ -99,16 +104,16 @@ export default class GradersDropdown extends Component {
       <div>
         <div
           className="ui fluid multiple search selection dropdown empty visible"
-          onFocus={this.handleFocus.bind(this)}
-          onBlur={this.handleBlur.bind(this)}
+          onMouseDown={this.focusMenu.bind(this)}
         >
           <input name="tags" type="hidden" value="asdf" />
-          <i className={this.state.menuActive ? "delete icon" : "dropdown icon"} onClick={this.handleClick.bind(this, "toggleMenu")}></i>
           { selected.map((item, index) => {
             return (
               <a key={index} className="ui label transition visible" onFocus={this.handleFocus.bind(this)}>
                 { `${item.title} ${item.name}` }
-                <i className="delete icon" onClick={this.handleClick.bind(this, "unactivate", index)}></i>
+                <i className="delete icon"
+                  onClick={this.handleClick.bind(this, "unactivate", index)}
+                ></i>
               </a>
             );
           })}
@@ -122,23 +127,21 @@ export default class GradersDropdown extends Component {
             onKeyPress={this.handleKeyPress.bind(this)}
           />
           { this.state.menuActive ?
-            <div onFocus={this.handleMenuFocus.bind(this)} className="menu transition visible" tabIndex="-1">
+            <div className="menu transition visible" tabIndex="-1">
               { graders.map((item, index) => {
                 if (!filtered[index] && !this.isActivated(item)) {
                   return (
                     <div
                       key={index}
                       className="item"
-                      data-value="css"
                       onClick={this.handleClick.bind(this, "activate", index)}
-                      onFocus={this.handleMenuFocus.bind(this)}
                     >
                       { `${item.title} ${item.name}` }
                     </div>
                   );
                 } else {
                   return (
-                    <div key={index} className="item filtered" data-value="css">{item.name}</div>
+                    <div key={index} className="item filtered">{item.name}</div>
                   );
                 }
               })
