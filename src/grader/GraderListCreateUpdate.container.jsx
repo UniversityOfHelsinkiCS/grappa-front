@@ -41,6 +41,8 @@ export class GraderListCreateUpdate extends Component {
         this.props.saveGrader(this.state.newGrader.values);
       } else if (type === "update" && Validate.isFormValid("updateGrader")) {
         this.props.updateGrader(this.state.updateGrader.values);
+      } else if (type === "delete") {
+        this.props.deleteGrader(Validate.getForm("updateGrader").values);
       }
     }
   }
@@ -89,7 +91,7 @@ export class GraderListCreateUpdate extends Component {
     // console.log("my graders: ")
     // console.log(Graders)
     return (
-      <div className="four fields">
+      <div className="five fields">
         <div className=" field">
           <label>Who</label>
           <select
@@ -134,6 +136,14 @@ export class GraderListCreateUpdate extends Component {
             Update Grader
           </button>
         </div>
+        <div className="field">
+          <label>&nbsp;</label>
+          <button className="ui red button"
+            onClick={this.handleClick.bind(this, "delete")}
+          >
+            Delete Grader
+          </button>
+        </div>
       </div>
     );
   }
@@ -158,7 +168,7 @@ export class GraderListCreateUpdate extends Component {
 
 import { connect } from "react-redux";
 
-import { saveGrader, updateGrader } from "../grader/grader.actions";
+import { saveGrader, updateGrader, deleteGrader } from "../grader/grader.actions";
 
 const mapDispatchToProps = (dispatch) => ({
   saveGrader(newGrader) {
@@ -166,6 +176,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   updateGrader(data) {
     dispatch(updateGrader(data));
+  },
+  deleteGrader(data) {
+    dispatch(deleteGrader(data));
   },
 });
 

@@ -176,14 +176,12 @@ export class CouncilmeetingListCreate extends Component {
                       <Link to={`/councilmeeting/${item.id}`}>{item.date.format("DD/MM/YYYY")}</Link>
                     </td>
                     <td>
-                      <i className="write icon green"
-                        style={{"font-size": "19px", cursor: "pointer"}}
+                      <i className="write icon green grappa-icon"
                         onClick={this.handleClick.bind(this, "selectCM", index)}
                       ></i>
                     </td>
                     <td>
-                      <i className="remove icon red"
-                        style={{"font-size": "19px", cursor: "pointer"}}
+                      <i className="remove icon red grappa-icon"
                         onClick={this.handleClick.bind(this, "delete", index)}
                       ></i>
                     </td>
