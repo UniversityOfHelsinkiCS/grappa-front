@@ -2,6 +2,7 @@ import { browserHistory } from "react-router";
 
 export const LOGIN_USER = "LOGIN_USER";
 export const LOGOUT_USER = "LOGOUT_USER";
+export const SEND_NEW_PASSWORD = "SEND_NEW_PASSWORD";
 
 import { getTheses } from "../thesis/thesis.actions";
 import { getGraders } from "../grader/grader.actions";
@@ -57,5 +58,43 @@ const loginAction = (email, password) => (
 export const logout = () => (
   {
     type: LOGOUT_USER,
+  }
+)
+
+export const requestPasswordResetion = (email) => (
+  {
+    type: USER_REQUEST_PASSWORD_RESETION,
+    payload: {
+      request: {
+        url: "/user/reset-password",
+        method: "post",
+        data: {
+          email,
+        }
+      }
+    }
+  }
+);
+
+export const sendNewPassword = (token) => {
+  return (dispatch, getState) => {
+    return dispatch(sendNewPasswordAction(token)).then((action) => {
+        return action.type === "SEND_NEW_PASSWORD_SUCCESS";
+      })
+  };
+}
+
+const sendNewPasswordAction = (token) => (
+  {
+    type: SEND_NEW_PASSWORD,
+    payload: {
+      request: {
+        url: "/user/send-new-password",
+        method: "post",
+        data: {
+          token,
+        }
+      }
+    }
   }
 )

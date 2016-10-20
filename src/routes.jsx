@@ -15,8 +15,10 @@ import EmailDraftList from "./email/EmailDraftList.container";
 import UserList from "./user/UserList.container";
 import UserListNotActive from "./user/UserListNotActive.container";
 import UserShow from "./user/UserShow.container";
-import UserRegistration from "./user/UserRegistration.container";
+import Registration from "./auth/Registration";
 import Login from "./auth/Login.container";
+import ResetPassword from "./auth/ResetPassword";
+import RequestNewPassword from "./auth/RequestNewPassword";
 import About from "./app/About.component";
 import NotFound from "./app/NotFound.component";
 
@@ -34,8 +36,10 @@ export default (
       <Route path="user" component={UserList} onEnter={redirectNonAdmin} />
       <Route path="user/inactive" component={UserListNotActive} onEnter={redirectNonAdmin} />
       <Route path="user/me" component={UserShow} onEnter={redirectNonUser} />
-      <Route path="registration" component={UserRegistration} />
+      <Route path="registration" component={Registration} />
       <Route path="login" component={Login} />
+      <Route path="reset-password" component={ResetPassword} />
+      <Route path="reset-password/:token" component={RequestNewPassword} />
       <Route path="about" component={About}/>
       <Route path="*" component={NotFound}/>
     </Route>

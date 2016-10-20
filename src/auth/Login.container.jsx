@@ -5,7 +5,7 @@
 * the actual changes to the state.
 */
 import React from "react";
-import { browserHistory } from "react-router";
+import { Link, browserHistory } from "react-router";
 import Validate from "../validate/Validate";
 import ValidateError from "../ui/Error.component";
 import Errors from "../ui/Errors.component";
@@ -79,6 +79,7 @@ export class Login extends React.Component {
             <div className="ui fluid large blue submit button" onClick={this.handleClick.bind(this, "submit")}>
               Login
             </div>
+            {/*<Link to="/password-reset">Lost password</Link>*/}
           </div>
           <Errors errors={this.state.loginUser.errors}/>
         </div>

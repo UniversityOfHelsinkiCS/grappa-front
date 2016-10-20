@@ -108,7 +108,7 @@ export class UserRegistration extends Component {
 }
 
 import { connect } from "react-redux";
-import { saveUser } from "./user.actions";
+import { saveUser } from "user/user.actions";
 
 const mapDispatchToProps = (dispatch) => ({
   saveUser(newUser) {
