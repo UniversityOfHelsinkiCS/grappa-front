@@ -41,8 +41,8 @@ export class GraderListCreateUpdate extends Component {
         this.props.saveGrader(this.state.newGrader.values);
       } else if (type === "update" && Validate.isFormValid("updateGrader")) {
         this.props.updateGrader(this.state.updateGrader.values);
-      } else if (type === "delete" && this.state.updateGrader.values.id) {
-        this.props.deleteGrader();
+      } else if (type === "delete" && Validate.isFormValid("updateGrader")) {
+        this.props.deleteGrader(this.state.updateGrader.values);
       }
     }
   }
@@ -154,6 +154,11 @@ export class GraderListCreateUpdate extends Component {
         { this.props.editable ?
           <span>
             <h3 className="ui dividing header">Create or update Graders</h3>
+            <p>
+              You can create new graders or edit the current ones. If grader
+              hasn't been linked to any thesis it can deleted, otherwise those
+              associations have to be removed from the theses first.
+            </p>
             { this.renderCreate() }
             { this.renderUpdate() }
           </span>

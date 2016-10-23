@@ -130,7 +130,7 @@ body {
 }
 
 .grappa-icon {
-  font-size": 19px;
+  font-size: 19px !important;
   cursor: pointer;
 }
 

@@ -153,6 +153,10 @@ export class CouncilmeetingListCreate extends Component {
           </div>
           <div className="field">
             <h2 className="ui dividing header">Upcoming councilmeetings</h2>
+            <p>
+              You can delete any meeting that has no theses linked to it.
+              Otherwise you have to remove/move them before you can delete a meeting.
+            </p>
             <div className="ui checkbox">
               <input
                 type="checkbox"
