@@ -26,3 +26,26 @@ export const updateThesisesEthesis = (token, link) => (
     }
   }
 );
+
+export const uploadThesisPDF = (token, formdata) => (
+  {
+    type: "THESIS_UPLOAD_PDF",
+    flashMessage: {
+      type: "warning",
+      title: "Request sent",
+      body: "Waiting for Thesis PDF to be uploaded.",
+    },
+    successMessage: {
+      type: "success",
+      title: "Success",
+      body: "Your Thesis was succesfully uploaded.",
+    },
+    payload: {
+      request: {
+        url: `/thesis/abstract/${token}`,
+        method: "post",
+        data: formdata,
+      }
+    }
+  }
+);

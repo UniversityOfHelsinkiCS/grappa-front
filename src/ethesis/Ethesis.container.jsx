@@ -1,75 +1,100 @@
 import React, { Component } from "react";
+import Dropzone from "react-dropzone";
 import FlashMessage from "../flash/FlashMessage.container";
 
 export class Ethesis extends Component {
   constructor() {
     super();
     this.state = {
-      ethesislink: "",
+      thesisPDF: "",
     };
-  }
-
-  handleChange(name, event) {
-    event.preventDefault();
-    const change = {};
-    change[name] = event.target.value;
-    this.setState(change);
   }
 
   handleClick(type, event) {
     event.preventDefault();
-    this.props.updateThesisesEthesis(this.props.params.token, this.state.ethesislink);
+    const form = new FormData();
+    form.append("file", this.state.thesisPDF);
+    this.props.uploadThesisPDF(this.props.params.token, form);
   }
 
-  renderInput() {
+  onDrop(files) {
+    this.setState({
+      thesisPDF: files[0]
+    })
+  }
+
+  renderUploadThesis() {
     return (
-      <div className="ui container m-top">
-        <div className="ui form">
-          <div className="ui field">
-            <div className="ui left icon input">
-              <i className="external icon"></i>
-              <input
-                type="text"
-                name="ethesislink"
-                placeholder="eThesis link to the PDF file"
-                onChange={this.handleChange.bind(this, "ethesislink")}
-              />
-            </div>
-          </div>
-          <div className="field">
-            <button className="ui fluid large green button" onClick={this.handleClick.bind(this, "save")}>Save</button>
-          </div>
+      <div className="ui field">
+        <div className="m-bot">
+          <Dropzone className="field upload-box" onDrop={this.onDrop.bind(this)} multiple={false}>
+            <p className="upload-p">Click to navigate to the file or drop them from your file system.</p>
+            <p className="upload-p">Current file: {this.state.thesisPDF.name}</p>
+          </Dropzone>
         </div>
       </div>
     );
   }
 
-  renderMessage() {
-    const link = this.props.linkSent;
-    return (
-      <div className="ui container m-top">
-        <h2 className="ui dividing header">{ link === "success" ? "Success" : "Error"}</h2>
-        <p>
-          { link === "success" ?
-            "Link was successfully saved. You may now leave this page."
-             :
-            "There was an error saving your link. Please refresh the page and try again. If everything else fails " +
-            "please contact admin."
-          }
-        </p>
-      </div>
-    );
-  }
+  // renderInput() {
+  //   return (
+  //     <div className="ui container m-top">
+  //       <div className="ui form">
+  //         <div className="ui field">
+  //           <div className="ui left icon input">
+  //             <i className="external icon"></i>
+  //             <input
+  //               type="text"
+  //               name="ethesislink"
+  //               placeholder="eThesis link to the PDF file"
+  //               onChange={this.handleChange.bind(this, "ethesislink")}
+  //             />
+  //           </div>
+  //         </div>
+  //         <div className="field">
+  //           <button className="ui fluid large green button" onClick={this.handleClick.bind(this, "save")}>
+  //             Save
+  //           </button>
+  //         </div>
+  //       </div>
+  //     </div>
+  //   );
+  // }
+
+  // renderMessage() {
+  //   const link = this.props.linkSent;
+  //   return (
+  //     <div className="ui container m-top">
+  //       <h2 className="ui dividing header">{ link === "success" ? "Success" : "Error"}</h2>
+  //       <p>
+  //         { link === "success" ?
+  //           "Link was successfully saved. You may now leave this page."
+  //            :
+  //           "There was an error saving your link. Please refresh the page and try again. If everything else fails " +
+  //           "please contact admin."
+  //         }
+  //       </p>
+  //     </div>
+  //   );
+  // }
 
   render() {
-    const link = this.props.linkSent;
     return (
       <div className="main-container">
-        { link ?
-          this.renderMessage()
-            :
-          this.renderInput()
-        }
+        <div className="ui container m-top">
+          <div className="ui form">
+            <h2 className="ui dividing header">Save your Thesis as PDF (max. 40 MB)</h2>
+            <p>
+              Please make sure your abstract is on the 2nd page of the thesis.
+            </p>
+            { this.renderUploadThesis() }
+            <div className="field">
+              <button className="ui fluid large green button" onClick={this.handleClick.bind(this, "save")}>
+                Save
+              </button>
+            </div>
+          </div>
+        </div>
         <FlashMessage />
       </div>
     );
@@ -77,12 +102,12 @@ export class Ethesis extends Component {
 }
 
 import { connect } from "react-redux";
-import { updateThesisesEthesis } from "../ethesis/ethesis.actions";
+import { uploadThesisPDF } from "../ethesis/ethesis.actions";
 
 const mapDispatchToProps = (dispatch) => ({
-  updateThesisesEthesis(token, link) {
-    dispatch(updateThesisesEthesis(token, link));
-  },
+  uploadThesisPDF(token, formdata) {
+    dispatch(uploadThesisPDF(token, formdata));
+  }
 });
 
 const mapStateToProps = (state) => {
@@ -92,4 +117,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Ethesis);
+export default connect(null, mapDispatchToProps)(Ethesis);

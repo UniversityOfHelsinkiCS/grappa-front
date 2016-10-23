@@ -41,8 +41,8 @@ export class GraderListCreateUpdate extends Component {
         this.props.saveGrader(this.state.newGrader.values);
       } else if (type === "update" && Validate.isFormValid("updateGrader")) {
         this.props.updateGrader(this.state.updateGrader.values);
-      } else if (type === "delete") {
-        this.props.deleteGrader(Validate.getForm("updateGrader").values);
+      } else if (type === "delete" && this.state.updateGrader.values.id) {
+        this.props.deleteGrader();
       }
     }
   }
@@ -50,7 +50,7 @@ export class GraderListCreateUpdate extends Component {
   renderCreate() {
     return (
       <div className="four fields">
-        <div className=" field">
+        <div className="field">
           <label>Title</label>
           <select
             className="ui fluid search dropdown"
