@@ -28,6 +28,16 @@ export default function (state = INITIAL_STATE, action) {
       );
     case "GRADER_UPDATE_ONE_FAILURE":
       return state;
+    case "GRADER_DELETE_ONE_SUCCESS":
+      return state.updateIn(["graders"], list =>
+        list.filter(grader => {
+          if (grader.get("id") !== action.sent.id) {
+            return grader;
+          }
+        })
+      );
+    case "GRADER_DELETE_ONE_FAILURE":
+      return state;
     default:
       return state;
   }

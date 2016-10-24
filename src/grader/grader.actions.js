@@ -1,6 +1,7 @@
 export const GRADER_GET_ALL = "GRADER_GET_ALL";
 export const GRADER_SAVE_ONE = "GRADER_SAVE_ONE";
 export const GRADER_UPDATE_ONE = "GRADER_UPDATE_ONE";
+export const GRADER_DELETE_ONE = "GRADER_DELETE_ONE";
 
 export const getGraders = () => (
   {
@@ -54,6 +55,29 @@ export const updateGrader = (data) => (
     payload: {
       request: {
         method: "put",
+        url: `/grader/${data.id}`,
+        data,
+      }
+    }
+  }
+);
+
+export const deleteGrader = (data) => (
+  {
+    type: GRADER_DELETE_ONE,
+    flashMessage: {
+      type: "warning",
+      title: "Request sent",
+      body: "Waiting for Grader to be deleted.",
+    },
+    successMessage: {
+      type: "warning",
+      title: "Success",
+      body: "Grader was deleted.",
+    },
+    payload: {
+      request: {
+        method: "delete",
         url: `/grader/${data.id}`,
         data,
       }

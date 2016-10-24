@@ -129,6 +129,11 @@ body {
   display: block !important;
 }
 
+.grappa-icon {
+  font-size: 19px !important;
+  cursor: pointer;
+}
+
 .grappa-modal {
   display: none;
   position: fixed; /* Stay in place */

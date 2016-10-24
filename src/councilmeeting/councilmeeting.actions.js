@@ -1,6 +1,7 @@
 export const COUNCILMEETING_GET_ALL = "COUNCILMEETING_GET_ALL";
 export const COUNCILMEETING_SAVE_ONE = "COUNCILMEETING_SAVE_ONE";
 export const COUNCILMEETING_UPDATE_ONE = "COUNCILMEETING_UPDATE_ONE";
+export const COUNCILMEETING_DELETE_ONE = "COUNCILMEETING_DELETE_ONE";
 
 export const getCouncilMeetings = (filterParams) => (
   {
@@ -54,6 +55,29 @@ export const updateCouncilMeeting = (data) => (
     payload: {
       request: {
         method: "put",
+        url: `/councilmeeting/${data.id}`,
+        data,
+      }
+    }
+  }
+);
+
+export const deleteCouncilMeeting = (data) => (
+  {
+    type: COUNCILMEETING_DELETE_ONE,
+    flashMessage: {
+      type: "warning",
+      title: "Request sent",
+      body: "Waiting for Councilmeeting to be deleted.",
+    },
+    successMessage: {
+      type: "warning",
+      title: "Success",
+      body: "Councilmeeting was deleted.",
+    },
+    payload: {
+      request: {
+        method: "delete",
         url: `/councilmeeting/${data.id}`,
         data,
       }

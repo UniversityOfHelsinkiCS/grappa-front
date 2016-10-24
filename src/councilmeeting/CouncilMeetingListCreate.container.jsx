@@ -91,6 +91,8 @@ export class CouncilmeetingListCreate extends Component {
       this.props.updateCouncilMeeting(cm);
     } else if (type === "selectCM") {
       Validate.replaceForm("updateCouncilMeeting", this.state.shownDates[index]);
+    } else if (type === "delete") {
+      this.props.deleteCouncilMeeting(this.state.shownDates[index]);
     }
   }
 
@@ -151,6 +153,10 @@ export class CouncilmeetingListCreate extends Component {
           </div>
           <div className="field">
             <h2 className="ui dividing header">Upcoming councilmeetings</h2>
+            <p>
+              You can delete any meeting that has no theses linked to it.
+              Otherwise you have to remove/move them before you can delete a meeting.
+            </p>
             <div className="ui checkbox">
               <input
                 type="checkbox"
@@ -163,6 +169,8 @@ export class CouncilmeetingListCreate extends Component {
               <thead>
                 <tr>
                   <th onClick={this.handleClick.bind(this, "sort", "date")}>Date</th>
+                  <th>Edit</th>
+                  <th>Delete</th>
                 </tr>
               </thead>
               <tbody>
@@ -170,6 +178,16 @@ export class CouncilmeetingListCreate extends Component {
                   <tr key={index} onClick={this.handleClick.bind(this, "selectCM", index)}>
                     <td>
                       <Link to={`/councilmeeting/${item.id}`}>{item.date.format("DD/MM/YYYY")}</Link>
+                    </td>
+                    <td>
+                      <i className="write icon green grappa-icon"
+                        onClick={this.handleClick.bind(this, "selectCM", index)}
+                      ></i>
+                    </td>
+                    <td>
+                      <i className="remove icon red grappa-icon"
+                        onClick={this.handleClick.bind(this, "delete", index)}
+                      ></i>
                     </td>
                   </tr>
                 )}
@@ -183,13 +201,18 @@ export class CouncilmeetingListCreate extends Component {
 }
 
 import { connect } from "react-redux";
-import { getCouncilMeetings, saveCouncilMeeting, updateCouncilMeeting } from "./councilmeeting.actions";
+import {
+ getCouncilMeetings,
+ saveCouncilMeeting,
+ updateCouncilMeeting,
+ deleteCouncilMeeting
+} from "./councilmeeting.actions";
 
 const mapStateToProps = (state) => {
-  const councilmeeting = state.get("councilmeeting");
+  const cm_r = state.get("councilmeeting");
   const thesis_r = state.get("thesis");
   return {
-    CouncilMeetings: councilmeeting.get("councilmeetings").toJS(),
+    CouncilMeetings: cm_r.get("councilmeetings").toJS(),
     Theses: thesis_r.get("theses").toJS(),
   };
 };
@@ -203,6 +226,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   updateCouncilMeeting(data) {
     dispatch(updateCouncilMeeting(data));
+  },
+  deleteCouncilMeeting(data) {
+    dispatch(deleteCouncilMeeting(data));
   },
 });
 

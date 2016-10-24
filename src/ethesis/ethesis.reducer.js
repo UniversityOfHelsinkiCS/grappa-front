@@ -1,18 +1,26 @@
 import { fromJS } from "immutable";
 
 const INITIAL_STATE = fromJS({
-  linkSent: "",
+  status: "",
+  loading: false,
 });
 
 export default function (state = INITIAL_STATE, action) {
   switch (action.type) {
-    case "ETHESIS_SENT_SUCCESS":
+    case "THESIS_UPLOAD_ETHESIS_PDF_REQUEST":
       return state.merge({
-        linkSent: "success",
+        status: "",
+        loading: true,
       });
-    case "ETHESIS_SENT_FAILURE":
+    case "THESIS_UPLOAD_ETHESIS_PDF_SUCCESS":
       return state.merge({
-        linkSent: "failure",
+        status: "success",
+        loading: false,
+      });
+    case "THESIS_UPLOAD_ETHESIS_PDF_FAILURE":
+      return state.merge({
+        status: "failure",
+        loading: false,
       });
     default:
       return state;

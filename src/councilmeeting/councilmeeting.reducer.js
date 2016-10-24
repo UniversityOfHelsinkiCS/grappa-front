@@ -43,6 +43,16 @@ export default function (state = INITIAL_STATE, action) {
       );
     case "COUNCILMEETING_UPDATE_ONE_FAILURE":
       return state;
+    case "COUNCILMEETING_DELETE_ONE_SUCCESS":
+      return state.updateIn(["councilmeetings"], list =>
+        list.filter(cm => {
+          if (cm.get("id") !== action.sent.id) {
+            return cm;
+          }
+        })
+      );
+    case "COUNCILMEETING_DELETE_ONE_FAILURE":
+      return state;
     default:
       return state;
   }
