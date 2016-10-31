@@ -19,6 +19,7 @@ import Registration from "./auth/Registration";
 import Login from "./auth/Login.container";
 import ResetPassword from "./auth/ResetPassword";
 import RequestNewPassword from "./auth/RequestNewPassword";
+import Intro from "./app/Introduction.component";
 import About from "./app/About.component";
 import NotFound from "./app/NotFound.component";
 
@@ -40,6 +41,7 @@ export default (
       <Route path="login" component={Login} />
       <Route path="reset-password" component={ResetPassword} />
       <Route path="reset-password/:token" component={RequestNewPassword} />
+      <Route path="intro" component={Intro}/>
       <Route path="about" component={About}/>
       <Route path="*" component={NotFound}/>
     </Route>

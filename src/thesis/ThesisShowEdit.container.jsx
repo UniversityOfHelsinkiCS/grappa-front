@@ -24,7 +24,6 @@ export class ThesisShow extends Component {
     });
     const thesis = this.findThesisFromProps(this.props);
     if (thesis) {
-      console.log(thesis);
       Validate.replaceForm("updateThesis", thesis);
     }
   }
@@ -215,21 +214,6 @@ export class ThesisShow extends Component {
             <ValidateError errors={updateThesis.errors} model="thesisEdit" field="urkund" />
           </div>
           <div className="field">
-            <label>Ethesis</label>
-            <div className="ui right icon input">
-            <i className="external icon">
-              <a href={updateThesis.values.ethesis} target="_blank" className="icon-link"></a>
-            </i>
-              <input
-                type="text"
-                placeholder="Ethesis link"
-                value={updateThesis.values.ethesis || ""}
-                onChange={this.handleChange.bind(this, "ethesis")}
-              />
-            </div>
-            <ValidateError errors={updateThesis.errors} model="thesisEdit" field="ethesis" />
-          </div>
-          <div className="field">
             <label>Instructor</label>
             <input
               type="text"
@@ -239,6 +223,39 @@ export class ThesisShow extends Component {
               disabled="true"
             />
             <ValidateError errors={updateThesis.errors} model="thesisEdit" field="instructor" />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  renderThesisFiles() {
+    const { updateThesis } = this.state;
+    return (
+      <div className="m-bot">
+        <h3 className="ui dividing header">Thesis Files</h3>
+        <p>
+          Click the link? to open the pdf in a new tab.
+        </p>
+        <div className="three fields">
+          <div className="field">
+            <label>Review</label>
+            <div className="ui right icon input">
+              <i className="external icon">
+                <a href={updateThesis.values.urkund} target="_blank" className="icon-link"></a>
+              </i>
+              <input
+                type="text"
+                placeholder="review"
+              />
+            </div>
+          </div>
+          <div className="field">
+            <label>Abstract</label>
+            <input
+              type="text"
+              placeholder="abstract"
+            />
           </div>
         </div>
       </div>
@@ -294,7 +311,7 @@ export class ThesisShow extends Component {
   renderGraderEval() {
     const { updateThesis } = this.state;
     return (
-      <div>
+      <div className="m-bot">
         <h2 className="ui dividing header">Grader evaluation</h2>
         <div className="field">
           <textarea
@@ -410,6 +427,7 @@ export class ThesisShow extends Component {
         }
         { this.renderThesisAuthor() }
         { this.renderThesisInformation() }
+        { this.renderThesisFiles() }
         { this.renderGraders() }
         <GraderContainer editable={this.state.editable}/>
         { this.renderPickCouncilmeeting() }

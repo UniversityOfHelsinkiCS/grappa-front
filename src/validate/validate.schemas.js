@@ -178,16 +178,6 @@ const schemas = {
         },
       ],
     },
-    ethesis: {
-      default: "",
-      type: "string",
-      rules: [
-        {
-          type: "isLink",
-          error: "Ethesis link isn't a valid link.",
-        },
-      ],
-    },
     grade: {
       default: "",
       type: "string",
@@ -196,16 +186,6 @@ const schemas = {
           type: "notEmpty",
           error: "You must choose a grade.",
         },
-      ],
-    },
-    deadline: {
-      default: "",
-      type: "string",
-      rules: [
-        // {
-        //   type: "notEmpty",
-        //   error: "You must choose a grade.",
-        // },
       ],
     },
     graderEval: {
@@ -610,10 +590,26 @@ const schemas = {
       default: moment(),
       type: "moment",
       rules: [
-        // {
-        //   type: "notEmpty",
-        //   error: "Councl can't be empty.",
-        // },
+      ],
+    },
+    instructorDeadlineDays: {
+      default: 10,
+      type: "number",
+      rules: [
+        {
+          type: "notEmpty",
+          error: "Instructor deadline days can't be empty.",
+        },
+      ],
+    },
+    studentDeadlineDays: {
+      default: 3,
+      type: "number",
+      rules: [
+        {
+          type: "notEmpty",
+          error: "Student deadline days can't be empty.",
+        },
       ],
     },
   },
@@ -628,10 +624,18 @@ const schemas = {
       default: moment(),
       type: "moment",
       rules: [
-        // {
-        //   type: "notEmpty",
-        //   error: "Name can't be empty.",
-        // },
+      ],
+    },
+    instructorDeadline: {
+      default: moment(),
+      type: "moment",
+      rules: [
+      ],
+    },
+    studentDeadline: {
+      default: moment(),
+      type: "moment",
+      rules: [
       ],
     },
   },
