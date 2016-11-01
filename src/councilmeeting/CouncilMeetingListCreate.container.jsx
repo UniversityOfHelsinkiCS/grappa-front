@@ -94,7 +94,6 @@ export class CouncilmeetingListCreate extends Component {
     } else if (type === "update" && this.state.updateCouncilMeeting.values.id
         && Validate.isFormValid("updateCouncilMeeting")) {
       const cm = Validate.getForm("updateCouncilMeeting").values;
-      cm.date = cm.date.toDate();
       this.props.updateCouncilMeeting(cm);
     } else if (type === "selectCM") {
       Validate.replaceForm("updateCouncilMeeting", this.state.shownDates[index]);

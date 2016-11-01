@@ -281,19 +281,23 @@ export class ThesisCreate extends React.Component {
     const formatted = filtered.map(meeting => {
       return {
         id: meeting.id,
-        date: moment(new Date(meeting.date)).format("DD/MM/YYYY"),
+        content: `${moment(new Date(meeting.date)).format("DD/MM/YYYY")} Deadline: ${moment(new Date(meeting.instructorDeadline)).format("HH:mm DD/MM/YYYY")}`,
       };
     });
-    const CouncilMeetings = [{ id: "", date: "Select Date" }, ...formatted];
+    const CouncilMeetings = [{ id: "", content: "Select Date" }, ...formatted];
     return (
       <div className="m-bot">
         <h3 className="ui dividing header">Choose the Councilmeeting date</h3>
+        <p>
+          Deadline tells when Grappa stops accepting new theses for that date. If the deadline has passed
+          you have to either contact admin or submit thesis to another Councilmeeting.
+        </p>
         <select className="ui fluid search dropdown"
           onChange={this.handleChange.bind(this, "CouncilMeetingId")}
         >
           { CouncilMeetings.map((meeting, index) =>
             <option key={ index } value={ meeting.id } >
-              { meeting.date }
+              { meeting.content }
             </option>
           )}
         </select>
