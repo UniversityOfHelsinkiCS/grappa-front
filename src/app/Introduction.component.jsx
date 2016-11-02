@@ -20,7 +20,7 @@ export default class Introduction extends Component {
           The user with the least responsibility. The only duty for instructor is
           to add the theses they are in charge of to Grappa before their deadlines.
           That usually is a week before the actual councilmeeting where those said
-          theses are processed. All other user roles can also be instructors (they
+          theses are then processed. All other user roles can also be instructors (they
           can add theses to Grappa).
         </p>
 
@@ -30,7 +30,7 @@ export default class Introduction extends Component {
           they can edit and view. Their distinct responsibility compared
           to regular instructors is that when required they have to add their
           review of the theses' graders to Grappa. This only happens when thesis'
-          graders doesn't include at least a one professor and a doctor. Grappa
+          graders doesn't include at least one professor and doctor. Grappa
           reminds this user about the pending evaluation and generates PDF file
           out of it when the thesis is downloaded.
         </p>
@@ -43,7 +43,7 @@ export default class Introduction extends Component {
           Grappa or student hasn't added their thesis to eThesis or professor hasn't
           evaluated graders the thesis doesn't appear done and print-person doesn't
           have to do any extra work for finding that out. After print-person downloads
-          the theses that have only "PrintDone" field missing they are set done and
+          theses that have only "PrintDone" field missing they are set done and
           are considered finished by Grappa.
         </p>
 

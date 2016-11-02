@@ -56,8 +56,8 @@ const schemas = {
           error: "Urkund link can't be empty.",
         },
         {
-          type: "isLink",
-          error: "Urkund link isn't a valid link.",
+          type: "isUrkundLink",
+          error: "Urkund link doesn't start with https://secure.urkund.com.",
         },
       ],
     },
@@ -174,7 +174,11 @@ const schemas = {
         },
         {
           type: "isLink",
-          error: "Urkund link isn't a valid link.",
+          error: "Urkund xxx link isn't a valid link.",
+        },
+        {
+          type: "isUrkundLink",
+          error: "Urkund link doesn't start with https://secure.urkund.com.",
         },
       ],
     },
@@ -593,7 +597,7 @@ const schemas = {
       ],
     },
     instructorDeadlineDays: {
-      default: 10,
+      default: 8,
       type: "number",
       rules: [
         {
@@ -603,7 +607,7 @@ const schemas = {
       ],
     },
     studentDeadlineDays: {
-      default: 3,
+      default: 6,
       type: "number",
       rules: [
         {

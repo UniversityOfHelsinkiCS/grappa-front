@@ -38,6 +38,8 @@ class ValidateCore {
       return !Validator.isEmail(value);
     } else if (value && type === "isLink") {
       return !Validator.isURL(value);
+    } else if (value && type === "isUrkundLink") {
+      return value.substring(0, 25) !== "https://secure.urkund.com";
     } else if (type.substring(0, 3) === "min" || type.substring(0, 3) === "max") {
       const prefix = rule.type.substring(0, 3);
       if (rule.type.substring(3, 8) === "Count") {

@@ -111,8 +111,9 @@ export class CouncilmeetingListCreate extends Component {
             <div className="field">
               <h2 className="ui dividing header">Create a councilmeeting date</h2>
               <p>
-                There can be only one meeting per date. Deadline days is the amount
-                of days before the date when the deadline is set.
+                There can be only one meeting per date. Deadline days is date minus days
+                when the deadline is set at 23:59. Eg. if date is 25/11/2016 and instructor
+                deadline days is 8 then the deadline is at 23:59 17/11/2016.
               </p>
               <div className="three fields">
                 <div className="field">

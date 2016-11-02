@@ -94,7 +94,8 @@ export class EmailDraftList extends Component {
         {this.renderUpdateDraft()}
         <h2 className="ui dividing header">Email drafts</h2>
         <p>
-          Drafts for the emails that are being sent by Grappa. $LINK$ indicates the place where the link is inserted.
+          Drafts for the emails that are being sent by Grappa. $LINK$ indicates the place where the link is inserted,
+          $VAR(num)$ where the variable.
         </p>
         <div>
           { EmailDrafts.map((item, index) =>

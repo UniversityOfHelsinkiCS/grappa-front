@@ -333,7 +333,7 @@ export class ThesisShow extends Component {
             <label></label>
           </div>
         </div>
-        <div className="four fields">
+        <div className="three fields">
           <div className="field">
             <label>Recipient</label>
             <p>{ reminder.to }</p>
@@ -342,14 +342,6 @@ export class ThesisShow extends Component {
             <label>Last sent</label>
             { reminder.lastSent ?
               <p>{ moment(new Date(reminder.lastSent)).format("DD/MM/YYYY HH:mm") }</p>
-              :
-              <p></p>
-            }
-          </div>
-          <div className="field">
-            <label>Deadline</label>
-            { reminder.deadline ?
-              <p>{ moment(new Date(reminder.deadline)).format("DD/MM/YYYY HH:mm") }</p>
               :
               <p></p>
             }
@@ -390,9 +382,9 @@ export class ThesisShow extends Component {
     return (
       <div>
         <h2 className="ui dividing header">Sent reminders</h2>
-        { this.renderReminder("Ethesis Reminder", "EthesisEmail", thesisProgress.EthesisEmail || {}, thesisProgress.ethesisDone) }
-        { this.renderReminder("Grader Evaluation Reminder", "GraderEvalEmail", thesisProgress.GraderEvalEmail || {}, thesisProgress.graderEvalDone) }
-        { this.renderReminder("Print Thesis Reminder", "PrintEmail", thesisProgress.PrintEmail || {}, thesisProgress.printDone) }
+        { this.renderReminder("Ethesis Reminder", "EthesisReminder", thesisProgress.EthesisEmail || {}, thesisProgress.ethesisDone) }
+        { this.renderReminder("Grader Evaluation Reminder", "GraderEvalReminder", thesisProgress.GraderEvalEmail || {}, thesisProgress.graderEvalDone) }
+        { this.renderReminder("Print Thesis Reminder", "PrintReminder", thesisProgress.PrintEmail || {}, thesisProgress.printDone) }
       </div>
     );
   }
@@ -427,7 +419,7 @@ export class ThesisShow extends Component {
         }
         { this.renderThesisAuthor() }
         { this.renderThesisInformation() }
-        { this.renderThesisFiles() }
+        { /*this.renderThesisFiles()*/ }
         { this.renderGraders() }
         <GraderContainer editable={this.state.editable}/>
         { this.renderPickCouncilmeeting() }
