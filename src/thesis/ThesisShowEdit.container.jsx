@@ -82,11 +82,11 @@ export class ThesisShow extends Component {
       this.props.sendReminder(thesisId, reminderType);
     } else if (action === "setDone") {
       const tp = Validate.getForm("updateThesis").values.ThesisProgress;
-      if (reminderType === "EthesisEmail") {
+      if (reminderType === "EthesisReminder") {
         tp.ethesisDone = true;
-      } else if (reminderType === "GraderEvalEmail") {
+      } else if (reminderType === "GraderEvalReminder") {
         tp.graderEvalDone = true;
-      } else if (reminderType === "PrintEmail") {
+      } else if (reminderType === "PrintReminder") {
         tp.printDone = true;
       }
       if (confirm("Are you sure you want to manually overwrite this reminder done?")) {
@@ -382,9 +382,9 @@ export class ThesisShow extends Component {
     return (
       <div>
         <h2 className="ui dividing header">Sent reminders</h2>
-        { this.renderReminder("Ethesis Reminder", "EthesisReminder", thesisProgress.EthesisEmail || {}, thesisProgress.ethesisDone) }
-        { this.renderReminder("Grader Evaluation Reminder", "GraderEvalReminder", thesisProgress.GraderEvalEmail || {}, thesisProgress.graderEvalDone) }
-        { this.renderReminder("Print Thesis Reminder", "PrintReminder", thesisProgress.PrintEmail || {}, thesisProgress.printDone) }
+        { this.renderReminder("Ethesis Reminder", "EthesisReminder", thesisProgress.EthesisReminder || {}, thesisProgress.ethesisDone) }
+        { this.renderReminder("Grader Evaluation Reminder", "GraderEvalReminder", thesisProgress.GraderEvalReminder || {}, thesisProgress.graderEvalDone) }
+        { this.renderReminder("Print Thesis Reminder", "PrintReminder", thesisProgress.PrintReminder || {}, thesisProgress.printDone) }
       </div>
     );
   }
