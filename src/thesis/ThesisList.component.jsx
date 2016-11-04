@@ -60,7 +60,10 @@ export default class ThesisList extends Component {
         title: thesis.title,
         instructor: `${thesis.User.firstname} ${thesis.User.lastname}`,
         studyfield: thesis.StudyField.name,
-        deadline: moment(new Date(thesis.deadline)).format("DD/MM/YYYY"),
+        grade: thesis.grade,
+        ethesisDone: thesis.ThesisProgress.ethesisDone,
+        graderEvalDone: thesis.ThesisProgress.graderEvalDone,
+        printDone: thesis.ThesisProgress.printDone
       };
     });
   }
@@ -174,12 +177,15 @@ export default class ThesisList extends Component {
           <thead>
             <tr>
               <th onClick={this.handleClick.bind(this, "sort", "status")}>Status</th>
+              <th onClick={this.handleClick.bind(this, "sort", "status")}>EthesisDone</th>
+              <th onClick={this.handleClick.bind(this, "sort", "status")}>GraderEvalDone</th>
+              <th onClick={this.handleClick.bind(this, "sort", "status")}>PrintDone</th>
               <th onClick={this.handleClick.bind(this, "sort", "authorFirstname")}>Author firstname</th>
               <th onClick={this.handleClick.bind(this, "sort", "authorLastname")}>Author lastname</th>
               <th onClick={this.handleClick.bind(this, "sort", "title")}>Title</th>
               <th onClick={this.handleClick.bind(this, "sort", "instructor")}>Instructor</th>
               <th onClick={this.handleClick.bind(this, "sort", "studyfield")}>Studyfield</th>
-              <th onClick={this.handleClick.bind(this, "sort", "deadline")}>Deadline</th>
+              <th onClick={this.handleClick.bind(this, "sort", "grade")}>Grade</th>
               <th>Selected</th>
             </tr>
           </thead>
@@ -187,6 +193,36 @@ export default class ThesisList extends Component {
             { theses.map((thesis, index) =>
               <tr key={index} onClick={this.handleClick.bind(this, "toggleSelect", index)}>
                 <td>{thesis.status}</td>
+                <td>
+                  <div className="ui checkbox">
+                    <input
+                      type="checkbox"
+                      readOnly="true"
+                      checked={thesis.ethesisDone ? "true" : ""}
+                    />
+                    <label></label>
+                  </div>
+                </td>
+                <td>
+                  <div className="ui checkbox">
+                    <input
+                      type="checkbox"
+                      readOnly="true"
+                      checked={thesis.graderEvalDone ? "true" : ""}
+                    />
+                    <label></label>
+                  </div>
+                </td>
+                <td>
+                  <div className="ui checkbox">
+                    <input
+                      type="checkbox"
+                      readOnly="true"
+                      checked={thesis.printDone ? "true" : ""}
+                    />
+                    <label></label>
+                  </div>
+                </td>
                 <td>{thesis.authorFirstname}</td>
                 <td>{thesis.authorLastname}</td>
                 <td>
@@ -194,7 +230,7 @@ export default class ThesisList extends Component {
                 </td>
                 <td>{thesis.instructor}</td>
                 <td>{thesis.studyfield}</td>
-                <td>{thesis.deadline}</td>
+                <td>{thesis.grade}</td>
                 <td>
                   <div className="ui checkbox">
                     <input

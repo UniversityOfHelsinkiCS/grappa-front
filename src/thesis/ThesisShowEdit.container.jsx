@@ -24,7 +24,6 @@ export class ThesisShow extends Component {
     });
     const thesis = this.findThesisFromProps(this.props);
     if (thesis) {
-      console.log(thesis);
       Validate.replaceForm("updateThesis", thesis);
     }
   }
@@ -83,11 +82,11 @@ export class ThesisShow extends Component {
       this.props.sendReminder(thesisId, reminderType);
     } else if (action === "setDone") {
       const tp = Validate.getForm("updateThesis").values.ThesisProgress;
-      if (reminderType === "EthesisEmail") {
+      if (reminderType === "EthesisReminder") {
         tp.ethesisDone = true;
-      } else if (reminderType === "GraderEvalEmail") {
+      } else if (reminderType === "GraderEvalReminder") {
         tp.graderEvalDone = true;
-      } else if (reminderType === "PrintEmail") {
+      } else if (reminderType === "PrintReminder") {
         tp.printDone = true;
       }
       if (confirm("Are you sure you want to manually overwrite this reminder done?")) {
@@ -215,21 +214,6 @@ export class ThesisShow extends Component {
             <ValidateError errors={updateThesis.errors} model="thesisEdit" field="urkund" />
           </div>
           <div className="field">
-            <label>Ethesis</label>
-            <div className="ui right icon input">
-            <i className="external icon">
-              <a href={updateThesis.values.ethesis} target="_blank" className="icon-link"></a>
-            </i>
-              <input
-                type="text"
-                placeholder="Ethesis link"
-                value={updateThesis.values.ethesis || ""}
-                onChange={this.handleChange.bind(this, "ethesis")}
-              />
-            </div>
-            <ValidateError errors={updateThesis.errors} model="thesisEdit" field="ethesis" />
-          </div>
-          <div className="field">
             <label>Instructor</label>
             <input
               type="text"
@@ -239,6 +223,39 @@ export class ThesisShow extends Component {
               disabled="true"
             />
             <ValidateError errors={updateThesis.errors} model="thesisEdit" field="instructor" />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  renderThesisFiles() {
+    const { updateThesis } = this.state;
+    return (
+      <div className="m-bot">
+        <h3 className="ui dividing header">Thesis Files</h3>
+        <p>
+          Click the link? to open the pdf in a new tab.
+        </p>
+        <div className="three fields">
+          <div className="field">
+            <label>Review</label>
+            <div className="ui right icon input">
+              <i className="external icon">
+                <a href={updateThesis.values.urkund} target="_blank" className="icon-link"></a>
+              </i>
+              <input
+                type="text"
+                placeholder="review"
+              />
+            </div>
+          </div>
+          <div className="field">
+            <label>Abstract</label>
+            <input
+              type="text"
+              placeholder="abstract"
+            />
           </div>
         </div>
       </div>
@@ -294,7 +311,7 @@ export class ThesisShow extends Component {
   renderGraderEval() {
     const { updateThesis } = this.state;
     return (
-      <div>
+      <div className="m-bot">
         <h2 className="ui dividing header">Grader evaluation</h2>
         <div className="field">
           <textarea
@@ -316,7 +333,7 @@ export class ThesisShow extends Component {
             <label></label>
           </div>
         </div>
-        <div className="four fields">
+        <div className="three fields">
           <div className="field">
             <label>Recipient</label>
             <p>{ reminder.to }</p>
@@ -325,14 +342,6 @@ export class ThesisShow extends Component {
             <label>Last sent</label>
             { reminder.lastSent ?
               <p>{ moment(new Date(reminder.lastSent)).format("DD/MM/YYYY HH:mm") }</p>
-              :
-              <p></p>
-            }
-          </div>
-          <div className="field">
-            <label>Deadline</label>
-            { reminder.deadline ?
-              <p>{ moment(new Date(reminder.deadline)).format("DD/MM/YYYY HH:mm") }</p>
               :
               <p></p>
             }
@@ -373,9 +382,9 @@ export class ThesisShow extends Component {
     return (
       <div>
         <h2 className="ui dividing header">Sent reminders</h2>
-        { this.renderReminder("Ethesis Reminder", "EthesisEmail", thesisProgress.EthesisEmail || {}, thesisProgress.ethesisDone) }
-        { this.renderReminder("Grader Evaluation Reminder", "GraderEvalEmail", thesisProgress.GraderEvalEmail || {}, thesisProgress.graderEvalDone) }
-        { this.renderReminder("Print Thesis Reminder", "PrintEmail", thesisProgress.PrintEmail || {}, thesisProgress.printDone) }
+        { this.renderReminder("Ethesis Reminder", "EthesisReminder", thesisProgress.EthesisReminder || {}, thesisProgress.ethesisDone) }
+        { this.renderReminder("Grader Evaluation Reminder", "GraderEvalReminder", thesisProgress.GraderEvalReminder || {}, thesisProgress.graderEvalDone) }
+        { this.renderReminder("Print Thesis Reminder", "PrintReminder", thesisProgress.PrintReminder || {}, thesisProgress.printDone) }
       </div>
     );
   }
@@ -410,6 +419,7 @@ export class ThesisShow extends Component {
         }
         { this.renderThesisAuthor() }
         { this.renderThesisInformation() }
+        { /*this.renderThesisFiles()*/ }
         { this.renderGraders() }
         <GraderContainer editable={this.state.editable}/>
         { this.renderPickCouncilmeeting() }

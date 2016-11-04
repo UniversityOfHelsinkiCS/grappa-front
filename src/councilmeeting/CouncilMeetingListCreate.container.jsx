@@ -53,6 +53,8 @@ export class CouncilmeetingListCreate extends Component {
   formatMeetingsForReactTable(meetings) {
     return meetings.map(meeting => {
       meeting.date = moment(new Date(meeting.date));
+      meeting.instructorDeadline = moment(new Date(meeting.instructorDeadline));
+      meeting.studentDeadline = moment(new Date(meeting.studentDeadline));
       return meeting;
     });
   }
@@ -67,11 +69,16 @@ export class CouncilmeetingListCreate extends Component {
     });
   }
 
-  handleDateChange(formname, date) {
-    Validate.updateForm(formname, "date", date);
+  handleDateChange(formname, name, date) {
+    Validate.updateForm(formname, name, date);
   }
 
-  handleChange(event) {
+  handleChange(formname, name, event) {
+    event.preventDefault();
+    Validate.updateForm(formname, name, event.target.value);
+  }
+
+  handleCheckboxChange(event) {
     this.setState({
       shownDates: !this.state.showOld ? this.state.formattedDates : this.state.filteredDates,
       showOld: !this.state.showOld,
@@ -87,7 +94,6 @@ export class CouncilmeetingListCreate extends Component {
     } else if (type === "update" && this.state.updateCouncilMeeting.values.id
         && Validate.isFormValid("updateCouncilMeeting")) {
       const cm = Validate.getForm("updateCouncilMeeting").values;
-      cm.date = cm.date.toDate();
       this.props.updateCouncilMeeting(cm);
     } else if (type === "selectCM") {
       Validate.replaceForm("updateCouncilMeeting", this.state.shownDates[index]);
@@ -105,18 +111,40 @@ export class CouncilmeetingListCreate extends Component {
             <div className="field">
               <h2 className="ui dividing header">Create a councilmeeting date</h2>
               <p>
-                There can be only one meeting per date.
+                There can be only one meeting per date. Deadline days is date minus days
+                when the deadline is set at 23:59. Eg. if date is 25/11/2016 and instructor
+                deadline days is 8 then the deadline is at 23:59 17/11/2016.
               </p>
-              <div className="two fields">
+              <div className="three fields">
                 <div className="field">
+                  <label>Date</label>
                   <DatePicker
                     dateFormat="DD/MM/YYYY"
                     selected={newCouncilMeeting.values.date}
-                    onChange={this.handleDateChange.bind(this, "newCouncilMeeting")}
+                    onChange={this.handleDateChange.bind(this, "newCouncilMeeting", "date")}
                   />
                   <ValidateError errors={newCouncilMeeting.errors} model="newCouncilMeeting" field="date" />
                 </div>
                 <div className="field">
+                  <label>Instructor deadline days</label>
+                  <input
+                    type="text"
+                    value={this.state.newCouncilMeeting.values.instructorDeadlineDays}
+                    onChange={this.handleChange.bind(this, "newCouncilMeeting", "instructorDeadlineDays")}
+                    placeholder="Days"
+                  />
+                </div>
+                <div className="field">
+                  <label>Student deadline days</label>
+                  <input
+                    type="text"
+                    value={this.state.newCouncilMeeting.values.studentDeadlineDays}
+                    onChange={this.handleChange.bind(this, "newCouncilMeeting", "studentDeadlineDays")}
+                    placeholder="Days"
+                  />
+                </div>
+                <div className="field">
+                  <label>&nbsp;</label>
                   <button className="ui primary button" onClick={this.handleClick.bind(this, "save", "")}>
                     Submit
                   </button>
@@ -125,25 +153,43 @@ export class CouncilmeetingListCreate extends Component {
             </div>
             <div className="field">
               <h2 className="ui dividing header">
-                Change meetings date {
-                  updateCouncilMeeting.values.date ? updateCouncilMeeting.values.date.format("DD/MM/YYYY") : ""
-                }
+                Change meetings date {updateCouncilMeeting.values.date
+                  ? updateCouncilMeeting.values.date.format("DD/MM/YYYY") : ""}
               </h2>
               <p>
-                NOTE: does not change deadlines for already created theses. Meaning that they'll show up being
-                late/early in the system and while not damaging to the app's logic it might be worth reminding
-                the people about.
+                Changing the deadline changes it for every thesis connected to the meeting.
+                After deadline has passed no more theses can be added to the meeting.
               </p>
-              <div className="two fields">
+              <div className="three fields">
                 <div className="field">
+                  <label>Date</label>
                   <DatePicker
                     dateFormat="DD/MM/YYYY"
                     selected={updateCouncilMeeting.values.date}
-                    onChange={this.handleDateChange.bind(this, "updateCouncilMeeting")}
+                    onChange={this.handleDateChange.bind(this, "updateCouncilMeeting", "date")}
                   />
                   <ValidateError errors={updateCouncilMeeting.errors} model="updateCouncilMeeting" field="date" />
                 </div>
                 <div className="field">
+                  <label>Instructor deadline</label>
+                  <DatePicker
+                    dateFormat="DD/MM/YYYY"
+                    selected={updateCouncilMeeting.values.instructorDeadline}
+                    onChange={this.handleDateChange.bind(this, "updateCouncilMeeting", "instructorDeadline")}
+                  />
+                  <ValidateError errors={updateCouncilMeeting.errors} model="updateCouncilMeeting" field="instructorDeadline" />
+                </div>
+                <div className="field">
+                  <label>Student deadline</label>
+                  <DatePicker
+                    dateFormat="DD/MM/YYYY"
+                    selected={updateCouncilMeeting.values.studentDeadline}
+                    onChange={this.handleDateChange.bind(this, "updateCouncilMeeting", "studentDeadline")}
+                  />
+                  <ValidateError errors={updateCouncilMeeting.errors} model="updateCouncilMeeting" field="studentDeadline" />
+                </div>
+                <div className="field">
+                  <label>&nbsp;</label>
                   <button className="ui green button" onClick={this.handleClick.bind(this, "update", "")}>
                     Update
                   </button>
@@ -161,7 +207,7 @@ export class CouncilmeetingListCreate extends Component {
               <input
                 type="checkbox"
                 checked={this.state.showOld ? "true" : ""}
-                onChange={this.handleChange.bind(this, "toggleShowOld")}
+                onChange={this.handleCheckboxChange.bind(this, "toggleShowOld")}
               />
               <label>Show also past dates</label>
             </div>
