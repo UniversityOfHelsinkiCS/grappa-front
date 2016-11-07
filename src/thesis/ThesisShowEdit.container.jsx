@@ -231,6 +231,7 @@ export class ThesisShow extends Component {
 
   renderThesisFiles() {
     const { updateThesis } = this.state;
+    console.log(`${process.env.API_URL}/${updateThesis.values.id}/review`)
     return (
       <div className="m-bot">
         <h3 className="ui dividing header">Thesis Files</h3>
@@ -239,23 +240,21 @@ export class ThesisShow extends Component {
         </p>
         <div className="three fields">
           <div className="field">
-            <label>Review</label>
-            <div className="ui right icon input">
-              <i className="external icon">
-                <a href={updateThesis.values.urkund} target="_blank" className="icon-link"></a>
-              </i>
-              <input
-                type="text"
-                placeholder="review"
-              />
-            </div>
+            {/*<label>&nbsp;</label>*/}
+            <button className="ui right blue button">
+              <a className="icon-link"
+                href={`${process.env.API_URL}/thesis/${updateThesis.values.id}/review`}
+                target="_blank"
+              >Review</a>
+              <i className="external icon"></i>
+            </button>
           </div>
           <div className="field">
-            <label>Abstract</label>
-            <input
-              type="text"
-              placeholder="abstract"
-            />
+            {/*<label>&nbsp;</label>*/}
+            <a className="ui blue button"
+              href={`${process.env.API_URL}/thesis/${updateThesis.values.id}/review`}
+              target="_blank"
+            >Abstract<i className="external icon"></i></a>
           </div>
         </div>
       </div>
@@ -419,7 +418,7 @@ export class ThesisShow extends Component {
         }
         { this.renderThesisAuthor() }
         { this.renderThesisInformation() }
-        { /*this.renderThesisFiles()*/ }
+        { this.renderThesisFiles() }
         { this.renderGraders() }
         <GraderContainer editable={this.state.editable}/>
         { this.renderPickCouncilmeeting() }
