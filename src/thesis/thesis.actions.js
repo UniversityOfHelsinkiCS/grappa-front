@@ -82,7 +82,7 @@ export const saveThesisWithReview = (data) => (
  * @return The object containing the relevant information for the
  * reducer to handle the data accordingly.
  */
-export const updateThesis = (data) => (
+export const updateThesis = (id, data) => (
   {
     type: THESIS_UPDATE_ONE,
     flashMessage: {
@@ -98,7 +98,7 @@ export const updateThesis = (data) => (
     payload: {
       request: {
         method: "put",
-        url: `/thesis/${data.id}`,
+        url: `/thesis/${id}`,
         data,
       }
     }
@@ -129,6 +129,43 @@ export const downloadTheses = (data) => (
     payload: {
       request: {
         url: "/thesis/pdf",
+        method: "post",
+        responseType: "arraybuffer",
+        data,
+      }
+    }
+  }
+);
+
+export const getDocument = (data) => {
+  return (dispatch, getState) => {
+    return dispatch(getDocumentAction(data)).then((action) => {
+      if (action.type === "THESIS_GET_DOCUMENT_SUCCESS") {
+        const blob = new Blob([action.payload], { type: "application/pdf" });
+        const url = URL.createObjectURL(blob);
+        window.location.href = url;
+      }
+      return action;
+    })
+  };
+}
+
+const getDocumentAction = (data) => (
+  {
+    type: "THESIS_GET_DOCUMENT",
+    flashMessage: {
+      type: "warning",
+      title: "Request sent",
+      body: "Fetching the file from the server.",
+    },
+    successMessage: {
+      type: "success",
+      title: "Success",
+      body: "File received from the server.",
+    },
+    payload: {
+      request: {
+        url: "/thesis/doc",
         method: "post",
         responseType: "arraybuffer",
         data,

@@ -262,6 +262,18 @@ const schemas = {
       rules: [
       ],
     },
+    GraderReviewFile: {
+      default: "",
+      type: "file",
+      rules: [
+      ],
+    },
+    AbstractFile: {
+      default: "",
+      type: "file",
+      rules: [
+      ],
+    },
   },
   grader: {
     name: {

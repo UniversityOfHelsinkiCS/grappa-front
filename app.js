@@ -3,10 +3,13 @@
 // }
 
 const express = require("express");
+const compression = require("compression");
 
 const port = process.env.PORT || 8080;
 
 const app = express();
+
+app.use(compression());
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(__dirname + "/dist"));

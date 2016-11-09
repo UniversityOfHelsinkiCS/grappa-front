@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { browserHistory, Link } from "react-router";
 import moment from "moment";
+import Dropzone from "react-dropzone";
 
 import GraderContainer from "../grader/GraderListCreateUpdate.container";
 import GradersDropdown from "../ui/GradersDropdown.component";
@@ -67,7 +68,22 @@ export class ThesisShow extends Component {
         editable: false,
       });
     } else if (button === "save" && Validate.isFormValid("updateThesis")) {
-      this.props.updateThesis(this.state.updateThesis.values);
+      const form = new FormData();
+      if (this.state.updateThesis.values.GraderReviewFile.name) {
+        form.append("filetype", "GraderReviewFile");
+        form.append("file", this.state.updateThesis.values.GraderReviewFile);
+      }
+      if (this.state.updateThesis.values.AbstractFile.name) {
+        form.append("filetype", "AbstractFile");
+        form.append("file", this.state.updateThesis.values.AbstractFile);
+      }
+      // console.log(form.getAll("filetypes"))
+      const thesis = this.state.updateThesis.values;
+      delete thesis.GraderReviewFile;
+      delete thesis.AbstractFile;
+      form.append("json", JSON.stringify(thesis));
+      this.props.updateThesis(thesis.id, form);
+      // this.props.saveThesisWithReview(form);
     } else if (button === "download") {
       this.props.downloadTheses([this.state.updateThesis.values.id]);
     } else if (button === "delete" && confirm("Are you sure you want to delete this thesis? All data will be lost.")) {
@@ -100,6 +116,13 @@ export class ThesisShow extends Component {
     if (this.state.editable || (this.state.grading && name === "graderEval")) {
       Validate.updateForm("updateThesis", name, event.target.value);
     }
+  }
+
+  onDrop(key, files) {
+    // console.log('Received files: ', files);
+    // const ext = files[0].name.substr(files[0].name.lastIndexOf("."));
+    files[0].filetype = key;
+    Validate.updateForm("updateThesis", key, files[0]);
   }
 
   renderThesisAuthor() {
@@ -231,30 +254,45 @@ export class ThesisShow extends Component {
 
   renderThesisFiles() {
     const { updateThesis } = this.state;
-    console.log(`${process.env.API_URL}/${updateThesis.values.id}/review`)
     return (
       <div className="m-bot">
         <h3 className="ui dividing header">Thesis Files</h3>
         <p>
-          Click the link? to open the pdf in a new tab.
+          Click to open the pdf-document in a new tab.
         </p>
         <div className="three fields">
           <div className="field">
-            {/*<label>&nbsp;</label>*/}
-            <button className="ui right blue button">
-              <a className="icon-link"
-                href={`${process.env.API_URL}/thesis/${updateThesis.values.id}/review`}
-                target="_blank"
-              >Review</a>
+            <Link className="ui orange button" to={`/thesis/${updateThesis.values.id}/review`} target="_blank">
               <i className="external icon"></i>
-            </button>
+              Review
+            </Link>
           </div>
           <div className="field">
-            {/*<label>&nbsp;</label>*/}
-            <a className="ui blue button"
-              href={`${process.env.API_URL}/thesis/${updateThesis.values.id}/review`}
-              target="_blank"
-            >Abstract<i className="external icon"></i></a>
+            <Link className="ui orange button" to={`/thesis/${updateThesis.values.id}/abstract`} target="_blank">
+              <i className="external icon"></i>
+              Abstract
+            </Link>
+          </div>
+        </div>
+        <h3 className="ui dividing header">Upload new Thesis files</h3>
+        <p>
+          Size limit for the files is 1 MB for the review and 40 MB for the Thesis
+          from which 2nd page is parsed as abstract.
+        </p>
+        <div className="two fields">
+          <div className="field">
+            <label>Upload new review</label>
+            <Dropzone className="field upload-box" onDrop={this.onDrop.bind(this, "GraderReviewFile")} multiple={false}>
+              <p className="upload-p">Click to navigate to the file or drop them from your file system.</p>
+              <p className="upload-p">Current file: {updateThesis.values.GraderReviewFile.name}</p>
+            </Dropzone>
+          </div>
+          <div className="field">
+            <label>Upload new Thesis with abstract on 2nd page</label>
+            <Dropzone className="field upload-box" onDrop={this.onDrop.bind(this, "AbstractFile")} multiple={false}>
+              <p className="upload-p">Click to navigate to the file or drop them from your file system.</p>
+              <p className="upload-p">Current file: {updateThesis.values.AbstractFile.name}</p>
+            </Dropzone>
           </div>
         </div>
       </div>
@@ -403,6 +441,7 @@ export class ThesisShow extends Component {
             }
             <div className="ui blue button" onClick={this.handleClick.bind(this, "save")}>Save</div>
             <div className="ui red button" onClick={this.handleClick.bind(this, "delete")}>Delete</div>
+            <button className="ui violet button" onClick={this.handleClick.bind(this, "download")}>Download as PDF</button>
           </div>
            :
           role === "professor" ?
@@ -412,9 +451,12 @@ export class ThesisShow extends Component {
               :
               <div className="ui green button" onClick={this.handleClick.bind(this, "grade")}>Evaluate graders</div>
             }
+            <button className="ui violet button" onClick={this.handleClick.bind(this, "download")}>Download as PDF</button>
           </div>
            :
-          <div className="field"></div>
+          <div className="field">
+            <button className="ui violet button" onClick={this.handleClick.bind(this, "download")}>Download as PDF</button>
+          </div>
         }
         { this.renderThesisAuthor() }
         { this.renderThesisInformation() }
@@ -428,10 +470,6 @@ export class ThesisShow extends Component {
             :
           <div></div>
         }
-        <h2 className="ui dividing header">Print documents</h2>
-        <div className="field">
-          <button className="ui blue button" onClick={this.handleClick.bind(this, "download")}>Download as PDF</button>
-        </div>
       </div>
     );
   }
@@ -461,8 +499,8 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  updateThesis(thesis) {
-    dispatch(updateThesis(thesis));
+  updateThesis(id, thesis) {
+    dispatch(updateThesis(id, thesis));
   },
   updateGraders(graders) {
     dispatch(updateGraders(graders));
