@@ -70,20 +70,16 @@ export class ThesisShow extends Component {
     } else if (button === "save" && Validate.isFormValid("updateThesis")) {
       const form = new FormData();
       if (this.state.updateThesis.values.GraderReviewFile.name) {
-        form.append("filetype", "GraderReviewFile");
-        form.append("file", this.state.updateThesis.values.GraderReviewFile);
+        form.append("GraderReviewFile", this.state.updateThesis.values.GraderReviewFile);
       }
       if (this.state.updateThesis.values.AbstractFile.name) {
-        form.append("filetype", "AbstractFile");
-        form.append("file", this.state.updateThesis.values.AbstractFile);
+        form.append("AbstractFile", this.state.updateThesis.values.AbstractFile);
       }
-      // console.log(form.getAll("filetypes"))
       const thesis = this.state.updateThesis.values;
       delete thesis.GraderReviewFile;
       delete thesis.AbstractFile;
       form.append("json", JSON.stringify(thesis));
       this.props.updateThesis(thesis.id, form);
-      // this.props.saveThesisWithReview(form);
     } else if (button === "download") {
       this.props.downloadTheses([this.state.updateThesis.values.id]);
     } else if (button === "delete" && confirm("Are you sure you want to delete this thesis? All data will be lost.")) {
@@ -119,8 +115,6 @@ export class ThesisShow extends Component {
   }
 
   onDrop(key, files) {
-    // console.log('Received files: ', files);
-    // const ext = files[0].name.substr(files[0].name.lastIndexOf("."));
     files[0].filetype = key;
     Validate.updateForm("updateThesis", key, files[0]);
   }
