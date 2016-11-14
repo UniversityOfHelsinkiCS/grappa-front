@@ -76,8 +76,8 @@ export class ThesisShow extends Component {
         form.append("AbstractFile", this.state.updateThesis.values.AbstractFile);
       }
       const thesis = this.state.updateThesis.values;
-      delete thesis.GraderReviewFile;
-      delete thesis.AbstractFile;
+      thesis.GraderReviewFile = undefined;
+      thesis.AbstractFile = undefined;
       form.append("json", JSON.stringify(thesis));
       this.props.updateThesis(thesis.id, form);
     } else if (button === "download") {
@@ -247,7 +247,7 @@ export class ThesisShow extends Component {
   }
 
   renderThesisFiles() {
-    const { updateThesis } = this.state;
+    const { editable, updateThesis } = this.state;
     return (
       <div className="m-bot">
         <h3 className="ui dividing header">Thesis Files</h3>
@@ -268,27 +268,33 @@ export class ThesisShow extends Component {
             </Link>
           </div>
         </div>
-        <h3 className="ui dividing header">Upload new Thesis files</h3>
-        <p>
-          Size limit for the files is 1 MB for the review and 40 MB for the Thesis
-          from which 2nd page is parsed as abstract.
-        </p>
-        <div className="two fields">
-          <div className="field">
-            <label>Upload new review</label>
-            <Dropzone className="field upload-box" onDrop={this.onDrop.bind(this, "GraderReviewFile")} multiple={false}>
-              <p className="upload-p">Click to navigate to the file or drop them from your file system.</p>
-              <p className="upload-p">Current file: {updateThesis.values.GraderReviewFile.name}</p>
-            </Dropzone>
+        { editable ?
+          <div>
+            <h3 className="ui dividing header">Upload new Thesis files</h3>
+            <p>
+              Size limit for the files is 1 MB for the review and 40 MB for the Thesis
+              from which 2nd page is parsed as abstract.
+            </p>
+            <div className="two fields">
+              <div className="field">
+                <label>Upload new review</label>
+                <Dropzone className="field upload-box" onDrop={this.onDrop.bind(this, "GraderReviewFile")} multiple={false}>
+                  <p className="upload-p">Click to navigate to the file or drop them from your file system.</p>
+                  <p className="upload-p">Current file: {updateThesis.values.GraderReviewFile.name}</p>
+                </Dropzone>
+              </div>
+              <div className="field">
+                <label>Upload new Thesis with abstract on 2nd page</label>
+                <Dropzone className="field upload-box" onDrop={this.onDrop.bind(this, "AbstractFile")} multiple={false}>
+                  <p className="upload-p">Click to navigate to the file or drop them from your file system.</p>
+                  <p className="upload-p">Current file: {updateThesis.values.AbstractFile.name}</p>
+                </Dropzone>
+              </div>
+            </div>
           </div>
-          <div className="field">
-            <label>Upload new Thesis with abstract on 2nd page</label>
-            <Dropzone className="field upload-box" onDrop={this.onDrop.bind(this, "AbstractFile")} multiple={false}>
-              <p className="upload-p">Click to navigate to the file or drop them from your file system.</p>
-              <p className="upload-p">Current file: {updateThesis.values.AbstractFile.name}</p>
-            </Dropzone>
-          </div>
-        </div>
+           :
+          <span></span>
+        }
       </div>
     );
   }

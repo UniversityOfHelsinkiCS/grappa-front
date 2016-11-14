@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import FlashMessage from "flash/FlashMessage.container";
 
-export default class ShowDocument extends Component {
+export class ShowDocument extends Component {
 
   componentWillMount() {
     const { id, type } = this.props.params;
