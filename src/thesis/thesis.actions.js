@@ -137,6 +137,40 @@ export const downloadTheses = (data) => (
   }
 );
 
+export const moveTheses = (data) => {
+  return (dispatch, getState) => {
+    return dispatch(moveThesesAction(data)).then((action) => {
+      if (action.type === "THESIS_MOVE_SUCCESS") {
+        return dispatch(getTheses());
+      }
+      return action;
+    })
+  }
+}
+
+const moveThesesAction = (data) => (
+  {
+    type: "THESIS_MOVE",
+    flashMessage: {
+      type: "warning",
+      title: "Request sent",
+      body: "Waiting for Theses to be moved to next Councilmeeting.",
+    },
+    successMessage: {
+      type: "success",
+      title: "Success",
+      body: "Theses were moved.",
+    },
+    payload: {
+      request: {
+        url: "/thesis/move",
+        method: "post",
+        data,
+      }
+    }
+  }
+);
+
 export const getDocument = (data) => {
   return (dispatch, getState) => {
     return dispatch(getDocumentAction(data)).then((action) => {

@@ -72,7 +72,7 @@ export class ThesisList extends Component {
 }
 
 import { connect } from "react-redux";
-import { getTheses, downloadTheses } from "../thesis/thesis.actions";
+import { getTheses, downloadTheses, } from "../thesis/thesis.actions";
 
 const mapStateToProps = (state) => {
   const auth = state.get("auth");

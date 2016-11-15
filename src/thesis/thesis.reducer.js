@@ -68,6 +68,8 @@ export default function (state = INITIAL_STATE, action) {
       return state;
     case "THESIS_DOWNLOAD_SUCCESS":
       return state;
+    case "THESIS_MOVE_SUCCESS":
+      return state;
     case "THESISPROGRESS_UPDATE_ONE_SUCCESS":
       return state.updateIn(["theses"], thesis =>
         thesis.map(thesis => {
