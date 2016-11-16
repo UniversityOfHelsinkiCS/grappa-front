@@ -20,10 +20,21 @@ export class CouncilmeetingShow extends Component {
 
   componentWillMount() {
     this.initState(this.props);
+    this.setState({
+      selectedTheses: [],
+      searchedTheses: [],
+    });
   }
 
   componentWillReceiveProps(newProps) {
     this.initState(newProps);
+    // if on different page reset also selected theses
+    if (this.props.params.id !== newProps.params.id) {
+      this.setState({
+        selectedTheses: [],
+        searchedTheses: [],
+      });
+    }
   }
 
   initState(props) {
@@ -38,8 +49,6 @@ export class CouncilmeetingShow extends Component {
       currentMeeting,
       nextMeeting,
       filteredTheses,
-      selectedTheses: [],
-      searchedTheses: [],
     });
   }
 

@@ -28,7 +28,7 @@ export const createRequest = (action, store) => {
     }
     // incase response contained some informative message e.g. thesis/ethesis/:token
     // show that instead of default body
-    if (res.data.message) {
+    if (res.data && res.data.message) {
       newAction.flashMessage.body = res.data.message;
     }
     store.dispatch(newAction);
