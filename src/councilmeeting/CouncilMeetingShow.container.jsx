@@ -160,12 +160,13 @@ export class CouncilmeetingShow extends Component {
 
           <p>
             It will take approximately 30 seconds for 20 theses to be bundled into one
-            downloadable document.
+            downloadable document. Moving theses will set their councilmeeting to next or
+            previous one.
           </p>
           <button className="ui violet button" onClick={this.handleClick.bind(this, "download")}>Download selected</button>
           { role === "admin" ?
             <span>
-              <button className="ui yellow button" onClick={this.handleClick.bind(this, "moveNext")}>Move to next meeting</button>
+              <button className="ui dark-red button" onClick={this.handleClick.bind(this, "moveNext")}>Move to next meeting</button>
               <button className="ui orange button" onClick={this.handleClick.bind(this, "movePrevious")}>Move to previous meeting</button>
             </span>
               :
