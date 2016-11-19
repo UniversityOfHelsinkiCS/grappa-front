@@ -19,11 +19,17 @@ export const createRequest = (action, store) => {
     responseType: request.responseType === undefined ? "json" : request.responseType,
   })
   .then(res => {
+    console.log(res)
     const newAction = {
       type: action.type + "_SUCCESS",
       payload: res.data,
       sent: request.data,
       flashMessage: action.successMessage,
+    }
+    // incase response contained some informative message e.g. thesis/ethesis/:token
+    // show that instead of default body
+    if (res.data && res.data.message) {
+      newAction.flashMessage.body = res.data.message;
     }
     store.dispatch(newAction);
     return newAction;

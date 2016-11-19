@@ -59,7 +59,7 @@ export class ThesisList extends Component {
           <p>
             Past and current theses which you are allowed to view. Click on the thesis to select/unselect.
           </p>
-          <button className="ui button blue" onClick={this.handleClick.bind(this, "download")}>Download selected</button>
+          <button className="ui violet button" onClick={this.handleClick.bind(this, "download")}>Download selected</button>
         </div>
         <ThesisListComp
           theses={this.state.filteredTheses}
@@ -72,7 +72,7 @@ export class ThesisList extends Component {
 }
 
 import { connect } from "react-redux";
-import { getTheses, downloadTheses } from "../thesis/thesis.actions";
+import { getTheses, downloadTheses, } from "../thesis/thesis.actions";
 
 const mapStateToProps = (state) => {
   const auth = state.get("auth");

@@ -27,7 +27,21 @@ export default class ThesisList extends Component {
   }
 
   initState(props) {
-    const formatted = this.formatTheses(props.theses);
+    // sort theses by lastname first then firstname
+    const sorted = props.theses.sort((a, b) => {
+      if (a.authorLastname < b.authorLastname) {
+        return -1;
+      } else if (a.authorLastname > b.authorLastname) {
+        return 1;
+      } else if (a.authorFirstname < b.authorFirstname) {
+        return -1;
+      } else if (a.authorFirstname > b.authorFirstname) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
+    const formatted = this.formatTheses(sorted);
     const filtered = formatted.filter(thesis => {
       if (thesis.status === "In progress") {
         return thesis;

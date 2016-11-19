@@ -3,10 +3,13 @@ import { Route } from "react-router";
 import { redirectNonUser, redirectNonAdmin, redirectNonPrintPerson } from "./middleware/restrictAccess";
 
 import App from "./app/App.component";
+
 import Ethesis from "./ethesis/Ethesis.container";
+import ShowDocument from "thesis/ShowDocument.component";
 import ThesisList from "./thesis/ThesisList.container";
 import ThesisShowEdit from "./thesis/ThesisShowEdit.container";
 import ThesisCreate from "./thesis/ThesisCreate.container";
+
 import CouncilMeetingContainer from "./councilmeeting/CouncilMeetingListCreate.container";
 import CouncilMeetingShow from "./councilmeeting/CouncilMeetingShow.container";
 import StudyFieldList from "./studyfield/StudyFieldList.container";
@@ -19,6 +22,7 @@ import Registration from "./auth/Registration";
 import Login from "./auth/Login.container";
 import ResetPassword from "./auth/ResetPassword";
 import RequestNewPassword from "./auth/RequestNewPassword";
+
 import Intro from "./app/Introduction.component";
 import About from "./app/About.component";
 import NotFound from "./app/NotFound.component";
@@ -26,6 +30,7 @@ import NotFound from "./app/NotFound.component";
 export default (
   <Route>
     <Route path="/ethesis/:token" component={Ethesis}/>
+    <Route path="/thesis/:id/:type" component={ShowDocument} />
     <Route path="/" component={App}>
       <Route path="thesis" component={ThesisList} onEnter={redirectNonUser} />
       <Route path="thesis/new" component={ThesisCreate} onEnter={redirectNonUser} />

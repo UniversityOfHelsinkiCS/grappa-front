@@ -19,25 +19,38 @@ export class CouncilmeetingShow extends Component {
   }
 
   componentWillMount() {
-    const foundIndex = this.findIndexFromProps(this.props);
-    const previousMeeting = foundIndex > 0 ? this.props.councilmeetings[foundIndex - 1] : "";
-    const currentMeeting = this.props.councilmeetings[foundIndex];
-    const nextMeeting = foundIndex === this.props.councilmeetings.length - 1 ? "" : this.props.councilmeetings[foundIndex + 1];
-    const filteredTheses = this.filterThesesByMeeting(this.props.theses, currentMeeting);
+    this.initState(this.props);
+    this.setState({
+      selectedTheses: [],
+      searchedTheses: [],
+    });
+  }
+
+  componentWillReceiveProps(newProps) {
+    this.initState(newProps);
+    // if on different page reset also selected theses
+    if (this.props.params.id !== newProps.params.id) {
+      this.setState({
+        selectedTheses: [],
+        searchedTheses: [],
+      });
+    }
+  }
+
+  initState(props) {
+    const foundIndex = this.findIndexFromProps(props);
+    const previousMeeting = foundIndex > 0 ? props.councilmeetings[foundIndex - 1] : "";
+    const currentMeeting = props.councilmeetings[foundIndex];
+    const nextMeeting = foundIndex === props.councilmeetings.length - 1 ? "" : props.councilmeetings[foundIndex + 1];
+    const filteredTheses = this.filterThesesByMeeting(props.theses, currentMeeting);
     this.setState({
       index: foundIndex,
       previousMeeting,
       currentMeeting,
       nextMeeting,
       filteredTheses,
-      selectedTheses: [],
-      searchedTheses: [],
     });
   }
-
-  // componentWillReceiveProps(newProps) {
-  //   this.findCMFromProps(newProps);
-  // }
 
   incrementIndex(forward) {
     const index = forward ? this.state.index + 1 : this.state.index - 1;
@@ -112,10 +125,23 @@ export class CouncilmeetingShow extends Component {
     } else if (name === "next" && this.state.nextMeeting.id !== undefined) {
       browserHistory.replace(`/councilmeeting/${this.state.nextMeeting.id}`);
       this.incrementIndex(true);
+    } else if (name === "moveNext" || name === "movePrevious") {
+      const IDs = this.state.filteredTheses.reduce((previousValue, currentValue, index) => {
+        if (this.state.selectedTheses[index] && this.state.searchedTheses[index]) {
+          return [...previousValue, currentValue.id];
+        }
+        return previousValue;
+      }, []);
+      const meeting = name === "moveNext" ? this.state.nextMeeting : this.state.previousMeeting;
+      this.props.moveTheses({
+        thesisIds: IDs,
+        CouncilMeetingId: meeting.id || 0,
+      });
     }
   }
 
   render() {
+    const { role } = this.props.user;
     return (
       <div>
         <div className="m-bot">
@@ -143,9 +169,18 @@ export class CouncilmeetingShow extends Component {
 
           <p>
             It will take approximately 30 seconds for 20 theses to be bundled into one
-            downloadable document.
+            downloadable document. Moving theses will set their councilmeeting to next or
+            previous one.
           </p>
-          <button className="ui button blue" onClick={this.handleClick.bind(this, "download")}>Download selected</button>
+          <button className="ui violet button" onClick={this.handleClick.bind(this, "download")}>Download selected</button>
+          { role === "admin" ?
+            <span>
+              <button className="ui dark-red button" onClick={this.handleClick.bind(this, "moveNext")}>Move to next meeting</button>
+              <button className="ui orange button" onClick={this.handleClick.bind(this, "movePrevious")}>Move to previous meeting</button>
+            </span>
+              :
+            <span></span>
+          }
         </div>
         <ThesisList theses={this.state.filteredTheses} selected={this.state.selectedTheses}
           searched={this.state.searchedTheses}
@@ -156,15 +191,15 @@ export class CouncilmeetingShow extends Component {
 }
 
 import { connect } from "react-redux";
-import { getTheses, downloadTheses } from "../thesis/thesis.actions";
+import { getTheses, downloadTheses, moveTheses } from "../thesis/thesis.actions";
 
 const mapStateToProps = (state) => {
   const auth = state.get("auth");
-  const cm = state.get("councilmeeting");
+  const cm_r = state.get("councilmeeting");
   const thesis = state.get("thesis");
   return {
     user: auth.get("user").toJS(),
-    councilmeetings: cm.get("councilmeetings").toJS(),
+    councilmeetings: cm_r.get("councilmeetings").toJS(),
     theses: thesis.get("theses").toJS(),
   };
 };
@@ -175,6 +210,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   downloadTheses(theses) {
     dispatch(downloadTheses(theses));
+  },
+  moveTheses(data) {
+    dispatch(moveTheses(data));
   },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(CouncilmeetingShow);
