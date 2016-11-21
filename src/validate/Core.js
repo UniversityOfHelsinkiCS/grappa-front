@@ -33,7 +33,7 @@ class ValidateCore {
     // console.log(values, rule, value)
     const type = rule.type;
     if (type === "notEmpty") {
-      return Validator.isNull(value);
+      return value === undefined || value === null || value.length === 0;
     } else if (value && type === "isEmail") {
       return !Validator.isEmail(value);
     } else if (value && type === "isLink") {
