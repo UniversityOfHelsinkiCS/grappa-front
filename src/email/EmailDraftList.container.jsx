@@ -44,7 +44,7 @@ export class EmailDraftList extends Component {
           <input
             type="text"
             value={updateEmailDraft.title}
-            placeholder="Link to Urkund"
+            placeholder="Title"
             onChange={this.handleChange.bind(this, "updateEmailDraft", "title")}
           />
           <ValidateError errors={this.state.updateEmailDraft.errors} model="emailDraftEdit" field="title" />
