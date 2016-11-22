@@ -8,7 +8,6 @@ export class UserList extends Component {
   constructor() {
     super();
     this.state = {
-      // Users: [],
       updateUser: Validate.createForm("updateUser", "userEdit"),
     };
   }
@@ -49,6 +48,7 @@ export class UserList extends Component {
   handleClick(type, index, event) {
     if (type === "selectUser") {
       Validate.replaceForm("updateUser", this.props.Users[index]);
+      Validate.updateForm("updateUser", "password", "");
     } else if (type === "update" && this.state.updateUser.values.id && Validate.isFormValid("updateUser")) {
       const user = Validate.getForm("updateUser").values;
       user.StudyField = this.props.StudyFields.find(field => {
@@ -76,10 +76,11 @@ export class UserList extends Component {
     const activeFields = StudyFields.filter(field => {
       if (field.isActive) return field;
     });
+    // console.log(this.state.updateUser)
     return (
       <div className="ui form">
         <div className="field">
-          <h2 className="ui dividing header">Update user </h2>
+          <h2 className="ui dividing header">Update user</h2>
           <div className="five fields">
             <div className="field">
               <label>Role</label>
@@ -98,7 +99,7 @@ export class UserList extends Component {
               <label>Studyfield</label>
               <select
                 className="ui fluid search dropdown"
-                value={this.state.updateUser.values.StudyFieldId}
+                value={this.state.updateUser.values.StudyFieldId || ""}
                 onChange={this.handleChange.bind(this, "updateUser", "StudyFieldId")}
               >
                 <option value="">None</option>
@@ -138,6 +139,16 @@ export class UserList extends Component {
                 onChange={this.handleChange.bind(this, "updateUser", "email")}
               />
               <ValidateError errors={this.state.updateUser.errors} model="userEdit" field="email" />
+            </div>
+            <div className="field">
+              <label>Password</label>
+              <input
+                type="text"
+                placeholder="Replace password"
+                value={this.state.updateUser.values.password}
+                onChange={this.handleChange.bind(this, "updateUser", "password")}
+              />
+              <ValidateError errors={this.state.updateUser.errors} model="userEdit" field="password" />
             </div>
             <div className="field">
               <label>&nbsp;</label>
