@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router";
 import DatePicker from "react-datepicker";
 import moment from "moment";
+moment.locale("en-gb");
 import Validate from "../validate/Validate";
 import ValidateError from "../ui/Error.component";
 
@@ -215,6 +216,8 @@ export class CouncilmeetingListCreate extends Component {
               <thead>
                 <tr>
                   <th onClick={this.handleClick.bind(this, "sort", "date")}>Date</th>
+                  <th onClick={this.handleClick.bind(this, "sort", "instructorDeadline")}>Instructor deadline</th>
+                  <th onClick={this.handleClick.bind(this, "sort", "studentDeadline")}>Student deadline</th>
                   <th>Edit</th>
                   <th>Delete</th>
                 </tr>
@@ -224,6 +227,12 @@ export class CouncilmeetingListCreate extends Component {
                   <tr key={index} onClick={this.handleClick.bind(this, "selectCM", index)}>
                     <td>
                       <Link to={`/councilmeeting/${item.id}`}>{item.date.format("DD/MM/YYYY")}</Link>
+                    </td>
+                    <td>
+                      <Link to={`/councilmeeting/${item.id}`}>{item.instructorDeadline.format("DD/MM/YYYY")}</Link>
+                    </td>
+                    <td>
+                      <Link to={`/councilmeeting/${item.id}`}>{item.studentDeadline.format("DD/MM/YYYY")}</Link>
                     </td>
                     <td>
                       <i className="write icon green grappa-icon"

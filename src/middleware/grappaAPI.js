@@ -19,7 +19,7 @@ export const createRequest = (action, store) => {
     responseType: request.responseType === undefined ? "json" : request.responseType,
   })
   .then(res => {
-    console.log(res)
+    // console.log(res)
     const newAction = {
       type: action.type + "_SUCCESS",
       payload: res.data,
@@ -37,11 +37,11 @@ export const createRequest = (action, store) => {
   .catch(err => {
     let data;
     if (request.responseType === "arraybuffer") {
-      const arr = new Uint8Array(err.data);
+      const arr = new Uint8Array(err.response.data);
       const str = String.fromCharCode.apply(String, arr);
       data = JSON.parse(str);
     } else {
-      data = err.data;
+      data = err.response.data;
     }
     const newAction = {
       type: action.type + "_FAILURE",

@@ -194,8 +194,8 @@ export default class ThesisList extends Component {
               <th onClick={this.handleClick.bind(this, "sort", "status")}>EthesisDone</th>
               <th onClick={this.handleClick.bind(this, "sort", "status")}>GraderEvalDone</th>
               <th onClick={this.handleClick.bind(this, "sort", "status")}>PrintDone</th>
-              <th onClick={this.handleClick.bind(this, "sort", "authorFirstname")}>Author firstname</th>
               <th onClick={this.handleClick.bind(this, "sort", "authorLastname")}>Author lastname</th>
+              <th onClick={this.handleClick.bind(this, "sort", "authorFirstname")}>Author firstname</th>
               <th onClick={this.handleClick.bind(this, "sort", "title")}>Title</th>
               <th onClick={this.handleClick.bind(this, "sort", "instructor")}>Instructor</th>
               <th onClick={this.handleClick.bind(this, "sort", "studyfield")}>Studyfield</th>
@@ -237,8 +237,8 @@ export default class ThesisList extends Component {
                     <label></label>
                   </div>
                 </td>
-                <td>{thesis.authorFirstname}</td>
                 <td>{thesis.authorLastname}</td>
+                <td>{thesis.authorFirstname}</td>
                 <td>
                   <Link to={`/thesis/${thesis.id}`}>{thesis.title}</Link>
                 </td>
