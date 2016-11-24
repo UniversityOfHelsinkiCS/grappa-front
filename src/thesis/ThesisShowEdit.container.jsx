@@ -26,6 +26,11 @@ export class ThesisShow extends Component {
     const thesis = this.findThesisFromProps(this.props);
     if (thesis) {
       Validate.replaceForm("updateThesis", thesis);
+      if (this.props.user.role === "admin") {
+        this.setState({
+          editable: true
+        })
+      }
     }
   }
 
@@ -37,6 +42,7 @@ export class ThesisShow extends Component {
     const thesis = this.findThesisFromProps(newProps);
     if (thesis) {
       Validate.replaceForm("updateThesis", thesis);
+      console.log(Validate.getForm("updateThesis"))
     }
   }
 
@@ -79,6 +85,7 @@ export class ThesisShow extends Component {
       thesis.GraderReviewFile = undefined;
       thesis.AbstractFile = undefined;
       form.append("json", JSON.stringify(thesis));
+      console.log(thesis)
       this.props.updateThesis(thesis.id, form);
     } else if (button === "download") {
       this.props.downloadTheses([this.state.updateThesis.values.id]);
@@ -110,7 +117,11 @@ export class ThesisShow extends Component {
   handleChange(name, event) {
     // professors are restricted from editing anything else but grader evaluation
     if (this.state.editable || (this.state.grading && name === "graderEval")) {
-      Validate.updateForm("updateThesis", name, event.target.value);
+      let value = event.target.value;
+      if (name === "UserId") {
+        value = parseInt(value, 10);
+      }
+      Validate.updateForm("updateThesis", name, value);
     }
   }
 
@@ -162,6 +173,7 @@ export class ThesisShow extends Component {
 
   renderThesisInformation() {
     const { updateThesis } = this.state;
+    const { role } = this.props.user;
     const user = this.state.updateThesis.values.User;
     const instructor = user ? `${user.firstname} ${user.lastname}` : "";
     return (
@@ -232,13 +244,17 @@ export class ThesisShow extends Component {
           </div>
           <div className="field">
             <label>Instructor</label>
-            <input
-              type="text"
-              placeholder="Link to Urkund"
-              value={instructor}
-              onChange={this.handleChange.bind(this, "instructor")}
-              disabled="true"
-            />
+            <select
+              className="ui fluid search dropdown"
+              value={updateThesis.values.UserId}
+              onChange={this.handleChange.bind(this, "UserId")}
+            >
+              { this.props.Users.map((item, index) =>
+                <option key={index} value={item.id}>
+                  { `${item.firstname} ${item.lastname}` }
+                </option>
+              )}
+            </select>
             <ValidateError errors={updateThesis.errors} model="thesisEdit" field="instructor" />
           </div>
         </div>
@@ -489,12 +505,14 @@ const mapStateToProps = (state) => {
   const councilmeeting = state.get("councilmeeting");
   const sfreducer = state.get("studyfield");
   const grader_r = state.get("grader");
+  const user_r = state.get("user");
   return {
     user: auth.get("user").toJS(),
     theses: thesis.get("theses").toJS(),
     councilmeetings: councilmeeting.get("councilmeetings").toJS(),
     studyfields: sfreducer.get("studyfields").toJS(),
     Graders: grader_r.get("graders").toJS(),
+    Users: user_r.get("users").toJS(),
   };
 };
 

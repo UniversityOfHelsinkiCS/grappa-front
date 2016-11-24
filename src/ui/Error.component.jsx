@@ -3,7 +3,7 @@ import React, { Component } from "react";
 export default class Error extends Component {
 
   render() {
-    const { errors, model, field } = this.props;
+    const { errors, model, field, ...rest } = this.props;
     const list = errors[`${model}_${field}`] || [];
     // console.log(errors)
     // console.log(field)
@@ -14,7 +14,7 @@ export default class Error extends Component {
       );
     }
     return (
-      <div {...this.props} className="my-error-box">
+      <div {...rest} className="my-error-box">
         <ul className="my-error-list">
           { list.map((error, index) => <li key={index}>{error}</li>) }
         </ul>

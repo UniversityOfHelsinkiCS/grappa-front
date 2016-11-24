@@ -57,6 +57,7 @@
   },
   "devDependencies": {
     "babel-preset-react-hmre": "^1.0.1",
+    "babel-preset-stage-2": "^6.18.0",
     "chai": "^3.5.0",
     "chai-immutable": "^1.5.3",
     "coveralls": "^2.11.9",
