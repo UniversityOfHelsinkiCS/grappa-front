@@ -68,7 +68,7 @@ export class ThesisCreate extends React.Component {
       const form = new FormData();
       form.append("file", this.state.newThesis.values.PdfFile);
       const newThesis = this.state.newThesis.values;
-      delete newThesis.PdfFile;
+      newThesis.PdfFile = undefined;
       form.append("json", JSON.stringify(newThesis));
       this.props.saveThesisWithReview(form);
     }

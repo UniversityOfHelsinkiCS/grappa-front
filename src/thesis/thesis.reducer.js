@@ -51,15 +51,15 @@ export default function (state = INITIAL_STATE, action) {
     // probably should display error message?
       return state;
     case "THESIS_SAVE_ONE_SUCCESS":
-      // return state;
       return state.updateIn(["theses"], theses => fromJS([...theses, action.payload]));
     case "THESIS_SAVE_ONE_FAILURE":
       return state;
     case "THESIS_UPDATE_ONE_SUCCESS":
+      const data = JSON.parse(action.sent.get("json"));
       return state.updateIn(["theses"], thesis =>
         thesis.map(thesis => {
-          if (thesis.get("id") === action.sent.id) {
-            return fromJS(action.sent);
+          if (thesis.get("id") === data.id) {
+            return fromJS(data);
           }
           return thesis;
         })
