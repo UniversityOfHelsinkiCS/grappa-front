@@ -85,10 +85,12 @@ export class ThesisShow extends Component {
       thesis.GraderReviewFile = undefined;
       thesis.AbstractFile = undefined;
       form.append("json", JSON.stringify(thesis));
-      console.log(thesis)
+      // console.log(thesis)
       this.props.updateThesis(thesis.id, form);
     } else if (button === "download") {
-      this.props.downloadTheses([this.state.updateThesis.values.id]);
+      this.props.downloadTheses({
+        thesisIds: [this.state.updateThesis.values.id],
+      });
     } else if (button === "delete" && confirm("Are you sure you want to delete this thesis? All data will be lost.")) {
       this.props.deleteThesis(this.state.updateThesis.values.id);
     }
