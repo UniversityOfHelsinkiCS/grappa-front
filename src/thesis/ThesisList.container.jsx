@@ -47,7 +47,9 @@ export class ThesisList extends Component {
         }
         return previousValue;
       }, []);
-      this.props.downloadTheses(IDs);
+      this.props.downloadTheses({
+        thesisIds: IDs
+      });
     }
   }
 

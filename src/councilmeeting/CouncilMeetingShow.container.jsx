@@ -9,6 +9,7 @@ export class CouncilmeetingShow extends Component {
     super();
     this.state = {
       index: "",
+      includeCover: true,
       previousMeeting: {},
       currentMeeting: {},
       nextMeeting: {},
@@ -118,7 +119,10 @@ export class CouncilmeetingShow extends Component {
         }
         return previousValue;
       }, []);
-      this.props.downloadTheses(IDs);
+      this.props.downloadTheses({
+        thesisIds: IDs,
+        CouncilMeetingId: this.state.includeCover ? this.state.currentMeeting.id : undefined,
+      });
     } else if (name === "previous" && this.state.previousMeeting.id !== undefined) {
       browserHistory.replace(`/councilmeeting/${this.state.previousMeeting.id}`);
       this.incrementIndex(false);
@@ -140,7 +144,16 @@ export class CouncilmeetingShow extends Component {
     }
   }
 
+  handleChange(name, event) {
+    if (name === "toggleIncludeCover") {
+      this.setState({
+        includeCover: event.target.checked,
+      });
+    }
+  }
+
   render() {
+    const { includeCover } = this.state;
     const { role } = this.props.user;
     return (
       <div>
@@ -168,19 +181,28 @@ export class CouncilmeetingShow extends Component {
           </h2>
 
           <p>
-            It will take approximately 30 seconds for 20 theses to be bundled into one
-            downloadable document. Moving theses will set their councilmeeting to next or
-            previous one.
+            Checking "Include cover" -box will add a councilmeeting cover for the theses that is required for the meeting.
+            Moving theses will set their councilmeeting to next or previous one.
           </p>
-          <button className="ui violet button" onClick={this.handleClick.bind(this, "download")}>Download selected</button>
-          { role === "admin" ?
-            <span>
-              <button className="ui dark-red button" onClick={this.handleClick.bind(this, "moveNext")}>Move to next meeting</button>
-              <button className="ui orange button" onClick={this.handleClick.bind(this, "movePrevious")}>Move to previous meeting</button>
-            </span>
-              :
-            <span></span>
-          }
+          <div>
+            <button className="ui violet button" onClick={this.handleClick.bind(this, "download")}>Download selected</button>
+            <div className="ui checkbox m-left m-right">
+              <input
+                type="checkbox"
+                checked={includeCover ? "true" : ""}
+                onChange={this.handleChange.bind(this, "toggleIncludeCover")}
+              />
+              <label>Include cover</label>
+            </div>
+            { role === "admin" ?
+              <span>
+                <button className="ui dark-red button" onClick={this.handleClick.bind(this, "moveNext")}>Move to next meeting</button>
+                <button className="ui orange button" onClick={this.handleClick.bind(this, "movePrevious")}>Move to previous meeting</button>
+              </span>
+                :
+              <span></span>
+            }
+          </div>
         </div>
         <ThesisList theses={this.state.filteredTheses} selected={this.state.selectedTheses}
           searched={this.state.searchedTheses}
