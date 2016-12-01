@@ -607,6 +607,22 @@ const schemas = {
       ],
     }
   },
+  requestResetPassword: {
+    email: {
+      default: "",
+      type: "string",
+      rules: [
+        {
+          type: "notEmpty",
+          error: "Email can't be empty.",
+        },
+        {
+          type: "isEmail",
+          error: "Not a valid email.",
+        },
+      ],
+    },
+  },
   councilmeeting: {
     date: {
       default: moment(),

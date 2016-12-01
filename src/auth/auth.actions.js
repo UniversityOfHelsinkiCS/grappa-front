@@ -63,7 +63,17 @@ export const logout = () => (
 
 export const requestPasswordResetion = (email) => (
   {
-    type: USER_REQUEST_PASSWORD_RESETION,
+    type: "USER_RESET_PASSWORD",
+    flashMessage: {
+      type: "warning",
+      title: "Request sent",
+      body: "Waiting for email to be sent.",
+    },
+    successMessage: {
+      type: "success",
+      title: "Success",
+      body: "Password resetion link has been emailed to you.",
+    },
     payload: {
       request: {
         url: "/user/reset-password",

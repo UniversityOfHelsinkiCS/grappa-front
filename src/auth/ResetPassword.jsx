@@ -1,57 +1,37 @@
 import React from "react";
-import { Link, browserHistory } from "react-router";
-import Validate from "../validate/Validate";
-import ValidateError from "../ui/Error.component";
-import Errors from "../ui/Errors.component";
 
-export class UserResetPassword extends React.Component {
-  // constructor() {
-  //   super();
-  //   this.state = {
-  //     resetUserPassword: Validate.createForm("resetUserPassword", "resetUserPassword"),
-  //   };
-  // }
+export class ResetPassword extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      message: "",
+    };
+  }
 
-  // componentWillMount() {
-  //   Validate.subscribeToForm("resetUserPassword", "lox", (resetUserPassword) => { this.setState({ resetUserPassword, });});
-  // }
-  //
-  // componentWillUnmount() {
-  //   Validate.unsubscribe("lox");
-  // }
-  //
-  // handleChange(name, event) {
-  //   Validate.updateForm("resetUserPassword", name, event.target.value);
-  // }
-  //
-  // handleClick(type, event) {
-  //   event.preventDefault();
-  //   if (Validate.isFormValid("resetUserPassword")) {
-  //     const { email, password } = this.state.resetUserPassword.values;
-  //     this.props.resetUserPassword(email, password);
-  //   }
-  // }
+  componentWillMount() {
+    this.props.sendNewPassword(this.props.params.token)
+      .then(wasSuccess => {
+        console.log("lulz " + wasSuccess)
+        if (wasSuccess) {
+          this.setState({
+            message: "New password has been emailed to you.",
+          })
+        } else {
+          this.setState({
+            message: "Your password couldn't be reseted. Please request new password-resetion link or contact the administrator to reset the password for you.",
+          })
+        }
+      })
+  }
 
   render() {
     return (
       <div className="ui middle aligned center aligned grid">
-        Enter your email to receive a link to reset your password.
-        <div className="ui">
-          <div className="ui large form">
-            <div className="ui stacked segment">
-              <div className="field error">
-                <div className="ui left icon input">
-                  <i className="mail icon"></i>
-                  <input
-                    type="text"
-                    name="email"
-                    placeholder="E-mail address"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        { this.state.message ?
+          <span>{this.state.message}</span>
+            :
+          <span>Wait for the response.</span>
+        }
       </div>
     );
   }
@@ -59,12 +39,12 @@ export class UserResetPassword extends React.Component {
 
 import { connect } from "react-redux";
 
-import { resetUserPassword } from "auth/auth.actions";
+import { sendNewPassword } from "auth/auth.actions";
 
 const mapDispatchToProps = (dispatch) => ({
-  requestPasswordResetion(email) {
-    dispatch(requestPasswordResetion(email));
+  sendNewPassword(token) {
+    return dispatch(sendNewPassword(token));
   },
 });
 
-export default connect(null, mapDispatchToProps)(UserResetPassword);
+export default connect(null, mapDispatchToProps)(ResetPassword);
