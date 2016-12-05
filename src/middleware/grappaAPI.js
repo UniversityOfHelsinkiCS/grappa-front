@@ -1,4 +1,5 @@
 import axios from "axios";
+import { logout } from "auth/auth.actions";
 
 export const createRequest = (action, store) => {
 
@@ -51,6 +52,11 @@ export const createRequest = (action, store) => {
         title: "Error",
         body: data.message,
       }
+    }
+    // custom status code for handling expired login
+    // has to be dispatched before error since logout will reset the flash messages too
+    if (err.response.status === 440) {
+      store.dispatch(logout())
     }
     store.dispatch(newAction);
     return newAction;

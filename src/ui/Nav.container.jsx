@@ -17,7 +17,6 @@ export class Nav extends Component {
 */
   handleLogout() {
     this.props.logout();
-    browserHistory.push("/login");
   }
 
   renderNonLoggedNav() {

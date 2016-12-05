@@ -55,7 +55,14 @@ const loginAction = (email, password) => (
   }
 );
 
-export const logout = () => (
+export const logout = () => {
+  return (dispatch, getState) => {
+    browserHistory.push("/login");
+    return dispatch(logoutAction());
+  };
+}
+
+const logoutAction = () => (
   {
     type: LOGOUT_USER,
   }
