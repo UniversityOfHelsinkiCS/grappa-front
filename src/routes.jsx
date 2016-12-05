@@ -20,8 +20,8 @@ import UserListNotActive from "./user/UserListNotActive.container";
 import UserShow from "./user/UserShow.container";
 import Registration from "./auth/Registration";
 import Login from "./auth/Login.container";
-import ResetPassword from "./auth/ResetPassword";
-import RequestNewPassword from "./auth/RequestNewPassword";
+import RequestResetPassword from "auth/RequestResetPassword";
+import ResetPassword from "auth/ResetPassword";
 
 import Intro from "./app/Introduction.component";
 import About from "./app/About.component";
@@ -44,8 +44,8 @@ export default (
       <Route path="user/me" component={UserShow} onEnter={redirectNonUser} />
       <Route path="registration" component={Registration} />
       <Route path="login" component={Login} />
-      <Route path="reset-password" component={ResetPassword} />
-      <Route path="reset-password/:token" component={RequestNewPassword} />
+      <Route path="reset-password" component={RequestResetPassword} />
+      <Route path="reset-password/:token" component={ResetPassword} />
       <Route path="intro" component={Intro}/>
       <Route path="about" component={About}/>
       <Route path="*" component={NotFound}/>
