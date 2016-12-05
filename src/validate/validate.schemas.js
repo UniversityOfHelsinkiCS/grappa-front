@@ -444,12 +444,6 @@ const schemas = {
         },
       ],
     },
-    password: {
-      default: "",
-      type: "string",
-      rules: [
-      ],
-    },
     StudyFieldId: {
       default: "",
       type: "string",

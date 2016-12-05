@@ -141,16 +141,6 @@ export class UserList extends Component {
               <ValidateError errors={this.state.updateUser.errors} model="userEdit" field="email" />
             </div>
             <div className="field">
-              <label>Password</label>
-              <input
-                type="text"
-                placeholder="Replace password"
-                value={this.state.updateUser.values.password}
-                onChange={this.handleChange.bind(this, "updateUser", "password")}
-              />
-              <ValidateError errors={this.state.updateUser.errors} model="userEdit" field="password" />
-            </div>
-            <div className="field">
               <label>&nbsp;</label>
               <div className="ui checkbox">
                 <input

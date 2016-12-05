@@ -76,11 +76,13 @@ export class Login extends React.Component {
                 </div>
               </div>
             </div>
-            <div className="ui fluid large blue submit button" onClick={this.handleClick.bind(this, "submit")}>
-              Login
+            <div className="field">
+              <div className="ui fluid large blue submit button" onClick={this.handleClick.bind(this, "submit")}>
+                Login
+              </div>
             </div>
-            <div className0="field">
-              <Link to="/reset-password">Lost password</Link>
+            <div className="field">
+              <Link className="ui fluid small submit" to="/reset-password">Lost password</Link>
             </div>
           </div>
           <Errors errors={this.state.loginUser.errors}/>
