@@ -3,6 +3,7 @@ import { fromJS } from "immutable";
 const INITIAL_STATE = fromJS({
   user: {},
   token: "",
+  expires: undefined,
   loading: false,
 });
 
@@ -12,6 +13,7 @@ export default function (state = INITIAL_STATE, action) {
       return state.merge({
         user: action.payload.user,
         token: action.payload.token,
+        expires: action.payload.expires,
       });
     case "LOGIN_USER_FAILURE":
       return state;

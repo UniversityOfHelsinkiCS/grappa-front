@@ -3,7 +3,15 @@ import { Link } from "react-router";
 import Nav from "../ui/Nav.container";
 import FlashMessage from "../flash/FlashMessage.container";
 
-export default class App extends Component {
+export class App extends Component {
+
+  componentDidMount() {
+    console.log("app mounted!");
+    console.log(this.props.user)
+    if (this.props.user.email) {
+      this.props.setLogoutTimeout();
+    }
+  }
 
   render() {
     return (
@@ -25,3 +33,21 @@ export default class App extends Component {
 App.propTypes = {
   children: PropTypes.node,
 };
+
+import { connect } from "react-redux";
+import { setLogoutTimeout } from "ping/ping.actions";
+
+const mapStateToProps = (state) => {
+  const auth = state.get("auth");
+  return {
+    user: auth.get("user").toJS(),
+  };
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  setLogoutTimeout() {
+    dispatch(setLogoutTimeout());
+  },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

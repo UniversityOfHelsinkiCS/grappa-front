@@ -10,6 +10,7 @@ import { getCouncilMeetings } from "../councilmeeting/councilmeeting.actions";
 import { getStudyFields } from "../studyfield/studyfield.actions";
 import { getUsers } from "../user/user.actions";
 import { getEmailDrafts } from "../email/email.actions";
+import { setLogoutTimeout, unsetTimer } from "ping/ping.actions";
 
 export const loginUser = (email, password) => {
   return (dispatch, getState) => {
@@ -25,6 +26,7 @@ export const loginUser = (email, password) => {
             dispatch(getStudyFields()),
             dispatch(getUsers()),
             dispatch(getEmailDrafts()),
+            dispatch(setLogoutTimeout()),
           ])
         } else {
           return Promise.all([
@@ -32,6 +34,7 @@ export const loginUser = (email, password) => {
             dispatch(getGraders()),
             dispatch(getCouncilMeetings()),
             dispatch(getStudyFields()),
+            dispatch(setLogoutTimeout()),
           ])
         }
       }
@@ -58,7 +61,10 @@ const loginAction = (email, password) => (
 export const logout = () => {
   return (dispatch, getState) => {
     browserHistory.push("/login");
-    return dispatch(logoutAction());
+    return Promise.all([
+      dispatch(unsetTimer()),
+      dispatch(logoutAction()),
+    ])
   };
 }
 

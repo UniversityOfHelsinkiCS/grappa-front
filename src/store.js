@@ -19,6 +19,7 @@ import studyfield from "./studyfield/studyfield.reducer";
 import grader from "./grader/grader.reducer";
 import ethesis from "./ethesis/ethesis.reducer";
 import flash from "./flash/flash.reducer";
+import ping from "./ping/ping.reducer";
 
 const combinedReducers = combineReducers({
   auth,
@@ -31,6 +32,7 @@ const combinedReducers = combineReducers({
   grader,
   ethesis,
   flash,
+  ping,
 });
 
 /*
@@ -46,7 +48,7 @@ const rootReducer = (state, action) => {
 // const createStoreWithMiddleware = applyMiddleware(thunk, logger, handleRequest, manageState, triggerDownload)(createStore);
 const createStoreWithMiddleware = applyMiddleware(thunk, handleRequest, logger, manageState, triggerDownload)(createStore);
 const createPersistentStore = compose(
-  persistState(["auth", "thesis", "councilmeeting", "studyfield", "grader", "email", "user"], {
+  persistState(["auth", "thesis", "councilmeeting", "studyfield", "grader", "email", "user", "ping"], {
     slicer: (paths) => (state) => state.filter((v, k) => paths.indexOf(k) !== -1),
     serialize: (subset) => JSON.stringify(subset.toJS()),
     deserialize: (serialized) => fromJS(JSON.parse(serialized)),

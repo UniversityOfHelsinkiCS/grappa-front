@@ -15,6 +15,7 @@ export class Login extends React.Component {
     super();
     this.state = {
       loginUser: Validate.createForm("loginUser", "loginUser"),
+      ws: new WebSocket("ws://localhost:8008/ws?token=asdf")
     };
   }
 
@@ -34,6 +35,7 @@ export class Login extends React.Component {
   * @param event Used to get a hold of what the input of the user was.
   */
   handleClick(type, event) {
+    this.state.ws.send('{"message": "joo"}');
     event.preventDefault();
     if (Validate.isFormValid("loginUser")) {
       const { email, password } = this.state.loginUser.values;
