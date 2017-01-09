@@ -2,12 +2,11 @@
 export const setLogoutTimeout = () => {
   return (dispatch, getState) => {
     const current = Date.now();
-    const expires = getState().toJS().auth.expires * 1000;
-    const interval = setInterval(() => {
+    const expires = getState().toJS().auth.expires * 1000 + 1000;
+    const timeoutId = setTimeout(() => {
       dispatch(pingAuth())
-    // }, expires - current)
-    }, 2000)
-    return dispatch(setTimer(interval));
+    }, expires - current)
+    return dispatch(setTimer(timeoutId));
   };
 }
 

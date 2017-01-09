@@ -6,8 +6,6 @@ import FlashMessage from "../flash/FlashMessage.container";
 export class App extends Component {
 
   componentDidMount() {
-    console.log("app mounted!");
-    console.log(this.props.user)
     if (this.props.user.email) {
       this.props.setLogoutTimeout();
     }
