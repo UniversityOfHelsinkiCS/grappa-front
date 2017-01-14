@@ -11,6 +11,7 @@ import { getStudyFields } from "../studyfield/studyfield.actions";
 import { getUsers } from "../user/user.actions";
 import { getEmailDrafts } from "../email/email.actions";
 import { setLogoutTimeout, unsetTimer } from "ping/ping.actions";
+import { connectToSocket } from "socket/socket.actions";
 
 export const loginUser = (email, password) => {
   return (dispatch, getState) => {
@@ -27,6 +28,7 @@ export const loginUser = (email, password) => {
             dispatch(getUsers()),
             dispatch(getEmailDrafts()),
             dispatch(setLogoutTimeout()),
+            dispatch(connectToSocket()),
           ])
         } else {
           return Promise.all([
@@ -35,6 +37,7 @@ export const loginUser = (email, password) => {
             dispatch(getCouncilMeetings()),
             dispatch(getStudyFields()),
             dispatch(setLogoutTimeout()),
+            dispatch(connectToSocket()),
           ])
         }
       }

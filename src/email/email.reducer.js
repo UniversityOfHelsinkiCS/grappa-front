@@ -13,8 +13,8 @@ export default function (state = INITIAL_STATE, action) {
     case "EMAILDRAFT_UPDATE_ONE_SUCCESS":
       return state.updateIn(["emaildrafts"], emaildrafts =>
         emaildrafts.map(emaildraft => {
-          if (emaildraft.get("id") === action.sent.id) {
-            return fromJS(action.sent);
+          if (emaildraft.get("id") === action.payload.id) {
+            return fromJS(action.payload);
           }
           return emaildraft;
         })

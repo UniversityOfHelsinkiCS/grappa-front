@@ -14,6 +14,10 @@ export default function (state = INITIAL_STATE, action) {
     case "COUNCILMEETING_GET_ALL_FAILURE":
       return state;
     case "COUNCILMEETING_SAVE_ONE_SUCCESS":
+      const exists = state.get("councilmeetings").find(grader => {
+        return grader.get("id") === action.payload.id;
+      })
+      if (exists) return state;
       return state.updateIn(["councilmeetings"], list => {
         // searches for the index where the new meeting should be inserted at
         // to keep the dates in ascending order
@@ -30,8 +34,8 @@ export default function (state = INITIAL_STATE, action) {
     case "COUNCILMEETING_UPDATE_ONE_SUCCESS":
       const updatedState = state.updateIn(["councilmeetings"], councilmeetings =>
         councilmeetings.map(councilmeeting => {
-          if (councilmeeting.get("id") === action.sent.id) {
-            return fromJS(action.sent);
+          if (councilmeeting.get("id") === action.payload.id) {
+            return fromJS(action.payload);
           }
           return councilmeeting;
         })
@@ -46,7 +50,7 @@ export default function (state = INITIAL_STATE, action) {
     case "COUNCILMEETING_DELETE_ONE_SUCCESS":
       return state.updateIn(["councilmeetings"], list =>
         list.filter(cm => {
-          if (cm.get("id") !== action.sent.id) {
+          if (cm.get("id") !== action.payload.id) {
             return cm;
           }
         })
