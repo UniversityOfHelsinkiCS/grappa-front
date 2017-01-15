@@ -48,30 +48,3 @@ export const setSocket = (socket) => (
     }
   }
 )
-
-export const serverSaveThesis = (thesis) => (
-  {
-    type: "SERVER_SAVE_THESIS",
-    payload: {
-      thesis,
-    }
-  }
-)
-
-export const serverUpdateThesis = (thesis) => (
-  {
-    type: "SERVER_UPDATE_THESIS",
-    payload: {
-      thesis,
-    }
-  }
-)
-
-export const serverDeleteThesis = (thesis) => (
-  {
-    type: "SERVER_DELETE_THESIS",
-    payload: {
-      thesis,
-    }
-  }
-)

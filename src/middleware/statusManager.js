@@ -15,7 +15,4 @@ export const manageState = store => next => action => {
       store.dispatch(hideMessage(action.id));
     }, 15000);
   }
-  if (action.redirect !== undefined && action.redirect !== null) {
-    console.log("redirect tuli!");
-  }
 };

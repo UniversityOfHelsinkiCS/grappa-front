@@ -140,9 +140,9 @@ export const downloadTheses = (data) => (
 export const moveTheses = (data) => {
   return (dispatch, getState) => {
     return dispatch(moveThesesAction(data)).then((action) => {
-      if (action.type === "THESIS_MOVE_SUCCESS") {
-        return dispatch(getTheses());
-      }
+      // if (action.type === "THESIS_MOVE_SUCCESS") {
+      //   return dispatch(getTheses());
+      // }
       return action;
     })
   }

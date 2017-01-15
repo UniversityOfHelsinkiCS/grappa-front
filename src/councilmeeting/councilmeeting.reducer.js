@@ -35,6 +35,7 @@ export default function (state = INITIAL_STATE, action) {
       const updatedState = state.updateIn(["councilmeetings"], councilmeetings =>
         councilmeetings.map(councilmeeting => {
           if (councilmeeting.get("id") === action.payload.id) {
+            console.log("updating!")
             return fromJS(action.payload);
           }
           return councilmeeting;

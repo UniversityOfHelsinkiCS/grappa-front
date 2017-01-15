@@ -48,7 +48,6 @@ export class UserList extends Component {
   handleClick(type, index, event) {
     if (type === "selectUser") {
       Validate.replaceForm("updateUser", this.props.Users[index]);
-      Validate.updateForm("updateUser", "password", "");
     } else if (type === "update" && this.state.updateUser.values.id && Validate.isFormValid("updateUser")) {
       const user = Validate.getForm("updateUser").values;
       user.StudyField = this.props.StudyFields.find(field => {
