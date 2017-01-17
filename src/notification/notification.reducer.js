@@ -18,7 +18,6 @@ export default function (state = INITIAL_STATE, action) {
     // for notifications received through the websocket
     case "NOTIFICATION_ADD_ONE":
       return state.updateIn(["notifications"], notifications => fromJS([...notifications, action.payload]));
-      // return state.updateIn(["notifications"], notifications => [...notifications, fromJS(action.payload)]);
     case "NOTIFICATION_SET_READ_SUCCESS":
       return state.updateIn(["notifications"], notification =>
         notification.map(notification => {

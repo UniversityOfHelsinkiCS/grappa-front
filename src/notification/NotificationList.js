@@ -49,6 +49,7 @@ export class NotificationList extends Component {
             They are updated automatically and refresh without you having to update this page.
             Visiting this page will set them read and they are removed from the database after 30 days since their creation.
           </p>
+          <button className="ui orange button">Mark all as read</button>
           <table className="ui celled table">
             <thead>
               <tr>
