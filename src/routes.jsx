@@ -14,6 +14,7 @@ import CouncilMeetingContainer from "./councilmeeting/CouncilMeetingListCreate.c
 import CouncilMeetingShow from "./councilmeeting/CouncilMeetingShow.container";
 import StudyFieldList from "./studyfield/StudyFieldList.container";
 import EmailDraftList from "./email/EmailDraftList.container";
+import NotificationList from "notification/NotificationList";
 // import EmailstatusList from "./emailstatus/EmailstatusList.smart";
 import UserList from "./user/UserList.container";
 import UserListNotActive from "./user/UserListNotActive.container";
@@ -39,6 +40,7 @@ export default (
       <Route path="councilmeeting" component={CouncilMeetingContainer} onEnter={redirectNonAdmin} />
       <Route path="studyfield" component={StudyFieldList} onEnter={redirectNonAdmin} />
       <Route path="emaildraft" component={EmailDraftList} onEnter={redirectNonAdmin} />
+      <Route path="notification" component={NotificationList} onEnter={redirectNonAdmin} />
       <Route path="user" component={UserList} onEnter={redirectNonAdmin} />
       <Route path="user/inactive" component={UserListNotActive} onEnter={redirectNonAdmin} />
       <Route path="user/me" component={UserShow} onEnter={redirectNonUser} />

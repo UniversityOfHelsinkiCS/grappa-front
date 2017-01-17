@@ -105,8 +105,8 @@ export default function (state = INITIAL_STATE, action) {
     case "SEND_REMINDER_SUCCESS":
       return state.updateIn(["theses"], thesis =>
         thesis.map(thesis => {
-          if (thesis.get("id") === action.sent.thesisId) {
-            return thesis.mergeIn(["ThesisProgress", action.sent.reminderType], fromJS(action.payload));
+          if (thesis.get("id") === action.payload.ThesisId) {
+            return thesis.mergeIn(["ThesisProgress", action.payload.type], fromJS(action.payload));
           }
           return thesis;
         })

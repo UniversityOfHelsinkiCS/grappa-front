@@ -54,9 +54,14 @@ export class Nav extends Component {
 
   renderAdminNav() {
     const { user } = this.props;
+    // 12<i className="alarm icon"></i>
+    // <i className="alarm outline icon"></i>
     return (
       <div className="ui horizontal pointing menu">
         <Link className="item" to="/user/me">{ `${user.firstname} ${user.lastname}` }</Link>
+        <Link className="item" to="/notification">
+          12<i className="alarm icon"></i>
+        </Link>
         <Link className="item" to="/thesis">Theses</Link>
         <Link className="item" to="/thesis/new">Add new thesis</Link>
         <Link className="item" to="/councilmeeting">Councilmeetings </Link>
