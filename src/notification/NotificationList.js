@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import moment from "moment";
 import Validate from "../validate/Validate";
 import ValidateError from "../ui/Error.component";
 
@@ -12,6 +13,7 @@ export class NotificationList extends Component {
     // set notifications read here?
     // otherwise have to listen window.focus 
     // maybe also for willMount as 
+    this.setCurrentNotificationsRead();
   }
 
   handleChange(formname, field, event) {
@@ -28,18 +30,27 @@ export class NotificationList extends Component {
     // }
   }
 
+  setCurrentNotificationsRead() {
+    let ids = [];
+    for (let i = 0; i < this.props.Notifications.length; i++) {
+      // if (this.props.Notifications[i].hasBeenRead) {
+      //   break;
+      // }
+      ids.push(this.props.Notifications[i].id);
+    }
+    console.log("ids", this.props.Notifications)
+    this.props.setNotificationsRead(ids);
+  }
+
   handleClick(type, index, event) {
-    // if (type === "save" && Validate.isFormValid("newNotification")) {
-    //   this.props.saveNotification(this.state.newNotification.values);
-    // } else if (type === "update" && this.state.updateNotification.values.id && Validate.isFormValid("updateNotification")) {
-    //   this.props.updateNotification(this.state.updateNotification.values);
-    // } else if (type === "selectField") {
-    //   Validate.replaceForm("updateNotification", this.props.Notifications[index]);
-    // }
+    if (type === "setRead") {
+      this.setCurrentNotificationsRead();
+    }
   }
 
   render() {
     const { Notifications } = this.props;
+    console.log("yo render", Notifications)
     return (
       <div className="ui form">
         <div className="field">
@@ -49,10 +60,13 @@ export class NotificationList extends Component {
             They are updated automatically and refresh without you having to update this page.
             Visiting this page will set them read and they are removed from the database after 30 days since their creation.
           </p>
-          <button className="ui orange button">Mark all as read</button>
+          <button className="ui orange button" onClick={this.handleClick.bind(this, "setRead")}>
+            Mark all as read
+          </button>
           <table className="ui celled table">
             <thead>
               <tr>
+                <th onClick={this.handleClick.bind(this, "sort", "status")}>Read</th>
                 <th onClick={this.handleClick.bind(this, "sort", "status")}>Created</th>
                 <th onClick={this.handleClick.bind(this, "sort", "authorFirstname")}>Type</th>
                 <th onClick={this.handleClick.bind(this, "sort", "authorLastname")}>Content</th>
@@ -61,7 +75,10 @@ export class NotificationList extends Component {
             <tbody>
               { Notifications.map((item, index) =>
                 <tr key={index} onClick={this.handleClick.bind(this, "selectField", index)}>
-                  <td>{item.createdAt}</td>
+                  <td>
+                    { item.hasBeenRead ? <i className="check square icon green grappa-icon"></i> : <i></i> }
+                  </td>
+                  <td>{`${moment(item.createdAt).format("HH:mm DD/MM/YYYY")}`}</td>
                   <td>{item.type}</td>
                   <td>{item.content}</td>
                 </tr>

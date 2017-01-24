@@ -137,7 +137,6 @@ export class StudyFieldList extends Component {
                   <th onClick={this.handleClick.bind(this, "sort", "status")}>Active</th>
                   <th onClick={this.handleClick.bind(this, "sort", "authorFirstname")}>Name</th>
                   <th onClick={this.handleClick.bind(this, "sort", "authorLastname")}>Professor</th>
-                  <th onClick={this.handleClick.bind(this, "sort", "title")}>Users</th>
                 </tr>
               </thead>
               <tbody>
@@ -146,7 +145,6 @@ export class StudyFieldList extends Component {
                     <td>{item.isActive ? "true" : "false"}</td>
                     <td>{item.name}</td>
                     <td>{item.professor}</td>
-                    <td>{item.Users.length}</td>
                   </tr>
                 )}
               </tbody>

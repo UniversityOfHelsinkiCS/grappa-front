@@ -110,7 +110,7 @@ export default class GradersDropdown extends Component {
           { selected.map((item, index) => {
             return (
               <a key={index} className="ui label transition visible" onFocus={this.handleFocus.bind(this)}>
-                { `${item.title} ${item.name}` }
+                { `${item.title}` }&nbsp;{ `${item.name}` }
                 <i className="delete icon"
                   onClick={this.handleClick.bind(this, "unactivate", index)}
                 ></i>
@@ -136,7 +136,7 @@ export default class GradersDropdown extends Component {
                       className="item"
                       onClick={this.handleClick.bind(this, "activate", index)}
                     >
-                      { `${item.title} ${item.name}` }
+                      { `${item.title}` }&nbsp;&nbsp;{ `${item.name}` }
                     </div>
                   );
                 } else {

@@ -2,11 +2,21 @@ import React, { Component } from "react";
 
 export class NotificationIconBox extends Component {
 
+  countUnread() {
+    return this.props.Notifications.reduce((acc, cur) => {
+      if (!cur.hasBeenRead) {
+        acc += 1;
+      }
+      return acc;
+    }, 0)
+  }
+
   render() {
     const { Notifications } = this.props;
+    const count = this.countUnread();
     return (
       <span>
-        { Notifications.length }<i className="alarm icon"></i>
+        { count }<i className={ count === 0 ? "alarm outline icon" : "alarm icon"}></i>
       </span>
     );
   }

@@ -58,10 +58,10 @@ export class GraderListCreateUpdate extends Component {
             onChange={this.handleChange.bind(this, "title", "newGrader")}
           >
             <option value="">Select title</option>
-            <option value="Prof">Professor</option>
-            <option value="AssProf">Assistant Professor</option>
-            <option value="AdjProf">Adjunct Professor</option>
-            <option value="Doc">Doctor</option>
+            <option value="Prof.">Professor</option>
+            <option value="Ass. Prof.">Assistant Professor</option>
+            <option value="Adj. Prof.">Adjunct Professor</option>
+            <option value="Dr.">Doctor</option>
             <option value="Other">Other</option>
           </select>
         </div>
@@ -100,7 +100,7 @@ export class GraderListCreateUpdate extends Component {
           >
             { Graders.map((item, index) =>
               <option key={ index } value={ index } >
-                { `${item.title} ${item.name}` }
+                { `${item.title}` }&nbsp;&nbsp;{ `${item.name}` }
               </option>
             )}
           </select>
@@ -112,10 +112,10 @@ export class GraderListCreateUpdate extends Component {
             value={this.state.updateGrader.values.title}
             onChange={this.handleChange.bind(this, "title", "updateGrader")}
           >
-            <option value="Prof">Professor</option>
-            <option value="AssProf">Assistant Professor</option>
-            <option value="AdjProf">Adjunct Professor</option>
-            <option value="Doc">Doctor</option>
+            <option value="Prof.">Professor</option>
+            <option value="Ass. Prof.">Assistant Professor</option>
+            <option value="Adj. Prof.">Adjunct Professor</option>
+            <option value="Dr.">Doctor</option>
             <option value="Other">Other</option>
           </select>
         </div>

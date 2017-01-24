@@ -196,8 +196,8 @@ export class CouncilmeetingShow extends Component {
             </div>
             { role === "admin" ?
               <span>
-                <button className="ui dark-red button" onClick={this.handleClick.bind(this, "moveNext")}>Move to next meeting</button>
                 <button className="ui orange button" onClick={this.handleClick.bind(this, "movePrevious")}>Move to previous meeting</button>
+                <button className="ui dark-red button" onClick={this.handleClick.bind(this, "moveNext")}>Move to next meeting</button>
               </span>
                 :
               <span></span>

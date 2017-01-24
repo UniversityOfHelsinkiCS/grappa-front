@@ -154,7 +154,7 @@ const moveThesesAction = (data) => (
     flashMessage: {
       type: "warning",
       title: "Request sent",
-      body: "Waiting for Theses to be moved to next Councilmeeting.",
+      body: "Waiting for Theses to be moved to another Councilmeeting.",
     },
     successMessage: {
       type: "success",

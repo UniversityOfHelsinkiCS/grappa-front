@@ -14,15 +14,27 @@ export default function (state = INITIAL_STATE, action) {
           notifications: []
         }));
       }
-      return state.mergeIn(["notifications"], fromJS(action.payload));
+      // const notifications = action.payload;
+      const notifications = action.payload.map(n => {
+        n.createdAt = new Date(n.createdAt);
+        return n;
+      });
+      notifications.sort((a, b) => {
+        return b.createdAt - a.createdAt;
+      })
+      // porco dio what a piece of shit 
+      return state.merge(fromJS({
+        notifications,
+      }))
+      // return state.mergeIn(["notifications"], fromJS(action.payload));
     // for notifications received through the websocket
     case "NOTIFICATION_ADD_ONE":
-      return state.updateIn(["notifications"], notifications => fromJS([...notifications, action.payload]));
+      return state.updateIn(["notifications"], notifications => fromJS([action.payload, ...notifications]));
     case "NOTIFICATION_SET_READ_SUCCESS":
       return state.updateIn(["notifications"], notification =>
         notification.map(notification => {
-          if (notification.get("id") === action.payload.id) {
-            return fromJS(action.payload);
+          if (action.payload.indexOf(notification.get("id")) !== -1) {
+            return notification.set("hasBeenRead", true);
           }
           return notification;
         })

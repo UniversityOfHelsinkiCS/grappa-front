@@ -241,6 +241,7 @@ export class ThesisCreate extends React.Component {
     return (
       <div className="m-bot">
         <h3 className="ui dividing header">Graders</h3>
+        <p>Click to open a drop-down menu or to type into the input for search.</p>
         <div className="field">
           <label>Select Graders</label>
           <GradersDropdown formname="newThesis" graders={this.props.Graders}
