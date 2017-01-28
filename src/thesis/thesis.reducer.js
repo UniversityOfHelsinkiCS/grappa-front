@@ -48,7 +48,6 @@ export default function (state = INITIAL_STATE, action) {
       }));
     // return state.updateIn(["theses"], list => list.concat(fromJS(action.payload)));
     case "THESIS_GET_ALL_FAILURE":
-    // probably should display error message?
       return state;
     case "THESIS_SAVE_ONE_SUCCESS":
       const exists = state.get("theses").find(grader => {

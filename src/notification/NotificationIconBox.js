@@ -4,10 +4,12 @@ export class NotificationIconBox extends Component {
 
   countUnread() {
     return this.props.Notifications.reduce((acc, cur) => {
-      if (!cur.hasBeenRead) {
-        acc += 1;
-      }
-      return acc;
+      // if (!cur.hasBeenRead) {
+      //   acc += 1;
+      // }
+      // !cur.hasBeenRead ? acc += 1 : "";
+      // return acc;
+      return !cur.hasBeenRead ? acc + 1 : acc;
     }, 0)
   }
 
@@ -21,6 +23,7 @@ export class NotificationIconBox extends Component {
     );
   }
 }
+
 import { connect } from "react-redux";
 
 const mapStateToProps = (state) => {

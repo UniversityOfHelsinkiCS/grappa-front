@@ -25,7 +25,6 @@ export const createRequest = (action, store) => {
       type: action.type + "_SUCCESS",
       // if server doesn't return anything e.g. in PUT or DELETE, use request.data as payload
       payload: res.data || request.data,
-      sent: request.data,
       flashMessage: action.successMessage,
     }
     // incase response contained some informative message e.g. thesis/ethesis/:token
