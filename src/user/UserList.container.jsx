@@ -13,9 +13,6 @@ export class UserList extends Component {
   }
 
   componentWillMount() {
-    // this.setState({
-    //   Users: this.props.Users,
-    // });
     Validate.subscribeToForm("updateUser", "ul", (updateUser) => {
       this.setState({ updateUser, });
     });
@@ -47,7 +44,10 @@ export class UserList extends Component {
 
   handleClick(type, index, event) {
     if (type === "selectUser") {
-      Validate.replaceForm("updateUser", this.props.Users[index]);
+      const Users = this.props.Users.filter(user => {
+        if (user.isActive) return user;
+      });
+      Validate.replaceForm("updateUser", Users[index]);
     } else if (type === "update" && this.state.updateUser.values.id && Validate.isFormValid("updateUser")) {
       const user = Validate.getForm("updateUser").values;
       user.StudyField = this.props.StudyFields.find(field => {
@@ -75,7 +75,6 @@ export class UserList extends Component {
     const activeFields = StudyFields.filter(field => {
       if (field.isActive) return field;
     });
-    // console.log(this.state.updateUser)
     return (
       <div className="ui form">
         <div className="field">
@@ -158,8 +157,8 @@ export class UserList extends Component {
         </div>
         <h2 className="ui dividing header">Users</h2>
         <p>
-          All registered users. Setting an user inactive disables the account but doesn't delete it from the database.
-          Click on the user to edit.
+          All registered and activated users. Setting an user inactive disables the account but doesn't delete it 
+          from the database. Click on the user to edit.
         </p>
         <table className="ui celled table">
           <thead>

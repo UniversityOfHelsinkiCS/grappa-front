@@ -5,12 +5,9 @@ import { getNotifications } from "notification/notification.actions";
 
 export const connectToSocket = () => {
   return (dispatch, getState) => {
-    const token = getState().toJS().auth.token;
-    // const socket = io.connect(process.env.SOCKET_URL);
-    const socket = io.connect("http://localhost:8008");
-      console.log("hei")
+    const token = getState().get("auth").toJS().token;
+    const socket = io.connect(process.env.WEBSOCKET_URL);
     socket.on('connect', function () {
-      console.log("hei")
       socket
         .emit('authenticate', { token, }) //send the jwt
         .on('authenticated', function () {
@@ -25,7 +22,10 @@ export const connectToSocket = () => {
 
     socket.on('connect', function(){
       console.log("connected")
-      dispatch(getNotifications());
+      const user = getState().get("auth").toJS().user;
+      if (user.role === "admin") {
+        dispatch(getNotifications());
+      }
     });
 
     socket.on('server:push', function(data){

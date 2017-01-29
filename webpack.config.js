@@ -31,6 +31,7 @@ module.exports = {
       "process.env": {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV),
         API_URL: JSON.stringify(process.env.API_URL),
+        WEBSOCKET_URL: JSON.stringify(process.env.WEBSOCKET_URL),
       },
     }),
     new webpack.HotModuleReplacementPlugin(),

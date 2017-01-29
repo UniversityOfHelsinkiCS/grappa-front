@@ -2,6 +2,11 @@ import React, { Component, PropTypes } from "react";
 import moment from "moment";
 import { Link } from "react-router";
 
+/**
+ * Weird component that receives 3 arrays as props (thesis-objects, two booleans)
+ * of which it alters the selected & searched boolean-arrays.
+ * So it is a two-way binding which is kinda hard to implement in React 
+ */
 export default class ThesisList extends Component {
   constructor() {
     super();
@@ -53,6 +58,8 @@ export default class ThesisList extends Component {
     const searched = formatted.map(thesis => {
       return true;
     });
+    props.selected.length = 0;
+    props.searched.length = 0;
     props.selected.push(...selected);
     props.searched.push(...searched);
     this.setState({
@@ -85,6 +92,8 @@ export default class ThesisList extends Component {
   handleChange(type, event) {
     if (type === "search") {
       const searchValue = event.target.value.toLowerCase();
+      // set value at index in props.searched -array if 
+      // one of its keys contains the search value
       this.props.searched.forEach((item, index, array) => {
         const thesis = this.state.allTheses[index];
         for (const key in thesis) {
@@ -99,6 +108,11 @@ export default class ThesisList extends Component {
         searchValue,
       });
     } else if (type === "toggleShowOld") {
+      console.log(this.props)
+      console.log(this.state)
+      // set value at index in props.selected -array to false
+      // if the thesis is "Done" & showOld is false
+      // otherwise just keep the old value
       this.props.selected.forEach((item, index, array) => {
         const status = this.state.allTheses[index].status;
         if (status === "In progress" || (status === "Done" && !this.state.showOld)) {
