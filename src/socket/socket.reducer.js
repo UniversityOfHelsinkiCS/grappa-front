@@ -10,8 +10,9 @@ export default function (state = INITIAL_STATE, action) {
       return state.merge({
         socket: action.payload.socket,
       });
-    case "UNSET_SOCKET":
-      return state;
+    case "DISCONNECT_SOCKET":
+      state.get("socket").disconnect();
+      return INITIAL_STATE;
     default:
       return state;
   }

@@ -1,6 +1,8 @@
 
 import io from "socket.io-client";
 
+import { getNotifications } from "notification/notification.actions";
+
 export const connectToSocket = () => {
   return (dispatch, getState) => {
     const token = getState().toJS().auth.token;
@@ -23,6 +25,7 @@ export const connectToSocket = () => {
 
     socket.on('connect', function(){
       console.log("connected")
+      dispatch(getNotifications());
     });
 
     socket.on('server:push', function(data){
@@ -46,5 +49,11 @@ export const setSocket = (socket) => (
     payload: {
       socket,
     }
+  }
+)
+
+export const disconnectSocket = (socket) => (
+  {
+    type: "DISCONNECT_SOCKET",
   }
 )

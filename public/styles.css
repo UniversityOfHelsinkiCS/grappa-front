@@ -167,12 +167,21 @@ body {
   background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
 
-.grappa-modal-content {
+.grappa-modal-wrapper {
+  display: flex;
   background-color: #fefefe;
   margin: 15% auto; /* 15% from the top and centered */
-  padding: 20px;
+  /*padding: 20px 0 20px 20px;*/
   border: 1px solid #888;
   width: 80%; /* Could be more or less, depending on screen size */
+}
+
+.grappa-modal-content {
+  margin: 20px 0 20px 26px
+}
+
+.grappa-modal-righticon {
+  margin: 2px 0 0 0;
 }
 
 .close {

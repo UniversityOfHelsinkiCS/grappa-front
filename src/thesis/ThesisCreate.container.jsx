@@ -20,6 +20,7 @@ export class ThesisCreate extends React.Component {
     this.state = {
       newThesis: Validate.createForm("newThesis", "thesis"),
       showModal: false,
+      // showModal: true,
     };
   }
 
@@ -61,7 +62,7 @@ export class ThesisCreate extends React.Component {
       this.setState({
         showModal: true,
       })
-    } else if (type === "closeModal" && Validate.isFormValid("newThesis")) {
+    } else if (type === "submitModal" && Validate.isFormValid("newThesis")) {
       this.setState({
         showModal: false,
       })
@@ -71,30 +72,41 @@ export class ThesisCreate extends React.Component {
       newThesis.PdfFile = undefined;
       form.append("json", JSON.stringify(newThesis));
       this.props.saveThesisWithReview(form);
+    } else if (type === "closeModal") {
+      this.setState({
+        showModal: false,
+      })
     }
   }
 
   renderModal() {
     return (
       <div id="grappaModal" className={this.state.showModal ? "grappa-modal show" : "grappa-modal"}>
-        <div className="grappa-modal-content">
-          <div className="image content m-bot">
-            <div className="description">
-              <p>
-                Have you remembered to add the thesis into the thesis-management system?
-                If not please do so right away.
-              </p>
-              <a target="_blank" href="https://ilmo.cs.helsinki.fi/gradu/servlet/hae">Ilmo (opens in a new window)</a>
-            </div>
-          </div>
-          <div className="actions">
-            <div className="one fluid ui buttons">
-              <div className="ui positive button"
-                onClick={this.handleClick.bind(this, "closeModal")}
-              >
-                Okay
+        <div className="grappa-modal-wrapper">
+          <div className="grappa-modal-content">
+            <div className="image content m-bot">
+              <div className="description">
+                <p>
+                  Have you remembered to add the thesis into the thesis-management system?
+                  If not please do so right away.
+                </p>
+                <a target="_blank" href="https://ilmo.cs.helsinki.fi/gradu/servlet/hae">Ilmo (opens in a new window)</a>
               </div>
             </div>
+            <div className="actions">
+              <div className="one fluid ui buttons">
+                <div className="ui positive button"
+                  onClick={this.handleClick.bind(this, "submitModal")}
+                >
+                  Okay
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="grappa-modal-righticon">
+            <i className="grappa-icon remove icon"
+              onClick={this.handleClick.bind(this, "closeModal")}          
+            ></i>
           </div>
         </div>
       </div>

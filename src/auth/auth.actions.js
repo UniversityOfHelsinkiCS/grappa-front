@@ -11,7 +11,7 @@ import { getStudyFields } from "../studyfield/studyfield.actions";
 import { getUsers } from "../user/user.actions";
 import { getEmailDrafts } from "../email/email.actions";
 import { setLogoutTimeout, unsetTimer } from "ping/ping.actions";
-import { connectToSocket } from "socket/socket.actions";
+import { connectToSocket, disconnectSocket } from "socket/socket.actions";
 
 export const loginUser = (email, password) => {
   return (dispatch, getState) => {
@@ -66,6 +66,7 @@ export const logout = () => {
     browserHistory.push("/login");
     return Promise.all([
       dispatch(unsetTimer()),
+      dispatch(disconnectSocket()),
       dispatch(logoutAction()),
     ])
   };
