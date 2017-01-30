@@ -4,5 +4,10 @@
     "development": {
       "presets": ["react-hmre"]
     }
-  }
+  },
+  "plugins": [
+    ["module-resolver", {
+      "root": ["./src"]
+    }]
+  ]
 }

@@ -6,11 +6,13 @@ import { loggedInUsers, tokens } from "../mockdata";
 const initialState = fromJS({
   user: {},
   token: "",
+  expires: undefined,
 });
 
 const stateWithUserLoggedIn = fromJS({
   user: loggedInUsers[0],
   token: tokens[0],
+  expires: 1000,
 });
 
 describe("Auth reducer", () => {
@@ -21,6 +23,7 @@ describe("Auth reducer", () => {
         payload: {
           user: loggedInUsers[0],
           token: tokens[0],
+          expires: 1000
         },
       });
       expect(newState).to.equal(stateWithUserLoggedIn);
