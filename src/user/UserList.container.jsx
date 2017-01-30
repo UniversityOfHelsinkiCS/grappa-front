@@ -68,13 +68,19 @@ export class UserList extends Component {
   // }
 
   render() {
-    const Users = this.props.Users.filter(user => {
+    const activeUsers = this.props.Users.filter(user => {
       if (user.isActive) return user;
     });
     const { StudyFields } = this.props;
     const activeFields = StudyFields.filter(field => {
       if (field.isActive) return field;
     });
+    const Users = activeUsers.map(user => {
+      if (user.StudyFieldId) {
+        user.StudyField = StudyFields.find(field => field.id === parseInt(user.StudyFieldId));
+      }
+      return user;
+    })
     return (
       <div className="ui form">
         <div className="field">

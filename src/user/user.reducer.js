@@ -30,7 +30,7 @@ export default function (state = INITIAL_STATE, action) {
     case "USER_UPDATE_ONE_SUCCESS":
       return state.updateIn(["users"], users =>
         users.map(user => {
-          console.log(user)
+          // console.log(user)
           if (user.get("id") === action.payload.id) {
             return fromJS(action.payload);
           }

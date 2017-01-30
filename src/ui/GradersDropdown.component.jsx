@@ -34,7 +34,7 @@ export default class GradersDropdown extends Component {
       Validate.updateForm(this.props.formname, "Graders", this.props.selected);
     } else if (type === "activate" && this.props.editable) {
       Validate.updateForm(this.props.formname, "Graders", [...this.props.selected, this.props.graders[index]]);
-    } else if (type === "toggleMenu") {
+    } else if (type === "toggleMenu" && this.props.editable) {
       this.setState({
         menuActive: !this.state.menuActive,
       });
@@ -81,9 +81,11 @@ export default class GradersDropdown extends Component {
   focusMenu(event) {
     // console.log("KEYDOWN")
     event.stopPropagation()
-    this.setState({
-      menuActive: true,
-    });
+    if (this.props.editable) {
+      this.setState({
+        menuActive: true,
+      });
+    }
   }
 
   isActivated(grader) {
@@ -94,12 +96,8 @@ export default class GradersDropdown extends Component {
   }
 
   render() {
-    const { graders, selected } = this.props;
+    const { graders, selected, editable } = this.props;
     const { filtered } = this.state;
-    // console.log("filtered")
-    // console.log(filtered)
-    // console.log("selected")
-    // console.log(selected)
     return (
       <div>
         <div
@@ -125,6 +123,7 @@ export default class GradersDropdown extends Component {
             value={this.state.searchValue}
             onChange={this.handleChange.bind(this, "search")}
             onKeyPress={this.handleKeyPress.bind(this)}
+            disabled={ editable ? "" : "true" }
           />
           { this.state.menuActive ?
             <div className="menu transition visible" tabIndex="-1">

@@ -50,14 +50,6 @@ export class ThesisCreate extends React.Component {
    */
   handleClick(type, event) {
     event.preventDefault();
-    // if (Validate.isFormValid("newThesis")) {
-    //   const form = new FormData();
-    //   form.append("file", this.state.newThesis.values.PdfFile);
-    //   const newThesis = this.state.newThesis.values;
-    //   delete newThesis.PdfFile;
-    //   form.append("json", JSON.stringify(newThesis));
-    //   this.props.saveThesisWithReview(form);
-    // }
     if (type === "submit" && Validate.isFormValid("newThesis")) {
       this.setState({
         showModal: true,
@@ -229,12 +221,10 @@ export class ThesisCreate extends React.Component {
   }
 
   onDrop(files) {
-    // console.log('Received files: ', files);
     Validate.updateForm("newThesis", "PdfFile", files[0]);
   }
 
   renderUploadReview() {
-    // console.log(this.state.newThesis.values.PdfFile);
     return (
       <div>
         <h3 className="ui dividing header">Upload Thesis review as PDF (max. 1 MB)</h3>
@@ -283,7 +273,6 @@ export class ThesisCreate extends React.Component {
   }
 
   renderPickCouncilmeeting() {
-    // console.log(this.props.CouncilMeetings);
     const today = new Date();
     const filtered = this.props.CouncilMeetings.filter(meeting => {
       const mdate = new Date(meeting.date);

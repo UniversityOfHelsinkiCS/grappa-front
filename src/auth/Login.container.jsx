@@ -34,8 +34,6 @@ export class Login extends React.Component {
   * @param event Used to get a hold of what the input of the user was.
   */
   handleClick(type, event) {
-    // this.state.ws.send('{"message": "joo"}');
-    // this.state.socket.emit("message")
     event.preventDefault();
     if (Validate.isFormValid("loginUser")) {
       const { email, password } = this.state.loginUser.values;
