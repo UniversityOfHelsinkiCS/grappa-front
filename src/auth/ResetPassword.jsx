@@ -11,7 +11,6 @@ export class ResetPassword extends React.Component {
   componentWillMount() {
     this.props.sendNewPassword(this.props.params.token)
       .then(wasSuccess => {
-        console.log("lulz " + wasSuccess)
         if (wasSuccess) {
           this.setState({
             message: "New password has been emailed to you.",

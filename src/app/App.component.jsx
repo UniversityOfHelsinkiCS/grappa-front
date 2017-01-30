@@ -6,10 +6,11 @@ import FlashMessage from "../flash/FlashMessage.container";
 export class App extends Component {
 
   componentDidMount() {
-    console.log("app mounted!");
-    console.log(this.props.user)
+    // sets logout timer each time the app is mounted aka. window is reloaded
+    // if the user is actually logged in
     if (this.props.user.email) {
       this.props.setLogoutTimeout();
+      this.props.connectToSocket();
     }
   }
 
@@ -36,6 +37,7 @@ App.propTypes = {
 
 import { connect } from "react-redux";
 import { setLogoutTimeout } from "ping/ping.actions";
+import { connectToSocket } from "socket/socket.actions";
 
 const mapStateToProps = (state) => {
   const auth = state.get("auth");
@@ -48,6 +50,9 @@ const mapDispatchToProps = (dispatch) => ({
   setLogoutTimeout() {
     dispatch(setLogoutTimeout());
   },
+  connectToSocket() {
+    dispatch(connectToSocket());
+  }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

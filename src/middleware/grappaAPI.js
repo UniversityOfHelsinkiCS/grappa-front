@@ -20,11 +20,11 @@ export const createRequest = (action, store) => {
     responseType: request.responseType === undefined ? "json" : request.responseType,
   })
   .then(res => {
-    // console.log(res)
+    console.log(res)
     const newAction = {
       type: action.type + "_SUCCESS",
-      payload: res.data,
-      sent: request.data,
+      // if server doesn't return anything e.g. in PUT or DELETE, use request.data as payload
+      payload: res.data || request.data,
       flashMessage: action.successMessage,
     }
     // incase response contained some informative message e.g. thesis/ethesis/:token
@@ -35,6 +35,8 @@ export const createRequest = (action, store) => {
     store.dispatch(newAction);
     return newAction;
   })
+  // change this shit x_x
+  // https://twitter.com/dan_abramov/status/770914221638942720?lang=fi
   .catch(err => {
     let data;
     if (request.responseType === "arraybuffer") {

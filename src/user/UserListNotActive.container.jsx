@@ -140,7 +140,7 @@ export class NewUsersList extends Component {
         <h2 className="ui dividing header">New users</h2>
         <p>
           Role must be set for each user and studyfield should only be selected for professors
-          in charge of the field. Studyfield can have only one professor. Declining an user
+          in charge of the studyfield. Studyfield can have only one professor. Declining an user
           deletes it completely.
         </p>
         { this.renderTable(users) }

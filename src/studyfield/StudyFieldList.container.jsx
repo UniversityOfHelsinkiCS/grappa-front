@@ -18,8 +18,6 @@ export class StudyFieldList extends Component {
     Validate.subscribeToForm("updateStudyField", "sl", (updateStudyField) => { this.setState({ updateStudyField, });});
     const fields = this.props.StudyFields;
     const fieldsWithUsers = this.setUsersForStudyfields(fields, this.props.Users);
-    // console.log(fields)
-    // console.log(fieldsWithUsers)
     this.setState({
       StudyFields: fieldsWithUsers,
     });
@@ -41,12 +39,8 @@ export class StudyFieldList extends Component {
 
   setUsersForStudyfields(studyfields, users) {
     return studyfields.map(field => {
-      field.Users = users.filter(user => {
-        if (user.StudyField && user.StudyField.id === field.id) return user;
-      });
-      field.professor = users.find(user => {
-        if (user.StudyField && user.StudyField.id === field.id && user.role === "professor") return user;
-      });
+      field.Users = users.filter(user => user.StudyFieldId && parseInt(user.StudyFieldId) === field.id);
+      field.professor = users.find(user => user.StudyFieldId && parseInt(user.StudyFieldId) === field.id && user.role === "professor");
       field.professor = field.professor === undefined ? "" : `${field.professor.firstname} ${field.professor.lastname}`;
       return field;
     });
@@ -137,7 +131,6 @@ export class StudyFieldList extends Component {
                   <th onClick={this.handleClick.bind(this, "sort", "status")}>Active</th>
                   <th onClick={this.handleClick.bind(this, "sort", "authorFirstname")}>Name</th>
                   <th onClick={this.handleClick.bind(this, "sort", "authorLastname")}>Professor</th>
-                  <th onClick={this.handleClick.bind(this, "sort", "title")}>Users</th>
                 </tr>
               </thead>
               <tbody>
@@ -146,7 +139,6 @@ export class StudyFieldList extends Component {
                     <td>{item.isActive ? "true" : "false"}</td>
                     <td>{item.name}</td>
                     <td>{item.professor}</td>
-                    <td>{item.Users.length}</td>
                   </tr>
                 )}
               </tbody>
@@ -157,6 +149,7 @@ export class StudyFieldList extends Component {
     );
   }
 }
+
 import { connect } from "react-redux";
 import { getStudyFields, saveStudyField, updateStudyField } from "./studyfield.actions";
 

@@ -1,19 +1,18 @@
 import { fromJS } from "immutable";
 
 const INITIAL_STATE = fromJS({
-  timerId: undefined,
   socket: undefined,
 });
 
 export default function (state = INITIAL_STATE, action) {
   switch (action.type) {
-    case "SET_TIMER":
+    case "SET_SOCKET":
       return state.merge({
-        timerId: action.payload.timerId,
+        socket: action.payload.socket,
       });
-    case "UNSET_TIMER":
-      clearTimeout(state.toJS().timerId);
-      return state;
+    case "DISCONNECT_SOCKET":
+      state.get("socket").disconnect();
+      return INITIAL_STATE;
     default:
       return state;
   }

@@ -21,7 +21,6 @@ export default function (state = INITIAL_STATE, action) {
   switch (action.type) {
     case "USER_SAVE_ONE_SUCCESS":
       return state;
-      // return state.updateIn(["users"], users => fromJS([...users, action.payload]));
     case "USER_SAVE_ONE_FAILURE":
       return state;
     case "USER_GET_ALL_SUCCESS":
@@ -31,8 +30,9 @@ export default function (state = INITIAL_STATE, action) {
     case "USER_UPDATE_ONE_SUCCESS":
       return state.updateIn(["users"], users =>
         users.map(user => {
-          if (user.get("id") === action.sent.id) {
-            return fromJS(action.sent);
+          // console.log(user)
+          if (user.get("id") === action.payload.id) {
+            return fromJS(action.payload);
           }
           return user;
         })
@@ -42,7 +42,7 @@ export default function (state = INITIAL_STATE, action) {
     case "USER_DELETE_ONE_SUCCESS":
       return state.updateIn(["users"], list =>
         list.filter(user => {
-          if (user.get("id") !== action.sent.id) {
+          if (user.get("id") !== action.payload.id) {
             return user;
           }
         })

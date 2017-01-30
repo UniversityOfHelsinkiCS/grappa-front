@@ -42,7 +42,6 @@ export class ThesisShow extends Component {
     const thesis = this.findThesisFromProps(newProps);
     if (thesis) {
       Validate.replaceForm("updateThesis", thesis);
-      console.log(Validate.getForm("updateThesis"))
     }
   }
 
@@ -133,7 +132,7 @@ export class ThesisShow extends Component {
   }
 
   renderThesisAuthor() {
-    const { updateThesis } = this.state;
+    const { updateThesis, editable } = this.state;
     return (
       <div className="m-bot">
         <h3 className="ui dividing header">Thesis Author</h3>
@@ -145,6 +144,7 @@ export class ThesisShow extends Component {
               value={updateThesis.values.authorFirstname}
               onChange={this.handleChange.bind(this, "authorFirstname")}
               placeholder="First Name"
+              disabled={ editable ? "" : "true" }
             />
             <ValidateError errors={updateThesis.errors} model="thesisEdit" field="authorFirstname" />
           </div>
@@ -155,6 +155,7 @@ export class ThesisShow extends Component {
               value={updateThesis.values.authorLastname}
               onChange={this.handleChange.bind(this, "authorLastname")}
               placeholder="Last Name"
+              disabled={ editable ? "" : "true" }
             />
             <ValidateError errors={updateThesis.errors} model="thesisEdit" field="authorLastname" />
           </div>
@@ -165,6 +166,7 @@ export class ThesisShow extends Component {
               value={updateThesis.values.authorEmail}
               onChange={this.handleChange.bind(this, "authorEmail")}
               placeholder="Email Address"
+              disabled={ editable ? "" : "true" }
             />
             <ValidateError errors={updateThesis.errors} model="thesisEdit" field="authorEmail" />
           </div>
@@ -174,7 +176,7 @@ export class ThesisShow extends Component {
   }
 
   renderThesisInformation() {
-    const { updateThesis } = this.state;
+    const { updateThesis, editable } = this.state;
     const { role } = this.props.user;
     const user = this.state.updateThesis.values.User;
     const instructor = user ? `${user.firstname} ${user.lastname}` : "";
@@ -189,6 +191,7 @@ export class ThesisShow extends Component {
               value={updateThesis.values.title}
               onChange={this.handleChange.bind(this, "title")}
               placeholder="Title"
+              disabled={ editable ? "" : "true" }
             />
             <ValidateError errors={updateThesis.errors} model="thesisEdit" field="title" />
           </div>
@@ -198,6 +201,7 @@ export class ThesisShow extends Component {
                 className="ui fluid search dropdown"
                 value={updateThesis.values.StudyFieldId}
                 onChange={this.handleChange.bind(this, "StudyFieldId")}
+                disabled={ editable ? "" : "true" }
               >
                 <option key="0" value="">Select field</option>
                 { this.props.studyfields.map((field, index) =>
@@ -215,6 +219,7 @@ export class ThesisShow extends Component {
               value={updateThesis.values.grade}
               onChange={this.handleChange.bind(this, "grade")}
               name="thesis[grade]"
+              disabled={ editable ? "" : "true" }
             >
               <option value="">Select grade</option>
               <option value="Approbatur">Approbatur</option>
@@ -240,16 +245,20 @@ export class ThesisShow extends Component {
                 placeholder="Urkund link"
                 value={updateThesis.values.urkund}
                 onChange={this.handleChange.bind(this, "urkund")}
+                disabled={ editable ? "" : "true" }
               />
             </div>
             <ValidateError errors={updateThesis.errors} model="thesisEdit" field="urkund" />
           </div>
+          { role === "admin" ?
           <div className="field">
+
             <label>Instructor</label>
             <select
               className="ui fluid search dropdown"
               value={updateThesis.values.UserId}
               onChange={this.handleChange.bind(this, "UserId")}
+              disabled={ editable ? "" : "true" }
             >
               { this.props.Users.map((item, index) =>
                 <option key={index} value={item.id}>
@@ -259,6 +268,9 @@ export class ThesisShow extends Component {
             </select>
             <ValidateError errors={updateThesis.errors} model="thesisEdit" field="instructor" />
           </div>
+            :
+          <div></div>
+          }
         </div>
       </div>
     );
@@ -322,6 +334,7 @@ export class ThesisShow extends Component {
     return (
       <div className="m-bot">
         <h3 className="ui dividing header">Graders</h3>
+        <p>Click to open a drop-down menu or to type into the input for search.</p>
         <div className="field">
           <label>Select Graders</label>
           <GradersDropdown formname="updateThesis" graders={this.props.Graders}
@@ -333,7 +346,7 @@ export class ThesisShow extends Component {
   }
 
   renderPickCouncilmeeting() {
-    const { updateThesis } = this.state;
+    const { updateThesis, editable } = this.state;
     const today = new Date();
     const filtered = this.props.councilmeetings.filter(meeting => {
       if (new Date(meeting.date) >= today) {
@@ -352,6 +365,7 @@ export class ThesisShow extends Component {
         <select className="ui fluid search dropdown"
           value={updateThesis.values.CouncilMeetingId}
           onChange={this.handleChange.bind(this, "CouncilMeetingId")}
+          disabled={ editable ? "" : "true" }
         >
           { formatted.map((meeting, index) =>
             <option key={ index } value={ meeting.id } >
@@ -364,7 +378,7 @@ export class ThesisShow extends Component {
   }
 
   renderGraderEval() {
-    const { updateThesis } = this.state;
+    const { updateThesis, editable, grading } = this.state;
     return (
       <div className="m-bot">
         <h2 className="ui dividing header">Grader evaluation</h2>
@@ -372,6 +386,7 @@ export class ThesisShow extends Component {
           <textarea
             value={updateThesis.values.graderEval || ""}
             onChange={this.handleChange.bind(this, "graderEval")}
+            disabled={ editable || grading ? "" : "true" }
           ></textarea>
         </div>
       </div>
@@ -446,11 +461,11 @@ export class ThesisShow extends Component {
 
   render() {
     const { updateThesis } = this.state;
-    const role = this.props.user.role;
+    const { user } = this.props;
     return (
       <div className="ui form">
         <h2 className="ui dividing header">{updateThesis.values.title}</h2>
-        { role === "admin" ?
+        { user.role === "admin" ?
           <div className="field">
             { this.state.editable ?
               <div className="ui red button" onClick={this.handleClick.bind(this, "stop-edit")}>Stop editing</div>
@@ -462,7 +477,7 @@ export class ThesisShow extends Component {
             <button className="ui violet button" onClick={this.handleClick.bind(this, "download")}>Download as PDF</button>
           </div>
            :
-          role === "professor" ?
+          user.role === "professor" && user.StudyFieldId === updateThesis.values.StudyFieldId ?
           <div className="field">
             { this.state.grading ?
               <div className="ui blue button" onClick={this.handleClick.bind(this, "save")}>Save</div>
@@ -483,7 +498,7 @@ export class ThesisShow extends Component {
         <GraderContainer editable={this.state.editable}/>
         { this.renderPickCouncilmeeting() }
         { this.renderGraderEval() }
-        { role === "admin" ?
+        { user.role === "admin" ?
           this.renderSentReminders()
             :
           <div></div>

@@ -19,8 +19,8 @@ export default function (state = INITIAL_STATE, action) {
       return state;
     case "USER_UPDATE_ONE_SUCCESS":
       return state.updateIn(["user"], user => {
-        if (user.get("id") === action.sent.id) {
-          return fromJS(action.sent);
+        if (user.get("id") === action.payload.id) {
+          return fromJS(action.payload);
         }
         return user;
       });

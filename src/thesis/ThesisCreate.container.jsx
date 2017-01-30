@@ -20,6 +20,7 @@ export class ThesisCreate extends React.Component {
     this.state = {
       newThesis: Validate.createForm("newThesis", "thesis"),
       showModal: false,
+      // showModal: true,
     };
   }
 
@@ -49,19 +50,11 @@ export class ThesisCreate extends React.Component {
    */
   handleClick(type, event) {
     event.preventDefault();
-    // if (Validate.isFormValid("newThesis")) {
-    //   const form = new FormData();
-    //   form.append("file", this.state.newThesis.values.PdfFile);
-    //   const newThesis = this.state.newThesis.values;
-    //   delete newThesis.PdfFile;
-    //   form.append("json", JSON.stringify(newThesis));
-    //   this.props.saveThesisWithReview(form);
-    // }
     if (type === "submit" && Validate.isFormValid("newThesis")) {
       this.setState({
         showModal: true,
       })
-    } else if (type === "closeModal" && Validate.isFormValid("newThesis")) {
+    } else if (type === "submitModal" && Validate.isFormValid("newThesis")) {
       this.setState({
         showModal: false,
       })
@@ -71,30 +64,41 @@ export class ThesisCreate extends React.Component {
       newThesis.PdfFile = undefined;
       form.append("json", JSON.stringify(newThesis));
       this.props.saveThesisWithReview(form);
+    } else if (type === "closeModal") {
+      this.setState({
+        showModal: false,
+      })
     }
   }
 
   renderModal() {
     return (
       <div id="grappaModal" className={this.state.showModal ? "grappa-modal show" : "grappa-modal"}>
-        <div className="grappa-modal-content">
-          <div className="image content m-bot">
-            <div className="description">
-              <p>
-                Have you remembered to add the thesis into the thesis-management system?
-                If not please do so right away.
-              </p>
-              <a target="_blank" href="https://ilmo.cs.helsinki.fi/gradu/servlet/hae">Ilmo (opens in a new window)</a>
-            </div>
-          </div>
-          <div className="actions">
-            <div className="one fluid ui buttons">
-              <div className="ui positive button"
-                onClick={this.handleClick.bind(this, "closeModal")}
-              >
-                Okay
+        <div className="grappa-modal-wrapper">
+          <div className="grappa-modal-content">
+            <div className="image content m-bot">
+              <div className="description">
+                <p>
+                  Have you remembered to add the thesis into the thesis-management system?
+                  If not please do so right away.
+                </p>
+                <a target="_blank" href="https://ilmo.cs.helsinki.fi/gradu/servlet/hae">Ilmo (opens in a new window)</a>
               </div>
             </div>
+            <div className="actions">
+              <div className="one fluid ui buttons">
+                <div className="ui positive button"
+                  onClick={this.handleClick.bind(this, "submitModal")}
+                >
+                  Okay
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="grappa-modal-righticon">
+            <i className="grappa-icon remove icon"
+              onClick={this.handleClick.bind(this, "closeModal")}          
+            ></i>
           </div>
         </div>
       </div>
@@ -217,12 +221,10 @@ export class ThesisCreate extends React.Component {
   }
 
   onDrop(files) {
-    // console.log('Received files: ', files);
     Validate.updateForm("newThesis", "PdfFile", files[0]);
   }
 
   renderUploadReview() {
-    // console.log(this.state.newThesis.values.PdfFile);
     return (
       <div>
         <h3 className="ui dividing header">Upload Thesis review as PDF (max. 1 MB)</h3>
@@ -241,6 +243,7 @@ export class ThesisCreate extends React.Component {
     return (
       <div className="m-bot">
         <h3 className="ui dividing header">Graders</h3>
+        <p>Click to open a drop-down menu or to type into the input for search.</p>
         <div className="field">
           <label>Select Graders</label>
           <GradersDropdown formname="newThesis" graders={this.props.Graders}
@@ -270,7 +273,6 @@ export class ThesisCreate extends React.Component {
   }
 
   renderPickCouncilmeeting() {
-    // console.log(this.props.CouncilMeetings);
     const today = new Date();
     const filtered = this.props.CouncilMeetings.filter(meeting => {
       const mdate = new Date(meeting.date);
