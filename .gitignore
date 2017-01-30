@@ -18,3 +18,6 @@ instrument/
 
 # environment variable file
 .env
+
+# VSCode folder thingy
+.vscode

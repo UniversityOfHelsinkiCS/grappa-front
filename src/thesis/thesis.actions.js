@@ -140,9 +140,9 @@ export const downloadTheses = (data) => (
 export const moveTheses = (data) => {
   return (dispatch, getState) => {
     return dispatch(moveThesesAction(data)).then((action) => {
-      if (action.type === "THESIS_MOVE_SUCCESS") {
-        return dispatch(getTheses());
-      }
+      // if (action.type === "THESIS_MOVE_SUCCESS") {
+      //   return dispatch(getTheses());
+      // }
       return action;
     })
   }
@@ -154,7 +154,7 @@ const moveThesesAction = (data) => (
     flashMessage: {
       type: "warning",
       title: "Request sent",
-      body: "Waiting for Theses to be moved to next Councilmeeting.",
+      body: "Waiting for Theses to be moved to another Councilmeeting.",
     },
     successMessage: {
       type: "success",

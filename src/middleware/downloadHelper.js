@@ -10,6 +10,9 @@ export const triggerDownload = store => next => action => {
     a.href = url;
     a.download = `theses-${moment(new Date()).format("DD/MM/YYYY")}.pdf`;
     a.target = "_blank";
+    document.body.appendChild(a);
     a.click();
+
+    document.body.removeChild(a);
   }
 };

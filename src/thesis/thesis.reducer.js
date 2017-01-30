@@ -48,14 +48,24 @@ export default function (state = INITIAL_STATE, action) {
       }));
     // return state.updateIn(["theses"], list => list.concat(fromJS(action.payload)));
     case "THESIS_GET_ALL_FAILURE":
-    // probably should display error message?
       return state;
     case "THESIS_SAVE_ONE_SUCCESS":
+      const exists = state.get("theses").find(grader => {
+        return grader.get("id") === action.payload.id;
+      })
+      if (exists) return state;
       return state.updateIn(["theses"], theses => fromJS([...theses, action.payload]));
     case "THESIS_SAVE_ONE_FAILURE":
       return state;
     case "THESIS_UPDATE_ONE_SUCCESS":
-      const data = JSON.parse(action.sent.get("json"));
+      // sorry about this, but when the data is sent from the server through websocket it 
+      // is in JSON so :DDD fun stuff
+      let data;
+      if (action.payload.constructor === FormData) {
+        data = JSON.parse(action.payload.get("json"));
+      } else {
+        data = action.payload;
+      }
       return state.updateIn(["theses"], thesis =>
         thesis.map(thesis => {
           if (thesis.get("id") === data.id) {
@@ -69,7 +79,17 @@ export default function (state = INITIAL_STATE, action) {
     case "THESIS_DOWNLOAD_SUCCESS":
       return state;
     case "THESIS_MOVE_SUCCESS":
-      return state;
+      return state.updateIn(["theses"], thesis =>
+        thesis.map(thesis => {
+          if (action.payload.thesisIds.indexOf(thesis.get("id")) !== -1) {
+            return thesis.merge(fromJS({
+              CouncilMeetingId: action.payload.CouncilMeetingId,
+              CouncilMeeting: action.payload.CouncilMeeting,
+            }));
+          }
+          return thesis;
+        })
+      );
     case "THESISPROGRESS_UPDATE_ONE_SUCCESS":
       return state.updateIn(["theses"], thesis =>
         thesis.map(thesis => {
@@ -84,8 +104,8 @@ export default function (state = INITIAL_STATE, action) {
     case "SEND_REMINDER_SUCCESS":
       return state.updateIn(["theses"], thesis =>
         thesis.map(thesis => {
-          if (thesis.get("id") === action.sent.thesisId) {
-            return thesis.mergeIn(["ThesisProgress", action.sent.reminderType], fromJS(action.payload));
+          if (thesis.get("id") === action.payload.ThesisId) {
+            return thesis.mergeIn(["ThesisProgress", action.payload.type], fromJS(action.payload));
           }
           return thesis;
         })

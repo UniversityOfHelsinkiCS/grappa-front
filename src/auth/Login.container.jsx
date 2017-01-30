@@ -100,6 +100,7 @@ const mapStateToProps = (state) => {
   const auth = state.get("auth");
   return {
     user: auth.get("user").toJS(),
+    token: auth.get("token"),
   };
 };
 

@@ -4,6 +4,8 @@
 
 import React, { Component } from "react";
 import { browserHistory, Link } from "react-router";
+
+import NotificationIconBox from "notification/NotificationIconBox";
 import { logout } from "../auth/auth.actions";
 
 export class Nav extends Component {
@@ -17,7 +19,6 @@ export class Nav extends Component {
 */
   handleLogout() {
     this.props.logout();
-    browserHistory.push("/login");
   }
 
   renderNonLoggedNav() {
@@ -55,9 +56,12 @@ export class Nav extends Component {
 
   renderAdminNav() {
     const { user } = this.props;
+    // 12<i className="alarm icon"></i>
+    // <i className="alarm outline icon"></i>
     return (
       <div className="ui horizontal pointing menu">
         <Link className="item" to="/user/me">{ `${user.firstname} ${user.lastname}` }</Link>
+        <Link className="item" to="/notification"><NotificationIconBox /></Link>
         <Link className="item" to="/thesis">Theses</Link>
         <Link className="item" to="/thesis/new">Add new thesis</Link>
         <Link className="item" to="/councilmeeting">Councilmeetings </Link>

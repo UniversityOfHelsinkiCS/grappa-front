@@ -14,14 +14,19 @@ export default function (state = INITIAL_STATE, action) {
     case "GRADER_GET_ALL_FAILURE":
       return state;
     case "GRADER_SAVE_ONE_SUCCESS":
+      // for stopping duplicates due to socket-server sending the stuff
+      const exists = state.get("graders").find(grader => {
+        return grader.get("id") === action.payload.id;
+      })
+      if (exists) return state;
       return state.updateIn(["graders"], graders => fromJS([...graders, action.payload]));
     case "GRADER_SAVE_ONE_FAILURE":
       return state;
     case "GRADER_UPDATE_ONE_SUCCESS":
       return state.updateIn(["graders"], grader =>
         grader.map(grader => {
-          if (grader.get("id") === action.sent.id) {
-            return fromJS(action.sent);
+          if (grader.get("id") === action.payload.id) {
+            return fromJS(action.payload);
           }
           return grader;
         })
@@ -31,7 +36,7 @@ export default function (state = INITIAL_STATE, action) {
     case "GRADER_DELETE_ONE_SUCCESS":
       return state.updateIn(["graders"], list =>
         list.filter(grader => {
-          if (grader.get("id") !== action.sent.id) {
+          if (grader.get("id") !== action.payload.id) {
             return grader;
           }
         })

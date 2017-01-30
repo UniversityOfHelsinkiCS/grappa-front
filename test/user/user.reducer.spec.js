@@ -36,8 +36,7 @@ describe("User reducer", () => {
     it("should update one of the users", () => {
       const newState = reducer(stateWithUsers, {
         type: "USER_UPDATE_ONE_SUCCESS",
-        payload: [1],
-        sent: activatedUsers[0],
+        payload: activatedUsers[0],
       });
       expect(newState).to.equal(stateWithUpdatedUser);
     });
@@ -46,8 +45,7 @@ describe("User reducer", () => {
     it("should delete one of the users", () => {
       const newState = reducer(stateWithUsers, {
         type: "USER_DELETE_ONE_SUCCESS",
-        payload: [1],
-        sent: notActivatedUsers[0],
+        payload: notActivatedUsers[0],
       });
       expect(newState).to.equal(stateWithDeletedUser);
     });
