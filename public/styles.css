@@ -8,6 +8,10 @@
   background-image: none;
 }
 
+.source.button a{
+  color: rgba(0,0,0,.87);
+}
+
 /*.react-datepicker__day-name {
   color: #000;
   display: inline-block;
@@ -138,6 +142,7 @@ body {
   margin: 10px !important;
   font-weight: 500 !important;
   font-size: 2.25rem !important;
+  color: rgba(0,0,0,.87);
 }
 
 .about-link {
@@ -147,6 +152,14 @@ body {
 
 .show {
   display: block !important;
+}
+
+.segment.grappa-segment {
+  padding: 4em 0em;
+}
+
+.segment.grappa-segment:first-child {
+  padding: 1em 0 4em 0;
 }
 
 .grappa-icon {
@@ -209,6 +222,10 @@ body {
   font-weight: 400 !important;
 }
 
+#front-page .grappa-header {
+  font-size: 40px;
+}
+
 #sign{
 	text-align:right;
 	margin-right: 3cm;
@@ -224,3 +241,20 @@ a.icon-link {
 .fbox {
   display: flex;
 }
+
+/* Some responsive styling for the nav bar that was too hard to implement correctly */
+/*.secondary.pointing.menu .toc.item {
+  display: none;
+}
+
+@media only screen and (max-width: 700px) {
+  .secondary.pointing.menu .toc.item {
+    display: block;
+  }
+}
+
+@media only screen and (max-width: 700px) {
+  .secondary.pointing.menu .item, .secondary.pointing.menu .menu {
+    display: none;
+  }
+}*/

@@ -163,7 +163,7 @@ export class UserList extends Component {
         </div>
         <h2 className="ui dividing header">Users</h2>
         <p>
-          All registered and activated users. Setting an user inactive disables the account but doesn't delete it 
+          All registered and activated users. Retiring an user disables the account but doesn't delete it 
           from the database. Click on the user to edit.
         </p>
         <table className="ui celled table">

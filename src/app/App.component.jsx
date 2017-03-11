@@ -18,7 +18,9 @@ export class App extends Component {
     return (
       <div>
         <div className="header-box">
-          <h1 className="fancy-header">Gradut Pikaisesti Pakettiin</h1>
+          <Link to="/">
+            <h1 className="fancy-header">Gradut Pikaisesti Pakettiin</h1>
+          </Link>
           <Link className="about-link" to="/about">About</Link>
         </div>
         <Nav />

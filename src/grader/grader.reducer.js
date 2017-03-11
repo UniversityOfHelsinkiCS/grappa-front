@@ -10,6 +10,13 @@ export default function (state = INITIAL_STATE, action) {
       // if (!action.payload || action.payload === null) {
       //   return state.mergeIn(["graders"], fromJS([]));
       // }
+      const graders = action.payload.sort((a, b) => {
+        if (`${a.title} ${a.name}` < `${b.title} ${b.name}`) {
+          return -1;
+        } else {
+          return 1;
+        }
+      })
       return state.mergeIn(["graders"], fromJS(action.payload));
     case "GRADER_GET_ALL_FAILURE":
       return state;

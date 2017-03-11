@@ -32,24 +32,24 @@ export default (
   <Route>
     <Route path="/ethesis/:token" component={Ethesis}/>
     <Route path="/thesis/:id/:type" component={ShowDocument} />
-    <Route path="/" component={App}>
-      <Route path="thesis" component={ThesisList} onEnter={redirectNonUser} />
-      <Route path="thesis/new" component={ThesisCreate} onEnter={redirectNonUser} />
-      <Route path="thesis/:id" component={ThesisShowEdit} onEnter={redirectNonUser} />
-      <Route path="councilmeeting/:id" component={CouncilMeetingShow} onEnter={redirectNonPrintPerson} />
-      <Route path="councilmeeting" component={CouncilMeetingContainer} onEnter={redirectNonAdmin} />
-      <Route path="studyfield" component={StudyFieldList} onEnter={redirectNonAdmin} />
-      <Route path="emaildraft" component={EmailDraftList} onEnter={redirectNonAdmin} />
-      <Route path="notification" component={NotificationList} onEnter={redirectNonAdmin} />
-      <Route path="user" component={UserList} onEnter={redirectNonAdmin} />
-      <Route path="user/inactive" component={UserListNotActive} onEnter={redirectNonAdmin} />
-      <Route path="user/me" component={UserShow} onEnter={redirectNonUser} />
-      <Route path="registration" component={Registration} />
-      <Route path="login" component={Login} />
-      <Route path="reset-password" component={RequestResetPassword} />
-      <Route path="reset-password/:token" component={ResetPassword} />
-      <Route path="intro" component={Intro}/>
-      <Route path="about" component={About}/>
+    <Route path="" component={App}>
+      <Route path="/" component={Intro}/>
+      <Route path="/thesis" component={ThesisList} onEnter={redirectNonUser} />
+      <Route path="/thesis/new" component={ThesisCreate} onEnter={redirectNonUser} />
+      <Route path="/thesis/:id" component={ThesisShowEdit} onEnter={redirectNonUser} />
+      <Route path="/councilmeeting/:id" component={CouncilMeetingShow} onEnter={redirectNonPrintPerson} />
+      <Route path="/councilmeeting" component={CouncilMeetingContainer} onEnter={redirectNonAdmin} />
+      <Route path="/studyfield" component={StudyFieldList} onEnter={redirectNonAdmin} />
+      <Route path="/emaildraft" component={EmailDraftList} onEnter={redirectNonAdmin} />
+      <Route path="/notification" component={NotificationList} onEnter={redirectNonAdmin} />
+      <Route path="/user" component={UserList} onEnter={redirectNonAdmin} />
+      <Route path="/user/inactive" component={UserListNotActive} onEnter={redirectNonAdmin} />
+      <Route path="/user/me" component={UserShow} onEnter={redirectNonUser} />
+      <Route path="/registration" component={Registration} />
+      <Route path="/login" component={Login} />
+      <Route path="/reset-password" component={RequestResetPassword} />
+      <Route path="/reset-password/:token" component={ResetPassword} />
+      <Route path="/about" component={About}/>
       <Route path="*" component={NotFound}/>
     </Route>
   </Route>
