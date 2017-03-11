@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Validate from "../validate/Validate";
-import ValidateError from "../ui/Error.component";
+import ValidateError from "../ui/Error";
 
 export class UserShow extends Component {
 

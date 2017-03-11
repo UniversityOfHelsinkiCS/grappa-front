@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from "react";
 import { Link } from "react-router";
-import Nav from "../ui/Nav.container";
-import FlashMessage from "../flash/FlashMessage.container";
+import Nav from "../ui/Nav";
+import FlashMessage from "../flash/FlashMessage";
 
 export class App extends Component {
 

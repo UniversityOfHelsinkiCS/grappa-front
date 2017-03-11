@@ -7,8 +7,8 @@
 import React from "react";
 import { Link, browserHistory } from "react-router";
 import Validate from "../validate/Validate";
-import ValidateError from "../ui/Error.component";
-import Errors from "../ui/Errors.component";
+import ValidateError from "../ui/Error";
+import Errors from "../ui/Errors";
 
 export class Login extends React.Component {
   constructor() {

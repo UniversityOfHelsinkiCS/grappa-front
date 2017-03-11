@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Errors from "../ui/Errors.component";
+import Errors from "../ui/Errors";
 import Validate from "../validate/Validate";
 
 export class UserRegistration extends Component {

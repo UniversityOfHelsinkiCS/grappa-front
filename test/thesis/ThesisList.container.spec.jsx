@@ -10,7 +10,7 @@ import {
 } from "react-addons-test-utils";
 import { Provider } from "react-redux";
 import store from "../../src/store";
-import ThesisListContainer, { ThesisList } from "../../src/thesis/ThesisList.container";
+import ThesisListContainer, { ThesisList } from "../../src/thesis/ThesisList";
 
 describe("ThesisList.smart", () => {
   it("should render table headers", () => {

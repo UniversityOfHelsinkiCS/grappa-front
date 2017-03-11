@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from "react";
 
 import Validate from "../validate/Validate";
-import ValidateError from "../ui/Error.component";
+import ValidateError from "../ui/Error";
 
 export class GraderListCreateUpdate extends Component {
   constructor() {

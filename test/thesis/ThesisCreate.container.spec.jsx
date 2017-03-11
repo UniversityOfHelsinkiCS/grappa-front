@@ -10,10 +10,10 @@ import {
 } from "react-addons-test-utils";
 import { Provider } from "react-redux";
 import store from "../../src/store";
-import ThesisCreateContainer from "../../src/thesis/ThesisCreate.container";
+import ThesisCreateContainer from "../../src/thesis/ThesisCreate";
 import * as actions from "../../src/thesis/thesis.actions";
 
-describe("ThesisCreate.container", () => {
+describe("ThesisCreate", () => {
   const component = renderIntoDocument(
     <Provider store={store}>
       <ThesisCreateContainer />

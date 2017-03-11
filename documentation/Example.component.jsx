@@ -12,9 +12,9 @@ import { Link } from "react-router";
 
 /**
  * Sets this App-class to be the default import when you write
- * 'import AppOrWhateverYouWantToCallIt from "../documentation/Example.component"'
+ * 'import AppOrWhateverYouWantToCallIt from "../documentation/Example"'
  * You can also set defined imports without 'default' keyword which are then imported as:
- * 'import { someMethod } from "../documentation/Example.component"'
+ * 'import { someMethod } from "../documentation/Example"'
  */
 export default class ThesisList extends Component {
   constructor() {

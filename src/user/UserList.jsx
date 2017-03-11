@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Validate from "../validate/Validate";
-import ValidateError from "../ui/Error.component";
-import Errors from "../ui/Errors.component";
+import ValidateError from "../ui/Error";
+import Errors from "../ui/Errors";
 
 export class UserList extends Component {
 

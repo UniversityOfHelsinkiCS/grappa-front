@@ -26,8 +26,8 @@ Same for both OSes:
 
 1. Download this repository if you haven't done so already and go to the root of it with terminal and enter ```npm install```
 
-2. At this moment I should probably mention that this repository stores all of its important variables in a file called ```.env``` that is stored in the root of this folder. But since holding important data inside public repository is unpreferable that file has been left out and as a temporary fix you should rename the ```.dev-env``` file to ```.env```. It is the development version which isn't used anywhere else (Travis and Heroku store their own environment variables).
+2. This app uses dotenv for loading up the environment variables from `.env`-file. You should copy the `.dev-env` in the root of this repository to `.env` eg. `cp .dev-env .env`. 
 
-3. Then enter ```npm start``` to run the server on localhost:8080.
+3. Enter ```npm start``` to run the server on localhost:8080.
 
 4. Remember to have the backend running aswell! To stop the process hit ```ctrl+c``` in the console.

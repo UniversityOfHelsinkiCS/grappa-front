@@ -19,6 +19,8 @@ export class ThesisCreate extends React.Component {
     super();
     this.state = {
       newThesis: Validate.createForm("newThesis", "thesis"),
+      showModal: false,
+      // showModal: true,
     };
   }
 
@@ -46,17 +48,61 @@ export class ThesisCreate extends React.Component {
    * Handler method to handle what to do when the submit button is clicked.
    * @param event Used to get a hold of what the input of the user was.
    */
-  handleClick(name, event) {
+  handleClick(type, event) {
     event.preventDefault();
-    if (Validate.isFormValid("newThesis")) {
+    if (type === "submit" && Validate.isFormValid("newThesis")) {
+      this.setState({
+        showModal: true,
+      })
+    } else if (type === "submitModal" && Validate.isFormValid("newThesis")) {
+      this.setState({
+        showModal: false,
+      })
       const form = new FormData();
       form.append("file", this.state.newThesis.values.PdfFile);
       const newThesis = this.state.newThesis.values;
-      delete newThesis.PdfFile;
-      console.log(newThesis);
+      newThesis.PdfFile = undefined;
       form.append("json", JSON.stringify(newThesis));
       this.props.saveThesisWithReview(form);
+    } else if (type === "closeModal") {
+      this.setState({
+        showModal: false,
+      })
     }
+  }
+
+  renderModal() {
+    return (
+      <div id="grappaModal" className={this.state.showModal ? "grappa-modal show" : "grappa-modal"}>
+        <div className="grappa-modal-wrapper">
+          <div className="grappa-modal-content">
+            <div className="image content m-bot">
+              <div className="description">
+                <p>
+                  Have you remembered to add the thesis into the thesis-management system?
+                  If not please do so right away.
+                </p>
+                <a target="_blank" href="https://ilmo.cs.helsinki.fi/gradu/servlet/hae">Ilmo (opens in a new window)</a>
+              </div>
+            </div>
+            <div className="actions">
+              <div className="one fluid ui buttons">
+                <div className="ui positive button"
+                  onClick={this.handleClick.bind(this, "submitModal")}
+                >
+                  Okay
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="grappa-modal-righticon">
+            <i className="grappa-icon remove icon"
+              onClick={this.handleClick.bind(this, "closeModal")}          
+            ></i>
+          </div>
+        </div>
+      </div>
+    )
   }
 
   renderThesisAuthor() {
@@ -175,12 +221,10 @@ export class ThesisCreate extends React.Component {
   }
 
   onDrop(files) {
-    // console.log('Received files: ', files);
     Validate.updateForm("newThesis", "PdfFile", files[0]);
   }
 
   renderUploadReview() {
-    // console.log(this.state.newThesis.values.PdfFile);
     return (
       <div>
         <h3 className="ui dividing header">Upload Thesis review as PDF (max. 1 MB)</h3>
@@ -199,6 +243,7 @@ export class ThesisCreate extends React.Component {
     return (
       <div className="m-bot">
         <h3 className="ui dividing header">Graders</h3>
+        <p>Click to open a drop-down menu or to type into the input for search.</p>
         <div className="field">
           <label>Select Graders</label>
           <GradersDropdown formname="newThesis" graders={this.props.Graders}
@@ -228,7 +273,6 @@ export class ThesisCreate extends React.Component {
   }
 
   renderPickCouncilmeeting() {
-    // console.log(this.props.CouncilMeetings);
     const today = new Date();
     const filtered = this.props.CouncilMeetings.filter(meeting => {
       const mdate = new Date(meeting.date);
@@ -239,19 +283,23 @@ export class ThesisCreate extends React.Component {
     const formatted = filtered.map(meeting => {
       return {
         id: meeting.id,
-        date: moment(new Date(meeting.date)).format("DD/MM/YYYY"),
+        content: `${moment(new Date(meeting.date)).format("DD/MM/YYYY")} Deadline: ${moment(new Date(meeting.instructorDeadline)).format("HH:mm DD/MM/YYYY")}`,
       };
     });
-    const CouncilMeetings = [{ id: "", date: "Select Date" }, ...formatted];
+    const CouncilMeetings = [{ id: "", content: "Select Date" }, ...formatted];
     return (
       <div className="m-bot">
         <h3 className="ui dividing header">Choose the Councilmeeting date</h3>
+        <p>
+          Deadline tells when Grappa stops accepting new theses for that date. If the deadline has passed
+          you have to either contact admin or submit thesis to another Councilmeeting.
+        </p>
         <select className="ui fluid search dropdown"
           onChange={this.handleChange.bind(this, "CouncilMeetingId")}
         >
           { CouncilMeetings.map((meeting, index) =>
             <option key={ index } value={ meeting.id } >
-              { meeting.date }
+              { meeting.content }
             </option>
           )}
         </select>
@@ -267,6 +315,7 @@ export class ThesisCreate extends React.Component {
   render() {
     return (
       <div>
+        { this.renderModal() }
         <div className="ui form">
           <h2 className="ui dividing header">Create a thesis</h2>
           {this.renderThesisAuthor()}

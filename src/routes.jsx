@@ -2,31 +2,31 @@ import React from "react";
 import { Route } from "react-router";
 import { redirectNonUser, redirectNonAdmin, redirectNonPrintPerson } from "./middleware/restrictAccess";
 
-import App from "./app/App.component";
+import App from "./app/App";
 
-import Ethesis from "./ethesis/Ethesis.container";
-import ShowDocument from "thesis/ShowDocument.component";
-import ThesisList from "./thesis/ThesisList.container";
-import ThesisShowEdit from "./thesis/ThesisShowEdit.container";
-import ThesisCreate from "./thesis/ThesisCreate.container";
+import Ethesis from "./ethesis/Ethesis";
+import ShowDocument from "thesis/ShowDocument";
+import ThesisList from "./thesis/ThesisList";
+import ThesisShowEdit from "./thesis/ThesisShowEdit";
+import ThesisCreate from "./thesis/ThesisCreate";
 
-import CouncilMeetingContainer from "./councilmeeting/CouncilMeetingListCreate.container";
-import CouncilMeetingShow from "./councilmeeting/CouncilMeetingShow.container";
-import StudyFieldList from "./studyfield/StudyFieldList.container";
-import EmailDraftList from "./email/EmailDraftList.container";
+import CouncilMeetingContainer from "./councilmeeting/CouncilMeetingListCreate";
+import CouncilMeetingShow from "./councilmeeting/CouncilMeetingShow";
+import StudyFieldList from "./studyfield/StudyFieldList";
+import EmailDraftList from "./email/EmailDraftList";
 import NotificationList from "notification/NotificationList";
 // import EmailstatusList from "./emailstatus/EmailstatusList.smart";
-import UserList from "./user/UserList.container";
-import UserListNotActive from "./user/UserListNotActive.container";
-import UserShow from "./user/UserShow.container";
+import UserList from "./user/UserList";
+import UserListNotActive from "./user/UserListNotActive";
+import UserShow from "./user/UserShow";
 import Registration from "./auth/Registration";
-import Login from "./auth/Login.container";
+import Login from "./auth/Login";
 import RequestResetPassword from "auth/RequestResetPassword";
 import ResetPassword from "auth/ResetPassword";
 
-import Intro from "./app/Introduction.component";
-import About from "./app/About.component";
-import NotFound from "./app/NotFound.component";
+import Intro from "./app/Introduction";
+import About from "./app/About";
+import NotFound from "./app/NotFound";
 
 export default (
   <Route>

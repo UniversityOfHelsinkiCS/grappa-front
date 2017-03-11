@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Dropzone from "react-dropzone";
-import FlashMessage from "../flash/FlashMessage.container";
+import FlashMessage from "../flash/FlashMessage";
 
 export class Ethesis extends Component {
   constructor() {
@@ -35,48 +35,6 @@ export class Ethesis extends Component {
       </div>
     );
   }
-
-  // renderInput() {
-  //   return (
-  //     <div className="ui container m-top">
-  //       <div className="ui form">
-  //         <div className="ui field">
-  //           <div className="ui left icon input">
-  //             <i className="external icon"></i>
-  //             <input
-  //               type="text"
-  //               name="ethesislink"
-  //               placeholder="eThesis link to the PDF file"
-  //               onChange={this.handleChange.bind(this, "ethesislink")}
-  //             />
-  //           </div>
-  //         </div>
-  //         <div className="field">
-  //           <button className="ui fluid large green button" onClick={this.handleClick.bind(this, "save")}>
-  //             Save
-  //           </button>
-  //         </div>
-  //       </div>
-  //     </div>
-  //   );
-  // }
-
-  // renderMessage() {
-  //   const link = this.props.linkSent;
-  //   return (
-  //     <div className="ui container m-top">
-  //       <h2 className="ui dividing header">{ link === "success" ? "Success" : "Error"}</h2>
-  //       <p>
-  //         { link === "success" ?
-  //           "Link was successfully saved. You may now leave this page."
-  //            :
-  //           "There was an error saving your link. Please refresh the page and try again. If everything else fails " +
-  //           "please contact admin."
-  //         }
-  //       </p>
-  //     </div>
-  //   );
-  // }
 
   render() {
     return (

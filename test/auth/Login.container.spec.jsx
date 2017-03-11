@@ -10,7 +10,7 @@ import {
 } from "react-addons-test-utils";
 import { Provider } from "react-redux";
 import store from "../../src/store";
-import LoginContainer from "../../src/auth/Login.container";
+import LoginContainer from "../../src/auth/Login";
 import { loginUser } from "../../src/auth/auth.actions";
 
 describe("Login.smart", () => {
