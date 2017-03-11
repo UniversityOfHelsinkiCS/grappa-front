@@ -66,8 +66,8 @@ export default function (state = INITIAL_STATE, action) {
       } else {
         data = action.payload;
       }
-      return state.updateIn(["theses"], thesis =>
-        thesis.map(thesis => {
+      return state.updateIn(["theses"], theses =>
+        theses.map(thesis => {
           if (thesis.get("id") === data.id) {
             return fromJS(data);
           }

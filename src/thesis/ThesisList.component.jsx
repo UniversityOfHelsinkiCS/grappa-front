@@ -108,8 +108,6 @@ export default class ThesisList extends Component {
         searchValue,
       });
     } else if (type === "toggleShowOld") {
-      console.log(this.props)
-      console.log(this.state)
       // set value at index in props.selected -array to false
       // if the thesis is "Done" & showOld is false
       // otherwise just keep the old value

@@ -12,16 +12,16 @@ export const connectToSocket = () => {
         .emit("authenticate", { token, }) //send the jwt
         .on("authenticated", function () {
           //do other things
-          console.log("authenticated!")
+          // console.log("authenticated!")
         })
         .on("unauthorized", function(msg) {
-          console.log("unauthorized: " + JSON.stringify(msg.data));
+          // console.log("unauthorized: " + JSON.stringify(msg.data));
           throw new Error(msg.data.type);
         })
     });
 
     socket.on("connect", function(){
-      console.log("connected")
+      // console.log("connected")
       const user = getState().get("auth").toJS().user;
       if (user.role === "admin") {
         dispatch(getNotifications());
@@ -29,14 +29,14 @@ export const connectToSocket = () => {
     });
 
     socket.on("server:push", function(data){
-      console.log("yo event", data)
+      // console.log("yo event", data)
       data.map(action => {
         dispatch(action)
       })
     });
 
     socket.on("disconnect", function(){
-      console.log("disconnected!")
+      // console.log("disconnected!")
     });
 
     return dispatch(setSocket(socket));

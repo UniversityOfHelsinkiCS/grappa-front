@@ -56,8 +56,6 @@ export class Nav extends Component {
 
   renderAdminNav() {
     const { user } = this.props;
-    // 12<i className="alarm icon"></i>
-    // <i className="alarm outline icon"></i>
     return (
       <div className="ui horizontal pointing menu">
         <Link className="item" to="/user/me">{ `${user.firstname} ${user.lastname}` }</Link>
@@ -67,14 +65,13 @@ export class Nav extends Component {
         <Link className="item" to="/councilmeeting">Councilmeetings </Link>
         <Link className="item" to="/councilmeeting/next">Next meeting</Link>
         <Link className="item" to="/user/inactive">Accept new users</Link>
-        <Link className="item" to="/user">All users</Link>
+        <Link className="item" to="/user">Users</Link>
         <Link className="item" to="/studyfield">Studyfields</Link>
         <Link className="item" to="/emaildraft">Email drafts</Link>
         <a className="item" onClick={ this.handleLogout }>Logout</a>
       </div>
     );
   }
-        // <Link className="item" to="/emailstatus">Email statuses</Link>
 
   renderNav() {
     const isAdmin = this.props.user.role === "admin";

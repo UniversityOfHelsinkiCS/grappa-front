@@ -9,6 +9,7 @@ export class UserList extends Component {
     super();
     this.state = {
       updateUser: Validate.createForm("updateUser", "userEdit"),
+      editing: false,
     };
   }
 
@@ -43,12 +44,13 @@ export class UserList extends Component {
   }
 
   handleClick(type, index, event) {
-    if (type === "selectUser") {
+    if (type === "editUser") {
       const Users = this.props.Users.filter(user => {
         if (user.isActive) return user;
       });
+      this.setState({ editing: true });
       Validate.replaceForm("updateUser", Users[index]);
-    } else if (type === "update" && this.state.updateUser.values.id && Validate.isFormValid("updateUser")) {
+    } else if (type === "save" && this.state.updateUser.values.id && Validate.isFormValid("updateUser")) {
       const user = Validate.getForm("updateUser").values;
       user.StudyField = this.props.StudyFields.find(field => {
         if (field.id.toString() === user.StudyFieldId) return field;
@@ -67,6 +69,79 @@ export class UserList extends Component {
   //   });
   // }
 
+  renderEditUser(activeFields) {
+    return (
+      <tr style={{width: "100%"}}>
+        <td>
+          <select
+            className="ui fluid search dropdown"
+            value={this.state.updateUser.values.role}
+            onChange={this.handleChange.bind(this, "updateUser", "role")}
+          >
+            <option value="instructor">Instructor</option>
+            <option value="print-person">Print-person</option>
+            <option value="professor">Professor</option>
+            <option value="admin">Admin</option>
+          </select>
+        </td>
+        <td>
+          <select
+            className="ui fluid search dropdown"
+            value={this.state.updateUser.values.StudyFieldId || ""}
+            onChange={this.handleChange.bind(this, "updateUser", "StudyFieldId")}
+          >
+            <option value="">None</option>
+            { activeFields.map((field, index) =>
+              <option key={index} value={field.id}>
+                { field.name }
+              </option>
+            )}
+          </select>
+        </td>
+        <td>
+          <input
+            type="text"
+            placeholder="First name"
+            value={this.state.updateUser.values.firstname}
+            onChange={this.handleChange.bind(this, "updateUser", "firstname")}
+          />
+          <ValidateError errors={this.state.updateUser.errors} model="userEdit" field="firstname" />
+        </td>
+        <td className="field">
+          <input
+            type="text"
+            placeholder="Last name"
+            value={this.state.updateUser.values.lastname}
+            onChange={this.handleChange.bind(this, "updateUser", "lastname")}
+          />
+          <ValidateError errors={this.state.updateUser.errors} model="userEdit" field="lastname" />
+        </td>
+        <td className="field">
+          <input
+            type="text"
+            placeholder="Email"
+            value={this.state.updateUser.values.email}
+            onChange={this.handleChange.bind(this, "updateUser", "email")}
+          />
+          <ValidateError errors={this.state.updateUser.errors} model="userEdit" field="email" />
+        </td>
+        <td className="field">
+          <div className="ui checkbox">
+            <input
+              type="checkbox"
+              checked={this.state.updateUser.values.isRetired ? "true" : ""}
+              onChange={this.handleChange.bind(this, "updateUser", "isRetired")}
+            />
+            <label>&nbsp;</label>
+          </div>
+        </td>
+        <td className="field">
+          <button className="ui blue button" onClick={this.handleClick.bind(this, "save")}>Save</button>
+        </td>
+      </tr>
+    )
+  }
+
   render() {
     const activeUsers = this.props.Users.filter(user => {
       if (user.isActive) return user;
@@ -83,87 +158,9 @@ export class UserList extends Component {
     })
     return (
       <div className="ui form">
-        <div className="field">
-          <h2 className="ui dividing header">Update user</h2>
-          <div className="five fields">
-            <div className="field">
-              <label>Role</label>
-              <select
-                className="ui fluid search dropdown"
-                value={this.state.updateUser.values.role}
-                onChange={this.handleChange.bind(this, "updateUser", "role")}
-              >
-                <option value="instructor">Instructor</option>
-                <option value="print-person">Print-person</option>
-                <option value="professor">Professor</option>
-                <option value="admin">Admin</option>
-              </select>
-            </div>
-            <div className="field">
-              <label>Studyfield</label>
-              <select
-                className="ui fluid search dropdown"
-                value={this.state.updateUser.values.StudyFieldId || ""}
-                onChange={this.handleChange.bind(this, "updateUser", "StudyFieldId")}
-              >
-                <option value="">None</option>
-                { activeFields.map((field, index) =>
-                  <option key={index} value={field.id}>
-                    { field.name }
-                  </option>
-                )}
-              </select>
-            </div>
-            <div className="field">
-              <label>Firstname</label>
-              <input
-                type="text"
-                placeholder="First name"
-                value={this.state.updateUser.values.firstname}
-                onChange={this.handleChange.bind(this, "updateUser", "firstname")}
-              />
-              <ValidateError errors={this.state.updateUser.errors} model="userEdit" field="firstname" />
-            </div>
-            <div className="field">
-              <label>Lastname</label>
-              <input
-                type="text"
-                placeholder="Last name"
-                value={this.state.updateUser.values.lastname}
-                onChange={this.handleChange.bind(this, "updateUser", "lastname")}
-              />
-              <ValidateError errors={this.state.updateUser.errors} model="userEdit" field="lastname" />
-            </div>
-            <div className="field">
-              <label>Email</label>
-              <input
-                type="text"
-                placeholder="Email"
-                value={this.state.updateUser.values.email}
-                onChange={this.handleChange.bind(this, "updateUser", "email")}
-              />
-              <ValidateError errors={this.state.updateUser.errors} model="userEdit" field="email" />
-            </div>
-            <div className="field">
-              <label>&nbsp;</label>
-              <div className="ui checkbox">
-                <input
-                  type="checkbox"
-                  checked={this.state.updateUser.values.isRetired ? "true" : ""}
-                  onChange={this.handleChange.bind(this, "updateUser", "isRetired")}
-                />
-                <label>Retired</label>
-              </div>
-            </div>
-            <div className="field">
-              <label>&nbsp;</label>
-              <button className="ui green button" onClick={this.handleClick.bind(this, "update")}>Update</button>
-            </div>
-          </div>
-        </div>
         <h2 className="ui dividing header">Users</h2>
         <p>
-          All registered and activated users. Setting an user inactive disables the account but doesn't delete it 
+          All registered and activated users. Retiring an user disables the account but doesn't delete it 
           from the database. Click on the user to edit.
         </p>
         <table className="ui celled table">
@@ -175,27 +172,40 @@ export class UserList extends Component {
               <th onClick={this.handleClick.bind(this, "sort", "authorLastname")}>Lastname</th>
               <th onClick={this.handleClick.bind(this, "sort", "title")}>Email</th>
               <th onClick={this.handleClick.bind(this, "sort", "studyfield")}>Retired</th>
+              <th>Modify</th>
             </tr>
           </thead>
           <tbody>
-            { Users.map((item, index) =>
-              <tr key={index} onClick={this.handleClick.bind(this, "selectUser", index)}>
-                <td>{item.role}</td>
-                <td>{item.StudyField ? item.StudyField.name : ""}</td>
-                <td>{item.firstname}</td>
-                <td>{item.lastname}</td>
-                <td>{item.email}</td>
-                <td>
-                  <div className="ui checkbox">
-                    <input
-                      type="checkbox"
-                      readOnly="true"
-                      checked={item.isRetired ? "true" : ""}
-                    />
-                    <label></label>
-                  </div>
-                </td>
-              </tr>
+            { Users.map((item, index) => {
+                if (this.state.editing && this.state.updateUser.values.id === item.id) {
+                  { return (this.renderEditUser(activeFields)) }
+                } else {
+                  return (
+                    <tr key={index}>
+                      <td>{item.role}</td>
+                      <td>{item.StudyField ? item.StudyField.name : ""}</td>
+                      <td>{item.firstname}</td>
+                      <td>{item.lastname}</td>
+                      <td>{item.email}</td>
+                      <td>
+                        <div className="ui checkbox">
+                          <input
+                            type="checkbox"
+                            readOnly="true"
+                            checked={item.isRetired ? "true" : ""}
+                          />
+                          <label></label>
+                        </div>
+                      </td>
+                      <td>
+                        <button className="ui green button" onClick={this.handleClick.bind(this, "editUser", index)}>
+                          Edit
+                        </button>
+                      </td>
+                    </tr>
+                  )
+                }
+              }
             )}
           </tbody>
         </table>

@@ -15,7 +15,11 @@ export default class About extends Component {
         <p>
           Admin at the time of finishing this app was Kjell Lemström.
         </p>
-        <a href="https://github.com/ultra-hyper-storm-ohtuprojekti" target="_blank">Source code</a>
+        <div className="ui large source button" >
+          <a href="https://github.com/ultra-hyper-storm-ohtuprojekti" target="_blank">
+            <i className="docs code icon"></i> Source code
+          </a>
+        </div>
       </div>
     );
   }
