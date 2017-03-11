@@ -9,6 +9,7 @@ export class EmailDraftList extends Component {
     super();
     this.state = {
       updateEmailDraft: Validate.createForm("updateEmailDraft", "emailDraftEdit"),
+      editing: false,
     };
   }
 
@@ -27,18 +28,21 @@ export class EmailDraftList extends Component {
 
   handleClick(type, index, event) {
     event.preventDefault();
-    if (type === "select") {
+    if (type === "stopEditing") {
+      this.setState({ editing: false })
+    } else if (type === "edit") {
+      this.setState({ editing: true })
       Validate.replaceForm("updateEmailDraft", this.props.EmailDrafts[index]);
-    } else if (type === "update" && this.state.updateEmailDraft.values.id && Validate.isFormValid("updateEmailDraft")) {
+    } else if (type === "save" && this.state.updateEmailDraft.values.id && Validate.isFormValid("updateEmailDraft")) {
       this.props.updateEmailDraft(this.state.updateEmailDraft.values);
-    }
+    } 
   }
 
-  renderUpdateDraft() {
+  renderEditDraft() {
     const updateEmailDraft = this.state.updateEmailDraft.values;
     return (
       <div className="field">
-        <h2 className="ui dividing header">Update draft {updateEmailDraft.type}</h2>
+        <h2 className="ui dividing header">Edit draft: {updateEmailDraft.type}</h2>
         <div className="field">
           <label>Title</label>
           <input
@@ -58,14 +62,15 @@ export class EmailDraftList extends Component {
           />
           <ValidateError errors={this.state.updateEmailDraft.errors} model="emailDraftEdit" field="body" />
         </div>
-        <button className="ui button green" onClick={this.handleClick.bind(this, "update", "")}>Update</button>
+        <button className="ui button blue" onClick={this.handleClick.bind(this, "save", "")}>Save</button>
+        <button className="ui button red" onClick={this.handleClick.bind(this, "stopEditing", "")}>Stop editing</button>
       </div>
     );
   }
 
   renderDraft(draft, index) {
     return (
-      <div onClick={this.handleClick.bind(this, "select", index)}>
+      <div>
         <h3 className="ui dividing header">{draft.type}</h3>
         <div className="field">
           <label>Title</label>
@@ -83,6 +88,9 @@ export class EmailDraftList extends Component {
             readOnly="true"
           />
         </div>
+        <div className="field">
+          <button className="ui green button" onClick={this.handleClick.bind(this, "edit", index)}>Edit</button>
+        </div>
       </div>
     );
   }
@@ -91,7 +99,6 @@ export class EmailDraftList extends Component {
     const { EmailDrafts } = this.props || [];
     return (
       <div className="ui form">
-        {this.renderUpdateDraft()}
         <h2 className="ui dividing header">Email drafts</h2>
         <p>
           Drafts for the emails that are being sent by Grappa. $LINK$ indicates the place where the link is inserted,
@@ -99,9 +106,20 @@ export class EmailDraftList extends Component {
         </p>
         <div>
           { EmailDrafts.map((item, index) =>
-            <div className="m-bot" key={index}>
-              {this.renderDraft(item, index)}
-            </div>
+            { if (this.state.editing && this.state.updateEmailDraft.values.id === item.id) {
+                return (
+                <div className="m-bot" key={index}>
+                  {this.renderEditDraft(item, index)}
+                </div>
+                )
+              } else {
+                return (
+                <div className="m-bot" key={index}>
+                  {this.renderDraft(item, index)}
+                </div>
+                )
+              }
+            }
           )}
         </div>
       </div>

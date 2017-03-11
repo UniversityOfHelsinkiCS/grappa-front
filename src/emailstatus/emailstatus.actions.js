@@ -13,7 +13,6 @@ export const EMAILSTATUS_GET_ALL_FAILURE = "EMAILSTATUS_GET_ALL_FAILURE";
 * reducer to handle the data accordingly.
 */
 export const getEmailstatuses = () => {
-  console.log("getEmailstatuses-action called!");
   return {
     type: CALL_API,
     success: EMAILSTATUS_GET_ALL_SUCCESS,

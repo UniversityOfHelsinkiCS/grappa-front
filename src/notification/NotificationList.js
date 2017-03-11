@@ -38,7 +38,6 @@ export class NotificationList extends Component {
       // }
       ids.push(this.props.Notifications[i].id);
     }
-    console.log("ids", this.props.Notifications)
     this.props.setNotificationsRead(ids);
   }
 
@@ -50,7 +49,6 @@ export class NotificationList extends Component {
 
   render() {
     const { Notifications } = this.props;
-    console.log("yo render", Notifications)
     return (
       <div className="ui form">
         <div className="field">
