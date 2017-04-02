@@ -90,17 +90,26 @@ export default function (state = INITIAL_STATE, action) {
           return thesis;
         })
       );
-    case "THESISPROGRESS_UPDATE_ONE_SUCCESS":
-      return state.updateIn(["theses"], thesis =>
-        thesis.map(thesis => {
-          if (thesis.get("ThesisProgress").get("id") === action.sent.id) {
-            return thesis.mergeIn(["ThesisProgress"], fromJS(action.sent));
+    // case "THESISPROGRESS_UPDATE_ONE_SUCCESS":
+    //   return state.updateIn(["theses"], theses =>
+    //     theses.map(thesis => {
+    //       if (thesis.get("ThesisProgress").get("id") === action.sent.id) {
+    //         return thesis.mergeIn(["ThesisProgress"], fromJS(action.sent));
+    //       }
+    //       return thesis;
+    //     })
+    //   );
+    // case "THESISPROGRESS_UPDATE_ONE_FAILURE":
+    //   return state;
+    case "THESISPROGRESS_UPDATE_STATUS":
+      return state.updateIn(["theses"], theses =>
+        theses.map(thesis => {
+          if (action.payload.thesisIds.indexOf(thesis.get("id")) !== -1) {
+            return thesis.mergeIn(["ThesisProgress", action.payload.status], true);
           }
           return thesis;
         })
       );
-    case "THESISPROGRESS_UPDATE_ONE_FAILURE":
-      return state;
     case "SEND_REMINDER_SUCCESS":
       return state.updateIn(["theses"], thesis =>
         thesis.map(thesis => {

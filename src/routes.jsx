@@ -38,7 +38,7 @@ export default (
       <Route path="/thesis/new" component={ThesisCreate} onEnter={redirectNonUser} />
       <Route path="/thesis/:id" component={ThesisShowEdit} onEnter={redirectNonUser} />
       <Route path="/councilmeeting/:id" component={CouncilMeetingShow} onEnter={redirectNonPrintPerson} />
-      <Route path="/councilmeeting" component={CouncilMeetingContainer} onEnter={redirectNonAdmin} />
+      <Route path="/councilmeeting" component={CouncilMeetingContainer} onEnter={redirectNonPrintPerson} />
       <Route path="/studyfield" component={StudyFieldList} onEnter={redirectNonAdmin} />
       <Route path="/emaildraft" component={EmailDraftList} onEnter={redirectNonAdmin} />
       <Route path="/notification" component={NotificationList} onEnter={redirectNonAdmin} />

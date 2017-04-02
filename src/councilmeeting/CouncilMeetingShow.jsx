@@ -28,13 +28,20 @@ export class CouncilmeetingShow extends Component {
   }
 
   componentWillReceiveProps(newProps) {
-    this.initState(newProps);
     // if on different page reset also selected theses
     if (this.props.params.id !== newProps.params.id) {
+      this.initState(newProps);
       this.setState({
         selectedTheses: [],
         searchedTheses: [],
       });
+    } else {
+    // have to sort stuff as it is always in disorder
+      const currentTheses = this.props.theses.sort((a, b) => a.id - b.id)
+      const newTheses = newProps.theses.sort((a, b) => a.id - b.id)
+      if (!_.isEqual(currentTheses, newTheses)) {
+        this.initState(newProps);
+      }
     }
   }
 

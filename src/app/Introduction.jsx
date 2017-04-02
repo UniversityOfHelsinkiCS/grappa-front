@@ -10,15 +10,16 @@ export default class Introduction extends Component {
             <div className="center aligned column">
               <h1  className="ui icon header grappa-header">Introduction to Grappa</h1>
               <p>
-                Grappa was made to administer the process of accepting theses which
-                includes sending emails back and forth and keeping all the documents in check.
-                It doesn't do a whole lot but the convenience it provides should make
-                everyone's lives easier.
+                Grappa was made for the University of Helsinki's department of Computer Science 
+                to administer the process of accepting theses which includes sending emails back 
+                and forth and keeping all the documents in check.
+                Its purpose is to easen and simplify the process and make it easier for 
+                everyone involved.
               </p>
               <p>
-                It sends email using Gmail as client due to complexity and time required
+                It sends email currently using Gmail as client due to complexity and time required
                 for creation of self-hosted email client. Frontend is made with React+Redux and 
-                the backend with Node. Also it includes Socket.io-server that broadcasts
+                the backend with Node.js. Also it includes Socket.io-server that broadcasts
                 recent changes to connected users. (So if you see something change before 
                 your eyes, don't be alarmed!)
               </p>
@@ -31,6 +32,10 @@ export default class Introduction extends Component {
             <div className="center aligned column">
               
               <h1 className="ui icon header grappa-header">User roles</h1>
+              <p>
+                There are multitude of different user groups that have to access Grappa 
+                whose primary duties are listed here.
+              </p>
 
               <h3 className="ui horizontal header divider">Student</h3>
               <p>
