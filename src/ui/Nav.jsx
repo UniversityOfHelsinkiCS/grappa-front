@@ -48,6 +48,7 @@ export class Nav extends Component {
       <div className="ui horizontal pointing menu">
         <Link className="item" to="/user/me">{ `${user.firstname} ${user.lastname}` }</Link>
         <Link className="item" to="/thesis">Theses</Link>
+        <Link className="item" to="/councilmeeting">Councilmeetings </Link>
         <Link className="item" to="/councilmeeting/next">Next meeting</Link>
         <a className="item" onClick={ this.handleLogout }>Logout</a>
       </div>

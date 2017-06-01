@@ -8,6 +8,7 @@
 import React, { Component } from "react";
 import moment from "moment";
 import ThesisListElement from "../thesis/ThesisListElement";
+import _ from "lodash";
 
 export class ThesisList extends Component {
   constructor() {
@@ -29,7 +30,12 @@ export class ThesisList extends Component {
   }
 
   componentWillReceiveProps(newProps) {
-    if (this.props.theses !== newProps.theses) {
+    // sort current and old theses since they seem to always be in disorder
+    const currentTheses = this.props.theses.sort((a, b) => a.id - b.id)
+    const newTheses = newProps.theses.sort((a, b) => a.id - b.id)
+    // initState only when new theses have been received
+    // this way user's filters/selects won't be altered by random actions
+    if (!_.isEqual(currentTheses, newTheses)) {
       this.setState({
         filteredTheses: newProps.theses,
         selectedTheses: [],

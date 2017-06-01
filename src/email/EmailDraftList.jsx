@@ -101,8 +101,8 @@ export class EmailDraftList extends Component {
       <div className="ui form">
         <h2 className="ui dividing header">Email drafts</h2>
         <p>
-          Drafts for the emails that are being sent by Grappa. Different variables are indicated with double 
-          dollars eg. $LINK$ where the variable-name inbetween is hard-coded into Grappa.
+          Drafts for the emails that are being sent by Grappa. Title is the email's title and body the text.
+          Different variables are indicated with double dollars eg. $LINK$ which differ from draft to draft.
         </p>
         <div>
           { EmailDrafts.map((item, index) =>

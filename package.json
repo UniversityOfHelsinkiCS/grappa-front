@@ -6,7 +6,7 @@
     "lint": "eslint --ext .js,.jsx src/ test/ || true",
     "lint:fix": "eslint --ext .js,.jsx src/ test/ --fix",
     "build": "webpack --config webpack.config.js",
-    "postinstall": "node ./check_prod.js && webpack --config webpack.config.prod.js --progress --colors || true",
+    "postinstall": "node ./is_prod.js && webpack --config webpack.config.prod.js --progress --colors || true",
     "start": "node app.js",
     "pm2:start": "pm2 start -n grappa-front npm -- start",
     "test": "export NODE_ENV=testing|| set NODE_ENV=testing&& istanbul cover node_modules/mocha/bin/_mocha -- --compilers js:babel-core/register --require ./test/testhelper.js  \"test/**/*@(.js|.jsx)\"",
@@ -15,7 +15,7 @@
     "instrument": "istanbul instrument . -o instrument/"
   },
   "engines": {
-    "node": "5.9"
+    "node": "8"
   },
   "repository": {
     "type": "git",

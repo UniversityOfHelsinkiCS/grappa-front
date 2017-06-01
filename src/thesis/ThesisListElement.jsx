@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from "react";
 import moment from "moment";
 import { Link } from "react-router";
+import _ from "lodash";
 
 /**
  * Weird component that receives 3 arrays as props (thesis-objects, two booleans)
@@ -25,13 +26,14 @@ export default class ThesisList extends Component {
   }
 
   componentWillReceiveProps(newProps) {
-    // if old theses aren't the same as the new by comparing their pointers
-    if (this.props.theses !== newProps.theses) {
+    // initState only when new theses have been received
+    if (!_.isEqual(this.props.theses, newProps.theses)) {
       this.initState(newProps);
     }
   }
 
   initState(props) {
+    console.log("initingstate 2")
     // sort theses by lastname first then firstname
     const sorted = props.theses.sort((a, b) => {
       if (a.authorLastname < b.authorLastname) {
@@ -89,15 +91,15 @@ export default class ThesisList extends Component {
     });
   }
 
-  handleChange(type, event) {
+  handleChange(type, index, event) {
     if (type === "search") {
       const searchValue = event.target.value.toLowerCase();
-      // set value at index in props.searched -array if 
-      // one of its keys contains the search value
+      // set value true at index inside props.searched-array if 
+      // one of its fields contains the search value
       this.props.searched.forEach((item, index, array) => {
         const thesis = this.state.allTheses[index];
         for (const key in thesis) {
-          if (thesis.hasOwnProperty(key) && key !== "id" && thesis[key] && thesis[key].toLowerCase().indexOf(searchValue) !== -1) {
+          if (thesis.hasOwnProperty(key) && thesis[key] && typeof thesis[key] === "string" && thesis[key].toLowerCase().indexOf(searchValue) !== -1) {
             array[index] = true;
             return;
           }
@@ -123,16 +125,17 @@ export default class ThesisList extends Component {
       this.setState({
         showOld: !this.state.showOld,
       });
+    } else if (type === "toggleSelect") {
+      this.props.selected[index] = !this.props.selected[index];
+      this.setState({});
     }
   }
 
   handleClick(type, index, event) {
     event.preventDefault();
     if (type === "sort") {
-      this.sortByField(index);
-    } else if (type === "toggleSelect") {
-      this.props.selected[index] = !this.props.selected[index];
-      this.setState({});
+      // TODO > too much tinkering
+      // this.sortByField(index);
     } else if (type === "toggleAll") {
       this.props.selected.forEach((item, index, array) => {
         const status = this.state.allTheses[index].status;
@@ -177,7 +180,7 @@ export default class ThesisList extends Component {
               <input
                 type="text"
                 placeholder="Search..."
-                onChange={this.handleChange.bind(this, "search")}
+                onChange={this.handleChange.bind(this, "search", "")}
               />
             </div>
           </div>
@@ -187,7 +190,7 @@ export default class ThesisList extends Component {
                 <input
                   type="checkbox"
                   checked={this.state.showOld ? "true" : ""}
-                  onChange={this.handleChange.bind(this, "toggleShowOld")}
+                  onChange={this.handleChange.bind(this, "toggleShowOld", "")}
                 />
                 <label>Show also finished theses</label>
               </div>
@@ -217,7 +220,7 @@ export default class ThesisList extends Component {
           </thead>
           <tbody>
             { theses.map((thesis, index) =>
-              <tr key={index} onClick={this.handleClick.bind(this, "toggleSelect", index)}>
+              <tr key={index} >
                 <td>{thesis.status}</td>
                 <td>
                   <div className="ui checkbox">
@@ -263,6 +266,7 @@ export default class ThesisList extends Component {
                       type="checkbox"
                       readOnly="true"
                       checked={thesis.selected ? "true" : ""}
+                      onChange={this.handleChange.bind(this, "toggleSelect", index)}
                     />
                     <label></label>
                   </div>
