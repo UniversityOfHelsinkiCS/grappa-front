@@ -130,7 +130,6 @@ export default class ThesisList extends Component {
       this.setState({});
     } else if (type === "toggleRegReq") {
       this.props.toggleRegisterRequest(this.props.theses[index]);
-      console.log(this.props.theses[index].regreq);
       this.setState({});
     }
   }
@@ -154,7 +153,7 @@ export default class ThesisList extends Component {
       });
     }
   }
-  
+
   // sortByField(field) {
   //   console.log("sortin yo " + field);
   //   this.state.inprogressTheses.sort((a, b) => {
