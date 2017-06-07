@@ -159,6 +159,11 @@ export class CouncilmeetingShow extends Component {
     }
   }
 
+  sendRegisterRequest(thesis) {
+    console.log("Tekstiä");
+    console.log(thesis);
+  }
+
   render() {
     const { includeCover } = this.state;
     const { role } = this.props.user;
@@ -211,8 +216,11 @@ export class CouncilmeetingShow extends Component {
             }
           </div>
         </div>
-        <ThesisListElement theses={this.state.filteredTheses} selected={this.state.selectedTheses}
+        <ThesisListElement 
+          theses={this.state.filteredTheses} 
+          selected={this.state.selectedTheses}
           searched={this.state.searchedTheses}
+          toggleRegisterRequest={this.sendRegisterRequest}
         />
       </div>
     );
