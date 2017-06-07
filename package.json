@@ -58,6 +58,7 @@
   },
   "devDependencies": {
     "babel-plugin-module-resolver": "^2.4.0",
+    "babel-polyfill": "^6.23.0",
     "babel-preset-react-hmre": "^1.0.1",
     "babel-preset-stage-2": "^6.18.0",
     "chai": "^3.5.0",

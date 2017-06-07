@@ -159,7 +159,7 @@ export class CouncilmeetingShow extends Component {
     }
   }
 
-  sendRegisterRequest(thesis) {
+  sendRegisterRequest = (thesis) => {
     if (thesis.regreq != null) {
       thesis.regreq = !thesis.regreq;
     } else {
@@ -169,6 +169,8 @@ export class CouncilmeetingShow extends Component {
     var updateFields = new Object();
     updateFields.regreq = thesis.regreq;
     
+    console.log("Updating: " + thesis.id + " - " + updateFields.regreq);
+    console.log(this.props);
     this.props.updateThesis(thesis.id, updateFields);
   }
 
