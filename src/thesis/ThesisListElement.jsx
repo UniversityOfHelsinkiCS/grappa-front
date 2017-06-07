@@ -127,6 +127,8 @@ export default class ThesisList extends Component {
       });
     } else if (type === "toggleSelect") {
       this.props.selected[index] = !this.props.selected[index];
+      this.setState({});
+    } else if (type === "toggleRegReq") {
       this.props.toggleRegisterRequest(this.props.theses[index]);
       this.setState({});
     }
@@ -279,6 +281,7 @@ export default class ThesisList extends Component {
                       type="checkbox"
                       readOnly="true"
                       checked={thesis.selected ? "true" : ""}
+                      onChange={this.handleChange.bind(this, "toggleRegReq", index)}
                     />
                     <label></label>
                   </div>
