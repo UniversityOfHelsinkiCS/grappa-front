@@ -280,7 +280,7 @@ export default class ThesisList extends Component {
                     <input
                       type="checkbox"
                       readOnly="true"
-                      checked={thesis.selected ? "true" : ""}
+                      checked={thesis.regreq ? "true" : ""}
                       onChange={this.handleChange.bind(this, "toggleRegReq", index)}
                     />
                     <label></label>

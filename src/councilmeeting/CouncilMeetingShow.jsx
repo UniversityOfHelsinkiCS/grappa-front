@@ -161,7 +161,14 @@ export class CouncilmeetingShow extends Component {
 
   sendRegisterRequest(thesis) {
     console.log("Tekstiä");
-    console.log(thesis);
+    console.log(thesis.regreq);
+    if (thesis.regreq != null) {
+      thesis.regreq = !thesis.regreq;
+    } else {
+      thesis.regreq = true;
+    }
+    console.log(thesis.regreq);
+    updateThesis(thesis.id, thesis);
   }
 
   render() {
@@ -228,7 +235,7 @@ export class CouncilmeetingShow extends Component {
 }
 
 import { connect } from "react-redux";
-import { getTheses, downloadTheses, moveTheses } from "../thesis/thesis.actions";
+import { updateThesis, getTheses, downloadTheses, moveTheses } from "../thesis/thesis.actions";
 
 const mapStateToProps = (state) => {
   const auth = state.get("auth");
@@ -242,6 +249,9 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
+  updateThesis(id, thesis) {
+    dispatch(updateThesis(id, thesis));
+  },
   getTheses() {
     dispatch(getTheses());
   },
