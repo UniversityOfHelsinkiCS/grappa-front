@@ -160,14 +160,11 @@ export class CouncilmeetingShow extends Component {
   }
 
   sendRegisterRequest(thesis) {
-    console.log("Tekstiä");
-    console.log(thesis.regreq);
     if (thesis.regreq != null) {
       thesis.regreq = !thesis.regreq;
     } else {
       thesis.regreq = true;
     }
-    console.log(thesis.regreq);
     updateThesis(thesis.id, thesis);
   }
 
