@@ -3,7 +3,6 @@ language: node_js
 script:
   - npm --silent run lint
   - npm --silent test
-  - cat ./coverage/lcov.info | coveralls
 deploy:
   app: grappa-app
   provider: heroku
