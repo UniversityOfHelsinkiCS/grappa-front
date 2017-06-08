@@ -165,13 +165,10 @@ export class CouncilmeetingShow extends Component {
     } else {
       thesis.regreq = true;
     }
-    //Since updateThesis only wants one field:
-    var updateFields = new Object();
-    updateFields.regreq = thesis.regreq;
-    
-    console.log("Updating: " + thesis.id + " - " + updateFields.regreq);
-    console.log(this.props);
-    this.props.updateThesis(thesis.id, updateFields);
+    //Since updateThesis wants form
+    const form = new FormData();
+    form.append("json", JSON.stringify(thesis));
+    this.props.updateThesis(thesis.id, form);
   }
 
   render() {
