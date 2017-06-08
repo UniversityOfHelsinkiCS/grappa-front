@@ -130,7 +130,6 @@ export default class ThesisList extends Component {
       this.setState({});
     } else if (type === "toggleRegReq") {
       this.props.toggleRegisterRequest(this.props.theses[index]);
-      this.setState({});
     }
   }
 

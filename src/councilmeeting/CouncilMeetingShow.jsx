@@ -160,7 +160,7 @@ export class CouncilmeetingShow extends Component {
   }
 
   sendRegisterRequest = (thesis) => {
-    if (thesis.regreq != null) {
+    if (thesis.regreq) {
       thesis.regreq = !thesis.regreq;
     } else {
       thesis.regreq = true;
