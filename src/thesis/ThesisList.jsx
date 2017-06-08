@@ -60,8 +60,6 @@ export class ThesisList extends Component {
   }
 
   sendRegisterRequest = (thesis) => {
-    console.log("sendRegRequestissa: ");
-    console.log(thesis.regreq);
     if (thesis.regreq) {
       thesis.regreq = !thesis.regreq;
     } else {
