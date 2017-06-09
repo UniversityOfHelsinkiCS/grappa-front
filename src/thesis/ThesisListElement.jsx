@@ -128,6 +128,8 @@ export default class ThesisList extends Component {
     } else if (type === "toggleSelect") {
       this.props.selected[index] = !this.props.selected[index];
       this.setState({});
+    } else if (type === "toggleRegReq") {
+      this.props.toggleRegisterRequest(this.props.theses[index]);
     }
   }
 
@@ -216,6 +218,7 @@ export default class ThesisList extends Component {
               <th onClick={this.handleClick.bind(this, "sort", "studyfield")}>Studyfield</th>
               <th onClick={this.handleClick.bind(this, "sort", "grade")}>Grade</th>
               <th>Selected</th>
+              <th>Register Request</th>
             </tr>
           </thead>
           <tbody>
@@ -271,6 +274,17 @@ export default class ThesisList extends Component {
                     <label></label>
                   </div>
                 </td>
+                <td>
+                  <div className="ui checkbox">
+                    <input
+                      type="checkbox"
+                      readOnly="true"
+                      checked={this.props.theses[index].regreq ? "true" : ""}
+                      onChange={this.handleChange.bind(this, "toggleRegReq", index)}
+                    />
+                    <label></label>
+                  </div>
+                </td>
               </tr>
             )}
           </tbody>
@@ -284,4 +298,5 @@ ThesisList.propTypes = {
   theses: PropTypes.array,
   selected: PropTypes.array,
   searched: PropTypes.array,
+  toggleRegisterRequest: PropTypes.func,
 };

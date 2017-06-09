@@ -59,6 +59,19 @@ export class ThesisList extends Component {
     }
   }
 
+  sendRegisterRequest = (thesis) => {
+    if (thesis.regreq) {
+      thesis.regreq = !thesis.regreq;
+    } else {
+      thesis.regreq = true;
+    }
+
+    //Since updateThesis wants form
+    const form = new FormData();
+    form.append("json", JSON.stringify(thesis));
+    this.props.updateThesis(thesis.id, form);
+  }
+
   render() {
     return (
       <div>
@@ -73,6 +86,7 @@ export class ThesisList extends Component {
           theses={this.state.filteredTheses}
           selected={this.state.selectedTheses}
           searched={this.state.searchedTheses}
+          toggleRegisterRequest={this.sendRegisterRequest}
         />
       </div>
     );
@@ -80,7 +94,7 @@ export class ThesisList extends Component {
 }
 
 import { connect } from "react-redux";
-import { getTheses, downloadTheses, } from "../thesis/thesis.actions";
+import { updateThesis, getTheses, downloadTheses, } from "../thesis/thesis.actions";
 
 const mapStateToProps = (state) => {
   const auth = state.get("auth");
@@ -92,6 +106,9 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
+  updateThesis(id, thesis) {
+    dispatch(updateThesis(id, thesis));
+  },
   getTheses() {
     dispatch(getTheses());
   },
