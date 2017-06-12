@@ -160,6 +160,7 @@ export class CouncilmeetingShow extends Component {
   }
 
   sendRegisterRequest = (thesis) => {
+    //Shouldn't be null, but just in case.
     if (thesis.regreq) {
       thesis.regreq = !thesis.regreq;
     } else {
@@ -167,7 +168,23 @@ export class CouncilmeetingShow extends Component {
     }
     //Since updateThesis wants form
     const form = new FormData();
-    form.append("json", JSON.stringify(thesis));
+    const found = this.props.theses.find(arrThesis => (arrThesis.id == thesis.id))
+    console.log(found);
+    found.regreq = thesis.regreq;
+    form.append("json", JSON.stringify(found));
+    this.props.updateThesis(thesis.id, form);
+  }
+
+  handleSendRegistrationEmail = (thesis) => {
+    thesis.notificationSent = true;
+    this.props.sendReminder(thesis.id, "studentRegistrationNotification");
+    
+    //This must be refactored.
+    const form = new FormData();
+    const found = this.props.theses.find(arrThesis => (arrThesis.id == thesis.id))
+    console.log(found);
+    found.notificationSent = thesis.notificationSent;
+    form.append("json", JSON.stringify(found));
     this.props.updateThesis(thesis.id, form);
   }
 
@@ -228,6 +245,7 @@ export class CouncilmeetingShow extends Component {
           selected={this.state.selectedTheses}
           searched={this.state.searchedTheses}
           toggleRegisterRequest={this.sendRegisterRequest}
+          sendRegistrationEmail={this.handleSendRegistrationEmail}
         />
       </div>
     );
@@ -236,6 +254,7 @@ export class CouncilmeetingShow extends Component {
 
 import { connect } from "react-redux";
 import { updateThesis, getTheses, downloadTheses, moveTheses } from "../thesis/thesis.actions";
+import { sendReminder } from "../email/email.actions";
 
 const mapStateToProps = (state) => {
   const auth = state.get("auth");
@@ -251,6 +270,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => ({
   updateThesis(id, thesis) {
     dispatch(updateThesis(id, thesis));
+  },
+  sendReminder(thesisId, type) {
+    dispatch(sendReminder(thesisId, type));
   },
   getTheses() {
     dispatch(getTheses());

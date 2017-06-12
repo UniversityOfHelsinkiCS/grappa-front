@@ -111,10 +111,13 @@ export default function (state = INITIAL_STATE, action) {
         })
       );
     case "SEND_REMINDER_SUCCESS":
+      if (action.payload.type == "StudentRegistrationNotification") {
+        return state;
+      }
       return state.updateIn(["theses"], thesis =>
         thesis.map(thesis => {
           if (thesis.get("id") === action.payload.ThesisId) {
-            return thesis.mergeIn(["ThesisProgress", action.payload.type], fromJS(action.payload));
+              return thesis.mergeIn(["ThesisProgress", action.payload.type], fromJS(action.payload));
           }
           return thesis;
         })

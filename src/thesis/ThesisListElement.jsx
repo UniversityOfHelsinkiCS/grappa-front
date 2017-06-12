@@ -33,7 +33,7 @@ export default class ThesisList extends Component {
   }
 
   initState(props) {
-    console.log("initingstate 2")
+    console.log("initingstate 2");
     // sort theses by lastname first then firstname
     const sorted = props.theses.sort((a, b) => {
       if (a.authorLastname < b.authorLastname) {
@@ -86,7 +86,9 @@ export default class ThesisList extends Component {
         grade: thesis.grade,
         ethesisDone: thesis.ThesisProgress.ethesisDone,
         graderEvalDone: thesis.ThesisProgress.graderEvalDone,
-        printDone: thesis.ThesisProgress.printDone
+        printDone: thesis.ThesisProgress.printDone,
+        regreq: thesis.regreq,
+        notificationSent: thesis.ThesisProgress.studentNotificationSent,
       };
     });
   }
@@ -128,8 +130,6 @@ export default class ThesisList extends Component {
     } else if (type === "toggleSelect") {
       this.props.selected[index] = !this.props.selected[index];
       this.setState({});
-    } else if (type === "toggleRegReq") {
-      this.props.toggleRegisterRequest(this.props.theses[index]);
     }
   }
 
@@ -150,6 +150,14 @@ export default class ThesisList extends Component {
       this.setState({
         allToggle: !this.state.allToggle
       });
+    }
+  }
+
+  handleSend(thesis, type, index, event) {
+    if (type === "sendRegistrationRequest") {
+      this.props.sendRegistrationEmail(thesis);
+    } else if (type === "toggleRegReq") {
+      this.props.toggleRegisterRequest(thesis);
     }
   }
 
@@ -208,9 +216,9 @@ export default class ThesisList extends Component {
           <thead>
             <tr>
               <th onClick={this.handleClick.bind(this, "sort", "status")}>Status</th>
-              <th onClick={this.handleClick.bind(this, "sort", "status")}>EthesisDone</th>
-              <th onClick={this.handleClick.bind(this, "sort", "status")}>GraderEvalDone</th>
-              <th onClick={this.handleClick.bind(this, "sort", "status")}>PrintDone</th>
+              <th onClick={this.handleClick.bind(this, "sort", "status")}>Ethesis Done</th>
+              <th onClick={this.handleClick.bind(this, "sort", "status")}>GraderEval Done</th>
+              <th onClick={this.handleClick.bind(this, "sort", "status")}>Print Done</th>
               <th onClick={this.handleClick.bind(this, "sort", "authorLastname")}>Author lastname</th>
               <th onClick={this.handleClick.bind(this, "sort", "authorFirstname")}>Author firstname</th>
               <th onClick={this.handleClick.bind(this, "sort", "title")}>Title</th>
@@ -218,7 +226,8 @@ export default class ThesisList extends Component {
               <th onClick={this.handleClick.bind(this, "sort", "studyfield")}>Studyfield</th>
               <th onClick={this.handleClick.bind(this, "sort", "grade")}>Grade</th>
               <th>Selected</th>
-              <th>Register Request</th>
+              <th>Register request</th>
+              <th>Registration Done</th>
             </tr>
           </thead>
           <tbody>
@@ -279,11 +288,18 @@ export default class ThesisList extends Component {
                     <input
                       type="checkbox"
                       readOnly="true"
-                      checked={this.props.theses[index].regreq ? "true" : ""}
-                      onChange={this.handleChange.bind(this, "toggleRegReq", index)}
+                      checked={thesis.regreq ? "true" : ""}
+                      onChange={this.handleSend.bind(this, thesis, "toggleRegReq", index)}
                     />
                     <label></label>
                   </div>
+                </td>
+                <td>
+                  { thesis.notificationSent === true ? 
+                  <button className="ui negative button" disabled>Sent</button>
+                    :
+                  <button className="ui positive button" onClick={this.handleSend.bind(this, thesis, "sendRegistrationRequest", index)}>Send</button>
+                  }
                 </td>
               </tr>
             )}
@@ -299,4 +315,5 @@ ThesisList.propTypes = {
   selected: PropTypes.array,
   searched: PropTypes.array,
   toggleRegisterRequest: PropTypes.func,
+  sendRegistrationEmail: PropTypes.func,
 };
