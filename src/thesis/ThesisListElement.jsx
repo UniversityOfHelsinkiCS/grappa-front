@@ -33,7 +33,7 @@ export default class ThesisList extends Component {
   }
 
   initState(props) {
-    console.log("initingstate 2")
+    console.log("initingstate 2");
     // sort theses by lastname first then firstname
     const sorted = props.theses.sort((a, b) => {
       if (a.authorLastname < b.authorLastname) {
@@ -86,7 +86,9 @@ export default class ThesisList extends Component {
         grade: thesis.grade,
         ethesisDone: thesis.ThesisProgress.ethesisDone,
         graderEvalDone: thesis.ThesisProgress.graderEvalDone,
-        printDone: thesis.ThesisProgress.printDone
+        printDone: thesis.ThesisProgress.printDone,
+        regreq: thesis.regreq,
+        notificationSent: thesis.ThesisProgress.studentNotificationSent,
       };
     });
   }
@@ -128,8 +130,6 @@ export default class ThesisList extends Component {
     } else if (type === "toggleSelect") {
       this.props.selected[index] = !this.props.selected[index];
       this.setState({});
-    } else if (type === "toggleRegReq") {
-      this.props.toggleRegisterRequest(this.props.theses[index]);
     }
   }
 
@@ -150,11 +150,14 @@ export default class ThesisList extends Component {
       this.setState({
         allToggle: !this.state.allToggle
       });
-    } else if (type === "sendRegistrationRequest") {
-      console.log(this.props.theses);
-      console.log(index);
-      console.log(this.props.theses[index]);
-      this.props.sendRegistrationEmail(this.props.theses[index]);
+    }
+  }
+
+  handleSend(thesis, type, index, event) {
+    if (type === "sendRegistrationRequest") {
+      this.props.sendRegistrationEmail(thesis);
+    } else if (type === "toggleRegReq") {
+      this.props.toggleRegisterRequest(thesis);
     }
   }
 
@@ -285,17 +288,17 @@ export default class ThesisList extends Component {
                     <input
                       type="checkbox"
                       readOnly="true"
-                      checked={this.props.theses[index].regreq ? "true" : ""}
-                      onChange={this.handleChange.bind(this, "toggleRegReq", index)}
+                      checked={thesis.regreq ? "true" : ""}
+                      onChange={this.handleSend.bind(this, thesis, "toggleRegReq", index)}
                     />
                     <label></label>
                   </div>
                 </td>
                 <td>
-                  { thesis.registrationDone ? 
+                  { thesis.notificationSent === true ? 
                   <button className="ui negative button" disabled>Sent</button>
                     :
-                  <button className="ui positive button" onClick={this.handleClick.bind(this, "sendRegistrationRequest", index)}>Send</button>
+                  <button className="ui positive button" onClick={this.handleSend.bind(this, thesis, "sendRegistrationRequest", index)}>Send</button>
                   }
                 </td>
               </tr>

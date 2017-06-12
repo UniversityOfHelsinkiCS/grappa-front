@@ -168,12 +168,24 @@ export class CouncilmeetingShow extends Component {
     }
     //Since updateThesis wants form
     const form = new FormData();
-    form.append("json", JSON.stringify(thesis));
+    const found = this.props.theses.find(arrThesis => (arrThesis.id == thesis.id))
+    console.log(found);
+    found.regreq = thesis.regreq;
+    form.append("json", JSON.stringify(found));
     this.props.updateThesis(thesis.id, form);
   }
 
   handleSendRegistrationEmail = (thesis) => {
+    thesis.notificationSent = true;
     this.props.sendReminder(thesis.id, "studentRegistrationNotification");
+    
+    //This must be refactored.
+    const form = new FormData();
+    const found = this.props.theses.find(arrThesis => (arrThesis.id == thesis.id))
+    console.log(found);
+    found.notificationSent = thesis.notificationSent;
+    form.append("json", JSON.stringify(found));
+    this.props.updateThesis(thesis.id, form);
   }
 
   render() {
