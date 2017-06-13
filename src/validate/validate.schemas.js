@@ -274,6 +274,11 @@ const schemas = {
       rules: [
       ],
     },
+    regreq: {
+      default: "",
+      type: "boolean",
+      rules: [],
+    }
   },
   grader: {
     name: {

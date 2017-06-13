@@ -108,6 +108,8 @@ export class ThesisShow extends Component {
         tp.graderEvalDone = true;
       } else if (reminderType === "PrintReminder") {
         tp.printDone = true;
+      } else if (reminderType === "studentRegistrationNotification") {
+        tp.StudentRegistrationNotification = true;
       }
       if (confirm("Are you sure you want to manually overwrite this reminder done?")) {
         this.props.updateThesisProgress(tp);
@@ -406,7 +408,7 @@ export class ThesisShow extends Component {
         <div className="three fields">
           <div className="field">
             <label>Recipient</label>
-            <p>{ reminder.to }</p>
+            <p>{ type == "studentRegistrationNotification" ? this.state.updateThesis.values.authorEmail : reminder.to }</p>
           </div>
           <div className="field">
             <label>Last sent</label>
@@ -455,6 +457,7 @@ export class ThesisShow extends Component {
         { this.renderReminder("Ethesis Reminder", "EthesisReminder", thesisProgress.EthesisReminder || {}, thesisProgress.ethesisDone) }
         { this.renderReminder("Grader Evaluation Reminder", "GraderEvalReminder", thesisProgress.GraderEvalReminder || {}, thesisProgress.graderEvalDone) }
         { this.renderReminder("Print Thesis Reminder", "PrintReminder", thesisProgress.PrintReminder || {}, thesisProgress.printDone) }
+        { this.renderReminder("Student Notification", "studentRegistrationNotification", thesisProgress.StudentRegistrationNotification || {} , thesisProgress.studentNotificationSent )}
       </div>
     );
   }
