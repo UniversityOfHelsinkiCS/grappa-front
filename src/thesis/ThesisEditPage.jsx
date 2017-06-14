@@ -8,7 +8,7 @@ import GradersDropdown from "../ui/GradersDropdown";
 import Validate from "../validate/Validate";
 import ValidateError from "../ui/Error";
 
-export class ThesisShow extends Component {
+export class ThesisEditPage extends Component {
 
   constructor() {
     super();
@@ -560,4 +560,4 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ThesisShow);
+export default connect(mapStateToProps, mapDispatchToProps)(ThesisEditPage);
