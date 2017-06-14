@@ -30,55 +30,26 @@ export class Nav extends Component {
     );
   }
 
-  renderUserNav() {
-    const { user } = this.props;
-    return (
-      <div className="ui horizontal pointing menu">
-        <Link className="item" to="/user/me">{ `${user.firstname} ${user.lastname}` }</Link>
-        <Link className="item" to="/thesis">Theses</Link>
-        <Link className="item" to="/thesis/new">Add new thesis</Link>
-        <a className="item" onClick={ this.handleLogout }>Logout</a>
-      </div>
-    );
-  }
-
-  renderPrintPersonNav() {
-    const { user } = this.props;
-    return (
-      <div className="ui horizontal pointing menu">
-        <Link className="item" to="/user/me">{ `${user.firstname} ${user.lastname}` }</Link>
-        <Link className="item" to="/councilmeeting">Councilmeetings </Link>
-        <Link className="item" to="/councilmeeting/next">Next meeting</Link>
-        <a className="item" onClick={ this.handleLogout }>Logout</a>
-      </div>
-    );
-  }
-
-  renderAdminNav() {
-    const { user } = this.props;
-    return (
-      <div className="ui horizontal pointing menu">
-        <Link className="item" to="/user/me">{ `${user.firstname} ${user.lastname}` }</Link>
-        <Link className="item" to="/notification"><NotificationIconBox /></Link>
-        <Link className="item" to="/thesis">Theses</Link>
-        <Link className="item" to="/thesis/new">Add new thesis</Link>
-        <Link className="item" to="/councilmeeting">Councilmeetings </Link>
-        <Link className="item" to="/councilmeeting/next">Next meeting</Link>
-        <Link className="item" to="/user/inactive">Accept new users</Link>
-        <Link className="item" to="/user">Users</Link>
-        <Link className="item" to="/studyfield">Studyfields</Link>
-        <Link className="item" to="/emaildraft">Email drafts</Link>
-        <a className="item" onClick={ this.handleLogout }>Logout</a>
-      </div>
-    );
-  }
+  renderLink = (route, display) => {
+    return <Link className="item" to={route}>{display}</Link>
+  };
 
   renderNav() {
     const isAdmin = this.props.user.role === "admin";
     const isPrintPerson = this.props.user.role === "print-person";
     return (
-      <div>
-        { isAdmin ? this.renderAdminNav() : isPrintPerson ? this.renderPrintPersonNav() : this.renderUserNav() }
+      <div className="ui horizontal pointing menu">
+        { this.renderLink("/user/me", `${this.props.user.firstname} ${this.props.user.lastname}`) }
+        { isAdmin ? this.renderLink("/notification", <NotificationIconBox />) : ''}
+        { !isPrintPerson ? this.renderLink("/thesis", "Theses") : ''}
+        { !isPrintPerson ? this.renderLink("/thesis/new", "Add new thesis") : ''}
+        { isAdmin || isPrintPerson ? this.renderLink("/councilmeeting/next", "Next meeting") : ''}
+        { isAdmin || isPrintPerson ? this.renderLink("/councilmeeting", "Future councilmeetings") : ''}
+        { isAdmin ? this.renderLink("/user/inactive", "Accept new users") : ''}
+        { isAdmin ? this.renderLink("/user", "Users") : ''}
+        { isAdmin ? this.renderLink("/studyfield", "Studyfields") : ''}
+        { isAdmin ? this.renderLink("/emaildraft", "Email drafts") : ''}
+        <a className="item" onClick={ this.handleLogout }>Logout</a>
       </div>
     );
   }
