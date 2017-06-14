@@ -12,7 +12,7 @@ import ThesisCreatePage from "./thesis/ThesisCreatePage";
 
 import CouncilMeetingContainer from "./councilmeeting/CouncilMeetingListCreate";
 import CouncilMeetingShow from "./councilmeeting/CouncilMeetingShow";
-import StudyFieldList from "./studyfield/StudyFieldList";
+import StudyfieldListPage from "./studyfield/StudyfieldListPage";
 import EmailDraftList from "./email/EmailDraftList";
 import NotificationList from "notification/NotificationList";
 // import EmailstatusList from "./emailstatus/EmailstatusList.smart";
@@ -39,7 +39,7 @@ export default (
       <Route path="/thesis/:id" component={ThesisEditPage} onEnter={redirectNonUser} />
       <Route path="/councilmeeting/:id" component={CouncilMeetingShow} onEnter={redirectNonPrintPerson} />
       <Route path="/councilmeeting" component={CouncilMeetingContainer} onEnter={redirectNonPrintPerson} />
-      <Route path="/studyfield" component={StudyFieldList} onEnter={redirectNonAdmin} />
+      <Route path="/studyfield" component={StudyfieldListPage} onEnter={redirectNonAdmin} />
       <Route path="/emaildraft" component={EmailDraftList} onEnter={redirectNonAdmin} />
       <Route path="/notification" component={NotificationList} onEnter={redirectNonAdmin} />
       <Route path="/user" component={UserList} onEnter={redirectNonAdmin} />
