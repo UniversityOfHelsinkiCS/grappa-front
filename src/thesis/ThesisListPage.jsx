@@ -84,13 +84,6 @@ export class ThesisListPage extends Component {
     }
     thesis.notificationSent = true;
     this.props.sendReminder(thesis.id, "studentRegistrationNotification");
-    
-    const form = new FormData();
-    const found = this.props.theses.find(arrThesis => (arrThesis.id == thesis.id))
-    found.notificationSent = thesis.notificationSent;
-    form.append("json", JSON.stringify(found));
-    this.props.updateThesis(thesis.id, form);
-    
   }
 
   render() {
