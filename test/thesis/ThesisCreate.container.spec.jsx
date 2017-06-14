@@ -10,13 +10,13 @@ import {
 } from "react-addons-test-utils";
 import { Provider } from "react-redux";
 import store from "../../src/store";
-import ThesisCreateContainer from "../../src/thesis/ThesisCreate";
+import ThesisCreatePageContainer from "../../src/thesis/ThesisCreatePage";
 import * as actions from "../../src/thesis/thesis.actions";
 
-describe("ThesisCreate", () => {
+describe("ThesisCreatePage", () => {
   const component = renderIntoDocument(
     <Provider store={store}>
-      <ThesisCreateContainer />
+      <ThesisCreatePageContainer />
     </Provider>
   );
 
@@ -30,7 +30,7 @@ describe("ThesisCreate", () => {
     done();
   });
 
-  xdescribe("ThesisCreate form validation", () => {
+  xdescribe("ThesisCreatePage form validation", () => {
     const button = scryRenderedDOMComponentsWithClass(component, "ui primary button")[1];
     it("should keep submit button locked until all fields are filled", () => {
       expect(button.disabled).to.equal(true);

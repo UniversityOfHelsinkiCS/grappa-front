@@ -1,6 +1,6 @@
 /**
-* ThesisCreate.smart for displaying and running the feature for adding thesis,
-* which contains the ThesisCreate component for creating the visual side
+* ThesisCreatePage.smart for displaying and running the feature for adding thesis,
+* which contains the ThesisCreatePage component for creating the visual side
 * of the page and the container containing functions for connecting the component
 * to the reducers that handle the actual changes to the state.
 */
@@ -14,7 +14,7 @@ import GradersDropdown from "../ui/GradersDropdown";
 import Validate from "../validate/Validate";
 import ValidateError from "../ui/Error";
 
-export class ThesisCreate extends React.Component {
+export class ThesisCreatePage extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -366,4 +366,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ThesisCreate);
+export default connect(mapStateToProps, mapDispatchToProps)(ThesisCreatePage);
