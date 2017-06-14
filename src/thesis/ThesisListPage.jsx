@@ -60,6 +60,9 @@ export class ThesisListPage extends Component {
   }
 
   sendRegisterRequest = (thesis) => {
+    if (this.props.user.role !== "admin") {
+      return;
+    }
     if (thesis.regreq) {
       thesis.regreq = !thesis.regreq;
     } else {
@@ -76,6 +79,9 @@ export class ThesisListPage extends Component {
   }
 
   handleSendRegistrationEmail = (thesis) => {
+    if (this.props.user.role !== "admin") {
+      return;
+    }
     thesis.notificationSent = true;
     this.props.sendReminder(thesis.id, "studentRegistrationNotification");
     
@@ -84,6 +90,7 @@ export class ThesisListPage extends Component {
     found.notificationSent = thesis.notificationSent;
     form.append("json", JSON.stringify(found));
     this.props.updateThesis(thesis.id, form);
+    
   }
 
   render() {
