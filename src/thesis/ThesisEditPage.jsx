@@ -8,7 +8,7 @@ import GradersDropdown from "../ui/GradersDropdown";
 import Validate from "../validate/Validate";
 import ValidateError from "../ui/Error";
 
-export class ThesisShow extends Component {
+export class ThesisEditPage extends Component {
 
   constructor() {
     super();
@@ -498,7 +498,9 @@ export class ThesisShow extends Component {
         { this.renderThesisInformation() }
         { this.renderThesisFiles() }
         { this.renderGraders() }
-        <GraderContainer editable={this.state.editable}/>
+        { user.role === "admin" ? 
+          <GraderContainer editable={this.state.editable}/> : '' 
+        }
         { this.renderPickCouncilmeeting() }
         { this.renderGraderEval() }
         { user.role === "admin" ?
@@ -560,4 +562,4 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ThesisShow);
+export default connect(mapStateToProps, mapDispatchToProps)(ThesisEditPage);

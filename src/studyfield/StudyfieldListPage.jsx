@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Validate from "../validate/Validate";
 import ValidateError from "../ui/Error";
 
-export class StudyFieldList extends Component {
+export class StudyfieldListPage extends Component {
 
   constructor() {
     super();
@@ -174,4 +174,4 @@ const mapDispatchToProps = (dispatch) => ({
   }
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(StudyFieldList);
+export default connect(mapStateToProps, mapDispatchToProps)(StudyfieldListPage);

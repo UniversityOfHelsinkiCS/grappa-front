@@ -6,13 +6,13 @@ import App from "./app/App";
 
 import Ethesis from "./ethesis/Ethesis";
 import ShowDocument from "thesis/ShowDocument";
-import ThesisList from "./thesis/ThesisList";
-import ThesisShowEdit from "./thesis/ThesisShowEdit";
-import ThesisCreate from "./thesis/ThesisCreate";
+import ThesisListPage from "./thesis/ThesisListPage";
+import ThesisEditPage from "./thesis/ThesisEditPage";
+import ThesisCreatePage from "./thesis/ThesisCreatePage";
 
 import CouncilMeetingContainer from "./councilmeeting/CouncilMeetingListCreate";
 import CouncilMeetingShow from "./councilmeeting/CouncilMeetingShow";
-import StudyFieldList from "./studyfield/StudyFieldList";
+import StudyfieldListPage from "./studyfield/StudyfieldListPage";
 import EmailDraftList from "./email/EmailDraftList";
 import NotificationList from "notification/NotificationList";
 // import EmailstatusList from "./emailstatus/EmailstatusList.smart";
@@ -34,12 +34,12 @@ export default (
     <Route path="/thesis/:id/:type" component={ShowDocument} />
     <Route path="" component={App}>
       <Route path="/" component={Intro}/>
-      <Route path="/thesis" component={ThesisList} onEnter={redirectNonUser} />
-      <Route path="/thesis/new" component={ThesisCreate} onEnter={redirectNonUser} />
-      <Route path="/thesis/:id" component={ThesisShowEdit} onEnter={redirectNonUser} />
+      <Route path="/thesis" component={ThesisListPage} onEnter={redirectNonUser} />
+      <Route path="/thesis/new" component={ThesisCreatePage} onEnter={redirectNonUser} />
+      <Route path="/thesis/:id" component={ThesisEditPage} onEnter={redirectNonUser} />
       <Route path="/councilmeeting/:id" component={CouncilMeetingShow} onEnter={redirectNonPrintPerson} />
       <Route path="/councilmeeting" component={CouncilMeetingContainer} onEnter={redirectNonPrintPerson} />
-      <Route path="/studyfield" component={StudyFieldList} onEnter={redirectNonAdmin} />
+      <Route path="/studyfield" component={StudyfieldListPage} onEnter={redirectNonAdmin} />
       <Route path="/emaildraft" component={EmailDraftList} onEnter={redirectNonAdmin} />
       <Route path="/notification" component={NotificationList} onEnter={redirectNonAdmin} />
       <Route path="/user" component={UserList} onEnter={redirectNonAdmin} />

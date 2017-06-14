@@ -160,6 +160,9 @@ export class CouncilmeetingShow extends Component {
   }
 
   sendRegisterRequest = (thesis) => {
+    if (this.props.user.role !== "admin") {
+      return;
+    }
     //Shouldn't be null, but just in case.
     if (thesis.regreq) {
       thesis.regreq = !thesis.regreq;
@@ -176,15 +179,11 @@ export class CouncilmeetingShow extends Component {
   }
 
   handleSendRegistrationEmail = (thesis) => {
+    if (this.props.user.role !== "admin") {
+      return;
+    }
     thesis.notificationSent = true;
     this.props.sendReminder(thesis.id, "studentRegistrationNotification");
-    
-    //This must be refactored.
-    const form = new FormData();
-    const found = this.props.theses.find(arrThesis => (arrThesis.id == thesis.id))
-    found.notificationSent = thesis.notificationSent;
-    form.append("json", JSON.stringify(found));
-    this.props.updateThesis(thesis.id, form);
   }
 
   render() {

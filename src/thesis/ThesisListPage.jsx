@@ -10,7 +10,7 @@ import moment from "moment";
 import ThesisListElement from "../thesis/ThesisListElement";
 import _ from "lodash";
 
-export class ThesisList extends Component {
+export class ThesisListPage extends Component {
   constructor() {
     super();
     this.state = {
@@ -60,6 +60,9 @@ export class ThesisList extends Component {
   }
 
   sendRegisterRequest = (thesis) => {
+    if (this.props.user.role !== "admin") {
+      return;
+    }
     if (thesis.regreq) {
       thesis.regreq = !thesis.regreq;
     } else {
@@ -76,15 +79,11 @@ export class ThesisList extends Component {
   }
 
   handleSendRegistrationEmail = (thesis) => {
+    if (this.props.user.role !== "admin") {
+      return;
+    }
     thesis.notificationSent = true;
     this.props.sendReminder(thesis.id, "studentRegistrationNotification");
-    
-    const form = new FormData();
-    const found = this.props.theses.find(arrThesis => (arrThesis.id == thesis.id))
-    console.log(found);
-    found.notificationSent = thesis.notificationSent;
-    form.append("json", JSON.stringify(found));
-    this.props.updateThesis(thesis.id, form);
   }
 
   render() {
@@ -137,4 +136,4 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ThesisList);
+export default connect(mapStateToProps, mapDispatchToProps)(ThesisListPage);

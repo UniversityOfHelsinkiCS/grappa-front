@@ -10,9 +10,9 @@ import {
 } from "react-addons-test-utils";
 import { Provider } from "react-redux";
 import store from "../../src/store";
-import ThesisListContainer, { ThesisList } from "../../src/thesis/ThesisList";
+import ThesisListContainer, { ThesisListPage } from "../../src/thesis/ThesisListPage";
 
-describe("ThesisList.smart", () => {
+describe("ThesisListPage.smart", () => {
   it("should render table headers", () => {
     const component = renderIntoDocument(
       <Provider store={store}>
@@ -27,7 +27,7 @@ describe("ThesisList.smart", () => {
   it("should call api when the page is rendered", () => {
     const spyMethod = sinon.spy();
     renderIntoDocument(
-      <ThesisList theses={[]} getTheses={spyMethod}/>
+      <ThesisListPage theses={[]} getTheses={spyMethod}/>
     );
     expect(spyMethod.callCount).to.be.equal(1);
   });

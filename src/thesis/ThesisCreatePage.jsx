@@ -1,6 +1,6 @@
 /**
-* ThesisCreate.smart for displaying and running the feature for adding thesis,
-* which contains the ThesisCreate component for creating the visual side
+* ThesisCreatePage.smart for displaying and running the feature for adding thesis,
+* which contains the ThesisCreatePage component for creating the visual side
 * of the page and the container containing functions for connecting the component
 * to the reducers that handle the actual changes to the state.
 */
@@ -14,7 +14,7 @@ import GradersDropdown from "../ui/GradersDropdown";
 import Validate from "../validate/Validate";
 import ValidateError from "../ui/Error";
 
-export class ThesisCreate extends React.Component {
+export class ThesisCreatePage extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -313,6 +313,7 @@ export class ThesisCreate extends React.Component {
 * @return <div> thesis-container Container wrapping all the html elements to be rendered.
 */
   render() {
+    const isAdmin = this.props.user.role === "admin";
     return (
       <div>
         { this.renderModal() }
@@ -322,7 +323,7 @@ export class ThesisCreate extends React.Component {
           {this.renderThesisInformation()}
           {this.renderUploadReview()}
           {this.renderGraders()}
-          <GraderContainer editable/>
+          { isAdmin ? <GraderContainer editable/> : '' }
           {this.renderPickCouncilmeeting()}
         </div>
         <button className="ui primary button" onClick={this.handleClick.bind(this, "submit")}>
@@ -356,14 +357,16 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 const mapStateToProps = (state) => {
+  const auth = state.get("auth");
   const cmreducer = state.get("councilmeeting");
   const sfreducer = state.get("studyfield");
   const grader_r = state.get("grader");
   return {
+    user: auth.get("user").toJS(),
     CouncilMeetings: cmreducer.get("councilmeetings").toJS(),
     StudyFields: sfreducer.get("studyfields").toJS(),
     Graders: grader_r.get("graders").toJS(),
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ThesisCreate);
+export default connect(mapStateToProps, mapDispatchToProps)(ThesisCreatePage);

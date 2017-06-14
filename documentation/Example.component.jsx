@@ -16,7 +16,7 @@ import { Link } from "react-router";
  * You can also set defined imports without 'default' keyword which are then imported as:
  * 'import { someMethod } from "../documentation/Example"'
  */
-export default class ThesisList extends Component {
+export default class ThesisListPage extends Component {
   constructor() {
     super();
     this.state = {
