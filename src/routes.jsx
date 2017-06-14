@@ -6,7 +6,7 @@ import App from "./app/App";
 
 import Ethesis from "./ethesis/Ethesis";
 import ShowDocument from "thesis/ShowDocument";
-import ThesisList from "./thesis/ThesisList";
+import ThesisListPage from "./thesis/ThesisListPage";
 import ThesisShowEdit from "./thesis/ThesisShowEdit";
 import ThesisCreate from "./thesis/ThesisCreate";
 
@@ -34,7 +34,7 @@ export default (
     <Route path="/thesis/:id/:type" component={ShowDocument} />
     <Route path="" component={App}>
       <Route path="/" component={Intro}/>
-      <Route path="/thesis" component={ThesisList} onEnter={redirectNonUser} />
+      <Route path="/thesis" component={ThesisListPage} onEnter={redirectNonUser} />
       <Route path="/thesis/new" component={ThesisCreate} onEnter={redirectNonUser} />
       <Route path="/thesis/:id" component={ThesisShowEdit} onEnter={redirectNonUser} />
       <Route path="/councilmeeting/:id" component={CouncilMeetingShow} onEnter={redirectNonPrintPerson} />
