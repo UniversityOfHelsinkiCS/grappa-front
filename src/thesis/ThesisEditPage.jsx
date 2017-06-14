@@ -498,7 +498,9 @@ export class ThesisEditPage extends Component {
         { this.renderThesisInformation() }
         { this.renderThesisFiles() }
         { this.renderGraders() }
-        <GraderContainer editable={this.state.editable}/>
+        { user.role === "admin" ? 
+          <GraderContainer editable={this.state.editable}/> : '' 
+        }
         { this.renderPickCouncilmeeting() }
         { this.renderGraderEval() }
         { user.role === "admin" ?
