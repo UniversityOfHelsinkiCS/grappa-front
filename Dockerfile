@@ -9,7 +9,8 @@ RUN npm install
 
 RUN npm install pm2 -g
 
-# RUN cp .dev-env .env
+# We have package called dotenv, but it isn't used in docker. Envs are in docker-compose.
+RUN cp .dev-env .env
 
 EXPOSE 8080
 
