@@ -12,6 +12,9 @@ RUN npm install pm2 -g
 
 RUN npm i
 
+# Somehow npm i didn't build
+RUN npm run build:prod
+
 EXPOSE 8080
 
 CMD ["pm2-docker", "app.js"]
