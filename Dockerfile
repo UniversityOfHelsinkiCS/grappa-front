@@ -5,12 +5,12 @@ RUN mkdir -p /usr/src/app
 COPY . /usr/src/app
 WORKDIR /usr/src/app
 
-RUN npm install
+# We have package called dotenv for building. Runtime envs are in docker-compose.
+RUN echo "NODE_ENV=production" >> .env
 
 RUN npm install pm2 -g
 
-# We have package called dotenv, but it isn't used in docker. Envs are in docker-compose.
-RUN cp .dev-env .env
+RUN npm i
 
 EXPOSE 8080
 
