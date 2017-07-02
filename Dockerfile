@@ -10,6 +10,7 @@ RUN echo "NODE_ENV=production" >> .env
 RUN echo "API_URL=/backend" >> .env
 RUN echo "WEBSOCKET_URL=/" >> .env
 
+# Using PM2 to keep the service up.
 RUN npm install pm2 -g
 
 RUN npm i
