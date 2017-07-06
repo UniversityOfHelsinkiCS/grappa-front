@@ -1,32 +1,60 @@
 import React, { Component } from "react";
 
-import StatisticsTable from "./statistics/StatisticsTable";
+import StatisticsYearElement from "./statistics/StatisticsYearElement";
 
 export class StatisticsPage extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { theses: [] };
+        this.state = {
+            filteredTheses: [],
+        };
     }
 
     componentWillMount() {
-        this.props.getGrades(),
-        this.setState({
-            theses: this.props.theses,
-        });
+        this.props.getGrades();
+        this.filterThesesByYear(this.props.theses);
     }
 
+    filterThesesByYear(theses) {
+        var filteredTheses = [];
+        if (theses) {
+            theses.forEach(thesis => {
+                let found = false;
+                let year = thesis.CouncilMeeting.date.slice(0, 4);
+                filteredTheses.forEach(yearlyArray => {
+                    if (yearlyArray[0].CouncilMeeting.date.startsWith(year)) {
+                        found = true;
+                        yearlyArray.push(thesis);
+                    }
+                });
+                if (!found) {
+                    filteredTheses.push([thesis]);
+                }
+            });
+        }
+        //The order is "reversed" because the newest will be highest.
+        filteredTheses.sort((a, b) => {
+            let aYear = parseInt(a[0].CouncilMeeting.date.slice(0, 4));
+            let bYear = parseInt(b[0].CouncilMeeting.date.slice(0, 4));
+            if (aYear > bYear) {
+                return -1;
+            } else if (aYear < bYear) {
+                return 1;
+            } else {
+                return 0;
+            }
+        });
+
+        this.setState({ filteredTheses });
+    }
 
     render() {
-        const grades = [1, 2, 3, 4, 5];
-        const grades2 = ['A', 'B', 'C', 'D', 'E'];
-        const programmes = ["Software Systems"];
-        const programmes2 = ["Software Systems", "Networking and Services", "Algorithms, Data Analytics and Machine Learning", "Algorithmic Bioinformatics"];
-        const grades3 = [];
-        const programmes3 = [];
         return (
             <div>
-                <StatisticsTable columnDefinition={grades} rowDefinition={programmes} theses={filteredTheses} />
+                {this.state.filteredTheses.map((thesesByYear, index) =>
+                    <StatisticsYearElement key={index} theses={thesesByYear} />
+                )}
             </div>
         );
     }

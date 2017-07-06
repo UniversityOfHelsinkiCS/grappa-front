@@ -1,31 +1,33 @@
 import React, { Component } from "react";
 
 export class StatisticsTable extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            filteredTheses: [],
+        };
+    }
+
+    componentWillMount() {
+        this.filterThesesByProgrammeAndGrade(this.props.theses);
+    }
+
+    //TODO: Sort by grades
+    //
+    filterThesesByProgrammeAndGrade() {
+        
+    }
+
     render() {
-        if (this.props.rowDefinition.length <= 0 || this.props.columnDefinition.length <= 0) {
-            return (<div/>);
-        }
         return (
             <table className="ui fixed definition table">
                 <thead>
                     <tr>
                         <th></th>
-                        {this.props.columnDefinition.map((value, key) =>
-                            <th key={key}>{value}</th>
-                        )}
+                        <th>NaN</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {this.props.rowDefinition.map((value, key) =>
-                    <tr key={key}>
-                        <td>{value}</td>
-                        <td>None</td>
-                        <td>None</td>
-                        <td>None</td>
-                        <td>None</td>
-                        <td>None</td>
-                    </tr>
-                    )}
                     <tr>
                         <td>Sum</td>
                         <td>None</td>
@@ -34,7 +36,8 @@ export class StatisticsTable extends Component {
                         <td>None</td>
                         <td>None</td>
                     </tr>
-                </tbody></table>
+                </tbody>
+            </table>
         );
     }
 }
