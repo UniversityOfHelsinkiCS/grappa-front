@@ -9,6 +9,7 @@ import ShowDocument from "thesis/ShowDocument";
 import ThesisListPage from "./thesis/ThesisListPage";
 import ThesisEditPage from "./thesis/ThesisEditPage";
 import ThesisCreatePage from "./thesis/ThesisCreatePage";
+import Statistics from "./thesis/StatisticsPage";
 
 import CouncilMeetingContainer from "./councilmeeting/CouncilMeetingListCreate";
 import CouncilMeetingShow from "./councilmeeting/CouncilMeetingShow";
@@ -47,6 +48,7 @@ export default (
       <Route path="/user/me" component={UserShow} onEnter={redirectNonUser} />
       <Route path="/registration" component={Registration} />
       <Route path="/login" component={Login} />
+      <Route path="/statistics" component={Statistics} />
       <Route path="/reset-password" component={RequestResetPassword} />
       <Route path="/reset-password/:token" component={ResetPassword} />
       <Route path="/about" component={About}/>

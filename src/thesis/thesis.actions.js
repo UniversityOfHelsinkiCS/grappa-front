@@ -23,6 +23,19 @@ export const getTheses = () => (
   }
 );
 
+export const getGrades = () => (
+  {
+    type: THESIS_GET_ALL,
+    payload: {
+      request: {
+        url: "/thesis/grades",
+        method: "get",
+        data: {}
+      }
+    }
+  }
+);
+
 /**
  * Action-creator for deleting a thesis
  *
