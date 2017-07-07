@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 
+/**
+ * StatisticsTable splits group of theses into tables and displays them.
+ */
 export class StatisticsTable extends Component {
     constructor(props) {
         super(props);

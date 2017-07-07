@@ -2,6 +2,11 @@ import React, { Component } from "react";
 
 import StatisticsTable from "./StatisticsTable";
 
+/**
+ * StatisticsYearElement contains tables for new and old system.
+ * Old system has grades from laudatur to approbatur and the new system from 1-5 and
+ * those are split to different tables.
+ */
 export class StatisticsYearElement extends Component {
 
     constructor(props) {
