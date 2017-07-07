@@ -8,11 +8,20 @@ export class StatisticsYearElement extends Component {
         super(props);
         this.state = {
             filteredTheses: [],
+            year: null,
         };
     }
 
     componentWillMount() {
+        this.setYear(this.props.theses);
         this.filterThesesByGradingSystem(this.props.theses);
+        
+    }
+
+    setYear(theses) {
+        if (theses) {
+            this.state.year = theses[0].CouncilMeeting.date.slice(0,4);
+        }
     }
 
     filterThesesByGradingSystem(theses) {
@@ -35,20 +44,16 @@ export class StatisticsYearElement extends Component {
     render() {
         return (
             <div>
+                <h2>{this.state.year}</h2>
                 {this.state.filteredTheses.map((theses, index) => {
                     if (theses.length > 0) {
                         return <StatisticsTable key={index} theses={theses} />;
                     }
                 })}
+                <br/>
             </div>
         );
     }
 }
-import { connect } from "react-redux";
 
-const mapStateToProps = (state) => {
-    return {
-    };
-};
-
-export default connect(mapStateToProps)(StatisticsYearElement);
+export default StatisticsYearElement;
