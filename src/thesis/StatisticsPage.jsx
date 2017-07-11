@@ -16,9 +16,12 @@ export class StatisticsPage extends Component {
         };
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.props.getGrades();
-        this.filterThesesByYear(this.props.theses);
+    }
+    
+    componentWillReceiveProps(nextProps) {
+        this.filterThesesByYear(nextProps.theses);
     }
 
     /*
