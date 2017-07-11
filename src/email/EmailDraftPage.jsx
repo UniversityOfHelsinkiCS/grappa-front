@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import Validate from "../validate/Validate";
 import ValidateError from "../ui/Error";
 
-export class EmailDraftList extends Component {
+export class EmailDraftPage extends Component {
 
   constructor() {
     super();
@@ -127,7 +127,7 @@ export class EmailDraftList extends Component {
   }
 }
 import { connect } from "react-redux";
-import { getEmailDrafts, updateEmailDraft } from "./email.actions";
+import { updateEmailDraft } from "./email.actions";
 
 const mapStateToProps = (state) => {
   const email_r = state.get("email");
@@ -137,12 +137,9 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  getEmailDrafts() {
-    dispatch(getEmailDrafts());
-  },
   updateEmailDraft(draft) {
     dispatch(updateEmailDraft(draft));
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(EmailDraftList);
+export default connect(mapStateToProps, mapDispatchToProps)(EmailDraftPage);
