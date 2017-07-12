@@ -19,6 +19,8 @@ export default function (state = INITIAL_STATE, action) {
           return emaildraft;
         })
       );
+    case "EMAILDRAFT_CREATE_ONE_SUCCESS":
+      return state.mergeIn(["emaildrafts"], fromJS(action.payload));
     case "EMAILDRAFT_UPDATE_ONE_FAILURE":
       return state;
     default:

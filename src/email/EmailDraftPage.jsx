@@ -8,8 +8,12 @@ export class EmailDraftPage extends Component {
     super();
   }
 
-  sendUpdateDraft = (draft) => {
+  handleUpdateDraft = (draft) => {
     this.props.updateEmailDraft(draft);
+  }
+
+  handleAddDraft = (draft) => {
+    this.props.createEmailDraft(draft);
   }
 
   render() {
@@ -20,13 +24,13 @@ export class EmailDraftPage extends Component {
           Drafts for the emails that are being sent by Grappa. Title is the email's title and body the text.
           Different variables are indicated with double dollars eg. $LINK$ which differ from draft to draft.
         </p>
-        <EmailDraftList draftList={this.props.EmailDrafts} handleUpdateDraft={this.sendUpdateDraft}/>
+        <EmailDraftList draftList={this.props.EmailDrafts} handleUpdateDraft={this.handleUpdateDraft} sendAddDraft={this.handleAddDraft} />
       </div>
     );
   }
 }
 import { connect } from "react-redux";
-import { updateEmailDraft } from "./email.actions";
+import { createEmailDraft, updateEmailDraft } from "./email.actions";
 
 const mapStateToProps = (state) => {
   const email_r = state.get("email");
@@ -38,6 +42,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => ({
   updateEmailDraft(draft) {
     dispatch(updateEmailDraft(draft));
+  },
+  createEmailDraft(draft) {
+    dispatch(createEmailDraft(draft));
   },
 });
 
