@@ -16,6 +16,10 @@ export class EmailDraftPage extends Component {
     this.props.createEmailDraft(draft);
   }
 
+  handleDeleteDraft = (draft) => {
+    console.log("Not Yet Implemented")
+  }
+
   render() {
     return (
       <div className="ui form">
@@ -24,7 +28,10 @@ export class EmailDraftPage extends Component {
           Drafts for the emails that are being sent by Grappa. Title is the email's title and body the text.
           Different variables are indicated with double dollars eg. $LINK$ which differ from draft to draft.
         </p>
-        <EmailDraftList draftList={this.props.EmailDrafts} handleUpdateDraft={this.handleUpdateDraft} sendAddDraft={this.handleAddDraft} />
+        <EmailDraftList draftList={this.props.EmailDrafts}
+          sendUpdateDraft={this.handleUpdateDraft}
+          sendAddDraft={this.handleAddDraft}
+          sendDeleteDraft={this.handleDeleteDraft} />
       </div>
     );
   }

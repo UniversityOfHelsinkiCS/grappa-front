@@ -41,12 +41,17 @@ export class EmailDraft extends Component {
         Validate.replaceForm(this.state.draftFormName, this.props.draft);
     }
 
+    delete = () => {
+        this.props.sendDeleteRequest(this.props.draft);
+    }
+
     renderButtons() {
         if (this.state.editing) {
             return (
                 <div>
                     <button className="ui button blue" onClick={this.saveEdit}>Save</button>
-                    <button className="ui button red" onClick={this.cancelEdit}>Stop editing</button>
+                    <button className="ui button orange" onClick={this.cancelEdit}>Stop editing</button>
+                    <button className="ui negative right floated button" onClick={this.delete}> Delete </button>
                 </div>
             );
         } else {

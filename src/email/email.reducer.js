@@ -20,7 +20,7 @@ export default function (state = INITIAL_STATE, action) {
         })
       );
     case "EMAILDRAFT_CREATE_ONE_SUCCESS":
-      return state.mergeIn(["emaildrafts"], fromJS(action.payload));
+      return state.updateIn(["emaildrafts"], drafts => fromJS([...drafts, action.payload]));
     case "EMAILDRAFT_UPDATE_ONE_FAILURE":
       return state;
     default:

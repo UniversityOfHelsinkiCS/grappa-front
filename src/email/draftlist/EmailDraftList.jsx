@@ -7,19 +7,28 @@ export class EmailDraftList extends Component {
         super(props);
         this.state = {
             newDraftName: "",
-            draftList: []
+            draftList: [],
         };
+    }
+
+    componentDidMount() {
+        if (this.props.draftList) {
+            this.setState({ draftList: this.props.draftList });
+            this.sortDraftList(this.state.draftList);
+
+        }
     }
 
     componentWillReceiveProps(newProps) {
         if (newProps.draftList) {
-            this.sortDraftList(newProps.draftList);
+            console.log(newProps.draftList);
             this.setState({ draftList: newProps.draftList });
+            this.sortDraftList(this.state.draftList);
         }
     }
 
     sortDraftList = (draftList) => {
-        draftList.sort(draft => draft.id).reverse();
+        draftList.sort((a, b) => { return a.id > b.id });
     }
 
     //TODO: CUID
@@ -48,6 +57,7 @@ export class EmailDraftList extends Component {
                 type: this.state.newDraftName,
             };
             this.props.sendAddDraft(draft);
+            this.setState({ newDraftName: "" });
         }
     }
 
@@ -59,7 +69,7 @@ export class EmailDraftList extends Component {
         return (
             <div>
                 {this.state.draftList.map((draft, index) => {
-                    return <EmailDraft draft={draft} key={index} index={index} updateDraft={this.props.handleUpdateDraft} />
+                    return <EmailDraft draft={draft} key={index} index={index} updateDraft={this.props.sendUpdateDraft} sendDeleteRequest={this.props.sendDeleteDraft} />
                 })}
 
                 <div className="ui input focus">
