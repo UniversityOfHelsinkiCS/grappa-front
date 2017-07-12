@@ -17,7 +17,7 @@ export class EmailDraftPage extends Component {
   }
 
   handleDeleteDraft = (draft) => {
-    console.log("Not Yet Implemented")
+    this.props.deleteEmailDraft(draft);
   }
 
   render() {
@@ -37,7 +37,7 @@ export class EmailDraftPage extends Component {
   }
 }
 import { connect } from "react-redux";
-import { createEmailDraft, updateEmailDraft } from "./email.actions";
+import { createEmailDraft, deleteEmailDraft, updateEmailDraft } from "./email.actions";
 
 const mapStateToProps = (state) => {
   const email_r = state.get("email");
@@ -52,6 +52,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   createEmailDraft(draft) {
     dispatch(createEmailDraft(draft));
+  },
+  deleteEmailDraft(draft) {
+    dispatch(deleteEmailDraft(draft));
   },
 });
 

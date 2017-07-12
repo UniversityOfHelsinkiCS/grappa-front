@@ -21,7 +21,6 @@ export class EmailDraftList extends Component {
 
     componentWillReceiveProps(newProps) {
         if (newProps.draftList) {
-            console.log(newProps.draftList);
             this.setState({ draftList: newProps.draftList });
             this.sortDraftList(this.state.draftList);
         }

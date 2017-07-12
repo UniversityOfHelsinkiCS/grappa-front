@@ -11,6 +11,7 @@ export class EmailDraft extends Component {
             editing: false,
             draftFormName,
             updateEmailDraft: Validate.createForm(draftFormName, "emailDraftEdit"),
+            deleteConfirmation: false,
         };
     }
 
@@ -42,7 +43,12 @@ export class EmailDraft extends Component {
     }
 
     delete = () => {
-        this.props.sendDeleteRequest(this.props.draft);
+        if (this.state.deleteConfirmation) {
+            this.props.sendDeleteRequest(this.props.draft);
+            this.setState({ deleteConfirmation: false });
+        } else {
+            this.setState({ deleteConfirmation: true });
+        }
     }
 
     renderButtons() {
@@ -51,7 +57,9 @@ export class EmailDraft extends Component {
                 <div>
                     <button className="ui button blue" onClick={this.saveEdit}>Save</button>
                     <button className="ui button orange" onClick={this.cancelEdit}>Stop editing</button>
-                    <button className="ui negative right floated button" onClick={this.delete}> Delete </button>
+                    <button className="ui inverted right floated red button" onClick={this.delete}>
+                         {this.state.deleteConfirmation ? "Click again to confirm" : "Delete this draft"} 
+                    </button>
                 </div>
             );
         } else {
