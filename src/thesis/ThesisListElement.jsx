@@ -74,7 +74,7 @@ export default class ThesisList extends Component {
 
   formatTheses(theses) {
     return theses.map(thesis => {
-      if (thesis.ThesisProgress.StudentRegistrationNotification) {
+      if (thesis.ThesisProgress.studentRegistrationNotification) {
         thesis.ThesisProgress.studentNotificationSent = true;
       }
       return {

@@ -183,7 +183,7 @@ export class CouncilmeetingShow extends Component {
       return;
     }
     thesis.notificationSent = true;
-    this.props.sendReminder(thesis.id, "studentRegistrationNotification");
+    this.props.sendReminder(thesis.id, "StudentRegistrationNotification");
   }
 
   render() {
