@@ -40,9 +40,11 @@ export class ThesisCreatePage extends Component {
     const form = new FormData();
     form.append("file", this.state.newThesis.values.PdfFile);
     const newThesis = this.state.newThesis.values;
-    //TODO: Find out why this is done.
+    //The pdf is appended to the form as a file, so we don't want it with the valuegroup
     newThesis.PdfFile = undefined;
     form.append("json", JSON.stringify(newThesis));
+    //The rendering would break if uploadwidget gets "undefined".name
+    //TODO: Consider redirecting to thesis list or thesis edit page
     newThesis.PdfFile = "";
 
     this.props.saveThesisWithReview(form);
