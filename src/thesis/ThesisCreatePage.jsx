@@ -57,7 +57,6 @@ export class ThesisCreatePage extends Component {
   }
 
   handleChange = (fieldName, fieldValue) => {
-    console.log(fieldName + ": " + fieldValue);
     Validate.updateForm("newThesis", fieldName, fieldValue);
   }
 
@@ -72,8 +71,9 @@ export class ThesisCreatePage extends Component {
         <ThesisConfirmModal sendAddThesis={this.handleAddThesis} closeModal={this.toggleModal} showModal={this.state.showModal} />
         <div className="ui form">
           <h2 className="ui dividing header">Create a thesis</h2>
-          <ThesisInformation errors={this.state.newThesis.errors} sendChange={this.handleChange} studyFields={this.props.StudyFields} />
-          <ThesisUploadWidget errors={this.state.newThesis.errors} sendChange={this.handleChange} currentFile={this.state.newThesis.values.PdfFile.name} />
+          <ThesisInformation errors={this.state.newThesis.errors} thesis={this.state.newThesis.values} sendChange={this.handleChange} studyFields={this.props.StudyFields} editing />
+          <h3 className="ui dividing header">Upload Thesis files</h3>
+          <ThesisUploadWidget errors={this.state.newThesis.errors} sendChange={this.handleChange} currentFile={this.state.newThesis.values.PdfFile.name} type={"newThesisReview"} />
           <ThesisGraders errors={this.state.newThesis.errors} graders={this.props.Graders} alreadySelected={this.state.newThesis.values.Graders} />
           {isAdmin ? <GraderListCreateUpdate editable /> : ''}
           <ThesisCouncilMeetingPicker errors={this.state.newThesis.errors} councilMeetings={this.props.CouncilMeetings} sendChange={this.handleChange} />

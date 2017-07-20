@@ -5,11 +5,7 @@ import ValidateError from "../../ui/Error";
 export class ThesisInformation extends Component {
 
     changeField = (fieldName, event) => {
-        const fieldValue = event.target.value;
-        if (fieldValue) {
-            this.props.sendChange(fieldName, fieldValue);
-        }
-
+        this.props.sendChange(fieldName, event.target.value);
     }
 
     renderTextField(label, fieldName, placeholder) {
@@ -18,6 +14,8 @@ export class ThesisInformation extends Component {
                 <label>{label}</label>
                 <input
                     type="text"
+                    disabled={ this.props.editing ? "" : "true" }
+                    value={ this.props.thesis[fieldName] }
                     onChange={(event) => {this.changeField(fieldName, event)}}
                     placeholder={placeholder}
                 />
@@ -32,6 +30,8 @@ export class ThesisInformation extends Component {
                 <label>{label}</label>
                 <select
                     className="ui fluid search dropdown"
+                    disabled={ this.props.editing ? "" : "true" }
+                    value={ this.props.thesis[fieldName] }
                     onChange={(event) => {this.changeField(fieldName, event)}}>
                     <option key="0" value="">Select {label}</option>
                     {fieldArray.map((field, index) =>
