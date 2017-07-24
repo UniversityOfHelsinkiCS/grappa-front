@@ -45,7 +45,10 @@ export class ThesisCouncilMeetingPicker extends Component {
                     you have to either contact admin or submit thesis to another Councilmeeting.
                 </p>
                 <select className="ui fluid search dropdown"
-                    onChange={this.chooseMeeting}>
+                    onChange={this.chooseMeeting}
+                    value={this.props.chosenMeetingId}
+                    disabled={this.props.editing ? "" : "true"}
+                    >
                     {this.state.filteredMeetings.map((meeting, index) =>
                         <option key={index} value={meeting.id} >
                             {meeting.content}

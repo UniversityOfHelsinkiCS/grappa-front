@@ -74,9 +74,9 @@ export class ThesisCreatePage extends Component {
           <ThesisInformation errors={this.state.newThesis.errors} thesis={this.state.newThesis.values} sendChange={this.handleChange} studyFields={this.props.StudyFields} editing />
           <h3 className="ui dividing header">Upload Thesis files</h3>
           <ThesisUploadWidget errors={this.state.newThesis.errors} sendChange={this.handleChange} currentFile={this.state.newThesis.values.PdfFile.name} type={"newThesisReview"} />
-          <ThesisGraders errors={this.state.newThesis.errors} graders={this.props.Graders} alreadySelected={this.state.newThesis.values.Graders} />
+          <ThesisGraders errors={this.state.newThesis.errors} graders={this.props.Graders} alreadySelected={this.state.newThesis.values.Graders} editing={true}/>
           {isAdmin ? <GraderListCreateUpdate editable /> : ''}
-          <ThesisCouncilMeetingPicker errors={this.state.newThesis.errors} councilMeetings={this.props.CouncilMeetings} sendChange={this.handleChange} />
+          <ThesisCouncilMeetingPicker errors={this.state.newThesis.errors} councilMeetings={this.props.CouncilMeetings} sendChange={this.handleChange} editing={true} />
         </div>
         <button className="ui primary button" onClick={this.toggleModal}>
           Submit

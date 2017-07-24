@@ -12,7 +12,7 @@ export class ThesisGraders extends Component {
                 <div className="field">
                     <label>Select Graders</label>
                     <GradersDropdown formname="newThesis" graders={this.props.graders}
-                        selected={this.props.alreadySelected} editable />
+                        selected={this.props.alreadySelected} editable={this.props.editing} />
                 </div>
                 <ValidateError errors={this.props.errors} model="thesis" field="Graders" />
             </div>
