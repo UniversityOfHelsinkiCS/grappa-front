@@ -13,7 +13,6 @@ export class ThesisEmails extends Component {
     }
 
     renderReminder(name, type, reminder, isDone) {
-        console.log(reminder);
         return (
             <div className="field">
                 <div className="ui right input">
