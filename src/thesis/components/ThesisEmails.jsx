@@ -64,7 +64,7 @@ export class ThesisEmails extends Component {
                 {this.renderReminder("Ethesis Reminder", "EthesisReminder", thesisProgress.EthesisReminder || {}, thesisProgress.ethesisDone)}
                 {this.renderReminder("Grader Evaluation Reminder", "GraderEvalReminder", thesisProgress.GraderEvalReminder || {}, thesisProgress.graderEvalDone)}
                 {this.renderReminder("Print Thesis Reminder", "PrintReminder", thesisProgress.PrintReminder || {}, thesisProgress.printDone)}
-                {this.renderReminder("Student Notification", "StudentRegistrationNotification", thesisProgress.StudentRegistrationNotification || {}, thesisProgress.studentNotificationSent)}
+                {this.renderReminder("Student Notification", "StudentRegistrationNotification", thesisProgress.StudentRegistrationNotification || {}, thesisProgress.studentNotificationSent || thesisProgress.StudentRegistrationNotification != null)}
             </div>
         );
     }
