@@ -7,8 +7,7 @@ const INITIAL_STATE = fromJS({
 export default function (state = INITIAL_STATE, action) {
   switch (action.type) {
     case "NOTIFICATION_GET_ALL_SUCCESS":
-      // god damn immutable.js, wont merge empty array to replace the old data X_X
-      // scour.js could be better?
+      // immutable.js wont merge empty array to replace the old data
       if (action.payload.length === 0) {
         return state.merge(fromJS({
           notifications: []
@@ -22,12 +21,11 @@ export default function (state = INITIAL_STATE, action) {
       notifications.sort((a, b) => {
         return b.createdAt - a.createdAt;
       })
-      // porco dio what a piece of shit 
       return state.merge(fromJS({
         notifications,
       }))
       // return state.mergeIn(["notifications"], fromJS(action.payload));
-    // for notifications received through the websocket
+      // for notifications received through the websocket
     case "NOTIFICATION_ADD_ONE":
       return state.updateIn(["notifications"], notifications => fromJS([action.payload, ...notifications]));
     case "NOTIFICATION_SET_READ_SUCCESS":

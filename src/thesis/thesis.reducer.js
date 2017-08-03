@@ -113,7 +113,8 @@ export default function (state = INITIAL_STATE, action) {
       return state.updateIn(["theses"], thesis =>
         thesis.map(thesis => {
           if (thesis.get("id") === action.payload.ThesisId) {
-              return thesis.setIn(["ThesisProgress", action.payload.type], fromJS(action.payload));
+            //TODO: Is setIn safe? Previously used mergeIn but it won't work if destination is null
+            return thesis.setIn(["ThesisProgress", action.payload.type], fromJS(action.payload));
           }
           return thesis;
         })
