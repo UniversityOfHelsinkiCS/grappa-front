@@ -45,7 +45,7 @@ export const loginUser = (email, password) => {
   };
 }
 
-const loginAction = (email, password) => (
+export const loginAction = (email, password) => (
   {
     type: LOGIN_USER,
     payload: {
@@ -72,7 +72,7 @@ export const logout = () => {
   };
 }
 
-const logoutAction = () => (
+export const logoutAction = () => (
   {
     type: LOGOUT_USER,
   }
