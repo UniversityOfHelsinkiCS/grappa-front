@@ -32,11 +32,11 @@ export class App extends Component {
     );
   }
 }
-
+/* DEPRECATED
 App.propTypes = {
   children: PropTypes.node,
 };
-
+*/
 import { connect } from "react-redux";
 import { setLogoutTimeout } from "ping/ping.actions";
 import { connectToSocket } from "socket/socket.actions";

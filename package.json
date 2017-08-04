@@ -10,7 +10,8 @@
     "postinstall": "node ./is_prod.js && webpack --config webpack.config.prod.js --progress --colors || true",
     "start": "node app.js",
     "pm2:start": "pm2 start -n grappa-front npm -- start",
-    "test": "export NODE_ENV=testing|| set NODE_ENV=testing&& istanbul cover node_modules/mocha/bin/_mocha -- --compilers js:babel-core/register --require ./test/testhelper.js  \"test/**/*@(.js|.jsx)\"",
+    "test": "ava",
+    "test:old": "export NODE_ENV=testing|| set NODE_ENV=testing&& istanbul cover node_modules/mocha/bin/_mocha -- --compilers js:babel-core/register --require ./test/testhelper.js  \"test/**/*@(.js|.jsx)\"",
     "test:watch": "npm run test -- --watch",
     "test:noc": "export NODE_ENV=testing|| set NODE_ENV=testing&& mocha --compilers js:babel-core/register --require ./test/testhelper.js  \"test/**/*@(.js|.jsx)\"",
     "instrument": "istanbul instrument . -o instrument/"
@@ -42,9 +43,9 @@
     "immutable": "^3.7.6",
     "moment": "^2.12.0",
     "pm2": "^2.5.0",
-    "react": "^15.4.0",
+    "react": "^15.6.1",
     "react-datepicker": "^0.34.0",
-    "react-dom": "^15.4.0",
+    "react-dom": "^15.6.1",
     "react-dropzone": "^3.5.1",
     "react-redux": "^4.0.6",
     "react-router": "^3.0.0",
@@ -59,23 +60,44 @@
     "webpack": "^1.13.0"
   },
   "devDependencies": {
+    "ava": "^0.21.0",
     "babel-plugin-module-resolver": "^2.4.0",
     "babel-polyfill": "^6.23.0",
-    "babel-preset-react-hmre": "^1.0.1",
     "babel-preset-stage-2": "^6.18.0",
+    "babel-register": "^6.24.1",
     "chai": "^3.5.0",
     "chai-immutable": "^1.5.3",
     "coveralls": "^2.11.9",
+    "enzyme": "^2.9.1",
     "eslint": "^3.10.2",
     "eslint-config-airbnb": "^13.0.0",
     "eslint-plugin-react": "^6.7.1",
     "istanbul": "^1.0.0-alpha.2",
     "jsdom": "^9.8.3",
-    "jsx-chai": "^4.0.0",
     "mocha": "^3.1.2",
-    "react-addons-test-utils": "^15.4.0",
+    "nyc": "^11.1.0",
+    "react-test-renderer": "^15.6.1",
     "sinon": "^1.17.3",
     "webpack-dev-middleware": "^1.5.1",
     "webpack-hot-middleware": "^2.6.4"
+  },
+  "ava": {
+    "files": [
+      "test/**/*.spec.js",
+      "test/**/*.spec.jsx"
+    ],
+    "source": [
+      "src/**/*.js",
+      "src/**/*.jsx"
+    ],
+    "concurrency": 5,
+    "failFast": true,
+    "failWithoutAssertions": false,
+    "tap": true,
+    "powerAssert": false,
+    "require": [
+      "babel-register"
+    ],
+    "babel": "inherit"
   }
 }

@@ -252,6 +252,8 @@ export default class ThesisListPage extends Component {
 /**
  * Required props this component needs to be rendered
  */
-App.propTypes = {
+/* DEPRECATED
+ App.propTypes = {
   children: PropTypes.node,
 };
+*/

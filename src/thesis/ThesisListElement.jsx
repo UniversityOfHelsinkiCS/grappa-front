@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from "react";
+import React, { Component } from "react";
 import moment from "moment";
 import { Link } from "react-router";
 import _ from "lodash";
@@ -312,7 +312,7 @@ export default class ThesisList extends Component {
     );
   }
 }
-
+/* DEPRECATED
 ThesisList.propTypes = {
   theses: PropTypes.array,
   selected: PropTypes.array,
@@ -320,3 +320,4 @@ ThesisList.propTypes = {
   toggleRegisterRequest: PropTypes.func,
   sendRegistrationEmail: PropTypes.func,
 };
+*/
