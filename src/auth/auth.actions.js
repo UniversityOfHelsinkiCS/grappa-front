@@ -62,6 +62,7 @@ export const loginAction = (email, password) => (
 );
 
 export const logout = () => {
+  console.log("LOGGING OUT");
   return (dispatch, getState) => {
     browserHistory.push("/login");
     return Promise.all([
@@ -106,8 +107,8 @@ export const requestPasswordResetion = (email) => (
 export const sendNewPassword = (token) => {
   return (dispatch, getState) => {
     return dispatch(sendNewPasswordAction(token)).then((action) => {
-        return action.type === "SEND_NEW_PASSWORD_SUCCESS";
-      })
+      return action.type === "SEND_NEW_PASSWORD_SUCCESS";
+    })
   };
 }
 
