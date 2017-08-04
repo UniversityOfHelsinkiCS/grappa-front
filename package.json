@@ -11,8 +11,9 @@
     "start": "node app.js",
     "pm2:start": "pm2 start -n grappa-front npm -- start",
     "test": "ava",
+    "nyan": "ava --tap | tap-nyan",
+    "watch": "ava --watch",
     "test:old": "export NODE_ENV=testing|| set NODE_ENV=testing&& istanbul cover node_modules/mocha/bin/_mocha -- --compilers js:babel-core/register --require ./test/testhelper.js  \"test/**/*@(.js|.jsx)\"",
-    "test:watch": "npm run test -- --watch",
     "test:noc": "export NODE_ENV=testing|| set NODE_ENV=testing&& mocha --compilers js:babel-core/register --require ./test/testhelper.js  \"test/**/*@(.js|.jsx)\"",
     "instrument": "istanbul instrument . -o instrument/"
   },
@@ -73,11 +74,12 @@
     "eslint-config-airbnb": "^13.0.0",
     "eslint-plugin-react": "^6.7.1",
     "istanbul": "^1.0.0-alpha.2",
-    "jsdom": "^9.8.3",
+    "jsdom": "^9.12.0",
     "mocha": "^3.1.2",
     "nyc": "^11.1.0",
     "react-test-renderer": "^15.6.1",
     "sinon": "^1.17.3",
+    "tap-nyan": "^1.1.0",
     "webpack-dev-middleware": "^1.5.1",
     "webpack-hot-middleware": "^2.6.4"
   },
@@ -93,10 +95,11 @@
     "concurrency": 5,
     "failFast": true,
     "failWithoutAssertions": false,
-    "tap": true,
+    "tap": false,
     "powerAssert": false,
     "require": [
-      "babel-register"
+      "babel-register",
+      "./test/test-browser-env.js"
     ],
     "babel": "inherit"
   }
