@@ -1,58 +1,9 @@
-export const thesis = {
-  id: 3,
-  author: "EKA GRADU",
-  email: "spam@gmail.com",
-  title: "ihminen",
-  grader: "Masa",
-  grader2: "Pena",
-  graderemail: "masa@gmail.com",
-  grader2email: "pena@hotmail.com",
-  gradertitle: "Professor",
-  grader2title: "Assistant Professor",
-  urkund: "https://urkund.com/plagioitulol",
-  ethesis: "https://ethesis.com/teemu",
-  abstract: "Hauki on kala",
-  field: "Data science",
-  grade: "Approbatur",
-  deadline: "29.2.2020",
-};
-
-export const theses = [
+export const studyfields = [
   {
-    id: 2,
-    author: "TOKA GRADU",
-    email: "matti@gmail.com",
-    title: "päällikkö",
-    urkund: "http://matti.com",
-    ethesis: "https://ethesis.com/matti",
-    abstract: "matti on mies",
-    grade: "L",
+    name: "Studyfield 1",
   },
   {
-    id: 3,
-    author: "KOLMAS GRADU",
-    email: "matti@gmail.com",
-    title: "päällikkö",
-    urkund: "http://matti.com",
-    ethesis: "https://ethesis.com/matti",
-    abstract: "matti on mies",
-    grade: "L",
-  },
-];
-
-export const councilmeeting = {
-  id: 1,
-  date: "date1",
-};
-
-export const councilmeetings = [
-  {
-    id: 2,
-    date: "date2",
-  },
-  {
-    id: 3,
-    date: "date3",
+    name: "Studyfield 2",
   },
 ];
 
@@ -158,6 +109,95 @@ export const notActivatedUsers = [
     role: "instructor",
     isActive: false,
     StudyFieldId: 2,
+  },
+];
+
+export const thesisProgresses = [
+  {
+    StudentRegistrationNotification: null,
+  },
+  {
+    StudentRegistrationNotification: {},
+  }
+];
+
+export const thesis = {
+  id: 3,
+  author: "EKA GRADU",
+  email: "spam@gmail.com",
+  title: "ihminen",
+  grader: "Masa",
+  grader2: "Pena",
+  graderemail: "masa@gmail.com",
+  grader2email: "pena@hotmail.com",
+  gradertitle: "Professor",
+  grader2title: "Assistant Professor",
+  urkund: "https://urkund.com/plagioitulol",
+  ethesis: "https://ethesis.com/teemu",
+  abstract: "Hauki on kala",
+  field: "Data science",
+  grade: "Approbatur",
+  deadline: "29.2.2020",
+};
+
+export const theses = [
+  {
+    id: 2,
+    author: "TOKA GRADU",
+    User: users[1],
+    StudyField: studyfields[0],
+    email: "matti@gmail.com",
+    title: "päällikkö",
+    urkund: "http://matti.com",
+    ethesis: "https://ethesis.com/matti",
+    abstract: "matti on mies",
+    grade: "L",
+    CouncilMeetingId: 2,
+    ThesisProgress: thesisProgresses[0],
+  },
+  {
+    id: 3,
+    author: "KOLMAS GRADU",
+    User: users[1],
+    StudyField: studyfields[0],
+    email: "matti@gmail.com",
+    title: "päällikkö",
+    urkund: "http://matti.com",
+    ethesis: "https://ethesis.com/matti",
+    abstract: "matti on mies",
+    grade: "L",
+    CouncilMeetingId: 2,
+    ThesisProgress: thesisProgresses[0],
+  },
+  {
+    id: 3,
+    author: "NELJÄS GRADU",
+    User: users[1],
+    StudyField: studyfields[0],
+    email: "matti@gmail.com",
+    title: "päällikkö",
+    urkund: "http://matti.com",
+    ethesis: "https://ethesis.com/matti",
+    abstract: "matti on mies",
+    grade: "L",
+    CouncilMeetingId: 3,
+    ThesisProgress: thesisProgresses[1],
+  },
+];
+
+export const councilmeeting = {
+  id: 1,
+  date: "date1",
+};
+
+export const councilmeetings = [
+  {
+    id: 2,
+    date: "date2",
+  },
+  {
+    id: 3,
+    date: "date3",
   },
 ];
 
