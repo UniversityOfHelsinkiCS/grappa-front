@@ -170,7 +170,7 @@ export const theses = [
     ThesisProgress: thesisProgresses[0],
   },
   {
-    id: 3,
+    id: 4,
     author: "NELJÄS GRADU",
     User: users[1],
     StudyField: studyfields[0],
@@ -185,12 +185,11 @@ export const theses = [
   },
 ];
 
-export const councilmeeting = {
-  id: 1,
-  date: "date1",
-};
-
 export const councilmeetings = [
+  {
+    id: 1,
+    date: "date1",
+  },
   {
     id: 2,
     date: "date2",

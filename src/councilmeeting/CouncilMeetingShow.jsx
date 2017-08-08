@@ -172,7 +172,6 @@ export class CouncilmeetingShow extends Component {
     //Since updateThesis wants form
     const form = new FormData();
     const found = this.props.theses.find(arrThesis => (arrThesis.id == thesis.id))
-    console.log(found);
     found.regreq = thesis.regreq;
     form.append("json", JSON.stringify(found));
     this.props.updateThesis(thesis.id, form);
