@@ -9,17 +9,17 @@ import {
 } from '../../src/auth/auth.actions';
 
 const initialState = fromJS({
-  user: {},
-  token: "",
-  expires: undefined,
-  loading: false,
+    user: {},
+    token: "",
+    expires: undefined,
+    loading: false,
 });
 
 const stateWithUserLoggedIn = fromJS({
-  user: loggedInUsers[0],
-  token: tokens[0],
-  expires: 1000,
-  loading: false,
+    user: loggedInUsers[0],
+    token: tokens[0],
+    expires: 1000,
+    loading: false,
 });
 
 test('login reducer', reducerTest(
