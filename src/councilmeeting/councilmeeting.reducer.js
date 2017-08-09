@@ -11,8 +11,6 @@ export default function (state = INITIAL_STATE, action) {
         return new Date(a.date) - new Date(b.date);
       });
       return state.mergeIn(["councilmeetings"], fromJS(sorted));
-    case "COUNCILMEETING_GET_ALL_FAILURE":
-      return state;
     case "COUNCILMEETING_SAVE_ONE_SUCCESS":
       const exists = state.get("councilmeetings").find(grader => {
         return grader.get("id") === action.payload.id;
@@ -29,8 +27,6 @@ export default function (state = INITIAL_STATE, action) {
         });
         return index !== -1 ? list.splice(index, 0, fromJS(action.payload)) : list.push(fromJS(action.payload));
       });
-    case "COUNCILMEETING_SAVE_ONE_FAILURE":
-      return state;
     case "COUNCILMEETING_UPDATE_ONE_SUCCESS":
       const updatedState = state.updateIn(["councilmeetings"], councilmeetings =>
         councilmeetings.map(councilmeeting => {
@@ -45,8 +41,6 @@ export default function (state = INITIAL_STATE, action) {
           return new Date(a.get("date")) - new Date(b.get("date"));
         })
       );
-    case "COUNCILMEETING_UPDATE_ONE_FAILURE":
-      return state;
     case "COUNCILMEETING_DELETE_ONE_SUCCESS":
       return state.updateIn(["councilmeetings"], list =>
         list.filter(cm => {
@@ -55,8 +49,10 @@ export default function (state = INITIAL_STATE, action) {
           }
         })
       );
+    case "COUNCILMEETING_GET_ALL_FAILURE":
+    case "COUNCILMEETING_SAVE_ONE_FAILURE":
+    case "COUNCILMEETING_UPDATE_ONE_FAILURE":
     case "COUNCILMEETING_DELETE_ONE_FAILURE":
-      return state;
     default:
       return state;
   }
