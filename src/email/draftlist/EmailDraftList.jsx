@@ -64,6 +64,7 @@ export class EmailDraftList extends Component {
         this.setState({ newDraftName: event.target.value });
     }
 
+    //TODO: consider moving createdraft to emaildraftpage
     render() {
         return (
             <div>

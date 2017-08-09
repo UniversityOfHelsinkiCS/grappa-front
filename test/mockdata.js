@@ -217,6 +217,21 @@ export const councilmeetings = [
   }
 ];
 
+export const emailDrafts = [
+  {
+    id: 1,
+    title: "Otsikko",
+    body: "Sisältö",
+    type: "tosiSuomalainenDraft",
+  },
+  {
+    id: 2,
+    title: "Title",
+    body: "Body",
+    type: "reallyEnglishDraft",
+  },
+];
+
 export const activatedUsers = [
   {
     id: 2,
