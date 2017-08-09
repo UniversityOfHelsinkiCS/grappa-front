@@ -24,19 +24,54 @@ test('renders properly for print-person', t => {
     t.is(wrapper.find('button').length, 0);
 });
 
-test.todo('Creating new councilmeeting');
-/*
 test('Creating new councilmeeting', t => {
+    const saveStub = sinon.stub();
+    const wrapper = mount(
+        <CouncilmeetingListCreate saveCouncilMeeting={saveStub} CouncilMeetings={councilmeetings} User={users[0]} />
+    );
+
+    wrapper.find('.button').at(0).simulate('click');
+    t.truthy(saveStub.calledOnce);
+
+});
+
+test('Show past dates shows past dates', t => {
     const wrapper = mount(
         <CouncilmeetingListCreate CouncilMeetings={councilmeetings} User={users[0]} />
     );
 
-    
+    t.is(wrapper.find('tr').length, 3);
+
+    wrapper.find('.checkbox').find('input').simulate('change');
+
+    t.is(wrapper.find('tr').length, 5);
 });
-*/
 
-test.todo('Creating new councilmeeting to the past');
+test('Changing meetings date', t => {
+    const updateStub = sinon.stub();
+    const wrapper = mount(
+        <CouncilmeetingListCreate updateCouncilMeeting={updateStub} CouncilMeetings={councilmeetings} User={users[0]} />
+    );
 
-test.todo('Show past dates shows past dates');
+    //Nothing is chosen
+    t.is(wrapper.state().updateCouncilMeeting.values.id, '');
+    //Take the first meeting, press the green button.
+    wrapper.find('tr').at(1).find('.green').simulate('click');
+    //First meeting is chosen.
+    t.is(wrapper.state().updateCouncilMeeting.values.id, 1);
 
-test.todo('Changing meetings date');
+    wrapper.find('.green button').simulate('click');
+
+    t.truthy(updateStub.calledOnce);
+});
+
+test('Delete meeting', t => {
+    const deleteStub = sinon.stub();
+    const wrapper = mount(
+        <CouncilmeetingListCreate deleteCouncilMeeting={deleteStub} CouncilMeetings={councilmeetings} User={users[0]} />
+    );
+    
+    wrapper.find('tr').at(1).find('.red').simulate('click');
+
+    t.truthy(deleteStub.calledOnce);
+});

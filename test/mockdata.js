@@ -187,23 +187,33 @@ export const theses = [
     ThesisProgress: thesisProgresses[1],
   },
 ];
-
+//Some tests might break if they're run after some of the dates here, 
+//first 2 are supposed to be upcoming and last 2 are past dates
 export const councilmeetings = [
   {
     id: 1,
-    date: "date1",
+    date: "2099-08-29T20:59:59.000Z",
+    instructorDeadline: "2099-08-21T20:59:59.000Z",
+    studentDeadline: "2099-08-23T20:59:59.000Z",
   },
   {
     id: 2,
-    date: "date2",
+    date: "2088-08-29T20:59:59.000Z",
+    instructorDeadline: "2088-08-21T20:59:59.000Z",
+    studentDeadline: "2088-08-23T20:59:59.000Z",
+
   },
   {
     id: 3,
-    date: "date3",
+    date: "2011-08-29T20:59:59.000Z",
+    instructorDeadline: "2011-08-21T20:59:59.000Z",
+    studentDeadline: "2011-08-23T20:59:59.000Z",
   },
   {
     id: 1,
-    date: "date2",
+    date: "2001-08-29T20:59:59.000Z",
+    instructorDeadline: "2001-08-21T20:59:59.000Z",
+    studentDeadline: "2001-08-23T20:59:59.000Z",
   }
 ];
 
