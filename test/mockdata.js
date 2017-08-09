@@ -1,3 +1,6 @@
+/**
+ * TODO: Clean mockdata so that the tests are more readable.
+ */
 export const studyfields = [
   {
     name: "Studyfield 1",

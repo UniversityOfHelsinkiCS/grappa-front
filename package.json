@@ -45,7 +45,7 @@
     "moment": "^2.12.0",
     "pm2": "^2.5.0",
     "react": "^15.6.1",
-    "react-datepicker": "^0.34.0",
+    "react-datepicker": "^0.52.0",
     "react-dom": "^15.6.1",
     "react-dropzone": "^3.5.1",
     "react-redux": "^4.0.6",
@@ -93,7 +93,7 @@
       "src/**/*.js",
       "src/**/*.jsx"
     ],
-    "concurrency": 5,
+    "concurrency": 10,
     "failFast": true,
     "failWithoutAssertions": false,
     "tap": false,

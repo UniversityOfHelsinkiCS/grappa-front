@@ -33,7 +33,6 @@ export default class ThesisList extends Component {
   }
 
   initState(props) {
-    console.log("initingstate 2");
     // sort theses by lastname first then firstname
     const sorted = props.theses.sort((a, b) => {
       if (a.authorLastname < b.authorLastname) {
