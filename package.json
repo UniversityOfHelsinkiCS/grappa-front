@@ -10,9 +10,9 @@
     "postinstall": "node ./is_prod.js && webpack --config webpack.config.prod.js --progress --colors || true",
     "start": "node app.js",
     "pm2:start": "pm2 start -n grappa-front npm -- start",
-    "test": "ava",
-    "nyan": "ava --tap | tap-nyan",
-    "coverage": "nyc ava",
+    "test": "NODE_ENV=testing ava",
+    "nyan": "NODE_ENV=testing ava --tap | tap-nyan",
+    "coverage": "NODE_ENV=testing nyc ava",
     "watch": "ava --watch"
   },
   "engines": {
