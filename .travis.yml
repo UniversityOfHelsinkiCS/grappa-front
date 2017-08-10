@@ -1,14 +1,5 @@
-sudo: false
 language: node_js
 script:
-  - npm --silent run lint
-  - npm --silent test
-deploy:
-  app: grappa-app
-  provider: heroku
-  api_key:
-    secure: oyjqDeoPWJouiN789/iFErIc8oPnnZn1Zb3KFzf0Sz/tSXQn9GyNKRDcHZVChQyMGJcf9W1xNlfLfpxkzLgFWEx4676Jy+7sHcTVDpJl3Nf77R5do78afu1RYL77wYJQWj5sJlcc85cl8ozPUFesJwWMo5IhTZ0JdOCdDedlPEdcSegY7nrxwinvkqE8SzLCrt+mffMN6U/fwKAmCGKEELJfTckJqRQmyd3OS211Rf1HeQYYrPablZkb2lwQv8dMm+CCifZkdOhxOC2XGS3ccVZJU6rBN3tzqRYjN9rWLE6DoZ3LaG75kNLRorV+yopGdS+1Tq43zN2nMvtp3maHcix4UQ5pr5822oqQ3KpVQr4CilVH0Hob6kxTKq4/tob8aiK3bdtKieLYI6OxvrNBUQeTyDQHC/WgoRJ+gTEL8rLv65PAr3gOaAPE24a89A1KpVAaI+k9i5wnEyowJNCFKwv0LH/z9/rrrptpbSpzZ9Hk64yYyy4fJEDaoZIOyTYfH9nOdX8jA5srATKPBQHp4WI5JedYRVuvBFp+PXscZpWv7E5Vn+HHaomS2mmLkDDan0X2zDzekRsiz5BRlDDqOI+EvKNbZs5c08T6TEjoGj4HDsAhEwyAu+0xTdqmKYw9unoVEFm/AR8FRuuSaciYKk+L32qD2OfrJaavjG8hGrQ=
-notifications:
-  email:
-    on_success: never
-    on_failure: never
+  - npm run coverage
+after_success:
+	- './node_modules/.bin/nyc report --reporter=text-lcov | ./node_modules/.bin/coveralls'
