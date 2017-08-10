@@ -31,10 +31,6 @@ test('adding new draft', t => {
         <EmailDraftList sendAddDraft={sendStub} draftList={emailDrafts} />
     );
 
-    //Three buttons: two edits and create new draft
-    t.is(wrapper.find('.button').length, 3);
-    t.is(wrapper.find('EmailDraft').length, 2);
-
     wrapper.find("input").at(2).simulate('change', {target: { value: "aNewDraft"}});
     wrapper.find(".button").at(2).simulate('click');
 

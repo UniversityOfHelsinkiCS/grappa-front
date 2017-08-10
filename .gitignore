@@ -21,3 +21,6 @@ instrument/
 
 # VSCode folder thingy
 .vscode
+
+# NYC coverage
+.nyc_output
