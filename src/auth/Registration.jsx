@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Errors from "../ui/Errors";
 import Validate from "../validate/Validate";
 
-export class UserRegistration extends Component {
+export class Registration extends Component {
   constructor() {
     super();
     this.state = {
@@ -11,7 +11,7 @@ export class UserRegistration extends Component {
   }
 
   componentWillMount() {
-    Validate.subscribeToForm("newUser", "u", (newUser) => { this.setState({ newUser, });});
+    Validate.subscribeToForm("newUser", "u", (newUser) => { this.setState({ newUser, }); });
   }
 
   componentWillUnmount() {
@@ -43,8 +43,8 @@ export class UserRegistration extends Component {
                   type="text"
                   name="firstname"
                   placeholder="First name"
-                  value={ this.state.newUser.values.firstname }
-                  onChange={ this.handleChange.bind(this, "firstname") }
+                  value={this.state.newUser.values.firstname}
+                  onChange={this.handleChange.bind(this, "firstname")}
                 />
               </div>
             </div>
@@ -55,8 +55,8 @@ export class UserRegistration extends Component {
                   type="text"
                   name="lastname"
                   placeholder="Last name"
-                  value={ this.state.newUser.values.lastname }
-                  onChange={ this.handleChange.bind(this, "lastname") }
+                  value={this.state.newUser.values.lastname}
+                  onChange={this.handleChange.bind(this, "lastname")}
                 />
               </div>
             </div>
@@ -67,8 +67,8 @@ export class UserRegistration extends Component {
                   type="text"
                   name="email"
                   placeholder="E-mail address"
-                  value={ this.state.newUser.values.email }
-                  onChange={ this.handleChange.bind(this, "email") }
+                  value={this.state.newUser.values.email}
+                  onChange={this.handleChange.bind(this, "email")}
                 />
               </div>
             </div>
@@ -79,8 +79,8 @@ export class UserRegistration extends Component {
                   type="password"
                   name="password"
                   placeholder="Password"
-                  value={ this.state.newUser.values.password }
-                  onChange={ this.handleChange.bind(this, "password") }
+                  value={this.state.newUser.values.password}
+                  onChange={this.handleChange.bind(this, "password")}
                 />
               </div>
             </div>
@@ -91,8 +91,8 @@ export class UserRegistration extends Component {
                   type="password"
                   name="confPassword"
                   placeholder="Confirm password"
-                  value={ this.state.newUser.values.passwordConf }
-                  onChange={ this.handleChange.bind(this, "passwordConf") }
+                  value={this.state.newUser.values.passwordConf}
+                  onChange={this.handleChange.bind(this, "passwordConf")}
                 />
               </div>
             </div>
@@ -100,7 +100,7 @@ export class UserRegistration extends Component {
               Register
             </div>
           </div>
-          <Errors errors={this.state.newUser.errors}/>
+          <Errors errors={this.state.newUser.errors} />
         </div>
       </div>
     );
@@ -117,4 +117,4 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 
-export default connect(null, mapDispatchToProps)(UserRegistration);
+export default connect(null, mapDispatchToProps)(Registration);

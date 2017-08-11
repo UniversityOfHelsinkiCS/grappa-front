@@ -15,8 +15,6 @@ export default function (state = INITIAL_STATE, action) {
         token: action.payload.token,
         expires: action.payload.expires,
       });
-    case "LOGIN_USER_FAILURE":
-      return state;
     case "USER_UPDATE_ONE_SUCCESS":
       return state.updateIn(["user"], user => {
         if (user.get("id") === action.payload.id) {
@@ -24,6 +22,8 @@ export default function (state = INITIAL_STATE, action) {
         }
         return user;
       });
+    case "LOGOUT_USER":
+      return INITIAL_STATE;
     default:
       return state;
   }

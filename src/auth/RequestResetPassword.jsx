@@ -1,10 +1,10 @@
-import React from "react";
+import React, { Component } from "react";
 import { Link, browserHistory } from "react-router";
 import Validate from "../validate/Validate";
 import ValidateError from "../ui/Error";
 import Errors from "../ui/Errors";
 
-export class RequestResetPassword extends React.Component {
+export class RequestResetPassword extends Component {
   constructor() {
     super();
     this.state = {

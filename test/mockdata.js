@@ -1,58 +1,12 @@
-export const thesis = {
-  id: 3,
-  author: "EKA GRADU",
-  email: "spam@gmail.com",
-  title: "ihminen",
-  grader: "Masa",
-  grader2: "Pena",
-  graderemail: "masa@gmail.com",
-  grader2email: "pena@hotmail.com",
-  gradertitle: "Professor",
-  grader2title: "Assistant Professor",
-  urkund: "https://urkund.com/plagioitulol",
-  ethesis: "https://ethesis.com/teemu",
-  abstract: "Hauki on kala",
-  field: "Data science",
-  grade: "Approbatur",
-  deadline: "29.2.2020",
-};
-
-export const theses = [
+/**
+ * TODO: Clean mockdata so that the tests are more readable.
+ */
+export const studyfields = [
   {
-    id: 2,
-    author: "TOKA GRADU",
-    email: "matti@gmail.com",
-    title: "päällikkö",
-    urkund: "http://matti.com",
-    ethesis: "https://ethesis.com/matti",
-    abstract: "matti on mies",
-    grade: "L",
+    name: "Studyfield 1",
   },
   {
-    id: 3,
-    author: "KOLMAS GRADU",
-    email: "matti@gmail.com",
-    title: "päällikkö",
-    urkund: "http://matti.com",
-    ethesis: "https://ethesis.com/matti",
-    abstract: "matti on mies",
-    grade: "L",
-  },
-];
-
-export const councilmeeting = {
-  id: 1,
-  date: "date1",
-};
-
-export const councilmeetings = [
-  {
-    id: 2,
-    date: "date2",
-  },
-  {
-    id: 3,
-    date: "date3",
+    name: "Studyfield 2",
   },
 ];
 
@@ -158,6 +112,123 @@ export const notActivatedUsers = [
     role: "instructor",
     isActive: false,
     StudyFieldId: 2,
+  },
+];
+
+export const thesisProgresses = [
+  {
+    StudentRegistrationNotification: null,
+  },
+  {
+    StudentRegistrationNotification: {},
+  }
+];
+
+export const thesis = {
+  id: 3,
+  author: "EKA GRADU",
+  email: "spam@gmail.com",
+  title: "ihminen",
+  grader: "Masa",
+  grader2: "Pena",
+  graderemail: "masa@gmail.com",
+  grader2email: "pena@hotmail.com",
+  gradertitle: "Professor",
+  grader2title: "Assistant Professor",
+  urkund: "https://urkund.com/plagioitulol",
+  ethesis: "https://ethesis.com/teemu",
+  abstract: "Hauki on kala",
+  field: "Data science",
+  grade: "Approbatur",
+  deadline: "29.2.2020",
+};
+
+export const theses = [
+  {
+    id: 2,
+    author: "TOKA GRADU",
+    User: users[1],
+    StudyField: studyfields[0],
+    email: "matti@gmail.com",
+    title: "päällikkö",
+    urkund: "http://matti.com",
+    ethesis: "https://ethesis.com/matti",
+    abstract: "matti on mies",
+    grade: "L",
+    CouncilMeetingId: 2,
+    ThesisProgress: thesisProgresses[0],
+  },
+  {
+    id: 3,
+    author: "KOLMAS GRADU",
+    User: users[1],
+    StudyField: studyfields[0],
+    email: "matti@gmail.com",
+    title: "päällikkö",
+    urkund: "http://matti.com",
+    ethesis: "https://ethesis.com/matti",
+    abstract: "matti on mies",
+    grade: "L",
+    CouncilMeetingId: 2,
+    ThesisProgress: thesisProgresses[0],
+  },
+  {
+    id: 4,
+    author: "NELJÄS GRADU",
+    User: users[1],
+    StudyField: studyfields[0],
+    email: "matti@gmail.com",
+    title: "päällikkö",
+    urkund: "http://matti.com",
+    ethesis: "https://ethesis.com/matti",
+    abstract: "matti on mies",
+    grade: "L",
+    CouncilMeetingId: 3,
+    ThesisProgress: thesisProgresses[1],
+  },
+];
+//Some tests might break if they're run after some of the dates here, 
+//first 2 are supposed to be upcoming and last 2 are past dates
+export const councilmeetings = [
+  {
+    id: 1,
+    date: "2099-08-29T20:59:59.000Z",
+    instructorDeadline: "2099-08-21T20:59:59.000Z",
+    studentDeadline: "2099-08-23T20:59:59.000Z",
+  },
+  {
+    id: 2,
+    date: "2088-08-29T20:59:59.000Z",
+    instructorDeadline: "2088-08-21T20:59:59.000Z",
+    studentDeadline: "2088-08-23T20:59:59.000Z",
+
+  },
+  {
+    id: 3,
+    date: "2011-08-29T20:59:59.000Z",
+    instructorDeadline: "2011-08-21T20:59:59.000Z",
+    studentDeadline: "2011-08-23T20:59:59.000Z",
+  },
+  {
+    id: 1,
+    date: "2001-08-29T20:59:59.000Z",
+    instructorDeadline: "2001-08-21T20:59:59.000Z",
+    studentDeadline: "2001-08-23T20:59:59.000Z",
+  }
+];
+
+export const emailDrafts = [
+  {
+    id: 1,
+    title: "Otsikko",
+    body: "Sisältö",
+    type: "tosiSuomalainenDraft",
+  },
+  {
+    id: 2,
+    title: "Title",
+    body: "Body",
+    type: "reallyEnglishDraft",
   },
 ];
 

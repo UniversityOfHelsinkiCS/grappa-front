@@ -25,7 +25,7 @@ describe("ThesisListPage.smart", () => {
   });
 
   it("should call api when the page is rendered", () => {
-    const spyMethod = sinon.spy();
+    const spyMethod = sinon.stub();
     renderIntoDocument(
       <ThesisListPage theses={[]} getTheses={spyMethod}/>
     );
@@ -40,5 +40,13 @@ describe("ThesisListPage.smart", () => {
     );
     const select = scryRenderedDOMComponentsWithClass(component, "checkbox");
     expect(select.length).to.equal(1);
+  });
+
+  it("should render the list if there are theses", () => {
+    const stub = sinon.stub();
+    const component = renderIntoDocument(
+      <ThesisListPage theses={[]} getTheses={stub} />
+    );
+    expect(true).to.equal(false);
   });
 });

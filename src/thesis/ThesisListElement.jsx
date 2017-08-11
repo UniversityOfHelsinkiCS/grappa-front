@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from "react";
+import React, { Component } from "react";
 import moment from "moment";
 import { Link } from "react-router";
 import _ from "lodash";
@@ -33,7 +33,6 @@ export default class ThesisList extends Component {
   }
 
   initState(props) {
-    console.log("initingstate 2");
     // sort theses by lastname first then firstname
     const sorted = props.theses.sort((a, b) => {
       if (a.authorLastname < b.authorLastname) {
@@ -312,7 +311,7 @@ export default class ThesisList extends Component {
     );
   }
 }
-
+/* DEPRECATED
 ThesisList.propTypes = {
   theses: PropTypes.array,
   selected: PropTypes.array,
@@ -320,3 +319,4 @@ ThesisList.propTypes = {
   toggleRegisterRequest: PropTypes.func,
   sendRegistrationEmail: PropTypes.func,
 };
+*/

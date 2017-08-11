@@ -12,7 +12,7 @@ export class StatisticsTable extends Component {
         };
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.filterThesesByProgrammeAndGrade(this.props.theses);
     }
 

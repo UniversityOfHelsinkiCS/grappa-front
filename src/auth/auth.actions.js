@@ -45,7 +45,7 @@ export const loginUser = (email, password) => {
   };
 }
 
-const loginAction = (email, password) => (
+export const loginAction = (email, password) => (
   {
     type: LOGIN_USER,
     payload: {
@@ -62,6 +62,7 @@ const loginAction = (email, password) => (
 );
 
 export const logout = () => {
+  console.log("LOGGING OUT");
   return (dispatch, getState) => {
     browserHistory.push("/login");
     return Promise.all([
@@ -72,7 +73,7 @@ export const logout = () => {
   };
 }
 
-const logoutAction = () => (
+export const logoutAction = () => (
   {
     type: LOGOUT_USER,
   }
@@ -106,8 +107,8 @@ export const requestPasswordResetion = (email) => (
 export const sendNewPassword = (token) => {
   return (dispatch, getState) => {
     return dispatch(sendNewPasswordAction(token)).then((action) => {
-        return action.type === "SEND_NEW_PASSWORD_SUCCESS";
-      })
+      return action.type === "SEND_NEW_PASSWORD_SUCCESS";
+    })
   };
 }
 

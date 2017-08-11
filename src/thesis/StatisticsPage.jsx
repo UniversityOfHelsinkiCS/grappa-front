@@ -16,9 +16,12 @@ export class StatisticsPage extends Component {
         };
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.props.getGrades();
-        this.filterThesesByYear(this.props.theses);
+    }
+    
+    componentWillReceiveProps(nextProps) {
+        this.filterThesesByYear(nextProps.theses);
     }
 
     /*
@@ -56,20 +59,22 @@ export class StatisticsPage extends Component {
                 }
             });
         }
-        //The order is "reversed" because the newest will be highest.
-        filteredTheses.sort((a, b) => {
-            let aYear = parseInt(a[0].CouncilMeeting.date.slice(0, 4));
-            let bYear = parseInt(b[0].CouncilMeeting.date.slice(0, 4));
-            if (aYear > bYear) {
-                return -1;
-            } else if (aYear < bYear) {
-                return 1;
-            } else {
-                return 0;
-            }
-        });
+        filteredTheses.sort((a, b) => this.sortByCouncilMeetingYear(a,b));
 
         this.setState({ filteredTheses });
+    }
+
+    sortByCouncilMeetingYear(a, b) {
+        let aYear = parseInt(a[0].CouncilMeeting.date.slice(0, 4));
+        let bYear = parseInt(b[0].CouncilMeeting.date.slice(0, 4));
+        //The order is "reversed" because the newest will be highest.
+        if (aYear > bYear) {
+            return -1;
+        } else if (aYear < bYear) {
+            return 1;
+        } else {
+            return 0;
+        }
     }
 
     render() {

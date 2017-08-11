@@ -1,4 +1,4 @@
-# Grappa [![Build Status](https://travis-ci.org/UniversityOfHelsinkiCS/grappa-frontend.svg?branch=master)](https://travis-ci.org/UniversityOfHelsinkiCS/grappa-frontend)
+# Grappa [![Build Status](https://travis-ci.org/UniversityOfHelsinkiCS/grappa-frontend.svg?branch=master)](https://travis-ci.org/UniversityOfHelsinkiCS/grappa-frontend) [![Coverage Status](https://coveralls.io/repos/github/UniversityOfHelsinkiCS/grappa-frontend/badge.svg?branch=master)](https://coveralls.io/github/UniversityOfHelsinkiCS/grappa-frontend?branch=master)
 
 An app to speed up and simplify the process of getting student's theses approved. Made for the Helsinki University's department of Computer Science and licensed under MIT.
 

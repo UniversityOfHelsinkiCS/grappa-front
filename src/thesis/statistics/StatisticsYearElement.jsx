@@ -19,8 +19,10 @@ export class StatisticsYearElement extends Component {
 
     componentWillMount() {
         this.setYear(this.props.theses);
+    }
+
+    componentDidMount() {
         this.filterThesesByGradingSystem(this.props.theses);
-        
     }
 
     setYear(theses) {

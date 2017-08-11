@@ -58,8 +58,7 @@ export default function (state = INITIAL_STATE, action) {
     case "THESIS_SAVE_ONE_FAILURE":
       return state;
     case "THESIS_UPDATE_ONE_SUCCESS":
-      // sorry about this, but when the data is sent from the server through websocket it 
-      // is in JSON so :DDD fun stuff
+      // data is sent from the server through websocket in JSON
       let data;
       if (action.payload.constructor === FormData) {
         data = JSON.parse(action.payload.get("json"));
@@ -114,7 +113,8 @@ export default function (state = INITIAL_STATE, action) {
       return state.updateIn(["theses"], thesis =>
         thesis.map(thesis => {
           if (thesis.get("id") === action.payload.ThesisId) {
-              return thesis.mergeIn(["ThesisProgress", action.payload.type], fromJS(action.payload));
+            //TODO: Is setIn safe? Previously used mergeIn but it won't work if destination is null
+            return thesis.setIn(["ThesisProgress", action.payload.type], fromJS(action.payload));
           }
           return thesis;
         })
