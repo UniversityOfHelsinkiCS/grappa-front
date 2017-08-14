@@ -20,6 +20,7 @@ export class Ethesis extends Component {
   saveThesis = () => {
     const form = new FormData();
     form.append("file", this.state.thesisPDF);
+    form.append("regreq", this.state.regreq);
     this.props.uploadThesisPDF(this.props.params.token, form);
   }
 
