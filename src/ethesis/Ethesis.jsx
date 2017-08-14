@@ -2,19 +2,29 @@ import React, { Component } from "react";
 import Dropzone from "react-dropzone";
 import FlashMessage from "../flash/FlashMessage";
 
+/**
+ * TODO: Rename, 
+ * this renders the website where students add their thesis to Grappa and has nothing to do
+ * with Ethesis (yet)
+ */
+
 export class Ethesis extends Component {
   constructor() {
     super();
     this.state = {
       thesisPDF: "",
+      regreq: false,
     };
   }
 
-  handleClick(type, event) {
-    event.preventDefault();
+  saveThesis = () => {
     const form = new FormData();
     form.append("file", this.state.thesisPDF);
     this.props.uploadThesisPDF(this.props.params.token, form);
+  }
+
+  toggleRegReq = () => {
+    this.setState({ regreq: !this.state.regreq });
   }
 
   onDrop(files) {
@@ -45,12 +55,27 @@ export class Ethesis extends Component {
             <p>
               Please make sure your abstract is on the 2nd page of the thesis.
             </p>
-            { this.renderUploadThesis() }
-            <div className="field">
-              <button className="ui fluid large green button" onClick={this.handleClick.bind(this, "save")}>
-                Save
-              </button>
+            {this.renderUploadThesis()}
+            <p>
+              Do you want to send a study module registration request to head of studies?
+            </p>
+            <div className="ui checkbox">
+              <input
+                type="checkbox"
+                checked={this.state.regreq ? "true" : ""}
+                onChange={this.toggleRegReq}
+              />
+              <label>Send registration request.</label>
             </div>
+            <p>{'  '}</p>
+            {this.state.thesisPDF != "" ?
+            <div className="field">
+              <button className="ui fluid large green button" onClick={this.saveThesis}>
+                Save thesis {this.state.regreq ? "and send request" : "" }
+              </button>
+            </div> :
+            ""
+            }
           </div>
         </div>
         <FlashMessage />
