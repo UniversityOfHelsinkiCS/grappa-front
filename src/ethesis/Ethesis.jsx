@@ -29,9 +29,7 @@ export class Ethesis extends Component {
   }
 
   onDrop(files) {
-    this.setState({
-      thesisPDF: files[0]
-    })
+    this.setState({ thesisPDF: files[0] })
   }
 
   renderUploadThesis() {

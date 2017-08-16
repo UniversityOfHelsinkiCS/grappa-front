@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { browserHistory } from "react-router";
 import { Table, Thead, Th, unsafe } from "reactable";
 import moment from "moment";
-import ThesisListElement from "../thesis/ThesisListElement";
+import ThesisList from "../thesis/ThesisList";
 
 export class CouncilmeetingShow extends Component {
   constructor() {
@@ -237,10 +237,8 @@ export class CouncilmeetingShow extends Component {
             }
           </div>
         </div>
-        <ThesisListElement 
-          theses={this.state.filteredTheses} 
-          selected={this.state.selectedTheses}
-          searched={this.state.searchedTheses}
+        <ThesisList 
+          theses={this.state.filteredTheses}
           toggleRegisterRequest={this.sendRegisterRequest}
           sendRegistrationEmail={this.handleSendRegistrationEmail}
         />
