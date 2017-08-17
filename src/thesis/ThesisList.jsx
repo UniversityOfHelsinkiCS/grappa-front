@@ -15,6 +15,7 @@ export default class ThesisList extends Component {
     this.state = {
       shownThesesIds: [],
       selectedThesesIds: [],
+      includeCover: false,
       allToggle: true,
       showOld: false,
       searchValue: "",
@@ -48,11 +49,17 @@ export default class ThesisList extends Component {
       }
     });
 
-    const filtered = sorted.filter(thesis => thesis.status === "In progress").map(thesis => thesis.id);
-    //const filtered = sorted.map(thesis => thesis.status === "In progress");
+    this.filterTheses(this.state.showOld, this.state.searchValue, props.theses);
+    /*
+    const filtered = sorted.filter(thesis => this.inProgress(thesis)).map(thesis => thesis.id);
 
     this.setState({ shownThesesIds: filtered, selectedThesesIds: filtered });
     this.toggleAllTheses(this.state.allToggle, filtered);
+    */
+  }
+
+  inProgress = (thesis) => {
+    return !(thesis.ThesisProgress.ethesisDone && thesis.ThesisProgress.graderEvalDone && thesis.ThesisProgress.printDone)
   }
 
   searchTheses = (event) => {
@@ -66,11 +73,23 @@ export default class ThesisList extends Component {
     this.filterTheses(!this.state.showOld, this.state.searchValue);
   }
 
-  filterTheses = (showOld, searchValue) => {
-    const theses = this.props.theses.filter((thesis, index, array) => {
-      if (thesis.status === "In progress" || (thesis.status === "Done" && showOld)) {
-        for (const key in thesis) {
-          if (thesis.hasOwnProperty(key) && thesis[key] && typeof thesis[key] === "string" && thesis[key].toLowerCase().includes(searchValue)) {
+  filterTheses = (showOld, searchValue, propTheses) => {
+    if (propTheses === undefined) {
+      propTheses = this.props.theses;
+    }
+    const theses = propTheses.filter((thesis, index, array) => {
+      if (this.inProgress(thesis) || (!this.inProgress(thesis) && showOld)) {
+        const simplifiedThesis = {
+          status: this.inProgress(thesis) ? "Done" : "In Progress",
+          authorFirstname: thesis.authorFirstname,
+          authorLastname: thesis.authorLastname,
+          title: thesis.title,
+          instructor: thesis.User.firstname + " " + thesis.User.lastname,
+          studyfield: thesis.StudyField.name,
+          grade: thesis.grade,
+        }
+        for (const key in simplifiedThesis) {
+          if (simplifiedThesis.hasOwnProperty(key) && simplifiedThesis[key] && typeof simplifiedThesis[key] === "string" && simplifiedThesis[key].toLowerCase().includes(searchValue)) {
             return true;
           }
         }
@@ -78,6 +97,11 @@ export default class ThesisList extends Component {
       return false;
     }).map(thesis => thesis.id);
     this.setState({ shownThesesIds: theses });
+  }
+
+  shownAndSelectedTheses = () => {
+    const thesisIds = this.state.shownThesesIds.filter(id => this.state.selectedThesesIds.includes(id));
+    return thesisIds;
   }
 
   toggleAllTheses = (selectAll, theses) => {
@@ -99,6 +123,13 @@ export default class ThesisList extends Component {
     }
   }
 
+  downloadTheses = () => {
+    this.props.sendDownloadTheses(this.shownAndSelectedTheses(), this.state.includeCover);
+  }
+
+  toggleIncludeCover = () => {
+    this.setState({ includeCover: !this.state.includeCover });
+  }
 
   toggleAll = () => {
     this.toggleAllTheses(!this.state.allToggle, this.state.shownThesesIds);
@@ -106,11 +137,23 @@ export default class ThesisList extends Component {
   }
 
   sendStudentNotification = (thesisId) => {
-    this.props.sendRegistrationEmail(thesisId);
+    if (this.props.userRole === "admin") {
+      this.props.sendRegistrationEmail(thesisId);
+    }
   }
 
   toggleRegistrationRequest = (thesisId) => {
-    this.props.toggleRegisterRequest(thesisId);
+    if (this.props.userRole === "admin") {
+      this.props.toggleRegisterRequest(thesisId);
+    }
+  }
+
+  moveToPreviousMeeting = () => {
+    this.props.moveToPreviousMeeting(this.shownAndSelectedTheses());
+  }
+
+  moveToNextMeeting = () => {
+    this.props.moveToNextMeeting(this.shownAndSelectedTheses());
   }
 
   render() {
@@ -126,8 +169,42 @@ export default class ThesisList extends Component {
       }
       return previousValue;
     }, []);*/
+    const inProgress = this.props.theses.filter(thesis => this.inProgress(thesis)).length;
     return (
       <div>
+        {this.props.councilmeeting != null ?
+          <p>
+            Checking "Include cover" -box will add a councilmeeting cover for the theses that is required for the meeting.
+            Moving theses will set their councilmeeting to next or previous one.
+          </p>
+          :
+          <p></p>
+        }
+        <div>
+          <button className="ui violet button" onClick={this.downloadTheses}>Download selected</button>
+          {this.props.councilmeeting != null ?
+            <div className="ui checkbox m-left m-right">
+              <input
+                type="checkbox"
+                checked={this.state.includeCover ? "true" : ""}
+                onChange={this.toggleIncludeCover}
+              />
+              <label>Include cover</label>
+            </div>
+            :
+            <div></div>
+          }
+          {this.props.userRole === "admin" && this.props.councilmeeting != null ?
+            <span>
+              <button className="ui orange button" onClick={this.moveToPreviousMeeting}>Move to previous meeting</button>
+              <button className="ui dark-red button" onClick={this.moveToNextMeeting}>Move to next meeting</button>
+            </span>
+            :
+            <span></span>
+          }
+
+        </div>
+        <p>Theses done/all theses: {this.props.theses.length - inProgress}/{this.props.theses.length}</p>
         <div className="ui middle aligned three columns grid">
           <div className="column">
             <div className="ui input" style={{ "width": "100%" }}>
@@ -136,7 +213,6 @@ export default class ThesisList extends Component {
                 placeholder="Search..."
                 value={this.state.searchValue}
                 onChange={this.searchTheses}
-              //onChange={this.handleChange.bind(this, "search", "")}
               />
             </div>
           </div>
@@ -147,7 +223,6 @@ export default class ThesisList extends Component {
                   type="checkbox"
                   checked={this.state.showOld ? "true" : ""}
                   onChange={this.showOldTheses}
-                //onChange={this.handleChange.bind(this, "toggleShowOld", "")}
                 />
                 <label>Show also finished theses</label>
               </div>

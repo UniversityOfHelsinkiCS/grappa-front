@@ -56,17 +56,11 @@ export class ThesisListPage extends Component {
     }
     */
 
-    downloadTheses = (theses) => {
-        const IDs = theses.map(thesis => thesis.id);
-        console.log("Downloading");
-        //this.props.downloadTheses({ thesisIds: IDs });
+    handleDownloadTheses = (thesisIds) => {
+        this.props.downloadTheses({ thesisIds: IDs });
     }
 
     sendRegisterRequest = (thesisId) => {
-        if (this.props.user.role !== "admin") {
-            return;
-        }
-
         //Since updateThesis wants form
         const form = new FormData();
         const found = this.props.theses.find(arrThesis => (arrThesis.id == thesisId))
@@ -76,14 +70,10 @@ export class ThesisListPage extends Component {
     }
 
     handleSendRegistrationEmail = (thesisId) => {
-        if (this.props.user.role !== "admin") {
-            return;
-        }
         this.props.sendReminder(thesisId, "StudentRegistrationNotification");
     }
 
     render() {
-        const inProgress = this.state.theses.filter(thesis => thesis.status === "In progress").length;
         return (
             <div>
                 <div className="m-bot">
@@ -91,13 +81,13 @@ export class ThesisListPage extends Component {
                     <p>
                         Past and current theses which you are allowed to view. Click on the thesis to select/unselect.
                     </p>
-                    <button className="ui violet button" onClick={this.downloadTheses}>Download selected</button>
                 </div>
-                <p>Theses done/all theses: {this.state.theses.length - inProgress}/{this.state.theses.length}</p>
                 <ThesisList
                     theses={this.state.theses}
+                    userRole={this.props.user.role}
                     toggleRegisterRequest={this.sendRegisterRequest}
                     sendRegistrationEmail={this.handleSendRegistrationEmail}
+                    sendDownloadTheses={this.handleDownloadTheses}
                 />
             </div>
         );

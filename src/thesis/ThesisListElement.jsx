@@ -17,17 +17,27 @@ export default class ThesisListElement extends Component {
         this.props.toggleRegistrationRequest(this.props.thesis.id);
     }
 
+    status = (thesis) => {
+        return (
+            thesis.ThesisProgress.ethesisDone
+                && thesis.ThesisProgress.graderEvalDone
+                && thesis.ThesisProgress.printDone ?
+                "Done" :
+                "In progress"
+        )
+    }
+
     render() {
         const thesis = this.props.thesis;
         return (
             <tr>
-                <td>{thesis.status}</td>
+                <td>{this.status(thesis)}</td>
                 <td>
                     <div className="ui checkbox">
                         <input
                             type="checkbox"
                             readOnly="true"
-                            checked={thesis.ethesisDone ? "true" : ""}
+                            checked={thesis.ThesisProgress.ethesisDone ? "true" : ""}
                         />
                         <label></label>
                     </div>
@@ -37,7 +47,7 @@ export default class ThesisListElement extends Component {
                         <input
                             type="checkbox"
                             readOnly="true"
-                            checked={thesis.graderEvalDone ? "true" : ""}
+                            checked={thesis.ThesisProgress.graderEvalDone ? "true" : ""}
                         />
                         <label></label>
                     </div>
@@ -47,7 +57,7 @@ export default class ThesisListElement extends Component {
                         <input
                             type="checkbox"
                             readOnly="true"
-                            checked={thesis.printDone ? "true" : ""}
+                            checked={thesis.ThesisProgress.printDone ? "true" : ""}
                         />
                         <label></label>
                     </div>
@@ -57,8 +67,8 @@ export default class ThesisListElement extends Component {
                 <td>
                     <Link to={`/thesis/${thesis.id}`}>{thesis.title}</Link>
                 </td>
-                <td>{thesis.instructor}</td>
-                <td>{thesis.studyfield}</td>
+                <td>{thesis.User.firstname + " " + thesis.User.lastname}</td>
+                <td>{thesis.StudyField.name}</td>
                 <td>{thesis.grade}</td>
                 <td>
                     <div className="ui checkbox">
@@ -74,7 +84,6 @@ export default class ThesisListElement extends Component {
                     <div className="ui checkbox">
                         <input
                             type="checkbox"
-                            readOnly="true"
                             checked={thesis.regreq ? "true" : ""}
                             onChange={this.toggleRegistrationRequest}
                         />
@@ -82,7 +91,8 @@ export default class ThesisListElement extends Component {
                     </div>
                 </td>
                 <td>
-                    {thesis.notificationSent === true ?
+                    {thesis.ThesisProgress.studentNotificationSent === true ||
+                    thesis.ThesisProgress.StudentRegistrationNotification !== null ?
                         <button className="ui negative button" disabled>Sent</button>
                         :
                         <button className="ui positive button" onClick={this.sendStudentNotification}>Send</button>
