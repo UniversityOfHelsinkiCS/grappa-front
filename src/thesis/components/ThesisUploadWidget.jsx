@@ -20,7 +20,6 @@ export class ThesisUploadWidget extends Component {
     }
 
     onDrop = (files) => {
-        console.log(this.props.type);
         switch (this.props.type) {
             case "newThesisReview":
                 this.props.sendChange("PdfFile", files[0]);

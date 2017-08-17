@@ -62,7 +62,6 @@ export const loginAction = (email, password) => (
 );
 
 export const logout = () => {
-  console.log("LOGGING OUT");
   return (dispatch, getState) => {
     browserHistory.push("/login");
     return Promise.all([
