@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import moment from "moment";
 import { Link } from "react-router";
 import _ from "lodash";
-import ThesisListElement from "./ThesisListElement";
+import { ThesisListElement } from "./ThesisListElement";
 
 /**
  * Weird component that receives 3 arrays as props (thesis-objects, two booleans)
@@ -50,12 +50,6 @@ export default class ThesisList extends Component {
     });
 
     this.filterTheses(this.state.showOld, this.state.searchValue, props.theses);
-    /*
-    const filtered = sorted.filter(thesis => this.inProgress(thesis)).map(thesis => thesis.id);
-
-    this.setState({ shownThesesIds: filtered, selectedThesesIds: filtered });
-    this.toggleAllTheses(this.state.allToggle, filtered);
-    */
   }
 
   inProgress = (thesis) => {
@@ -113,6 +107,7 @@ export default class ThesisList extends Component {
   }
 
   selectThesis = (thesisId) => {
+    console.log("select");
     const index = this.state.selectedThesesIds.indexOf(thesisId);
     if (index > -1) {
       this.setState({
@@ -160,15 +155,6 @@ export default class ThesisList extends Component {
     const theses = this.props.theses.filter(thesis => {
       return this.state.shownThesesIds.includes(thesis.id);
     });
-    /*const theses = this.props.theses.reduce((previousValue, thesis, index) => {
-      if ((thesis.status === "In progress" || (thesis.status === "Done" && this.state.showOld)) && this.state.shownThesesIds
-[index]) {
-        const copy = Object.assign({ selected: this.state.shownThesesIds
-  [index] }, thesis);
-        return [...previousValue, copy];
-      }
-      return previousValue;
-    }, []);*/
     const inProgress = this.props.theses.filter(thesis => this.inProgress(thesis)).length;
     return (
       <div>
