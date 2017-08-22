@@ -229,8 +229,8 @@ export class ThesisEditPage extends Component {
                 <ThesisInformation errors={this.state.updateThesis.errors} thesis={this.state.updateThesis.values} sendChange={this.handleChange} studyFields={this.props.studyfields} editing={this.state.editing} />
                 {this.renderThesisFileButtons()}
                 {this.state.editing ? this.renderThesisUploadFiles() : ""}
-                <ThesisGraders errors={this.state.updateThesis.errors} graders={this.props.Graders} alreadySelected={this.state.updateThesis.values.Graders} editing={this.state.editing} />
-                {this.state.editing ? <GraderListCreateUpdate editable /> : ""}
+                <ThesisGraders errors={this.state.updateThesis.errors} updateOrNew={"updateThesis"} graders={this.props.Graders} alreadySelected={this.state.updateThesis.values.Graders} editing={this.state.editing} />
+                <GraderListCreateUpdate editable />
                 <ThesisCouncilMeetingPicker errors={this.state.updateThesis.errors} councilMeetings={this.props.councilmeetings} sendChange={this.handleChange} />
                 {this.renderGraderEval()}
                 {this.props.user.role === "admin" ? <ThesisEmails thesisProgress={this.state.updateThesis.values.ThesisProgress} sendEmail={this.handleEmail} sendDone={this.setReminderDone} /> : ""}

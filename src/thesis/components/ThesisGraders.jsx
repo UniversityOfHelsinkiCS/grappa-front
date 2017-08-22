@@ -11,7 +11,7 @@ export class ThesisGraders extends Component {
                 <p>Click to open a drop-down menu or to type into the input for search.</p>
                 <div className="field">
                     <label>Select Graders</label>
-                    <GradersDropdown formname="newThesis" graders={this.props.graders}
+                    <GradersDropdown formname={this.props.updateOrNew} graders={this.props.graders}
                         selected={this.props.alreadySelected} editable={this.props.editing} />
                 </div>
                 <ValidateError errors={this.props.errors} model="thesis" field="Graders" />
