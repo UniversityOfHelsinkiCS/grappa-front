@@ -25,5 +25,5 @@ test("renders properly", t => {
 
     t.is(wrapper.find(".checkbox").length, 5);
 
-    console.log(wrapper.debug());
+    //console.log(wrapper.debug());
 })

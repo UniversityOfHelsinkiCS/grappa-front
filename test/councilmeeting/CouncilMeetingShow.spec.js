@@ -11,8 +11,8 @@ test('renders properly', t => {
         <CouncilmeetingShow councilmeetings={councilmeetings} user={users[0]} theses={theses} params={{ id: '1' }} />
     );
 
-    //Four buttons: Next, Download Selected, Move to Previous Meeting, Move to Next Meeting
-    t.is(wrapper.find('button').length, 4);
+    //One button: Next
+    t.is(wrapper.find('button').length, 1);
     //Page should contain the ThesisList
     t.is(wrapper.find('ThesisList').length, 1);
 });
@@ -22,8 +22,9 @@ test('renders in mount', t => {
         <CouncilmeetingShow councilmeetings={councilmeetings} user={users[0]} theses={theses} params={{ id: '1' }} />
     );
 
-    //Five buttons: Next, Download Selected, Move to Previous Meeting, Move to Next Meeting
-    //Toggle all unselected
+    //Five buttons: Next 
+    //(from ThesisList: ) Download Selected, Move to Previous Meeting, 
+    // Move to Next Meeting, Toggle all unselected
     t.is(wrapper.find('button').length, 5);
 });
 
@@ -33,15 +34,17 @@ test('Next button', t => {
     const wrapper = mount(
         <CouncilmeetingShow councilmeetings={councilmeetings} user={users[0]} theses={theses} params={{ id: '1' }} />
     );
-    t.is(wrapper.state().filteredTheses.length, 0);
+    t.is(wrapper.state().theses.length, 0);
     //only one row: column headers
     t.is(wrapper.find('tr').length, 1);
 
     wrapper.find('button').at(0).simulate('click');
 
+    console.log(wrapper.debug());
+
     t.is(wrapper.find('button').length, 8);
 
-    t.is(wrapper.state().filteredTheses.length, 2);
+    t.is(wrapper.state().theses.length, 2);
     //Three rows: headers and 2 theses
     t.is(wrapper.find('tr').length, 3);
 });
