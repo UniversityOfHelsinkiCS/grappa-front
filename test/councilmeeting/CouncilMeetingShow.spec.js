@@ -40,11 +40,10 @@ test('Next button', t => {
 
     wrapper.find('button').at(0).simulate('click');
 
-    console.log(wrapper.debug());
+    t.is(wrapper.state().theses.length, 2);
 
     t.is(wrapper.find('button').length, 8);
 
-    t.is(wrapper.state().theses.length, 2);
     //Three rows: headers and 2 theses
     t.is(wrapper.find('tr').length, 3);
 });

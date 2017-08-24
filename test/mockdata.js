@@ -127,6 +127,8 @@ export const thesisProgresses = [
 export const thesis = {
   id: 3,
   author: "EKA GRADU",
+  authorFirstName: "Etunimi",
+  authorLastName: "Sukunimi",
   email: "spam@gmail.com",
   title: "ihminen",
   grader: "Masa",
@@ -148,6 +150,8 @@ export const theses = [
     id: 2,
     author: "TOKA GRADU",
     User: users[1],
+    authorFirstName: "Etunimi",
+    authorLastName: "Sukunimi",
     StudyField: studyfields[0],
     email: "matti@gmail.com",
     title: "päällikkö",
@@ -161,6 +165,8 @@ export const theses = [
   {
     id: 3,
     author: "KOLMAS GRADU",
+    authorFirstName: "Etunimi",
+    authorLastName: "Sukunimi",
     User: users[1],
     StudyField: studyfields[0],
     email: "matti@gmail.com",
@@ -175,6 +181,8 @@ export const theses = [
   {
     id: 4,
     author: "NELJÄS GRADU",
+    authorFirstName: "Etunimi",
+    authorLastName: "Sukunimi",
     User: users[1],
     StudyField: studyfields[0],
     email: "matti@gmail.com",
