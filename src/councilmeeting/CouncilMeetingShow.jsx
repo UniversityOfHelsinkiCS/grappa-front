@@ -54,13 +54,13 @@ export class CouncilmeetingShow extends Component {
     const previousMeeting = index > 0 ? this.props.councilmeetings[index - 1] : "";
     const currentMeeting = this.props.councilmeetings[index];
     const nextMeeting = index === this.props.councilmeetings.length - 1 ? "" : this.props.councilmeetings[index + 1];
-    const filteredTheses = currentMeeting ? this.filterThesesByMeeting(this.props.theses, currentMeeting) : [];
+    const theses = currentMeeting ? this.filterThesesByMeeting(this.props.theses, currentMeeting) : [];
     this.setState({
       index,
       previousMeeting,
       currentMeeting,
       nextMeeting,
-      filteredTheses,
+      theses,
       selectedTheses: [],
       searchedTheses: [],
     });

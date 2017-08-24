@@ -15,8 +15,8 @@ export default class ThesisList extends Component {
     this.state = {
       shownThesesIds: [],
       selectedThesesIds: [],
-      includeCover: false,
-      allToggle: true,
+      includeCover: true,
+      allToggle: false,
       showOld: false,
       searchValue: "",
     };
@@ -49,7 +49,11 @@ export default class ThesisList extends Component {
       }
     });
 
-    this.filterTheses(this.state.showOld, this.state.searchValue, props.theses);
+    const shownThesesIds = this.filterTheses(this.state.showOld, this.state.searchValue, props.theses);
+    const selectedThesesIds = props.theses
+      .filter(thesis => shownThesesIds.includes(thesis.id) && this.inProgress(thesis))
+      .map(thesis => thesis.id);
+    this.setState({ allToggle: true, selectedThesesIds, shownThesesIds });
   }
 
   inProgress = (thesis) => {
@@ -58,20 +62,20 @@ export default class ThesisList extends Component {
 
   searchTheses = (event) => {
     const searchValue = event.target.value.toLowerCase();
-    this.setState({ searchValue });
-    this.filterTheses(this.state.showOld, searchValue);
+    const shownThesesIds = this.filterTheses(this.state.showOld, searchValue);
+    this.setState({ searchValue, shownThesesIds });
   }
 
   showOldTheses = () => {
-    this.setState({ showOld: !this.state.showOld });
-    this.filterTheses(!this.state.showOld, this.state.searchValue);
+    const shownThesesIds = this.filterTheses(!this.state.showOld, this.state.searchValue);
+    this.setState({ showOld: !this.state.showOld, shownThesesIds });
   }
 
   filterTheses = (showOld, searchValue, propTheses) => {
     if (propTheses === undefined) {
       propTheses = this.props.theses;
     }
-    const theses = propTheses.filter((thesis, index, array) => {
+    const thesesIds = propTheses.filter((thesis, index, array) => {
       if (this.inProgress(thesis) || (!this.inProgress(thesis) && showOld)) {
         const simplifiedThesis = {
           status: this.inProgress(thesis) ? "Done" : "In Progress",
@@ -90,7 +94,7 @@ export default class ThesisList extends Component {
       }
       return false;
     }).map(thesis => thesis.id);
-    this.setState({ shownThesesIds: theses });
+    return thesesIds;
   }
 
   shownAndSelectedTheses = () => {
@@ -107,7 +111,6 @@ export default class ThesisList extends Component {
   }
 
   selectThesis = (thesisId) => {
-    console.log("select");
     const index = this.state.selectedThesesIds.indexOf(thesisId);
     if (index > -1) {
       this.setState({
