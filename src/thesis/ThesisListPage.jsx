@@ -30,34 +30,9 @@ export class ThesisListPage extends Component {
         const newTheses = newProps.theses.sort((a, b) => a.id - b.id)
         this.setState({ theses: newTheses });
     }
-    /*
-    formatTheses(theses) {
-        return theses.map(thesis => {
-            if (thesis.ThesisProgress.StudentRegistrationNotification) {
-                thesis.ThesisProgress.studentNotificationSent = true;
-            }
-            return {
-                id: thesis.id,
-                status: thesis.ThesisProgress.ethesisDone && thesis.ThesisProgress.graderEvalDone && thesis.ThesisProgress.printDone ?
-                    "Done" : "In progress",
-                authorFirstname: thesis.authorFirstname,
-                authorLastname: thesis.authorLastname,
-                title: thesis.title,
-                instructor: `${thesis.User.firstname} ${thesis.User.lastname}`,
-                studyfield: thesis.StudyField.name,
-                grade: thesis.grade,
-                ethesisDone: thesis.ThesisProgress.ethesisDone,
-                graderEvalDone: thesis.ThesisProgress.graderEvalDone,
-                printDone: thesis.ThesisProgress.printDone,
-                regreq: thesis.regreq,
-                notificationSent: thesis.ThesisProgress.studentNotificationSent,
-            };
-        });
-    }
-    */
 
     handleDownloadTheses = (thesisIds) => {
-        this.props.downloadTheses({ thesisIds: IDs });
+        this.props.downloadTheses({ thesisIds });
     }
 
     sendRegisterRequest = (thesisId) => {

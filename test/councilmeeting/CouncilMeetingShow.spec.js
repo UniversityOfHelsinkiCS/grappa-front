@@ -41,7 +41,6 @@ test('Next button', t => {
     t.is(wrapper.find("ThesisListElement").length, 2);
     wrapper.find('button').at(0).simulate('click');
 
-    t.is(wrapper.state().theses.length, 1);
     t.is(wrapper.find("ThesisListElement").length, 1)
 
     //Seven buttons: Previous, Next
