@@ -42,7 +42,7 @@ test("Registration request", t => {
     t.is(typeof(updateStub.firstCall.args[1]), "object");
 });
 
-test.only("Registration email", t => {
+test("Registration email", t => {
     const reminderStub = sinon.stub();
     const wrapper = mount(
         <ThesisListPage theses={theses} sendReminder={reminderStub} user={users[0]} getTheses={() => {}} />
