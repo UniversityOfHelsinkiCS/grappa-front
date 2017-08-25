@@ -55,22 +55,45 @@ test("Toggle all unselected", t => {
         <ThesisList theses={theses}/>
     );
 
-    t.is(wrapper.find("button").length, 5)
     t.is(wrapper.state().selectedThesesIds.length, theses.length)
     wrapper.find("button").at(1).simulate('click');
     t.is(wrapper.state().selectedThesesIds.length, 0)
 });
 
 test("Download selected", t => {
-    t.truthy(true);
+    const downloadStub = sinon.stub();
+    const wrapper = mount(
+        <ThesisList theses={theses} sendDownloadTheses={downloadStub}/>
+    );
+
+    wrapper.find("button").at(0).simulate('click');
+    t.truthy(downloadStub.calledOnce);
 });
 
-test.todo("Include cover");
+test("Include cover", t => {
+    const wrapper = mount(
+        <ThesisList councilmeeting={councilmeetings[0]} userRole={"admin"} theses={theses}/>
+    );
+    t.is(wrapper.state().includeCover, true);
+    wrapper.find("input").at(0).simulate('change');
+    t.is(wrapper.state().includeCover, false);
+});
 
-test.todo("Move to previous meeting");
+test("Search", t => {
+    const wrapper = mount(
+        <ThesisList theses={theses} />
+    );
+    t.is(wrapper.state().shownThesesIds.length, theses.length);
+    wrapper.find("input").at(0).simulate('change', {target: {value: theses[0].title}});
+    t.is(wrapper.state().shownThesesIds.length, 1);
+    wrapper.find("input").at(0).simulate('change', {target: {value: "ka"}});
+    t.is(wrapper.state().shownThesesIds.length, 2);
+});
 
-test.todo("Move to next meeting");
+test("Show also unfinished", t => {
+    const wrapper = mount(
+        <ThesisList theses={theses} />
+    );
 
-test.todo("Search");
 
-test.todo("Show also unfinished");
+});
