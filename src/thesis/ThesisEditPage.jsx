@@ -228,7 +228,7 @@ export class ThesisEditPage extends Component {
                 <ThesisInformation errors={this.state.updateThesis.errors} thesis={this.state.updateThesis.values} sendChange={this.handleChange} studyFields={this.props.studyfields} editing={this.state.editing} />
                 {this.renderThesisFileButtons()}
                 {this.state.editing ? this.renderThesisUploadFiles() : ""}
-                <ThesisGraders errors={this.state.updateThesis.errors} graders={this.props.Graders} alreadySelected={this.state.updateThesis.values.Graders} editing={this.state.editing} />
+                <ThesisGraders errors={this.state.updateThesis.errors} updateOrNew={"updateThesis"} graders={this.props.Graders} alreadySelected={this.state.updateThesis.values.Graders} editing={this.state.editing} />
                 {this.state.editing ? <GraderListCreateUpdate editable /> : ""}
                 <ThesisCouncilMeetingPicker errors={this.state.updateThesis.errors} councilMeetings={this.props.councilmeetings} chosenMeetingId={this.state.updateThesis.values.CouncilMeetingId} sendChange={this.handleChange} editing={this.state.editing} />
                 {this.renderGraderEval()}
