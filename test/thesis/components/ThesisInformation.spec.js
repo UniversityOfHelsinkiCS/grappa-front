@@ -33,7 +33,7 @@ test("fields change when changing fields", t => {
     t.truthy(changeStub.callCount === 5);
 });
 
-test.only("selects change when changing selects", t => {
+test("selects change when changing selects", t => {
     const changeStub = sinon.stub();
     const wrapper = mount(
         <ThesisInformation thesis={theses[0]} studyFields={studyfields} sendChange={changeStub} errors={()=>{}}/>

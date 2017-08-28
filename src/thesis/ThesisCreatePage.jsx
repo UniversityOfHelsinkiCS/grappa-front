@@ -66,7 +66,7 @@ export class ThesisCreatePage extends Component {
   */
   render() {
     const isAdmin = this.props.user.role === "admin";
-    const isProfessor = this.props.user.role.includes("Prof");
+    const isProfessor = this.props.user.role.includes("rof");
     return (
       <div>
         <ThesisConfirmModal sendAddThesis={this.handleAddThesis} closeModal={this.toggleModal} showModal={this.state.showModal} />
