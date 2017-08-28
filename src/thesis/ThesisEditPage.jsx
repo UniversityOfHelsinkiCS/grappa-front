@@ -95,7 +95,6 @@ export class ThesisEditPage extends Component {
     }
 
     handleChange = (fieldName, fieldValue) => {
-        console.log(fieldName + ": " + fieldValue);
         Validate.updateForm("updateThesis", fieldName, fieldValue);
     }
 
@@ -231,7 +230,7 @@ export class ThesisEditPage extends Component {
                 {this.state.editing ? this.renderThesisUploadFiles() : ""}
                 <ThesisGraders errors={this.state.updateThesis.errors} graders={this.props.Graders} alreadySelected={this.state.updateThesis.values.Graders} editing={this.state.editing} />
                 {this.state.editing ? <GraderListCreateUpdate editable /> : ""}
-                <ThesisCouncilMeetingPicker errors={this.state.updateThesis.errors} councilMeetings={this.props.councilmeetings} sendChange={this.handleChange} />
+                <ThesisCouncilMeetingPicker errors={this.state.updateThesis.errors} councilMeetings={this.props.councilmeetings} chosenMeetingId={this.state.updateThesis.values.CouncilMeetingId} sendChange={this.handleChange} editing={this.state.editing} />
                 {this.renderGraderEval()}
                 {this.props.user.role === "admin" ? <ThesisEmails thesisProgress={this.state.updateThesis.values.ThesisProgress} sendEmail={this.handleEmail} sendDone={this.setReminderDone} /> : ""}
             </div>
