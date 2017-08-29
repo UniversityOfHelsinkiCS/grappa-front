@@ -7,26 +7,30 @@ export class ThesisCouncilMeetingPicker extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            filteredMeetings: [],
+            filteredMeetings: [{ id: "", content: "Select Date" }, ...this.formatMeetings(props.councilMeetings)],
         }
     }
 
     componentWillReceiveProps(newProps) {
         if (newProps.councilMeetings) {
-            const today = new Date();
-            const formatted = this.props.councilMeetings.filter(meeting => {
-                const mdate = new Date(meeting.date);
-                if (mdate >= today || mdate.toDateString() === today.toDateString()) {
-                    return meeting;
-                }
-            }).map(meeting => {
-                return {
-                    id: meeting.id,
-                    content: `${moment(new Date(meeting.date)).format("DD/MM/YYYY")} Deadline: ${moment(new Date(meeting.instructorDeadline)).format("HH:mm DD/MM/YYYY")}`,
-                };
-            });
-            this.setState({ filteredMeetings: [{ id: "", content: "Select Date" }, ...formatted]});
+            const formatted = this.formatMeetings(newProps.councilMeetings);
+            this.setState({ filteredMeetings: [{ id: "", content: "Select Date" }, ...formatted] });
         }
+    }
+
+    formatMeetings = (councilmeetings) => {
+        const today = new Date();
+        return councilmeetings.filter(meeting => {
+            const mdate = new Date(meeting.date);
+            if (mdate >= today || mdate.toDateString() === today.toDateString()) {
+                return meeting;
+            }
+        }).map(meeting => {
+            return {
+                id: meeting.id,
+                content: `${moment(new Date(meeting.date)).format("DD/MM/YYYY")} Deadline: ${moment(new Date(meeting.instructorDeadline)).format("HH:mm DD/MM/YYYY")}`,
+            };
+        });
     }
 
     chooseMeeting = (e) => {
@@ -48,7 +52,7 @@ export class ThesisCouncilMeetingPicker extends Component {
                     onChange={this.chooseMeeting}
                     value={this.props.chosenMeetingId}
                     disabled={this.props.editing ? "" : "true"}
-                    >
+                >
                     {this.state.filteredMeetings.map((meeting, index) =>
                         <option key={index} value={meeting.id} >
                             {meeting.content}

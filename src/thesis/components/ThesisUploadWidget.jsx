@@ -7,20 +7,24 @@ export class ThesisUploadWidget extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            label: "",
+            label: this.getLabel(props.type),
         }
     }
 
     componentWillReceiveProps(newProps) {
-        if (newProps.type === "Review" || newProps.type === "newThesisReview") {
-            this.setState({ label: "Upload Thesis review as PDF (max. 1 MB)" });
-        } else if (newProps.type === "Abstract") {
-            this.setState({ label: "Upload Thesis with abstract on 2nd page (max. 40 MB)" });
+        this.setState({ label: this.getLabel(newProps.type)});
+    }
+
+    getLabel = (type) => {
+        if (type === "Review" || type === "newThesisReview") {
+            return "Upload Thesis review as PDF (max. 1 MB)";
+        } else if (type === "Abstract") {
+            return "Upload Thesis with abstract on 2nd page (max. 40 MB)";
         }
+        return "";
     }
 
     onDrop = (files) => {
-        console.log(this.props.type);
         switch (this.props.type) {
             case "newThesisReview":
                 this.props.sendChange("PdfFile", files[0]);

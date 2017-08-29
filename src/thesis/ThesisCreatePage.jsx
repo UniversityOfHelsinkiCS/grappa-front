@@ -66,7 +66,7 @@ export class ThesisCreatePage extends Component {
   */
   render() {
     const isAdmin = this.props.user.role === "admin";
-    const isProfessor = this.props.user.role.includes("Prof");
+    const isProfessor = this.props.user.role.includes("rof");
     return (
       <div>
         <ThesisConfirmModal sendAddThesis={this.handleAddThesis} closeModal={this.toggleModal} showModal={this.state.showModal} />
@@ -75,7 +75,7 @@ export class ThesisCreatePage extends Component {
           <ThesisInformation errors={this.state.newThesis.errors} thesis={this.state.newThesis.values} sendChange={this.handleChange} studyFields={this.props.StudyFields} editing />
           <h3 className="ui dividing header">Upload Thesis files</h3>
           <ThesisUploadWidget errors={this.state.newThesis.errors} sendChange={this.handleChange} currentFile={this.state.newThesis.values.PdfFile.name} type={"newThesisReview"} />
-          <ThesisGraders errors={this.state.newThesis.errors} updateOrNew={"newThesis"} graders={this.props.Graders} alreadySelected={this.state.newThesis.values.Graders} editing={true}/>
+          <ThesisGraders errors={this.state.newThesis.errors} updateOrNew={"newThesis"} graders={this.props.Graders} alreadySelected={this.state.newThesis.values.Graders} editing={true} />
           {isProfessor || isAdmin ? <GraderListCreateUpdate editable /> : ""}
           <ThesisCouncilMeetingPicker errors={this.state.newThesis.errors} councilMeetings={this.props.CouncilMeetings} sendChange={this.handleChange} editing={true} />
         </div>

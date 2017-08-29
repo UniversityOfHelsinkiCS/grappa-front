@@ -17,7 +17,7 @@ test('renders properly for admin', t => {
 
 test('renders properly for print-person', t => {
     const wrapper = shallow(
-        <CouncilmeetingListCreate CouncilMeetings={councilmeetings} User={users[1]} />
+        <CouncilmeetingListCreate CouncilMeetings={councilmeetings} User={users[2]} />
     );
 
     //No buttons

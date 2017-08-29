@@ -5,7 +5,7 @@
 import { fromJS } from "immutable";
 
 /**
-*Defines what the intial state is when no changes have yet been done to the state.
+* Defines what the intial state is when no changes have yet been done to the state.
 * todo: ethesis should probably have it's own reducer
 */
 const INITIAL_STATE = fromJS({
@@ -27,15 +27,14 @@ const INITIAL_STATE = fromJS({
 export default function (state = INITIAL_STATE, action) {
   switch (action.type) {
     case "THESIS_GET_ALL_SUCCESS":
-      // lolz if no theses found action.payload is null or smthing
-      // fuging hell man this shit
+      // if no theses found action.payload is null
       if (!action.payload || action.payload === null) {
         return state.merge(fromJS({
           theses: [],
         }));
       }
       /*
-       * This silliness is because react bootstrap table doesn't deal with nested objects
+       * React bootstrap table doesn't deal with nested objects
        */
       const theses = action.payload;
       for (const thesis in theses) {
@@ -46,17 +45,12 @@ export default function (state = INITIAL_STATE, action) {
       return state.merge(fromJS({
         theses,
       }));
-    // return state.updateIn(["theses"], list => list.concat(fromJS(action.payload)));
-    case "THESIS_GET_ALL_FAILURE":
-      return state;
     case "THESIS_SAVE_ONE_SUCCESS":
       const exists = state.get("theses").find(grader => {
         return grader.get("id") === action.payload.id;
       })
       if (exists) return state;
       return state.updateIn(["theses"], theses => fromJS([...theses, action.payload]));
-    case "THESIS_SAVE_ONE_FAILURE":
-      return state;
     case "THESIS_UPDATE_ONE_SUCCESS":
       // data is sent from the server through websocket in JSON
       let data;
@@ -73,10 +67,6 @@ export default function (state = INITIAL_STATE, action) {
           return thesis;
         })
       );
-    case "THESIS_UPDATE_ONE_FAILURE":
-      return state;
-    case "THESIS_DOWNLOAD_SUCCESS":
-      return state;
     case "THESIS_MOVE_SUCCESS":
       return state.updateIn(["theses"], thesis =>
         thesis.map(thesis => {
@@ -113,6 +103,7 @@ export default function (state = INITIAL_STATE, action) {
       return state.updateIn(["theses"], thesis =>
         thesis.map(thesis => {
           if (thesis.get("id") === action.payload.ThesisId) {
+            //TODO: Don't save thesisId again
             //TODO: Is setIn safe? Previously used mergeIn but it won't work if destination is null
             return thesis.setIn(["ThesisProgress", action.payload.type], fromJS(action.payload));
           }

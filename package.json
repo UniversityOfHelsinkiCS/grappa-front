@@ -13,6 +13,7 @@
     "test": "NODE_ENV=testing ava",
     "nyan": "NODE_ENV=testing ava --tap | tap-nyan",
     "coverage": "NODE_ENV=testing nyc ava",
+    "report": "nyc report --reporter=html",
     "watch": "ava --watch"
   },
   "engines": {
@@ -20,14 +21,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ultra-hyper-storm-ohtuprojekti/grappa-front.git"
+    "url": "git+https://github.com/UniversityOfHelsinkiCS/grappa-frontend.git"
   },
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ultra-hyper-storm-ohtuprojekti/grappa-front/issues"
+    "url": "https://github.com/UniversityOfHelsinkiCS/grappa-frontend/issues"
   },
-  "homepage": "https://github.com/ultra-hyper-storm-ohtuprojekti/grappa-front#readme",
+  "homepage": "https://github.com/UniversityOfHelsinkiCS/grappa-frontend#readme",
   "dependencies": {
     "axios": "^0.15.2",
     "babel-core": "^6.4.5",
