@@ -7,7 +7,7 @@ export const SEND_NEW_PASSWORD = "SEND_NEW_PASSWORD";
 import { getTheses } from "../thesis/thesis.actions";
 import { getGraders } from "../grader/grader.actions";
 import { getCouncilMeetings } from "../councilmeeting/councilmeeting.actions";
-import { getStudyFields } from "../studyfield/studyfield.actions";
+import { getStudyfields } from "../studyfield/studyfield.actions";
 import { getUsers } from "../user/user.actions";
 import { getEmailDrafts } from "../email/email.actions";
 import { setLogoutTimeout, unsetTimer } from "ping/ping.actions";
@@ -24,7 +24,7 @@ export const loginUser = (email, password) => {
             dispatch(getTheses()),
             dispatch(getGraders()),
             dispatch(getCouncilMeetings()),
-            dispatch(getStudyFields()),
+            dispatch(getStudyfields()),
             dispatch(getUsers()),
             dispatch(getEmailDrafts()),
             dispatch(setLogoutTimeout()),
@@ -35,7 +35,7 @@ export const loginUser = (email, password) => {
             dispatch(getTheses()),
             dispatch(getGraders()),
             dispatch(getCouncilMeetings()),
-            dispatch(getStudyFields()),
+            dispatch(getStudyfields()),
             dispatch(setLogoutTimeout()),
             dispatch(connectToSocket()),
           ])

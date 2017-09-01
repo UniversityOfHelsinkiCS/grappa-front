@@ -24,10 +24,11 @@ export default function (state = INITIAL_STATE, action) {
         })
       );
     case "STUDYFIELD_DELETE_ONE_SUCCESS":
-      console.log("Delete one success");
-      return state.deleteIn(["studyfields"], studyfields.filter(
-        studyfield => studyfield.get("id") === action.payload.id
-      )
+      return state.setIn(["studyfields"],
+        state.getIn(["studyfields"]).filter(studyfield => {
+          return studyfield.get("id") !== action.payload.id
+        }
+        )
       );
     default:
       return state;

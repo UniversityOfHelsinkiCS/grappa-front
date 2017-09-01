@@ -79,7 +79,7 @@ export const deleteStudyfield = (studyfieldId) => (
       request: {
         method: "delete",
         url: `/studyfield/${studyfieldId}`,
-        data: {},
+        data: { id: studyfieldId },
       }
     }
   }
