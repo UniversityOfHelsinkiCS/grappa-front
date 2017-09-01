@@ -17,14 +17,11 @@ export class StudyfieldListPage extends Component {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     Validate.subscribeToForm("newStudyField", "sl", (newStudyfield) => { this.setState({ newStudyfield, }); });
     Validate.subscribeToForm("updateStudyField", "sl", (updateStudyfield) => { this.setState({ updateStudyfield, }); });
-    const fields = this.props.Studyfields;
-    const fieldsWithUsers = this.setUsersForStudyfields(fields, this.props.Users);
-    this.setState({
-      studyfields: fieldsWithUsers,
-    });
+    const fieldsWithUsers = this.setUsersForStudyfields(this.props.Studyfields, this.props.Users);
+    this.setState({ studyfields: fieldsWithUsers });
   }
 
   componentWillUnmount() {
@@ -32,12 +29,9 @@ export class StudyfieldListPage extends Component {
   }
 
   componentWillReceiveProps(newProps) {
-    if (this.props.StudyFields !== newProps.StudyFields && this.props.Users !== newProps.Users) {
-      const fields = newProps.Studyfields;
-      const fieldsWithUsers = this.setUsersForStudyfields(fields, newProps.Users);
-      this.setState({
-        studyfields: fieldsWithUsers,
-      });
+    if (this.props.Studyfields !== newProps.Studyfields && this.props.Users !== newProps.Users) {
+      const fieldsWithUsers = this.setUsersForStudyfields(newProps.Studyfields, newProps.Users);
+      this.setState({ studyfields: fieldsWithUsers });
     }
   }
 
@@ -62,13 +56,19 @@ export class StudyfieldListPage extends Component {
 
   saveStudyfield = () => {
     if (Validate.isFormValid("newStudyField")) {
-      this.props.saveStudyField(this.state.newStudyfield.values);
+      this.props.saveStudyfield(this.state.newStudyfield.values);
     }
   }
 
   updateStudyfield = () => {
     if (this.state.updateStudyfield.values.id && Validate.isFormValid("updateStudyField")) {
-      this.props.updateStudyField(this.state.updateStudyfield.values);
+      this.props.updateStudyfield(this.state.updateStudyfield.values);
+    }
+  }
+
+  deleteStudyfield = () => {
+    if (this.props.user.role === "admin") {
+      this.props.deleteStudyfield(this.state.updateStudyfield.values.id);
     }
   }
 
@@ -77,7 +77,6 @@ export class StudyfieldListPage extends Component {
   }
 
   render() {
-    console.log(this.props.Studyfields);
     return (
       <div className="ui form">
         <div className="ui two fields">
@@ -88,13 +87,14 @@ export class StudyfieldListPage extends Component {
               errors={this.state.newStudyfield.errors}
             />
             {this.state.updateStudyfield.values.id ?
-            <StudyfieldEdit
-              toggleActive={this.toggleStudyfield}
-              sendUpdate={this.updateStudyfield}
-              sendChange={this.changeStudyfieldName("updateStudyField")}
-              studyfield={this.state.updateStudyfield.values}
-              updateStudyfieldErrors={this.state.updateStudyfield.errors}
-            /> : ''}
+              <StudyfieldEdit
+                toggleActive={this.toggleStudyfield}
+                sendDelete={this.deleteStudyfield}
+                sendUpdate={this.updateStudyfield}
+                sendChange={this.changeStudyfieldName("updateStudyField")}
+                studyfield={this.state.updateStudyfield.values}
+                errors={this.state.updateStudyfield.errors}
+              /> : ''}
           </div>
           <div className="field">
             <h2 className="ui dividing header">Studyfields</h2>
@@ -103,7 +103,7 @@ export class StudyfieldListPage extends Component {
               name changes it for every thesis connected to that field. If a field is no longer valid set it inactive
               and create a new one rather than change old one's name.
             </p>
-            <StudyfieldList 
+            <StudyfieldList
               selectField={this.selectStudyfield}
               studyfields={this.state.studyfields}
             />
@@ -115,26 +115,31 @@ export class StudyfieldListPage extends Component {
 }
 
 import { connect } from "react-redux";
-import { getStudyFields, saveStudyField, updateStudyField } from "./studyfield.actions";
+import { getStudyfields, saveStudyfield, updateStudyfield, deleteStudyfield } from "./studyfield.actions";
 
 const mapStateToProps = (state) => {
+  const auth = state.get("auth");  
   const studyfield_r = state.get("studyfield");
   const user_r = state.get("user");
   return {
+    user: auth.get("user").toJS(),
     Studyfields: studyfield_r.get("studyfields").toJS(),
     Users: user_r.get("users").toJS(),
   };
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  getStudyFields() {
-    dispatch(getStudyFields());
+  getStudyfields() {
+    dispatch(getStudyfields());
   },
-  saveStudyField(data) {
-    dispatch(saveStudyField(data));
+  saveStudyfield(data) {
+    dispatch(saveStudyfield(data));
   },
-  updateStudyField(data) {
-    dispatch(updateStudyField(data));
+  updateStudyfield(data) {
+    dispatch(updateStudyfield(data));
+  },
+  deleteStudyfield(id) {
+    dispatch(deleteStudyfield(id));
   }
 });
 
