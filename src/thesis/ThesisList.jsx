@@ -28,14 +28,24 @@ export default class ThesisList extends Component {
 
   componentWillReceiveProps(newProps) {
     // initState only when new theses have been received
-    if (!_.isEqual(this.props.theses, newProps.theses)) {
+    if (this.state.theses !== newProps.theses) {
       this.initState(newProps);
     }
   }
 
   initState(props) {
     // sort theses by lastname first then firstname
-    const sorted = props.theses.sort((a, b) => {
+    const sorted = this.sortTheses(props.theses);
+
+    const shownThesesIds = this.filterTheses(this.state.showOld, this.state.searchValue, props.theses);
+    const selectedThesesIds = props.theses
+      .filter(thesis => shownThesesIds.includes(thesis.id) && this.inProgress(thesis))
+      .map(thesis => thesis.id);
+    this.setState({ allToggle: true, selectedThesesIds, shownThesesIds });
+  }
+
+  sortTheses = (theses) => {
+    return theses.sort((a, b) => {
       if (a.authorLastname < b.authorLastname) {
         return -1;
       } else if (a.authorLastname > b.authorLastname) {
@@ -48,12 +58,6 @@ export default class ThesisList extends Component {
         return 0;
       }
     });
-
-    const shownThesesIds = this.filterTheses(this.state.showOld, this.state.searchValue, props.theses);
-    const selectedThesesIds = props.theses
-      .filter(thesis => shownThesesIds.includes(thesis.id) && this.inProgress(thesis))
-      .map(thesis => thesis.id);
-    this.setState({ allToggle: true, selectedThesesIds, shownThesesIds });
   }
 
   inProgress = (thesis) => {
