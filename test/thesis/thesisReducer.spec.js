@@ -95,7 +95,7 @@ test('reminder send reducer', reducerTest(
     stateWithThesis,
     {
         type: "SEND_REMINDER_SUCCESS",
-        payload: { ...emailDrafts[1], ThesisId: theses[0].id }
+        payload: [{ ...emailDrafts[1], ThesisId: theses[0].id }]
     },
     stateWithThesisWithEmailInThesisprogress,
 ));
