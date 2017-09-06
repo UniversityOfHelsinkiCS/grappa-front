@@ -20,15 +20,13 @@ export class ThesisListPage extends Component {
 
     componentDidMount() {
         this.props.getTheses();
-        this.setState({
-            theses: this.props.theses
-        });
+        this.setState({ theses: this.props.theses });
     }
 
     componentWillReceiveProps(newProps) {
-        // theses since they seem to always be in disorder
-        const newTheses = newProps.theses.sort((a, b) => a.id - b.id)
-        this.setState({ theses: newTheses });
+        if (this.state.theses !== newProps.theses) {
+            this.setState({ theses: newProps.theses });
+        }
     }
 
     handleDownloadTheses = (thesisIds) => {

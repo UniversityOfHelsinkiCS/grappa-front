@@ -102,10 +102,9 @@ export default function (state = INITIAL_STATE, action) {
     case "SEND_REMINDER_SUCCESS":
       return state.updateIn(["theses"], thesis =>
         thesis.map(thesis => {
-          if (thesis.get("id") === action.payload.ThesisId) {
-            //TODO: Don't save thesisId again
-            //TODO: Is setIn safe? Previously used mergeIn but it won't work if destination is null
-            return thesis.setIn(["ThesisProgress", action.payload.type], fromJS(action.payload));
+          const emailDrafts = action.payload.filter(draft => draft.ThesisId === thesis.get("id"));
+          if (emailDrafts.length > 0) {
+            return thesis.setIn(["ThesisProgress", emailDrafts[0].type], fromJS(emailDrafts[0]));
           }
           return thesis;
         })
