@@ -109,7 +109,7 @@ export class GraderListCreateUpdate extends Component {
           <label>Title</label>
           <select
             className="ui fluid search dropdown"
-            value={this.state.updateGrader.values.title}
+            value={this.state.updateGrader.values.title ? this.state.updateGrader.values.title : ""}
             onChange={this.handleChange.bind(this, "title", "updateGrader")}
           >
             <option value="Prof.">Professor</option>

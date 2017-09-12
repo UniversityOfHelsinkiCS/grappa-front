@@ -43,13 +43,13 @@ export default class GradersDropdown extends Component {
 
   handleChange(name, event) {
     if (name === "search") {
-      const value = event.target.value;
+      const value = event.target.value.toLowerCase();
       const filtered = this.props.graders.map((item, index) => {
         return item.name.toLowerCase().indexOf(value) === -1 &&
           item.title.toLowerCase().indexOf(value) === -1;
       });
       this.setState({
-        searchValue: value,
+        searchValue: event.target.value,
         filtered,
       });
     }
