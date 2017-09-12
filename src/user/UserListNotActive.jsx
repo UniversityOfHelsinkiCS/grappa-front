@@ -48,12 +48,16 @@ export class NewUsersList extends Component {
 
   handleChange(name, index, event) {
     event.preventDefault();
+    let users = this.state.users;
     if (name === "role") {
-      this.state.users[index].role = event.target.value;
-      this.setState({});
+      users[index].role = event.target.value;
+      this.setState({ users });
     } else if (name === "StudyFieldId") {
-      this.state.users[index].StudyFieldId = event.target.value;
-      this.setState({});
+      users[index].StudyFieldId = event.target.value;
+      this.setState({ users });
+    } else if (name === "graderTitle") {
+      users[index].graderTitle = event.target.value;
+      this.setState({ users })
     }
   }
 
@@ -84,15 +88,16 @@ export class NewUsersList extends Component {
             <th>Name</th>
             <th>Email</th>
             <th>Select role</th>
+            <th>Select title</th>
             <th>Select studyfield</th>
             <th>Accept</th>
             <th>Decline</th>
           </tr>
         </thead>
         <tbody>
-          { users.map((user, index) =>
+          {users.map((user, index) =>
             <tr key={index}>
-              <td>{ `${user.firstname} ${user.lastname}` }</td>
+              <td>{`${user.firstname} ${user.lastname}`}</td>
               <td>{user.email}</td>
               <td>
                 <select value={user.role} className="ui dropdown" onChange={this.handleChange.bind(this, "role", index)}>
@@ -103,15 +108,24 @@ export class NewUsersList extends Component {
                 </select>
               </td>
               <td>
+                <select value={user.graderTitle} className="ui dropdown" onChange={this.handleChange.bind(this, "graderTitle", index)}>
+                  <option value="Other">Other</option>
+                  <option value="Prof.">Professor</option>
+                  <option value="Ass. Prof.">Assistant Professor</option>
+                  <option value="Adj. Prof.">Adjunct Professor</option>
+                  <option value="Dr.">Doctor</option>
+                </select>
+              </td>
+              <td>
                 <select
-                  value={ user.StudyFieldId }
+                  value={user.StudyFieldId}
                   className="ui fluid search dropdown"
                   onChange={this.handleChange.bind(this, "StudyFieldId", index)}
                 >
                   <option key="" value="">Select field</option>
-                  { StudyFields.map((field, index) =>
+                  {StudyFields.map((field, index) =>
                     <option key={field.id} value={field.id}>
-                      { field.name }
+                      {field.name}
                     </option>
                   )}
                 </select>
@@ -143,7 +157,7 @@ export class NewUsersList extends Component {
           in charge of the studyfield. Studyfield can have only one professor. Declining an user
           deletes it completely.
         </p>
-        { this.renderTable(users) }
+        {this.renderTable(users)}
       </div>
     );
   }
