@@ -149,7 +149,7 @@ export class StatisticsTable extends Component {
                         {this.state.sumRow.map((grade, index) =>
                             <td key={index}>{grade.sum}</td>
                         )}
-                        < td > {this.state.sumRow.reduce((sum, grade) => sum + grade.sum, 0)}</td>
+                        <td>{this.state.sumRow.reduce((sum, grade) => sum + grade.sum, 0)}</td>
                     </tr>
                 </tbody>
             </table>
