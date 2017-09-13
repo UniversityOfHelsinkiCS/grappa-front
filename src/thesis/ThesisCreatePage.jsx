@@ -6,6 +6,7 @@
 */
 
 import React, { Component } from "react";
+import { browserHistory } from "react-router";
 
 import Validate from "../validate/Validate";
 
@@ -23,6 +24,29 @@ export class ThesisCreatePage extends Component {
     this.state = {
       newThesis: Validate.createForm("newThesis", "thesis"),
       showModal: false,
+      loading: false,
+    }
+  }
+
+  //TODO: Catch the success and redirect in a smarter way
+  componentWillReceiveProps(newProps) {
+    if ((this.state.showModal || this.state.loading) && this.props.theses !== newProps.theses) {
+      const newThesis = this.state.newThesis.values;
+      const thesis = newProps.theses.filter(thesis =>
+        (thesis.UserId === newProps.user.id) &&
+        Object.keys(newThesis).every(key => {
+          if (typeof thesis[key] === 'string' && typeof newThesis[key] === 'string') {
+            return thesis[key].toUpperCase() === newThesis[key].toUpperCase();
+          } else {
+            return true;
+          }
+        })
+      );
+      if (thesis.length === 0) {
+        this.setState({ showModal: false, loading: true });
+      } else {
+        browserHistory.push('/thesis');
+      }
     }
   }
 
@@ -48,8 +72,6 @@ export class ThesisCreatePage extends Component {
     newThesis.PdfFile = "";
 
     this.props.saveThesisWithReview(form);
-
-    this.toggleModal();
   }
 
   toggleModal = () => {
@@ -110,11 +132,13 @@ const mapStateToProps = (state) => {
   const cmreducer = state.get("councilmeeting");
   const sfreducer = state.get("studyfield");
   const grader_r = state.get("grader");
+  const thesis = state.get("thesis");
   return {
     user: auth.get("user").toJS(),
     CouncilMeetings: cmreducer.get("councilmeetings").toJS(),
     StudyFields: sfreducer.get("studyfields").toJS(),
     Graders: grader_r.get("graders").toJS(),
+    theses: thesis.get("theses").toJS(),
   };
 };
 

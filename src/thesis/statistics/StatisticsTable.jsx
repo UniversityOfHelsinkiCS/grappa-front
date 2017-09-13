@@ -9,6 +9,7 @@ export class StatisticsTable extends Component {
         this.state = {
             grades: [],
             filteredGradeTable: [],
+            sumRow: [],
         };
     }
 
@@ -23,7 +24,27 @@ export class StatisticsTable extends Component {
             this.findAndAddProgramme(thesis, filteredGradeTable);
         });
         this.sortGradeTableForView(filteredGradeTable);
-        this.setState({ filteredGradeTable });
+        let sumRow = this.createSumRow(filteredGradeTable);
+
+        this.setState({ filteredGradeTable, sumRow });
+    }
+
+
+    createSumRow(filteredGradeTable) {
+        let sumRow = [];
+
+        filteredGradeTable.map(row => row.grades).forEach(grades => {
+            grades.forEach(grade => {
+                let found = sumRow.findIndex(gr => gr.gradeName === grade.gradeName);
+                if (found === -1) {
+                    sumRow.push({ gradeName: grade.gradeName, sum: grade.sum })
+                } else {
+                    sumRow[found] = { gradeName: sumRow[found].gradeName, sum: (grade.sum + sumRow[found].sum) }
+                }
+            })
+        });
+        sumRow.sort((a, b) => this.oldGradingSort(a.gradeName, b.gradeName));
+        return sumRow;
     }
 
     findAndAddProgramme(thesis, filteredGradeTable) {
@@ -83,11 +104,11 @@ export class StatisticsTable extends Component {
                 }
             })
             if (!found) {
-                gradesArray.push({gradeName: tableGrade, sum: 0});
+                gradesArray.push({ gradeName: tableGrade, sum: 0 });
             }
         });
         gradesArray.sort((a, b) => {
-            return (this.oldGradingSort(a.gradeName,b.gradeName));
+            return (this.oldGradingSort(a.gradeName, b.gradeName));
         });
     }
 
@@ -96,7 +117,7 @@ export class StatisticsTable extends Component {
             "Eximia Cum Laude Approbatur", "Magna Cum Laude Approbatur",
             "Cum Laude Approbatur", "Non Sine Laude Approbatur", "Lubenter Approbatur", "Approbatur",]
         if (oldGrades.indexOf(a) === -1 || oldGrades.indexOf(b) === -1) {
-            return a-b;
+            return a - b;
         }
         return oldGrades.indexOf(a) - oldGrades.indexOf(b);
     }
@@ -107,21 +128,29 @@ export class StatisticsTable extends Component {
                 <thead>
                     <tr>
                         <th></th>
-                        {this.state.grades.map((grade,index) => {
+                        {this.state.grades.map((grade, index) => {
                             return <th key={index}>{grade}</th>;
                         })}
-                        
+                        <th>Sum</th>
                     </tr>
                 </thead>
                 <tbody>
                     {this.state.filteredGradeTable.map((programme, index) => {
                         return (<tr key={index}>
                             <td>{programme.name}</td>
-                            {programme.grades.map((grade, index2) => {
-                                return (<td key={index2}>{grade.sum}</td>);
-                            })}
+                            {programme.grades.map((grade, index2) =>
+                                <td key={index2}>{grade.sum}</td>
+                            )}
+                            <td>{programme.grades.reduce((sum, grade) => sum + grade.sum, 0)}</td>
                         </tr>);
                     })}
+                    <tr>
+                        <td>Sum</td>
+                        {this.state.sumRow.map((grade, index) =>
+                            <td key={index}>{grade.sum}</td>
+                        )}
+                        <td>{this.state.sumRow.reduce((sum, grade) => sum + grade.sum, 0)}</td>
+                    </tr>
                 </tbody>
             </table>
         );

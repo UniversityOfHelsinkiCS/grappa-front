@@ -45,6 +45,35 @@ export class Ethesis extends Component {
     );
   }
 
+  renderButton() {
+    switch (this.props.status) {
+      case "":
+        return (
+          <div className="field">
+            <button disabled={this.props.loading} className="ui fluid large green button" onClick={this.saveThesis}>
+              Save thesis {this.state.regreq ? "and send request" : ""}
+            </button>
+          </div>
+        )
+      case "failure":
+        return (
+          <div className="field">
+            <button disabled={this.props.loading} className="ui fluid large green button" onClick={this.saveThesis}>
+              Try again to save thesis {this.state.regreq ? "and send request" : ""}
+            </button>
+          </div>
+        )
+      case "success":
+        return (
+          <div className="field">
+            <button disabled="true" className="ui fluid large red button" onClick={this.saveThesis}>
+              Thesis has been successfully sent.
+          </button>
+          </div>
+        )
+    }
+  }
+
   render() {
     return (
       <div className="main-container">
@@ -67,14 +96,7 @@ export class Ethesis extends Component {
               <label>Send registration request.</label>
             </div>
             <p>{'  '}</p>
-            {this.state.thesisPDF != "" ?
-            <div className="field">
-              <button className="ui fluid large green button" onClick={this.saveThesis}>
-                Save thesis {this.state.regreq ? "and send request" : "" }
-              </button>
-            </div> :
-            ""
-            }
+            {this.state.thesisPDF != "" ? this.renderButton() : ""}
           </div>
         </div>
         <FlashMessage />
@@ -93,10 +115,11 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 const mapStateToProps = (state) => {
-  const ethesisreducer = state.get("ethesis");
+  const ethesis = state.get("ethesis");
   return {
-    linkSent: ethesisreducer.get("linkSent"),
+    status: ethesis.get("status"),
+    loading: ethesis.get("loading"),
   };
 };
 
-export default connect(null, mapDispatchToProps)(Ethesis);
+export default connect(mapStateToProps, mapDispatchToProps)(Ethesis);
