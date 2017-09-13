@@ -70,7 +70,10 @@ export default function (state = INITIAL_STATE, action) {
     case "THESIS_MOVE_SUCCESS":
       return state.updateIn(["theses"], thesis =>
         thesis.map(thesis => {
-          const index = action.payload.theses.map(th => th.id).indexOf(thesis.get("id"));
+          let index = -1;
+          if (action.payload.theses) {
+            index = action.payload.theses.map(th => th.id).indexOf(thesis.get("id"));
+          }
           if (index !== -1) {
             const progress = thesis.toJS().ThesisProgress;
             if (action.payload.theses[index].printDone === false) {

@@ -69,7 +69,7 @@ test('thesis move reducer', reducerTest(
     {
         type: "THESIS_MOVE_SUCCESS",
         payload: {
-            thesisIds: [theses[0].id],
+            theses: [ { id: theses[0].id }],
             CouncilMeetingId: councilmeetings[1].id,
             CouncilMeeting: councilmeetings[1]
         },
