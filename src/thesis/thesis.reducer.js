@@ -70,10 +70,16 @@ export default function (state = INITIAL_STATE, action) {
     case "THESIS_MOVE_SUCCESS":
       return state.updateIn(["theses"], thesis =>
         thesis.map(thesis => {
-          if (action.payload.thesisIds.indexOf(thesis.get("id")) !== -1) {
+          const index = action.payload.theses.map(th => th.id).indexOf(thesis.get("id"));
+          if (index !== -1) {
+            const progress = thesis.toJS().ThesisProgress;
+            if (action.payload.theses[index].printDone === false) {
+              progress.printDone = false;
+            }
             return thesis.merge(fromJS({
               CouncilMeetingId: action.payload.CouncilMeetingId,
               CouncilMeeting: action.payload.CouncilMeeting,
+              ThesisProgress: progress,
             }));
           }
           return thesis;
