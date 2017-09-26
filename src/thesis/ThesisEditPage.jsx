@@ -98,14 +98,12 @@ export class ThesisEditPage extends Component {
         Validate.updateForm("updateThesis", fieldName, fieldValue);
     }
 
-    handleAbstract = (fieldValue) => {
-        files[0].filetype = key;
-        Validate.updateForm("updateThesis", key, files[0]);
+    handleAbstract = (fieldName, fieldValue) => {
+        Validate.updateForm("updateThesis", fieldName, fieldValue);
     }
 
-    handleReview = (fieldValue) => {
-        files[0].filetype = key;
-        Validate.updateForm("updateThesis", key, files[0]);
+    handleReview = (fieldName, fieldValue) => {
+        Validate.updateForm("updateThesis", fieldName, fieldValue);
     }
 
     handleEmail = (reminderType) => {
