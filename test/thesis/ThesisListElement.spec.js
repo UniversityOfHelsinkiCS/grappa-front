@@ -16,14 +16,26 @@ import { ThesisListElement } from '../../src/thesis/ThesisListElement';
     toggleRegistrationRequest={this.toggleRegistrationRequest}
 */
 
-test("renders properly", t => {
+test("renders properly for admin", t => {
     const wrapper = shallow(
-        <ThesisListElement thesis={theses[0]} />
+        <ThesisListElement userRole={"admin"} thesis={theses[0]} />
     );
 
     t.is(wrapper.find(".button").length, 1);
 
     t.is(wrapper.find(".checkbox").length, 5);
+
+    t.is(wrapper.findWhere(node => node.text().indexOf(theses[0].title) !== -1).length, 1)
+});
+
+test("renders properly for non-admin", t => {
+    const wrapper = shallow(
+        <ThesisListElement userRole={"professor"} thesis={theses[0]} />
+    );
+
+    t.is(wrapper.find(".button").length, 0);
+
+    t.is(wrapper.find(".checkbox").length, 4);
 
     t.is(wrapper.findWhere(node => node.text().indexOf(theses[0].title) !== -1).length, 1)
 });
@@ -50,7 +62,9 @@ test("register request and done", t => {
     const sendStub = sinon.stub();
     const toggleStub = sinon.stub();
     const wrapper = shallow(
-        <ThesisListElement thesis={theses[0]}
+        <ThesisListElement 
+            userRole={"admin"}
+            thesis={theses[0]}
             sendStudentNotification={sendStub}
             toggleRegistrationRequest={toggleStub} />
     );
