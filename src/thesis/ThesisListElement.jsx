@@ -76,6 +76,7 @@ export const ThesisListElement = props => {
                     <label></label>
                 </div>
             </td>
+            {props.userRole === "admin" ?
             <td>
                 <div className="ui checkbox">
                     <input
@@ -85,7 +86,8 @@ export const ThesisListElement = props => {
                     />
                     <label></label>
                 </div>
-            </td>
+            </td> : undefined}
+            {props.userRole === "admin" ?
             <td>
                 {props.thesis.ThesisProgress.studentNotificationSent === true ||
                     props.thesis.ThesisProgress.StudentRegistrationNotification !== null ?
@@ -93,7 +95,7 @@ export const ThesisListElement = props => {
                     :
                     <button className="ui positive button" onClick={sendStudentNotification}>Send</button>
                 }
-            </td>
+            </td> : undefined}
         </tr>
     )
 }
