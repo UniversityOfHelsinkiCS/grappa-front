@@ -241,13 +241,14 @@ export default class ThesisList extends Component {
               <th>Studyfield</th>
               <th>Grade</th>
               <th>Selected</th>
-              <th>Register request</th>
-              <th>Registration Done</th>
+              {this.props.userRole === "admin" ? <th>Register request</th> : undefined}
+              {this.props.userRole === "admin" ? <th>Registration Done</th> : undefined}
             </tr>
           </thead>
           <tbody>
             {theses.map((thesis, index) =>
               <ThesisListElement
+                userRole={this.props.userRole}
                 thesis={thesis}
                 selected={this.state.selectedThesesIds.includes(thesis.id)}
                 selectThesis={this.selectThesis}
