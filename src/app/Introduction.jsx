@@ -8,6 +8,14 @@ export default class Introduction extends Component {
         <div className="ui stripe theming vertical segment grappa-segment">
           <div className="ui stackable very relaxed grid container">
             <div className="center aligned column">
+              <h2>Maintenances between 2.11-6.11</h2>
+              <p>
+                Grappa will have maintenances between thursday 2.11 and monday 6.11 and might
+                have downtime of minutes to hours.
+                If you have any issues with the website you should restart browser after monday.
+                
+              </p>
+              <hr/>
               <h1  className="ui icon header grappa-header">Introduction to Grappa</h1>
               <p>
                 Grappa was made for the University of Helsinki's department of Computer Science 
@@ -15,13 +23,6 @@ export default class Introduction extends Component {
                 and forth and keeping all the documents in check.
                 Its purpose is to easen and simplify the process and make it easier for 
                 everyone involved.
-              </p>
-              <p>
-                It sends email currently using Gmail as client due to complexity and time required
-                for creation of self-hosted email client. Frontend is made with React+Redux and 
-                the backend with Node.js. Also it includes Socket.io-server that broadcasts
-                recent changes to connected users. (So if you see something change before 
-                your eyes, don't be alarmed!)
               </p>
             </div>
           </div>
@@ -35,14 +36,6 @@ export default class Introduction extends Component {
               <p>
                 There are multitude of different user groups that have to access Grappa 
                 whose primary duties are listed here.
-              </p>
-
-              <h3 className="ui horizontal header divider">Student</h3>
-              <p>
-                As of now students are not required to create an account to Grappa but 
-                that might change in the future. Their job is to upload their thesis to 
-                eThesis and Grappa which they are reminded about in an email when instructor 
-                adds their thesis to Grappa.
               </p>
 
               <h3 className="ui horizontal header divider">Instructor</h3>
