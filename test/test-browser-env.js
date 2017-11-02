@@ -6,3 +6,4 @@ global.document = jsdom('<body></body>', {
 global.window = document.defaultView;
 global.FormData = window.FormData;
 global.navigator = window.navigator;
+global.confirm = () => true;
