@@ -137,7 +137,6 @@ export default class ThesisList extends Component {
   }
 
   toggleAll = () => {
-    console.log(this.props.userRole);
     if (this.props.userRole == "print-person") {
       const thesisIds = this.props.theses.filter(thesis => {
         if (thesis.ThesisProgress.ethesisDone && thesis.ThesisProgress.graderEvalDone) {
