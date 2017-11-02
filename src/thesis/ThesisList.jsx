@@ -151,11 +151,15 @@ export default class ThesisList extends Component {
   }
 
   moveToPreviousMeeting = () => {
-    this.props.moveToPreviousMeeting(this.shownAndSelectedTheses());
+    if (confirm("Are you sure you want to move theses to the previous meeting?")) {
+      this.props.moveToPreviousMeeting(this.shownAndSelectedTheses());
+    }
   }
 
   moveToNextMeeting = () => {
-    this.props.moveToNextMeeting(this.shownAndSelectedTheses());
+    if (confirm("Are you sure you want to move theses to next meeting?")) {
+      this.props.moveToNextMeeting(this.shownAndSelectedTheses());
+    }
   }
 
   render() {
@@ -187,10 +191,10 @@ export default class ThesisList extends Component {
             :
             <div></div>
           }
-          {this.props.userRole === "admin" && this.props.councilmeeting != null ?
+          {this.props.userRole === "admin" && this.props.councilmeeting ?
             <span>
-              <button className="ui orange button" onClick={this.moveToPreviousMeeting}>Move to previous meeting</button>
-              <button className="ui dark-red button" onClick={this.moveToNextMeeting}>Move to next meeting</button>
+              <button className="ui orange button" onClick={this.moveToPreviousMeeting}>Move selected theses to previous meeting</button>
+              <button className="ui dark-red button" onClick={this.moveToNextMeeting}>Move selected theses to next meeting</button>
             </span>
             :
             <span></span>
