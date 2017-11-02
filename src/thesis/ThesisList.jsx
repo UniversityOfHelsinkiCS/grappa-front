@@ -39,7 +39,10 @@ export default class ThesisList extends Component {
 
     const shownThesesIds = this.filterTheses(this.state.showOld, this.state.searchValue, props.theses);
     const selectedThesesIds = props.theses
-      .filter(thesis => shownThesesIds.includes(thesis.id) && this.inProgress(thesis))
+      .filter(thesis => {
+        return this.props.userRole === "print-person" ? 
+        shownThesesIds.includes(thesis.id) && thesis.ThesisProgress.ethesisDone && thesis.ThesisProgress.graderEvalDone:
+        shownThesesIds.includes(thesis.id) && this.inProgress(thesis)})
       .map(thesis => thesis.id);
     this.setState({ allToggle: true, selectedThesesIds, shownThesesIds });
   }
@@ -134,8 +137,19 @@ export default class ThesisList extends Component {
   }
 
   toggleAll = () => {
-    this.toggleAllTheses(!this.state.allToggle, this.state.shownThesesIds);
-    this.setState({ allToggle: !this.state.allToggle });
+    console.log(this.props.userRole);
+    if (this.props.userRole == "print-person") {
+      const thesisIds = this.props.theses.filter(thesis => {
+        if (thesis.ThesisProgress.ethesisDone && thesis.ThesisProgress.graderEvalDone) {
+          return thesis;
+        }
+      }).map(th => th.id);
+      this.toggleAllTheses(!this.state.allToggle, thesisIds);
+      this.setState({ allToggle: !this.state.allToggle });
+    } else {
+      this.toggleAllTheses(!this.state.allToggle, this.state.shownThesesIds);
+      this.setState({ allToggle: !this.state.allToggle });
+    }
   }
 
   sendStudentNotification = (thesisId) => {
