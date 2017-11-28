@@ -8,15 +8,7 @@ export default class Introduction extends Component {
         <div className="ui stripe theming vertical segment grappa-segment">
           <div className="ui stackable very relaxed grid container">
             <div className="center aligned column">
-              <h2>Maintenances between 2.11-6.11</h2>
-              <p>
-                Grappa will have maintenances between thursday 2.11 and monday 6.11 and might
-                have downtime of minutes to hours.
-                If you have any issues with the website you should restart browser after monday.
-                
-              </p>
-              <hr/>
-              <h1  className="ui icon header grappa-header">Introduction to Grappa</h1>
+              <h1 className="ui icon header grappa-header">Introduction to Grappa</h1>
               <p>
                 Grappa was made for the University of Helsinki's department of Computer Science 
                 to administer the process of accepting theses which includes sending emails back 
