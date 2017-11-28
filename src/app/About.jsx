@@ -13,6 +13,9 @@ export default class About extends Component {
         <p>
           Admin at the time of finishing this app was Kjell Lemström.
         </p>
+        <p>
+          Development continues in TOSKA: grp-toska@helsinki.fi
+        </p>
         <div className="ui large source button" >
           <a href="https://github.com/UniversityOfHelsinkiCS/grappa-frontend" target="_blank">
             <i className="docs code icon"></i> Source code
