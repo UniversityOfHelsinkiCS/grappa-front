@@ -21,7 +21,7 @@ export class ThesisCouncilMeetingPicker extends Component {
     formatMeetings = (councilmeetings) => {
         const today = new Date();
         return councilmeetings.filter(meeting => {
-            const mdate = new Date(meeting.date);
+            const mdate = new Date(meeting.instructorDeadline);
             if (mdate >= today || mdate.toDateString() === today.toDateString()) {
                 return meeting;
             }
