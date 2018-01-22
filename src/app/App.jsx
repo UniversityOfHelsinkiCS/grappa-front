@@ -14,6 +14,10 @@ export class App extends Component {
     }
   }
 
+  redirect = () => {
+    location.href = 'https://grappa.cs.helsinki.fi/v2'
+  }
+
   render() {
     return (
       <div>
@@ -24,6 +28,18 @@ export class App extends Component {
           <Link className="about-link" to="/about">About</Link>
         </div>
         <Nav />
+        <div className="ui center aligned container">
+
+          <div onClick={this.redirect} style={{ borderStyle: 'dashed', borderColor: 'red', borderWidth: "5px" }}>
+            <h1 className="ui icon header grappa-header">Grappa is going through changes</h1>
+            <h3> If you are looking for the new grappa, click here. </h3>
+            <p>
+              This site is used by administration in the department of Computer Science until the new version has required features.
+        <br />
+              New grappa will be found in this address as soon as this is done so feel free to bookmark this page.
+        </p>
+          </div>
+        </div>
         <FlashMessage />
         <main className="main-container m-top">
           {this.props.children}
