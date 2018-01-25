@@ -91,6 +91,9 @@ export class CouncilmeetingShow extends Component {
     } else {
       foundIndex = this.findNextMeeting(new Date(), props.councilmeetings);
     }
+    if (foundIndex === -1) {
+      foundIndex = props.councilmeetings.length - 1
+    }
     return foundIndex;
   }
 
