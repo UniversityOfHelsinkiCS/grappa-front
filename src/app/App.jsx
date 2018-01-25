@@ -32,7 +32,7 @@ export class App extends Component {
 
           <div onClick={this.redirect} style={{ borderStyle: 'dashed', borderColor: 'red', borderWidth: "5px" }}>
             <h1 className="ui icon header grappa-header">Grappa is going through changes</h1>
-            <h3> If you are looking for the new grappa, click here. </h3>
+            <h3> If you are looking for the new grappa, <a> click here </a>. </h3>
             <p>
               This site is used by administration in the department of Computer Science until the new version has required features.
         <br />
