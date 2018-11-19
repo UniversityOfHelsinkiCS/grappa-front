@@ -24,9 +24,9 @@ export class Nav extends Component {
   renderNonLoggedNav() {
     return (
       <div className="ui horizontal pointing menu">
-        <Link className="item" to="/login">Login</Link>
-        <Link className="item" to="/registration">Register</Link>
-        <Link className="item" to="/statistics">Statistics</Link>
+        <Link className="item" to="/v1/login">Login</Link>
+        <Link className="item" to="/v1/registration">Register</Link>
+        <Link className="item" to="/v1/statistics">Statistics</Link>
       </div>
     );
   }
@@ -40,16 +40,16 @@ export class Nav extends Component {
     const isPrintPerson = this.props.user.role === "print-person";
     return (
       <div className="ui horizontal pointing menu">
-        { this.renderLink("/user/me", `${this.props.user.firstname} ${this.props.user.lastname}`) }
-        { isAdmin ? this.renderLink("/notification", <NotificationIconBox />) : ''}
-        { !isPrintPerson ? this.renderLink("/thesis", "Theses") : ''}
-        { !isPrintPerson ? this.renderLink("/thesis/new", "Add new thesis") : ''}
-        { isAdmin || isPrintPerson ? this.renderLink("/councilmeeting/next", "Next meeting") : ''}
-        { isAdmin || isPrintPerson ? this.renderLink("/councilmeeting", "Future councilmeetings") : ''}
-        { isAdmin ? this.renderLink("/user/inactive", "Accept new users") : ''}
-        { isAdmin ? this.renderLink("/user", "Users") : ''}
-        { isAdmin ? this.renderLink("/studyfield", "Studyfields") : ''}
-        { isAdmin ? this.renderLink("/emaildraft", "Email drafts") : ''}
+        { this.renderLink("/v1/user/me", `${this.props.user.firstname} ${this.props.user.lastname}`) }
+        { isAdmin ? this.renderLink("/v1/notification", <NotificationIconBox />) : ''}
+        { !isPrintPerson ? this.renderLink("/v1/thesis", "Theses") : ''}
+        { !isPrintPerson ? this.renderLink("/v1/thesis/new", "Add new thesis") : ''}
+        { isAdmin || isPrintPerson ? this.renderLink("/v1/councilmeeting/next", "Next meeting") : ''}
+        { isAdmin || isPrintPerson ? this.renderLink("/v1/councilmeeting", "Future councilmeetings") : ''}
+        { isAdmin ? this.renderLink("/v1/user/inactive", "Accept new users") : ''}
+        { isAdmin ? this.renderLink("/v1/user", "Users") : ''}
+        { isAdmin ? this.renderLink("/v1/studyfield", "Studyfields") : ''}
+        { isAdmin ? this.renderLink("/v1/emaildraft", "Email drafts") : ''}
         <a className="item" onClick={ this.handleLogout }>Logout</a>
       </div>
     );
