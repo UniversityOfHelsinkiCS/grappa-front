@@ -60,7 +60,7 @@
     "webpack": "^1.13.0"
   },
   "devDependencies": {
-    "ava": "^0.21.0",
+    "ava": "^0.25.0",
     "babel-plugin-module-resolver": "^2.4.0",
     "babel-polyfill": "^6.26.0",
     "babel-preset-stage-2": "^6.18.0",
