@@ -6,7 +6,9 @@ import { getNotifications } from "notification/notification.actions";
 export const connectToSocket = () => {
   return (dispatch, getState) => {
     const token = getState().get("auth").toJS().token;
-    const socket = io.connect(process.env.WEBSOCKET_URL);
+    const socket = io.connect(process.env.WEBSOCKET_URL, {
+      path: '/v1/socket.io'
+    });
     socket.on("connect", function () {
       socket
         .emit("authenticate", { token, }) //send the jwt
