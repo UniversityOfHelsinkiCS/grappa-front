@@ -82,7 +82,7 @@ export class Login extends React.Component {
               </div>
             </div>
             <div className="field">
-              <Link className="ui fluid small submit" to="/reset-password">Lost password</Link>
+              <Link className="ui fluid small submit" to="/v1/reset-password">Lost password</Link>
             </div>
           </div>
           <Errors errors={this.state.loginUser.errors}/>

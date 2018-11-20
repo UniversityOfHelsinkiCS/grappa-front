@@ -171,13 +171,13 @@ export class ThesisEditPage extends Component {
                 </p>
                 <div className="three fields">
                     <div className="field">
-                        <Link className="ui orange button" to={`/thesis/${this.state.updateThesis.values.id}/review`} target="_blank">
+                        <Link className="ui orange button" to={`/v1/thesis/${this.state.updateThesis.values.id}/review`} target="_blank">
                             <i className="external icon"></i>
                             Review
                         </Link>
                     </div>
                     <div className="field">
-                        <Link className="ui orange button" to={`/thesis/${this.state.updateThesis.values.id}/abstract`} target="_blank">
+                        <Link className="ui orange button" to={`/v1/thesis/${this.state.updateThesis.values.id}/abstract`} target="_blank">
                             <i className="external icon"></i>
                             Abstract
                         </Link>
