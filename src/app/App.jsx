@@ -25,7 +25,7 @@ export class App extends Component {
           <Link to="/">
             <h1 className="fancy-header">Gradut Pikaisesti Pakettiin</h1>
           </Link>
-          <Link className="about-link" to="/about">About</Link>
+          <Link className="about-link" to="/v1/about">About</Link>
         </div>
         <Nav />
         <div className="ui center aligned container">
