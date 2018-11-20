@@ -22,7 +22,7 @@ export class App extends Component {
     return (
       <div>
         <div className="header-box">
-          <Link to="/">
+          <Link to="/v1/">
             <h1 className="fancy-header">Gradut Pikaisesti Pakettiin</h1>
           </Link>
           <Link className="about-link" to="/v1/about">About</Link>
