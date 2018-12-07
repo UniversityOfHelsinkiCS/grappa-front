@@ -61,7 +61,7 @@ export const ThesisListElement = props => {
             <td>{props.thesis.authorLastname}</td>
             <td>{props.thesis.authorFirstname}</td>
             <td>
-                <Link to={`/thesis/${props.thesis.id}`}>{props.thesis.title}</Link>
+                <Link to={`/v1/thesis/${props.thesis.id}`}>{props.thesis.title}</Link>
             </td>
             <td>{props.thesis.User.firstname + " " + props.thesis.User.lastname}</td>
             <td>{props.thesis.StudyField.name}</td>
