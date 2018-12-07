@@ -186,7 +186,7 @@ export default class SimpleTable extends Component {
                 <td>{thesis.authorFirstname}</td>
                 <td>{thesis.authorLastname}</td>
                 <td>
-                  <Link to={`/thesis/${thesis.id}`}>{thesis.title}</Link>
+                  <Link to={`/v1/thesis/${thesis.id}`}>{thesis.title}</Link>
                 </td>
                 <td>{thesis.instructor}</td>
                 <td>{thesis.studyfield}</td>
@@ -250,7 +250,7 @@ export default class SimpleTable extends Component {
           <SHead>
             <STh className="penis" column="name" customColumn={(item, index) => {
               return (
-                <td><Link to={`/user/${item.id}`}>{item.name}</Link></td>
+                <td><Link to={`/v1/user/${item.id}`}>{item.name}</Link></td>
               );
             }}>
             </STh>

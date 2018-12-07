@@ -217,13 +217,13 @@ export class CouncilmeetingListCreate extends Component {
           { shownDates.map((item, index) =>
             <tr key={index} onClick={this.handleClick.bind(this, "selectCM", index)}>
               <td>
-                <Link to={`/councilmeeting/${item.id}`}>{item.date.format("DD/MM/YYYY")}</Link>
+                <Link to={`/v1/councilmeeting/${item.id}`}>{item.date.format("DD/MM/YYYY")}</Link>
               </td>
               <td>
-                <Link to={`/councilmeeting/${item.id}`}>{item.instructorDeadline.format("DD/MM/YYYY")}</Link>
+                <Link to={`/v1/councilmeeting/${item.id}`}>{item.instructorDeadline.format("DD/MM/YYYY")}</Link>
               </td>
               <td>
-                <Link to={`/councilmeeting/${item.id}`}>{item.studentDeadline.format("DD/MM/YYYY")}</Link>
+                <Link to={`/v1/councilmeeting/${item.id}`}>{item.studentDeadline.format("DD/MM/YYYY")}</Link>
               </td>
               <td>
                 <i className="write icon green grappa-icon"
@@ -273,13 +273,13 @@ export class CouncilmeetingListCreate extends Component {
               { shownDates.map((item, index) =>
                 <tr key={index} >
                   <td>
-                    <Link to={`/councilmeeting/${item.id}`}>{item.date.format("DD/MM/YYYY")}</Link>
+                    <Link to={`/v1/councilmeeting/${item.id}`}>{item.date.format("DD/MM/YYYY")}</Link>
                   </td>
                   <td>
-                    <Link to={`/councilmeeting/${item.id}`}>{item.instructorDeadline.format("DD/MM/YYYY")}</Link>
+                    <Link to={`/v1/councilmeeting/${item.id}`}>{item.instructorDeadline.format("DD/MM/YYYY")}</Link>
                   </td>
                   <td>
-                    <Link to={`/councilmeeting/${item.id}`}>{item.studentDeadline.format("DD/MM/YYYY")}</Link>
+                    <Link to={`/v1/councilmeeting/${item.id}`}>{item.studentDeadline.format("DD/MM/YYYY")}</Link>
                   </td>
                 </tr>
               )}
